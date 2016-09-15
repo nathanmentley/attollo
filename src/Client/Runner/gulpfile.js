@@ -1,6 +1,7 @@
 (function() {
     // Load plugins
     var gulp = require('gulp');
+    var watch = require('gulp-watch');
 
     var gutil = require('gulp-util');
     var rename = require('gulp-rename');
@@ -55,7 +56,33 @@
             .pipe(rename('index.html'))
             .pipe(gulp.dest('../dist/Client/Runner/'));
     });
+ 
+    gulp.task('Runner:watch:jsx', function () {
+        return watch('./Client/Runner/jsx/**/*.jsx', function () {
+            return gulp.run(['Runner:jsx']);
+        });
+    });
+ 
+    gulp.task('Runner:watch:html', function () {
+        return watch('./Client/Runner/assets/index.html', function () {
+            return gulp.run(['Runner:html']);
+        });
+    });
+ 
+    gulp.task('Runner:watch:less', function () {
+        return watch('./Client/Runner/less/**/*.less', function () {
+            return gulp.run(['Runner:less']);
+        });
+    });
+ 
+    // Watch
+    gulp.task('ControlCenter:watch',
+        ['ControlCenter:watch:jsx', 'ControlCenter:watch:html', 'ControlCenter:watch:less']
+    );
+
 
     // Build
-    gulp.task('Runner:build', ['Runner:jsx', 'Runner:less', 'Runner:html']);
+    gulp.task('Runner:build',
+        ['Runner:jsx', 'Runner:less', 'Runner:html']
+    );
 })();

@@ -14,19 +14,20 @@ class DockerDef:
         self.foreground = foreground
 
 class PortMapDef:
-    def __init__(self, host, guest):
-        self.host = host
+    def __init__(self, guest, host):
         self.guest = guest
+        self.host = host
 
 dockerfiles = [
     DockerDef('../docker/Dockerfile.build', 'portfolio/build', 'portfolio-build', [], True),
+    DockerDef('../docker/Dockerfile.dev', 'portfolio/dev', 'portfolio-dev', [], False),
     DockerDef('../docker/Dockerfile.mongo', 'portfolio/mongo', 'portfolio-mongo', [], False),
     DockerDef('../docker/Dockerfile.psql', 'portfolio/psql', 'portfolio-psql', [], False),
     DockerDef('../docker/Dockerfile.rabbitmq', 'portfolio/rabbitmq', 'portfolio-rabbitmq', [], False),
-    DockerDef('../docker/web/Dockerfile.runner', 'portfolio/runner', 'portfolio-runner', [], False),
-    DockerDef('../docker/web/Dockerfile.runnerapi', 'portfolio/runnerapi', 'portfolio-runnerapi', [], False),
-    DockerDef('../docker/web/Dockerfile.controlcenter', 'portfolio/controlcenter', 'portfolio-controlcenter', [], False),
-    DockerDef('../docker/web/Dockerfile.controlcenterapi', 'portfolio/controlcenterapi', 'portfolio-controlcenterapi', [], False),
+    DockerDef('../docker/web/Dockerfile.runner', 'portfolio/runner', 'portfolio-runner', [PortMapDef(80, 8080)], False),
+    DockerDef('../docker/web/Dockerfile.runnerapi', 'portfolio/runnerapi', 'portfolio-runnerapi', [PortMapDef(80, 8081)], False),
+    DockerDef('../docker/web/Dockerfile.controlcenter', 'portfolio/controlcenter', 'portfolio-controlcenter', [PortMapDef(80, 8082)], False),
+    DockerDef('../docker/web/Dockerfile.controlcenterapi', 'portfolio/controlcenterapi', 'portfolio-controlcenterapi', [PortMapDef(80, 8083)], False),
     DockerDef('../docker/processor/Dockerfile.email', 'portfolio/emailprocessor', 'portfolio-emailprocessor', [], False),
     DockerDef('../docker/task/Dockerfile.test', 'portfolio/testtask', 'portfolio-testtask', [], False)
 ]
@@ -44,10 +45,14 @@ def build():
 
 def run():
     for dockerfile in dockerfiles:
+        ports = ''
+        for portmap in dockerfile.ports:
+            ports += ' -p ' + str(portmap.host) + ':' + str(portmap.guest)
+        
         if dockerfile.foreground:
-            subprocess.call('docker run -it -v "' + path + '/../dist":/home/web/dist -v "' + path + '/../src":/home/web/src --name ' + dockerfile.instancename + ' ' + dockerfile.imagename, shell=True)
+            subprocess.call('docker run -it ' + ports + ' -v "' + path + '/../dist":/home/web/dist -v "' + path + '/../src":/home/web/src --name ' + dockerfile.instancename + ' ' + dockerfile.imagename, shell=True)
         else:
-            subprocess.call('docker run -d -p 80:80 -p 443:443 -v "' + path + '/../dist":/home/web/dist -v "' + path + '/../src":/home/web/src --name ' + dockerfile.instancename + ' ' + dockerfile.imagename, shell=True)
+            subprocess.call('docker run -d ' + ports + ' -v "' + path + '/../dist":/home/web/dist -v "' + path + '/../src":/home/web/src --name ' + dockerfile.instancename + ' ' + dockerfile.imagename, shell=True)
     return
 
 if command == 'start':

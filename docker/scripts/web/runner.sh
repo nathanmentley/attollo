@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-nodejs /home/web/dist/Server/Web/StaticWebServer/app.js /home/web/Client/Runner
+nodejs /home/web/dist/Server/Web/StaticWebServer/app.js /home/web/dist/Client/Runner

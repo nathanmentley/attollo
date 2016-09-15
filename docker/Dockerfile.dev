@@ -6,4 +6,4 @@ RUN apt-get install -y nodejs npm
 
 COPY ./docker /home/web/docker
 
-CMD sh /home/web/docker/scripts/rabbitmq.sh
+CMD sh /home/web/docker/scripts/dev.sh

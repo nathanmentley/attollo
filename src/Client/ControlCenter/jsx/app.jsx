@@ -2,24 +2,26 @@ import React from 'react';
 import { render } from 'react-dom';
 import { browserHistory, Router, Route, IndexRoute } from 'react-router';
 
-var a = "c";
+import Header from './Components/Layout/Header.jsx';
+import Footer from './Components/Layout/Footer.jsx';
 
-export default a;
-/*
-var App;
-var Index;
-var Page1;
-var Page2;
+import Main from './Components/Main/Page.jsx';
 
 render(
     (
-        <Router history={withExampleBasename(browserHistory, __dirname)}>
-            <Route path="/" component={App}>
-                <IndexRoute component={Index}/>
-                <Route path="page1" component={Page1} />
-                <Route path="page2" component={Page2} />
-            </Route>
-        </Router>
+        <div>
+            <Header />
+
+            <Router history={browserHistory}>
+                <Route path="/" component={Main}>
+                    <IndexRoute component={Main}/>
+                    <Route path="page1" component={Main} />
+                    <Route path="page2" component={Main} />
+                </Route>
+            </Router>
+
+            <Footer />
+        </div>
     ),
     document.getElementById('app-container"')
-);*/
+);

@@ -1,2 +1,3 @@
-testtasktesttask#!/usr/bin/env bash
+#!/usr/bin/env bash
 
+nodejs /home/web/dist/Server/Web/StaticWebServer/app.js /home/web/Client/ControlCenter

@@ -1,20 +1,9 @@
-FROM ubuntu:trusty
+# base ubuntu 16.04
+FROM ubuntu:xenial
 
-RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-RUN apt-get update && apt-get install -y python-software-properties software-
-USER postgres
-
-RUN    /etc/init.d/postgresql start &&\
-    psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" &&\
-    createdb -O docker docker
-
-RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.3/main/pg_hba.conf
-
-RUN echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf
+RUN apt-get update
+RUN apt-get -y install postgresql postgresql-contrib
 
 EXPOSE 5432
-
-VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
 CMD sh /home/web/docker/scripts/psql.sh

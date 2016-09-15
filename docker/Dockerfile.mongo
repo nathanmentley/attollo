@@ -1,8 +1,8 @@
-# base ubuntu 14.04
-FROM ubuntu:trusty
+# base ubuntu 16.04
+FROM ubuntu:xenial
 
 RUN apt-get update
-RUN apt-get install -y nodejs npm
+RUN apt-get install -y mongodb-org
 
 COPY ./docker /home/web/docker
 

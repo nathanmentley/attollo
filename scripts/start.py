@@ -13,6 +13,11 @@ class DockerDef:
         self.ports = ports
         self.foreground = foreground
 
+class PortMapDef:
+    def __init__(self, host, guest):
+        self.host = host
+        self.guest = guest
+
 dockerfiles = [
     DockerDef('../docker/Dockerfile.build', 'portfolio/build', 'portfolio-build', [], True),
     DockerDef('../docker/Dockerfile.mongo', 'portfolio/mongo', 'portfolio-mongo', [], False),

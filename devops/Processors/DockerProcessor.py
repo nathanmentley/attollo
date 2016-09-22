@@ -10,7 +10,7 @@ class DockerProcessor:
         self.dockerfiles = [
             DockerDef(self.path + '/docker/Dockerfile.build', 'portfolio/build', 'portfolio-build', [], True),
             DockerDef(self.path + '/docker/Dockerfile.dev', 'portfolio/dev', 'portfolio-dev', [], False),
-            DockerDef(self.path + '/docker/Dockerfile.mongo', 'portfolio/mongo', 'portfolio-mongo', [], False),
+            #DockerDef(self.path + '/docker/Dockerfile.mongo', 'portfolio/mongo', 'portfolio-mongo', [], False),
             DockerDef(self.path + '/docker/Dockerfile.psql', 'portfolio/psql', 'portfolio-psql', [], False),
             DockerDef(self.path + '/docker/Dockerfile.rabbitmq', 'portfolio/rabbitmq', 'portfolio-rabbitmq', [], False),
             DockerDef(self.path + '/docker/web/Dockerfile.runner', 'portfolio/runner', 'portfolio-runner', [PortMapDef(80, 8080)], False),

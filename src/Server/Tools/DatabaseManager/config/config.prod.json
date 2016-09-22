@@ -1,0 +1,12 @@
+{
+    "Environment": "Prod",
+    
+    "DbHost": "ec2-54-235-127-48.compute-1.amazonaws.com",
+    "DbUser": "dfncqssiljakpu",
+    "DbPass": "2lbVen_V9dXp1xDm0rP48Fhnsa",
+    "DbPort": 5432,
+    "DbName": "ddl92c1pc882no",
+    
+    "SendGridUserName": "app50090576@heroku.com",
+    "SendGridPassword": "unjmkbtb7514"
+}

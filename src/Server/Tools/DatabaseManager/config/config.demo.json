@@ -1,0 +1,12 @@
+{
+    "Environment": "Demo",
+    
+    "DbHost": "database",
+    "DbUser": "impuser",
+    "DbPass": "imppass",
+    "DbPort": 5432,
+    "DbName": "imp",
+    
+    "SendGridUserName": "app50101911@heroku.com",
+    "SendGridPassword": "3qurhe8k7551"
+}

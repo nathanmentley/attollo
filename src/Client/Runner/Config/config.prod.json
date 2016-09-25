@@ -1,0 +1,5 @@
+{
+    "Environment": "Prod",
+    
+    "BaseAPIURL": "https://www.implorant.com/API"
+}

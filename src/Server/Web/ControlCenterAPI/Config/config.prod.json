@@ -1,0 +1,17 @@
+{
+	"Environment": "Prod",
+    
+    "DbHost": "database",
+    "DbUser": "impuser",
+    "DbPass": "imppass",
+    "DbPort": 5432,
+    "DbName": "imp",
+    
+    "SendGridUserName": "app50090576@heroku.com",
+    "SendGridPassword": "unjmkbtb7514",
+    
+    "RabbitMQUrl": "amqp://btfjrsoz:17Xuiap0pCPKypMgBxgkH7MSX11elVhm@jellyfish.rmq.cloudamqp.com/btfjrsoz",
+    
+    "AdminUserName": "admin",
+    "AdminPassword": "!mpl0r@n7@dm1n"
+}

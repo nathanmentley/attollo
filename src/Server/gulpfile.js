@@ -17,9 +17,12 @@
     });
 
     gulp.task('Server:config', function() {
-
         var serverOutputDirs = [
-            'Tools/DatabaseManager'
+            'Tools/DatabaseManager',
+            'Web/ControlCenterAPI',
+            'Web/RunnerAPI',
+            'Tasks/TestTask',
+            'Processors/Email'
         ];
 
         for(var i = 0; i < serverOutputDirs.length; i++) {

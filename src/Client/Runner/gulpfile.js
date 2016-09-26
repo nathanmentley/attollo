@@ -9,6 +9,19 @@
     var sourcemaps = require('gulp-sourcemaps');
     var gwebpack = require('gulp-webpack');
     var webpack = require('webpack');
+
+    var util = require('gulp-util');
+    var Attollo = {
+        Env: util.env.Env ? util.env.Env : 'local'
+    };
+
+    gulp.task('Runner:config', function() {
+        gulp.src([
+                './Client/Runner/Config/config.json',
+                './Client/Runner/Config/config.' + Attollo.Env + '.json'
+        ]).pipe(merge('config.json'))
+            .pipe(gulp.dest('../dist/Client/Runner/'));
+    });
  
     // Clean
     gulp.task('Runner:clean', function() {
@@ -76,13 +89,13 @@
     });
  
     // Watch
-    gulp.task('ControlCenter:watch',
-        ['ControlCenter:watch:jsx', 'ControlCenter:watch:html', 'ControlCenter:watch:less']
+    gulp.task('Runner:watch',
+        ['Runner:watch:jsx', 'Runner:watch:html', 'Runner:watch:less']
     );
 
 
     // Build
     gulp.task('Runner:build',
-        ['Runner:jsx', 'Runner:less', 'Runner:html']
+        ['Runner:jsx', 'Runner:less', 'Runner:html', 'Runner:config']
     );
 })();

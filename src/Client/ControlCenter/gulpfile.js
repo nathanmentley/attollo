@@ -9,6 +9,19 @@
     var sourcemaps = require('gulp-sourcemaps');
     var gwebpack = require('gulp-webpack');
     var webpack = require('webpack');
+
+    var util = require('gulp-util');
+    var Attollo = {
+        Env: util.env.Env ? util.env.Env : 'local'
+    };
+
+    gulp.task('ControlCenter:config', function() {
+        gulp.src([
+                './Client/ControlCenter/Config/config.json',
+                './Client/ControlCenter/Config/config.' + Attollo.Env + '.json'
+        ]).pipe(merge('config.json'))
+            .pipe(gulp.dest('../dist/Client/ControlCenter/'));
+    });
  
     // Clean
     gulp.task('ControlCenter:clean', function() {
@@ -82,6 +95,6 @@
 
     // Build
     gulp.task('ControlCenter:build',
-        ['ControlCenter:jsx', 'ControlCenter:less', 'ControlCenter:html']
+        ['ControlCenter:jsx', 'ControlCenter:less', 'ControlCenter:html', 'ControlCenter:config']
     );
 })();

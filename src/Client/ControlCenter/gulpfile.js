@@ -9,6 +9,7 @@
     var sourcemaps = require('gulp-sourcemaps');
     var gwebpack = require('gulp-webpack');
     var webpack = require('webpack');
+    var merge = require('gulp-merge-json');
 
     var util = require('gulp-util');
     var Attollo = {

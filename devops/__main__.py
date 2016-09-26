@@ -1,19 +1,20 @@
 import sys
 
+from DevOpsOptions import DevOpsOptions
 from Processors.DockerProcessor import DockerProcessor
 
 def main():
-    command = sys.argv[1]
-    dockerProcessor = DockerProcessor()
+    options = DevOpsOptions();
+    dockerProcessor = DockerProcessor(options)
 
-    if command == 'start':
+    if options.command == 'start':
         dockerProcessor.build()
         dockerProcessor.run()
-    elif command == 'stop':
+    elif options.command == 'stop':
         dockerProcessor.stop()
-    elif command == 'build':
+    elif options.command == 'build':
         dockerProcessor.build()
-    elif command == 'run':
+    elif optionscommand == 'run':
         dockerProcessor.run()
     return
 

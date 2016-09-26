@@ -6,4 +6,7 @@ RUN apt-get install -y nodejs npm
 
 COPY ./docker /home/web/docker
 
+ARG attolloenv=local
+ENV attolloenv ${attolloenv}
+
 CMD sh /home/web/docker/scripts/rabbitmq.sh

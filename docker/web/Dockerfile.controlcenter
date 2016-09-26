@@ -6,6 +6,9 @@ RUN apt-get install -y nodejs npm
 
 COPY ./docker /home/web/docker
 
+ARG attolloenv=local
+ENV attolloenv ${attolloenv}
+
 EXPOSE 80
 EXPOSE 443
 

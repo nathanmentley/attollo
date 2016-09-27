@@ -12,7 +12,9 @@
     "react-router": "2.7.0",
 
     "node-static": "0.7.8",
-    "express": "4.14.0"
+    "express": "4.14.0",
+    "knex": "0.12.1",
+    "bookshelf": "0.10.2"
   },
   "devDependencies": {
     "gulp": "3.9.1",

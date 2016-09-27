@@ -25,9 +25,11 @@ Attollo = {
         var services = fs.readdirSync(__dirname + '/Services');
 
         for (var i = 0; i < services.length; i++) {
-            Attollo.Services[
-                services[i].replace(/\.js$/, '').replace(/Service$/, '')
-            ] = LoadService(services[i]);
+			if(services[i].endsWith('Service.js')) {
+                Attollo.Services[
+                    services[i].replace(/\.js$/, '').replace(/Service$/, '')
+                ] = LoadService(services[i]);
+            }
         }
     })();
     

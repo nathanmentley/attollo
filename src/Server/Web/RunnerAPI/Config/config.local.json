@@ -2,15 +2,10 @@
 	"Environment": "Local",
     
     "DbHost": "database",
-    "DbUser": "impuser",
-    "DbPass": "imppass",
+    "DbUser": "user",
+    "DbPass": "pass",
     "DbPort": 5432,
-    "DbName": "imp",
-    
-    "SendGridUserName": "app50101911@heroku.com",
-    "SendGridPassword": "3qurhe8k7551",
-    
-    "RabbitMQUrl": "amqp://guest:guest@rabbitmq",
+    "DbName": "attollo",
 
     "AdminUserName": "admin",
     "AdminPassword": "password"

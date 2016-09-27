@@ -1,9 +1,9 @@
 //Setup common code.
-require("../Common/Attollo");
+require("../../Common/Attollo");
 
 (function () {
 	Attollo.App.Start('ControlCenterAPI', function () {
-		Attollo.Services.MessageQueue.Start();
+		//Attollo.Services.MessageQueue.Start();
 	});
 
 	//load deps
@@ -19,7 +19,7 @@ require("../Common/Attollo");
 		next();
 	});
 
-	app.set('port', (process.env.PORT || Attollo.Utils.Config.PortNumber));
+	app.set('port', Attollo.Utils.Config.PortNumber);
 	
 	//Setup Json Body Parser
 	app.use(require('body-parser').json())

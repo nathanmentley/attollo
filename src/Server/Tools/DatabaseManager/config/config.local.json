@@ -1,12 +1,9 @@
 {
     "Environment": "Local",
     
-    "DbHost": "localhost",
-    "DbUser": "impuser",
-    "DbPass": "imppass",
+    "DbHost": "database",
+    "DbUser": "user",
+    "DbPass": "pass",
     "DbPort": 5432,
-    "DbName": "imp",
-    
-    "SendGridUserName": "app50101911@heroku.com",
-    "SendGridPassword": "3qurhe8k7551"
+    "DbName": "attollo"
 }

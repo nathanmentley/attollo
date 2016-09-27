@@ -42,5 +42,5 @@ class DockerProcessor:
             if dockerfile.foreground:
                 subprocess.call('docker run -it ' + ports + ' -v "' + self.path + '/dist":/home/web/dist -v "' + self.path + '/src":/home/web/src --name ' + dockerfile.instancename + ' ' + dockerfile.imagename, shell=True)
             else:
-                subprocess.call('docker run -d ' + ports + ' -v "' + self.path + '/dist":/home/web/dist -v "' + self.path + '/src":/home/web/src --name ' + dockerfile.instancename + ' ' + dockerfile.imagename, shell=True)
+                subprocess.call('docker run -d ' + ports + ' -v "' + self.path + '/dist":/home/web/dist -v "' + self.path + '/logs":/home/web/logs -v "' + self.path + '/src":/home/web/src --name ' + dockerfile.instancename + ' ' + dockerfile.imagename, shell=True)
         return

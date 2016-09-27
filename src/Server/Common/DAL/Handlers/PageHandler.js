@@ -8,13 +8,13 @@
 	};
 	util.inherits(classDef, baseHandler);
 	
-	classDef.prototype.GetContacts = function (success, error){
-		return self.Context.DatabaseContext.Contacts.forge().fetch()
+	classDef.prototype.GetPages = function (success, error){
+		return self.Context.DatabaseContext.Pages.forge().fetch()
 				.then(success).catch(error);
 	};
 	
-	classDef.prototype.AddContact = function(contact, success, error) {
-		return self.Context.DatabaseContext.Contact.forge().save(contact)
+	classDef.prototype.AddPage = function(page, success, error) {
+		return self.Context.DatabaseContext.Page.forge().save(page)
 				.then(success).catch(error);
 	};
 	

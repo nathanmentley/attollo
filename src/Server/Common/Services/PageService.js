@@ -4,11 +4,12 @@
 		Context = serviceContext;
 	};
 	
-	classDef.prototype.GetContacts = function (success, error){
-		return Context.Handlers.Contact.GetContacts(success, error);
+	classDef.prototype.GetPages = function (success, error){
+		return Context.Handlers.Page.GetPages(success, error);
 	};
 	
-	classDef.prototype.AddContact = function (contact, success, error){
+	classDef.prototype.AddPage = function (contact, success, error){
+		/*
 		Attollo.Services.Email.QueueEmail(
 			"nathanmenltey@gmail.com",
 			"noreply+" + Attollo.Utils.Config.Environment + "@Attollo.com",
@@ -20,8 +21,8 @@
 				contact.phone + " " +
 				contact.info
 		);
-		
-		return Context.Handlers.Contact.AddContact(contact, success, error);
+		*/
+		return Context.Handlers.Page.AddPage(contact, success, error);
 	};
 	
 	module.exports = classDef;

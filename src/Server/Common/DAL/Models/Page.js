@@ -2,6 +2,6 @@
 	var Database = require("../Core/Database");
 
 	module.exports = Database.Model.extend({
-		tableName: 'contact'
+		tableName: 'page'
 	});
 })();

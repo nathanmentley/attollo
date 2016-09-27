@@ -10,3 +10,4 @@ class DevOpsOptions:
 
         self.command = results.command
         self.env = results.env
+        self.valid = True

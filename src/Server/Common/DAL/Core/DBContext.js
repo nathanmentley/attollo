@@ -2,10 +2,10 @@
 	var classDef = function () {};
 	var Database = require("./Database");
 
-	classDef.prototype.Contacts = Database.Bookshelf.Collection.extend({
-	  model: require("../Models/Contact")
+	classDef.prototype.Pages = Database.Bookshelf.Collection.extend({
+	  model: require("../Models/Page")
 	});
-	classDef.prototype.Contact = require("../Models/Contact");
+	classDef.prototype.Page = require("../Models/Page");
 
 	module.exports = new classDef();
 })();

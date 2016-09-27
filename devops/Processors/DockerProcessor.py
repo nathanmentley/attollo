@@ -10,7 +10,7 @@ class DockerProcessor:
         self.options = options
         self.path = os.getcwd()
         self.dockerfiles = [
-            DockerDef(self.path + '/docker/Dockerfile.psql', 'attollo/psql', 'attollo-psql', [], [], False),
+            DockerDef(self.path + '/docker/Dockerfile.psql', 'attollo/psql', 'attollo-psql', [PortMapDef(5432, 5432)], [], False),
             DockerDef(self.path + '/docker/Dockerfile.build', 'attollo/build', 'attollo-build', [], [LinkDef('attollo-psql', 'database')], True),
             DockerDef(self.path + '/docker/Dockerfile.dev', 'attollo/dev', 'attollo-dev', [], [], False),
             #DockerDef(self.path + '/docker/Dockerfile.mongo', 'attollo/mongo', 'attollo-mongo', [], [], False),

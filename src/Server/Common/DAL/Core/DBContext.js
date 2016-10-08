@@ -12,6 +12,11 @@
 	});
 	classDef.prototype.BlockDef = require("../Models/BlockDef");
 
+	classDef.prototype.Clients = Database.Bookshelf.Collection.extend({
+	  model: require("../Models/Client")
+	});
+	classDef.prototype.Client = require("../Models/Client");
+
 	classDef.prototype.DatabaseVersions = Database.Bookshelf.Collection.extend({
 	  model: require("../Models/DatabaseVersion")
 	});
@@ -26,6 +31,11 @@
 	  model: require("../Models/Site")
 	});
 	classDef.prototype.Site = require("../Models/Site");
+
+	classDef.prototype.Users = Database.Bookshelf.Collection.extend({
+	  model: require("../Models/User")
+	});
+	classDef.prototype.User = require("../Models/User");
 
 	module.exports = new classDef();
 })();

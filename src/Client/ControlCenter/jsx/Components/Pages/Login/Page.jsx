@@ -31,7 +31,7 @@ export default class AboutPage extends BasePage {
 
     login(event) {
         AjaxService.SetAuth(this.state.username, this.state.password);
-        browserHistory.push('/About');
+        browserHistory.push('/PageBuilder');
     }
 
     render() {

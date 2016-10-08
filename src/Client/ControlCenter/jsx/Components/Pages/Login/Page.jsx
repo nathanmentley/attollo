@@ -1,10 +1,10 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 
-import axios from 'axios';
+import BasePage from '../BasePage.jsx';
+import AjaxService from '../../../Services/AjaxService.jsx';
 
-import Config from '!json!../../../config.json';
-
-export default class AboutPage extends React.Component {
+export default class AboutPage extends BasePage {
     constructor(props) {
         super(props);
 
@@ -30,7 +30,8 @@ export default class AboutPage extends React.Component {
     }
 
     login(event) {
-        alert(this.state.username + " " + this.state.password);
+        AjaxService.SetAuth(this.state.username, this.state.password);
+        browserHistory.push('/About');
     }
 
     render() {

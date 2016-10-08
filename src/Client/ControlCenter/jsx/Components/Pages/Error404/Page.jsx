@@ -1,6 +1,8 @@
 import React from 'react';
 
-export default class Page extends React.Component {
+import BasePage from '../BasePage.jsx';
+
+export default class Page extends BasePage {
     render() {
         return <div>404 page</div>;
     }

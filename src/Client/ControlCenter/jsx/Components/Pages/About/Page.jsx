@@ -1,10 +1,9 @@
 import React from 'react';
 
-import axios from 'axios';
+import BaseAuthPage from '../BaseAuthPage.jsx';
+import AjaxService from '../../../Services/AjaxService.jsx';
 
-import Config from '!json!../../../config.json';
-
-export default class AboutPage extends React.Component {
+export default class AboutPage extends BaseAuthPage {
     constructor(props) {
         super(props);
 
@@ -16,18 +15,11 @@ export default class AboutPage extends React.Component {
     componentDidMount() {
         var self = this;
 
-        var url = Config.BaseAPIURL + '/pages';
+        var url = '/pages';
         var body = {};
         var headers = {};
 
-        var ajax = axios.create({
-            auth: {
-                username: 'admin',
-                password: 'password'
-            }
-        });
-
-        ajax.get(url, body, headers)
+        AjaxService.Get(url, body, headers)
             .then((res) => {  
                 self.setState({ pages: res.data.data }); 
             }).catch((err)=> {

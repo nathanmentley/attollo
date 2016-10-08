@@ -25,7 +25,7 @@
 			);
 		});
 		
-		app.post(urlendpoint, function(request, response) {
+		app.post(urlendpoint, auth, function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.Page.AddPage(

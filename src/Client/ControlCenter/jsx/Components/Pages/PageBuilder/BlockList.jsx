@@ -1,23 +1,23 @@
 import React from 'react';
 
-import BlockDefService from '../../../Services/BlockDefService.jsx';
+import BlockService from '../../../Services/BlockService.jsx';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
-export default class BlockDefList extends BaseComponent {
+export default class BlockList extends BaseComponent {
     constructor(props) {
         super(props);
 
         this.state = {
-            BlockDefs: []
+            Blocks: []
         };
     }
     
     componentDidMount() {
         var self = this;
 
-        BlockDefService.GetBlockDefs().then((res) => {
-            self.setState({ BlockDefs: res.data.data }); 
+        BlockService.GetBlocks(1).then((res) => {
+            self.setState({ Blocks: res.data.data }); 
         });
     }
 
@@ -25,9 +25,9 @@ export default class BlockDefList extends BaseComponent {
         return (
             <div>
                 {
-                    this.state.BlockDefs.map((x) => {
+                    this.state.Blocks.map((x) => {
                         return (
-                            <div key={x.code}>{x.name} - {x.code}</div>
+                            <div key={x.id}>block</div>
                         );
                     })
                 }

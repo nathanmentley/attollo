@@ -8,8 +8,13 @@
 	};
 	util.inherits(classDef, baseHandler);
 	
-	classDef.prototype.GetBlocks = function (success, error){
-		return this.Context.DatabaseContext.Blocks.forge().fetch()
+	classDef.prototype.GetBlocks = function (pageId, success, error){
+		return this.Context.DatabaseContext.Blocks.forge()
+				.query({
+					where: {
+						pageid: pageId
+					}
+				}).fetch()
 				.then(success).catch(error);
 	};
 	

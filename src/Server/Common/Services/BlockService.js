@@ -4,8 +4,8 @@
 		Context = serviceContext;
 	};
 	
-	classDef.prototype.GetBlocks = function (success, error){
-		return Context.Handlers.Block.GetBlocks(success, error);
+	classDef.prototype.GetBlocks = function (pageId, success, error){
+		return Context.Handlers.Block.GetBlocks(pageId, success, error);
 	};
 	
 	classDef.prototype.AddBlock = function (block, success, error){

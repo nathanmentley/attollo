@@ -19,6 +19,7 @@ export default class AboutPage extends BasePage {
     }
 
     componentDidMount() {
+        AjaxService.ClearAuth();
     }
 
     updateUsername(event) {
@@ -31,7 +32,12 @@ export default class AboutPage extends BasePage {
 
     login(event) {
         AjaxService.SetAuth(this.state.username, this.state.password);
-        browserHistory.push('/PageBuilder');
+
+        if (this.props.location && this.props.location.state && this.props.location.state.nextPathname) {
+            browserHistory.push(this.props.location.state.nextPathname);
+        } else {
+            browserHistory.push('/Main');
+        }
     }
 
     render() {

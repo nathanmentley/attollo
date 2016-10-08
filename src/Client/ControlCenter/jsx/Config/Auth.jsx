@@ -5,7 +5,9 @@ export default class Auth {
         if(!AjaxService.IsAuthenticated()){
             replace({
                 pathname: '/Login',
-                state: { nextPathname: nextState.location.pathname }
+                state: {
+                    nextPathname: nextState.location.pathname
+                }
             })
         }
     }

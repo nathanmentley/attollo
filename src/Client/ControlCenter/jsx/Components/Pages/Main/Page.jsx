@@ -1,8 +1,8 @@
 import React from 'react';
 
-import BaseAuthPage from '../BaseAuthPage.jsx';
+import BasePage from '../BasePage.jsx';
 
-export default class MainPage extends BaseAuthPage {
+export default class MainPage extends BasePage {
     render() {
         return <div>MainPage</div>;
     }

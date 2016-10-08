@@ -1,9 +1,9 @@
 import React from 'react';
 
-import BaseAuthPage from '../BaseAuthPage.jsx';
+import BasePage from '../BasePage.jsx';
 import AjaxService from '../../../Services/AjaxService.jsx';
 
-export default class AboutPage extends BaseAuthPage {
+export default class AboutPage extends BasePage {
     constructor(props) {
         super(props);
 

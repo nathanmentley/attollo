@@ -38,10 +38,10 @@ export default class AboutPage extends BasePage {
         return (
             <div>
                 <div>
-                    <input type="text" value={this.state.username} onChange={this.updateUsername} />
+                    <input type="text" value={this.state.username} onChange={this.updateUsername} placeholder="username" />
                 </div>
                 <div>
-                    <input type="text" value={this.state.password} onChange={this.updatePassword} />
+                    <input type="password" value={this.state.password} onChange={this.updatePassword} placeholder="password" />
                 </div>
                 <div>
                     <div className="btn btn-primary" onClick={this.login}>login</div>

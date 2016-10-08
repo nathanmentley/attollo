@@ -21,6 +21,7 @@
             'Tools/DatabaseManager',
             'Web/ControlCenterAPI',
             'Web/RunnerAPI',
+            'Web/StaticWebServer',
             'Tasks/TestTask',
             'Processors/Email'
         ];

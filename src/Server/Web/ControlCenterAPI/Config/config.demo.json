@@ -2,8 +2,8 @@
 	"Environment": "Demo",
     
     "DbHost": "database",
-    "DbUser": "user",
-    "DbPass": "pass",
+    "DbUser": "attollo",
+    "DbPass": "@tt0ll0P@55w0rD!",
     "DbPort": 5432,
     "DbName": "attollo",
     

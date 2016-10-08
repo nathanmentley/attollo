@@ -2,13 +2,11 @@
 FROM ubuntu:xenial
 
 RUN apt-get update
-RUN apt-get -y install postgresql postgresql-contrib
+RUN apt-get install -y rabbitmq-server
 
 COPY ./docker /home/web/docker
 
 ARG attolloenv=local
 ENV attolloenv ${attolloenv}
 
-EXPOSE 5432
-
-CMD sh /home/web/docker/scripts/psql.sh
+CMD sh /home/web/docker/scripts/infrastructure/rabbitmq.sh

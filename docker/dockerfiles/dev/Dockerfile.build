@@ -9,4 +9,4 @@ COPY ./docker /home/web/docker
 ARG attolloenv=local
 ENV attolloenv ${attolloenv}
 
-CMD sh /home/web/docker/scripts/build.sh
+CMD sh /home/web/docker/scripts/dev/build.sh

@@ -1,3 +1,5 @@
-./src
+./.vscode
 ./dist
-./scripts
+./devops
+./logs
+./src

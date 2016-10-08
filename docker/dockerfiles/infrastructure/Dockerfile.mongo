@@ -2,11 +2,11 @@
 FROM ubuntu:xenial
 
 RUN apt-get update
-RUN apt-get install -y rabbitmq-server
+RUN apt-get install -y mongodb-org
 
 COPY ./docker /home/web/docker
 
 ARG attolloenv=local
 ENV attolloenv ${attolloenv}
 
-CMD sh /home/web/docker/scripts/rabbitmq.sh
+CMD sh /home/web/docker/scripts/infrastructure/mongo.sh

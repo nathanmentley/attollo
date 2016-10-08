@@ -1,0 +1,4 @@
+{
+	"Environment": "Local",
+	"BaseAPIURL": "http://localhost:8083"
+}

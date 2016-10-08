@@ -21,7 +21,7 @@
                 './Client/Runner/Config/config.json',
                 './Client/Runner/Config/config.' + Attollo.Env + '.json'
         ]).pipe(merge('config.json'))
-            .pipe(gulp.dest('../dist/Client/Runner/'));
+            .pipe(gulp.dest('./Client/Runner/jsx/'));
     });
  
     // Clean
@@ -37,18 +37,20 @@
             .pipe(gulp.dest('../dist/Client/Runner/'));
     });
 
-    gulp.task('Runner:jsx', ['Runner:clean'], function () {
+    gulp.task('Runner:jsx', ['Runner:config', 'Runner:clean'], function () {
         return gulp.src('./Client/Runner/jsx/app.jsx')
             .pipe(gwebpack({
                 module: {
                     entry: './Client/Runner/jsx/app.jsx',
-                    loaders: [{
-                        loader: 'babel-loader',
-                        exclude: /(node_modules|bower_components)/,
-                        query: {
-                            presets: ['es2015', 'react']
+                    loaders: [
+                        {
+                            loader: 'babel-loader',
+                            exclude: /(node_modules|bower_components)/,
+                            query: {
+                                presets: ['es2015', 'react']
+                            }
                         }
-                    }]
+                    ]
                 },
                 plugins: [
                     new webpack.optimize.UglifyJsPlugin({
@@ -72,7 +74,7 @@
     });
  
     gulp.task('Runner:watch:jsx', function () {
-        return watch('./Client/Runner/jsx/**/*.jsx', function () {
+        return watch(['./Client/Runner/jsx/**/*.jsx', './Client/Runner/Config/**/*.json'], function () {
             return gulp.run(['Runner:jsx']);
         });
     });
@@ -97,6 +99,6 @@
 
     // Build
     gulp.task('Runner:build',
-        ['Runner:jsx', 'Runner:less', 'Runner:html', 'Runner:config']
+        ['Runner:jsx', 'Runner:less', 'Runner:html']
     );
 })();

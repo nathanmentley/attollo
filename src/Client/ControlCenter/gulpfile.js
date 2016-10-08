@@ -21,7 +21,7 @@
                 './Client/ControlCenter/Config/config.json',
                 './Client/ControlCenter/Config/config.' + Attollo.Env + '.json'
         ]).pipe(merge('config.json'))
-            .pipe(gulp.dest('../dist/Client/ControlCenter/'));
+            .pipe(gulp.dest('./Client/ControlCenter/jsx/'));
     });
  
     // Clean
@@ -37,18 +37,20 @@
             .pipe(gulp.dest('../dist/Client/ControlCenter/'));
     });
 
-    gulp.task('ControlCenter:jsx', ['ControlCenter:clean'], function () {
+    gulp.task('ControlCenter:jsx', ['ControlCenter:config', 'ControlCenter:clean'], function () {
         return gulp.src('./Client/ControlCenter/jsx/app.jsx')
             .pipe(gwebpack({
                 module: {
                     entry: './Client/ControlCenter/jsx/app.jsx',
-                    loaders: [{
-                        loader: 'babel-loader',
-                        exclude: /(node_modules|bower_components)/,
-                        query: {
-                            presets: ['es2015', 'react']
+                    loaders: [
+                        {
+                            loader: 'babel-loader',
+                            exclude: /(node_modules|bower_components)/,
+                            query: {
+                                presets: ['es2015', 'react']
+                            }
                         }
-                    }]
+                    ]
                 },
                 plugins: [
                     new webpack.optimize.UglifyJsPlugin({
@@ -72,7 +74,7 @@
     });
  
     gulp.task('ControlCenter:watch:jsx', function () {
-        return watch('./Client/ControlCenter/jsx/**/*.jsx', function () {
+        return watch(['./Client/ControlCenter/jsx/**/*.jsx', './Client/ControlCenter/Config/**/*.json'], function () {
             return gulp.run(['ControlCenter:jsx']);
         });
     });
@@ -96,6 +98,6 @@
 
     // Build
     gulp.task('ControlCenter:build',
-        ['ControlCenter:jsx', 'ControlCenter:less', 'ControlCenter:html', 'ControlCenter:config']
+        ['ControlCenter:jsx', 'ControlCenter:less', 'ControlCenter:html']
     );
 })();

@@ -1,27 +1,33 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { browserHistory, Router, Route, IndexRoute } from 'react-router';
+import { Grid, Row, Col } from 'react-bootstrap';
+
+import Routing from './Config/Routing.jsx';
 
 import Header from './Components/Layout/Header.jsx';
 import Footer from './Components/Layout/Footer.jsx';
 
-import Main from './Components/Main/Page.jsx';
-
 render(
     (
-        <div>
-            <Header />
+        <Grid>
+            <Row>
+                <Col xs={1} md={2} />
 
-            <Router history={browserHistory}>
-                <Route path="/" component={Main}>
-                    <IndexRoute component={Main}/>
-                    <Route path="page1" component={Main} />
-                    <Route path="page2" component={Main} />
-                </Route>
-            </Router>
+                <Col xs={10} md={8} >
+                    <Header />
 
-            <Footer />
-        </div>
+                    <Row className="content">
+                        <Col xs={12} md={12} >
+                            <Routing />
+                        </Col>
+                    </Row>
+
+                    <Footer />
+                </Col>
+
+                <Col xs={1} md={2} />
+            </Row>
+        </Grid>
     ),
-    document.getElementById('app-container"')
+    document.getElementById('app-container')
 );

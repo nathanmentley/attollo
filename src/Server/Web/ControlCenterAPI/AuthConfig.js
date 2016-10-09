@@ -5,7 +5,7 @@
 			var username = auth[0];
 			var password = auth[1];
 
-			Attollo.Services.User.GetUser(username, password)
+			Attollo.Services.User.GetUser({}, username, password)
 				.then(function (user) {
 					if(user.get('name') == username) {
 						req.AuthContext = {

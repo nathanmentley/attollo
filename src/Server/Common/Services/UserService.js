@@ -8,7 +8,7 @@
 		return Context.Handlers.User.GetUsers(authContext);
 	};
 	
-	classDef.prototype.GetUser = function (username, password){
+	classDef.prototype.GetUser = function (authContext, username, password){
 		return Context.Handlers.User.GetUser(username, password);
 	};
 	

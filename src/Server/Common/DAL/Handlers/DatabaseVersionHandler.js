@@ -8,11 +8,11 @@
 	};
 	util.inherits(classDef, baseHandler);
 	
-	classDef.prototype.GetDatabaseVersions = function (){
-		return this.Context.DatabaseContext.DatabaseVersions.forge().fetch();
+	classDef.prototype.GetDatabaseVersions = function (authContext){
+		return this.Context.DatabaseContext.DatabaseVersions().fetch();
 	};
 	
-	classDef.prototype.AddDatabaseVersion = function(databaseVersion) {
+	classDef.prototype.AddDatabaseVersion = function(authContext, databaseVersion) {
 		return this.Context.DatabaseContext.DatabaseVersion.forge().save(databaseVersion);
 	};
 	

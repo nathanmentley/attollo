@@ -8,11 +8,11 @@
 	};
 	util.inherits(classDef, baseHandler);
 	
-	classDef.prototype.GetClients = function (){
-		return this.Context.DatabaseContext.Clients.forge().fetch();
+	classDef.prototype.GetClients = function (authContext){
+		return this.Context.DatabaseContext.Clients(authContext).fetch();
 	};
 	
-	classDef.prototype.AddClient = function(client) {
+	classDef.prototype.AddClient = function(authContext, client) {
 		return this.Context.DatabaseContext.Client.forge().save(client);
 	};
 	

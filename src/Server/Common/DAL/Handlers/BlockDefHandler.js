@@ -8,11 +8,11 @@
 	};
 	util.inherits(classDef, baseHandler);
 	
-	classDef.prototype.GetBlockDefs = function (){
-		return this.Context.DatabaseContext.BlockDefs.forge().fetch();
+	classDef.prototype.GetBlockDefs = function (authContext){
+		return this.Context.DatabaseContext.BlockDefs(authContext).fetch();
 	};
 	
-	classDef.prototype.AddBlockDef = function(blockDef) {
+	classDef.prototype.AddBlockDef = function(authContext, blockDef) {
 		return this.Context.DatabaseContext.BlockDef.forge().save(blockDef);
 	};
 	

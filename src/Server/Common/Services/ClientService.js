@@ -4,12 +4,12 @@
 		Context = serviceContext;
 	};
 	
-	classDef.prototype.GetClients = function (){
-		return Context.Handlers.Client.GetClients();
+	classDef.prototype.GetClients = function (authContext){
+		return Context.Handlers.Client.GetClients(authContext);
 	};
 	
-	classDef.prototype.AddClient = function (client){
-		return Context.Handlers.Client.AddClient(client);
+	classDef.prototype.AddClient = function (authContext, client){
+		return Context.Handlers.Client.AddClient(authContext, client);
 	};
 	
 	module.exports = classDef;

@@ -9,12 +9,7 @@
 	util.inherits(classDef, baseHandler);
 	
 	classDef.prototype.GetPages = function (authContext){
-		return this.Context.DatabaseContext.Pages.forge()
-			.query(function(query) {
-				query.join('site', 'site.id', '=', 'page.siteid');
-				query.join('client', 'client.id', '=', 'site.clientid');
-				query.where('client.id', '=', authContext.ClientID);
-			}).fetch();
+		return this.Context.DatabaseContext.Pages(authContext).fetch();
 	};
 	
 	classDef.prototype.AddPage = function(authContext, page) {

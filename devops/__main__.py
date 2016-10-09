@@ -16,7 +16,7 @@ def main():
             dockerProcessor.stop()
         elif options.command == 'build':
             dockerProcessor.build()
-        elif optionscommand == 'run':
+        elif options.command == 'run':
             dockerProcessor.run()
         else:
             print("unkonwn command.")

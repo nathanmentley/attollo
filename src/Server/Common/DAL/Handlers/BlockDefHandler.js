@@ -8,14 +8,12 @@
 	};
 	util.inherits(classDef, baseHandler);
 	
-	classDef.prototype.GetBlockDefs = function (success, error){
-		return this.Context.DatabaseContext.BlockDefs.forge().fetch()
-				.then(success).catch(error);
+	classDef.prototype.GetBlockDefs = function (){
+		return this.Context.DatabaseContext.BlockDefs.forge().fetch();
 	};
 	
-	classDef.prototype.AddBlockDef = function(blockDef, success, error) {
-		return this.Context.DatabaseContext.BlockDef.forge().save(blockDef)
-				.then(success).catch(error);
+	classDef.prototype.AddBlockDef = function(blockDef) {
+		return this.Context.DatabaseContext.BlockDef.forge().save(blockDef);
 	};
 	
 	module.exports = classDef;

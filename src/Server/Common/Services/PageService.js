@@ -4,12 +4,12 @@
 		Context = serviceContext;
 	};
 	
-	classDef.prototype.GetPages = function (success, error){
-		return Context.Handlers.Page.GetPages(success, error);
+	classDef.prototype.GetPages = function (authContext){
+		return Context.Handlers.Page.GetPages(authContext);
 	};
 	
-	classDef.prototype.AddPage = function (page, success, error){
-		return Context.Handlers.Page.AddPage(page, success, error);
+	classDef.prototype.AddPage = function (authContext, page){
+		return Context.Handlers.Page.AddPage(authContext, page);
 	};
 	
 	module.exports = classDef;

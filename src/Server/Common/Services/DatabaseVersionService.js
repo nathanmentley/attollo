@@ -4,12 +4,12 @@
 		Context = serviceContext;
 	};
 	
-	classDef.prototype.GetDatabaseVersions = function (success, error){
-		return Context.Handlers.DatabaseVersion.GetDatabaseVersions(success, error);
+	classDef.prototype.GetDatabaseVersions = function (){
+		return Context.Handlers.DatabaseVersion.GetDatabaseVersions();
 	};
 	
-	classDef.prototype.AddDatabaseVersion = function (databaseVersion, success, error){
-		return Context.Handlers.DatabaseVersion.AddDatabaseVersion(databaseVersion, success, error);
+	classDef.prototype.AddDatabaseVersion = function (databaseVersion){
+		return Context.Handlers.DatabaseVersion.AddDatabaseVersion(databaseVersion);
 	};
 	
 	module.exports = classDef;

@@ -8,14 +8,12 @@
 	};
 	util.inherits(classDef, baseHandler);
 	
-	classDef.prototype.GetClients = function (success, error){
-		return this.Context.DatabaseContext.Clients.forge().fetch()
-				.then(success).catch(error);
+	classDef.prototype.GetClients = function (){
+		return this.Context.DatabaseContext.Clients.forge().fetch();
 	};
 	
-	classDef.prototype.AddClient = function(client, success, error) {
-		return this.Context.DatabaseContext.Client.forge().save(client)
-				.then(success).catch(error);
+	classDef.prototype.AddClient = function(client) {
+		return this.Context.DatabaseContext.Client.forge().save(client);
 	};
 	
 	module.exports = classDef;

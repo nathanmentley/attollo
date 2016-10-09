@@ -4,12 +4,12 @@
 		Context = serviceContext;
 	};
 	
-	classDef.prototype.GetClients = function (success, error){
-		return Context.Handlers.Client.GetClients(success, error);
+	classDef.prototype.GetClients = function (){
+		return Context.Handlers.Client.GetClients();
 	};
 	
-	classDef.prototype.AddClient = function (client, success, error){
-		return Context.Handlers.Client.AddClient(client, success, error);
+	classDef.prototype.AddClient = function (client){
+		return Context.Handlers.Client.AddClient(client);
 	};
 	
 	module.exports = classDef;

@@ -8,14 +8,12 @@
 	};
 	util.inherits(classDef, baseHandler);
 	
-	classDef.prototype.GetDatabaseVersions = function (success, error){
-		return this.Context.DatabaseContext.DatabaseVersions.forge().fetch()
-				.then(success).catch(error);
+	classDef.prototype.GetDatabaseVersions = function (){
+		return this.Context.DatabaseContext.DatabaseVersions.forge().fetch();
 	};
 	
-	classDef.prototype.AddDatabaseVersion = function(databaseVersion, success, error) {
-		return this.Context.DatabaseContext.DatabaseVersion.forge().save(databaseVersion)
-				.then(success).catch(error);
+	classDef.prototype.AddDatabaseVersion = function(databaseVersion) {
+		return this.Context.DatabaseContext.DatabaseVersion.forge().save(databaseVersion);
 	};
 	
 	module.exports = classDef;

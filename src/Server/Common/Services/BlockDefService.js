@@ -4,12 +4,12 @@
 		Context = serviceContext;
 	};
 	
-	classDef.prototype.GetBlockDefs = function (success, error){
-		return Context.Handlers.BlockDef.GetBlockDefs(success, error);
+	classDef.prototype.GetBlockDefs = function (){
+		return Context.Handlers.BlockDef.GetBlockDefs();
 	};
 	
-	classDef.prototype.AddBlockDef = function (blockDef, success, error){
-		return Context.Handlers.BlockDef.AddBlockDef(blockDef, success, error);
+	classDef.prototype.AddBlockDef = function (blockDef){
+		return Context.Handlers.BlockDef.AddBlockDef(blockDef);
 	};
 	
 	module.exports = classDef;

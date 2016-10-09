@@ -4,12 +4,12 @@
 		Context = serviceContext;
 	};
 	
-	classDef.prototype.GetBlocks = function (pageId, success, error){
-		return Context.Handlers.Block.GetBlocks(pageId, success, error);
+	classDef.prototype.GetBlocks = function (authContext, pageId){
+		return Context.Handlers.Block.GetBlocks(authContext, pageId);
 	};
 	
-	classDef.prototype.AddBlock = function (block, success, error){
-		return Context.Handlers.Block.AddBlock(block, success, error);
+	classDef.prototype.AddBlock = function (authContext, block){
+		return Context.Handlers.Block.AddBlock(authContext, block);
 	};
 	
 	module.exports = classDef;

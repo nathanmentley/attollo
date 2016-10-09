@@ -4,12 +4,16 @@
 		Context = serviceContext;
 	};
 	
-	classDef.prototype.GetUsers = function (success, error){
-		return Context.Handlers.User.GetUsers(success, error);
+	classDef.prototype.GetUsers = function (authContext){
+		return Context.Handlers.User.GetUsers(authContext);
 	};
 	
-	classDef.prototype.AddUser = function (user, success, error){
-		return Context.Handlers.User.AddUser(user, success, error);
+	classDef.prototype.GetUser = function (username, password){
+		return Context.Handlers.User.GetUser(username, password);
+	};
+	
+	classDef.prototype.AddUser = function (authContext, user){
+		return Context.Handlers.User.AddUser(authContext, user);
 	};
 	
 	module.exports = classDef;

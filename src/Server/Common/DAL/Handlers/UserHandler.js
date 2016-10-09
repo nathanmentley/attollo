@@ -9,7 +9,11 @@
 	util.inherits(classDef, baseHandler);
 	
 	classDef.prototype.GetUsers = function (authContext){
-		return this.Context.DatabaseContext.Users.forge().fetch();
+		return this.Context.DatabaseContext.Users.forge()
+			.query(function(query) {
+				query.join('client', 'client.id', '=', 'site.clientid');
+				query.where('client.id', '=', authContext.ClientID);
+			}).fetch();
 	};
 
 	classDef.prototype.GetUser = function (username, password) {

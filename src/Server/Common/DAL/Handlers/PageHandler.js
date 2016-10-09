@@ -11,17 +11,10 @@
 	classDef.prototype.GetPages = function (authContext){
 		return this.Context.DatabaseContext.Pages.forge()
 			.query(function(query) {
+				query.join('site', 'site.id', '=', 'page.siteid');
+				query.join('client', 'client.id', '=', 'site.clientid');
 				query.where('client.id', '=', authContext.ClientID);
-			})
-			.fetch({
-				withRelated: [
-					{
-						Client: function(query) {
-							query.where('client.id', '=', authContext.ClientID);
-						}
-					}
-				]
-			});
+			}).fetch();
 	};
 	
 	classDef.prototype.AddPage = function(authContext, page) {

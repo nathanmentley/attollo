@@ -17,9 +17,5 @@
 			}).fetch();
 	};
 	
-	classDef.prototype.AddBlock = function(authContext, block) {
-		return this.Context.DatabaseContext.Block.forge().save(block);
-	};
-	
 	module.exports = classDef;
 })();

@@ -12,9 +12,5 @@
 		return this.Context.DatabaseContext.Pages(authContext).fetch();
 	};
 	
-	classDef.prototype.AddPage = function(authContext, page) {
-		return this.Context.DatabaseContext.Page.forge().save(page);
-	};
-	
 	module.exports = classDef;
 })();

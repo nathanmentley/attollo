@@ -12,9 +12,5 @@
 		return this.Context.DatabaseContext.Clients(authContext).fetch();
 	};
 	
-	classDef.prototype.AddClient = function(authContext, client) {
-		return this.Context.DatabaseContext.Client.forge().save(client);
-	};
-	
 	module.exports = classDef;
 })();

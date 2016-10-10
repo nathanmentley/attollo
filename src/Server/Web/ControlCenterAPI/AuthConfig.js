@@ -6,23 +6,25 @@
 			var password = auth[1];
 
 			Attollo.Services.User.GetUser({}, username, password)
-				.then(function (user) {
-					if(user.get('name') == username) {
-						req.AuthContext = {
-							ClientID: user.get('clientid')
-						};
+			.then(function (user) {
+				if(user.get('name') == username) {
+					req.AuthContext = {
+						ClientID: user.get('clientid')
+					};
 
-						next();
-					}else{
-						res.statusCode = 403;
-						res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
-						res.end('Unauthorized');
-					}
-				})
-				.catch(function (err) {
-					res.statusCode = 500;
-					res.end(err.message);
-				});
+					next();
+				}else{
+					res.statusCode = 403;
+					res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
+					res.end('Forbidden');
+				}
+			})
+			.catch(function (err) {
+				Attollo.Utils.Log.Error(JSON.stringify(err));
+
+				res.statusCode = 500;
+				res.end(JSON.stringify({ error: true, message: 'unknown server error.' }));
+			});
 		}else{
 			res.statusCode = 401;
 			res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');

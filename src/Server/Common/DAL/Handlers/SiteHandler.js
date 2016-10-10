@@ -12,9 +12,5 @@
 		return this.Context.DatabaseContext.Sites(authContext).fetch();
 	};
 	
-	classDef.prototype.AddSite = function(authContext, site) {
-		return this.Context.DatabaseContext.Site.forge().save(site);
-	};
-	
 	module.exports = classDef;
 })();

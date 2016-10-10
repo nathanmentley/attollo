@@ -1,24 +1,26 @@
 (function () {
 	var classDef = function () {};
 
-	var urlendpoint = '/Pages';
+	var urlendpoint = '/Auth';
 
 	classDef.prototype.Setup = function (app, express, auth) {
-		app.get(urlendpoint, auth, function(request, response) {
+		app.post(urlendpoint, auth, function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
-			Attollo.Services.Page.GetPages(request.AuthContext)
-			.then(function (collection) {
+			Attollo.Services.User.GetUser({}, request.body.username, request.body.password)
+			.then(function (user) {
 				response.json({
 					error: false,
-					data: collection.toJSON()
+					data: {
+						token: "token"
+					}
 				});
 			})
-			.catch(function (err) {
+			.catch(function() {
 				response.status(500).json({
 					error: true,
 					data: {
-						message: err.message
+						message: "Invalid login."
 					}
 				});
 			});

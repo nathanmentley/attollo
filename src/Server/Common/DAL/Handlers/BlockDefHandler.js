@@ -12,9 +12,5 @@
 		return this.Context.DatabaseContext.BlockDefs(authContext).fetch();
 	};
 	
-	classDef.prototype.AddBlockDef = function(authContext, blockDef) {
-		return this.Context.DatabaseContext.BlockDef.forge().save(blockDef);
-	};
-	
 	module.exports = classDef;
 })();

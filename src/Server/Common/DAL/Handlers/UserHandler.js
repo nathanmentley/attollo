@@ -13,7 +13,7 @@
 	};
 
 	classDef.prototype.GetUser = function (authContext, username, password) {
-		return this.Context.DatabaseContext.RawUsers()
+		return this.Context.DatabaseContext.NonFiltered.Users()
 				.query({
 					where: {
 						name: username,
@@ -21,10 +21,6 @@
 					}
 				})
 				.fetchOne();
-	};
-	
-	classDef.prototype.AddUser = function(authContext, user) {
-		return this.Context.DatabaseContext.User.forge().save(user);
 	};
 	
 	module.exports = classDef;

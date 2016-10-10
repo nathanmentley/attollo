@@ -20,9 +20,8 @@
 					}
 				})
 				.catch(function (err) {
-					res.statusCode = 401;
-					res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
-					res.end('Unauthorized');
+					res.statusCode = 500;
+					res.end(err.message);
 				});
 		}else{
 			res.statusCode = 401;

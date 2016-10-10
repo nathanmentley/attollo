@@ -13,7 +13,7 @@
 	};
 
 	classDef.prototype.GetUser = function (authContext, username, password) {
-		return this.Context.DatabaseContext.Users(authContext)
+		return this.Context.DatabaseContext.RawUsers()
 				.query({
 					where: {
 						name: username,

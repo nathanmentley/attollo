@@ -3,9 +3,14 @@
 	var Database = require("./Database");
 
 
-	classDef.prototype.DatabaseVersions = function() {
+	classDef.prototype.RawDatabaseVersions = function() {
 		return Database.Bookshelf.Collection.extend({
 			model: require("../Models/DatabaseVersion")
+		}).forge();
+	};
+	classDef.prototype.RawUsers = function() {
+		return Database.Bookshelf.Collection.extend({
+			model: require("../Models/User")
 		}).forge();
 	};
 	classDef.prototype.DatabaseVersion = require("../Models/DatabaseVersion");

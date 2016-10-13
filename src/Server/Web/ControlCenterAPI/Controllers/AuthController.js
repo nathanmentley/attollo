@@ -4,23 +4,32 @@
 	var urlendpoint = '/Auth';
 
 	classDef.prototype.Setup = function (app, express, auth) {
-		app.post(urlendpoint, auth, function(request, response) {
+		app.post(urlendpoint, function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.User.GetUser({}, request.body.username, request.body.password)
 			.then(function (user) {
-				response.json({
-					error: false,
-					data: {
-						token: "token"
-					}
-				});
+				if(user) {
+					response.json({
+						error: false,
+						data: {
+							token: JSON.stringify(user)
+						}
+					});
+				}else {
+					response.json({
+						error: true,
+						data: {
+							message: 'Invalid username or password.'
+						}
+					});
+				}
 			})
 			.catch(function() {
 				response.status(500).json({
 					error: true,
 					data: {
-						message: "Invalid login."
+						message: "Unknown Error."
 					}
 				});
 			});

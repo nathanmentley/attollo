@@ -3,7 +3,7 @@ import axios from 'axios';
 import Config from '!json!../config.json';
 
 //Private vars
-var $ajax = null;
+var $ajax = axios.create();
 var authenticated = false;
 var onAuthenticateCallbacks = [];
 var onUnauthenticateCallbacks = [];
@@ -26,7 +26,7 @@ export default class AjaxService {
     }
 
     static ClearAuth() {
-        $ajax = null;
+        $ajax = axios.create();
         authenticated = false;
 
         onUnauthenticateCallbacks.forEach((callback) => {
@@ -40,15 +40,11 @@ export default class AjaxService {
 
     //Ajax Methods
     static Get(url, body, headers) {
-        if(this.IsAuthenticated()) {
-            return $ajax.get(Config.BaseAPIURL + url, body, headers);
-        }
+        return $ajax.get(Config.BaseAPIURL + url, body, headers);
     }
 
     static Post(url, body, headers) {
-        if(this.IsAuthenticated()) {
-            return $ajax.post(Config.BaseAPIURL + url, body, headers);
-        }
+        return $ajax.post(Config.BaseAPIURL + url, body, headers);
     }
 
     //Event listeners

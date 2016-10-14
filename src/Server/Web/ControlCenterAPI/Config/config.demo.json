@@ -1,5 +1,7 @@
 {
 	"Environment": "Demo",
+
+    "JwtSecret": "%m,.FRz[rM2{r{R",
     
     "DbHost": "database",
     "DbUser": "attollo",

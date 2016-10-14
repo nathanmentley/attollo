@@ -10,13 +10,9 @@ var onUnauthenticateCallbacks = [];
 
 export default class AjaxService {
     //Interface Methods
-    static SetAuth(user, pass) {
-        $ajax = axios.create({
-            auth: {
-                username: user,
-                password: pass
-            }
-        });
+    static SetAuth(token) {
+        $ajax = axios.create();
+        $ajax.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 
         authenticated = true;
 

@@ -1,4 +1,6 @@
 (function () {
+	var jwt = require('jwt-simple');
+
 	var classDef = function () {};
 
 	var urlendpoint = '/Auth';
@@ -9,11 +11,13 @@
 			
 			Attollo.Services.User.GetUser({}, request.body.username, request.body.password)
 			.then(function (user) {
+				var tokenData = { clientid: user.get('clientid'), name: user.get('name'), env: Attollo.Utils.Config.Environment };
+
 				if(user) {
 					response.json({
 						error: false,
 						data: {
-							token: JSON.stringify(user)
+							token: jwt.encode(tokenData, Attollo.Utils.Config.JwtSecret)
 						}
 					});
 				}else {

@@ -1,5 +1,7 @@
 {
 	"Environment": "Local",
+
+    "JwtSecret": ",M.MXz(vq%Kv34Cs",
     
     "DbHost": "database",
     "DbUser": "attollo",

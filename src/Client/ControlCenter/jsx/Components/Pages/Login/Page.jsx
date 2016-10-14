@@ -40,7 +40,7 @@ export default class AboutPage extends BasePage {
             if(resp.data.error) {
                 self.setState({ message: resp.data.data.message });
             }else{
-                AjaxService.SetAuth(self.state.username, self.state.password);
+                AjaxService.SetAuth(resp.data.data.token);
 
                 if (self.props.location && self.props.location.state && self.props.location.state.nextPathname) {
                     browserHistory.push(self.props.location.state.nextPathname);
@@ -49,7 +49,7 @@ export default class AboutPage extends BasePage {
                 }
             }
         }).catch((err) => {
-            self.setState({ message: resp.data.data.message });
+            self.setState({ message: err.message });
         });
     }
 

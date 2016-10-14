@@ -1,5 +1,7 @@
 {
 	"Environment": "Prod",
+
+    "JwtSecret": "(JGMHh=3hh.P9):",
     
     "DbHost": "database",
     "DbUser": "attollo",

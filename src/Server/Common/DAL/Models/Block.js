@@ -4,7 +4,7 @@
 	var Site = require("./Site");
 	var Client = require("./Client");
 
-	module.exports = Database.Model.extend({
+	var block = Database.Model.extend({
 		tableName: 'block',
 		Page: function() {
 			return this.belongsTo(Page, 'pageid');
@@ -16,4 +16,6 @@
 			return this.belongsTo(Client, 'clientid').through(Page, 'pageid').through(Site, 'siteid');
 		}
 	});
+
+	module.exports = block;
 })();

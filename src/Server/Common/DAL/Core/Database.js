@@ -17,6 +17,9 @@
 
 	classDef.prototype.Bookshelf = bookshelf;
 	classDef.prototype.Model = bookshelf.Model.extend({
+		constructor: function() {
+    		bookshelf.Model.apply(this, arguments);
+		}
 	});
 
 	classDef.prototype.Close = function () {

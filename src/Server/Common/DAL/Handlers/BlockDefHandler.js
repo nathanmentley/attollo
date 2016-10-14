@@ -9,7 +9,11 @@
 	util.inherits(classDef, baseHandler);
 	
 	classDef.prototype.GetBlockDefs = function (authContext){
-		return this.Context.DatabaseContext.BlockDefs(authContext).fetch();
+		return this.Context.DatabaseContext.BlockDefs(authContext).query({
+				where: {
+					id: 100
+				}
+			}).fetch();
 	};
 	
 	module.exports = classDef;

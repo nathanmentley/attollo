@@ -1,7 +1,9 @@
 (function () {
 	var Database = require("../Core/Database");
 
-	module.exports = Database.Model.extend({
+	var client = Database.Model.extend({
 		tableName: 'client'
 	});
+
+	module.exports = client;
 })();

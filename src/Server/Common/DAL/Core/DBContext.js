@@ -31,7 +31,29 @@
 	classDef.prototype.BlockDefs = function(authContext) {
 		return Database.Bookshelf.Collection.extend({
 			model: require("../Models/BlockDef")
-		}).forge();
+		}).forge()
+		.on("fetching", function(model, columns, options) {
+			return new Promise(function(resolve, reject) {
+				if(options.query._statements){
+					for(var i = 0; i < options.query._statements.length; i++) {
+						if(options.query._statements[i].column == "id") {
+							options.query._statements[i].value = options.query._statements[i].value - 99;
+						}
+					}
+				}
+
+				resolve();
+			});
+		})
+		.on("fetched", function(models, result, options) {
+			return new Promise(function(resolve, reject) {
+				for(var i = 1; i < models.length + 1; i++) {
+					models.get(i).set({id: models.get(i).id + 99});
+				}
+
+				resolve(models);
+			});
+		});
 	};
 
 	classDef.prototype.Clients = function(authContext) {

@@ -1,33 +1,29 @@
 import React from 'react';
 
-import BlockDefService from '../../../Services/BlockDefService.jsx';
-
 import BaseComponent from '../../BaseComponent.jsx';
 
 export default class BlockDefList extends BaseComponent {
     constructor(props) {
         super(props);
 
-        this.state = {
-            BlockDefs: []
-        };
+        this.addBlock = this.addBlock.bind(this);
     }
-    
-    componentDidMount() {
-        var self = this;
 
-        BlockDefService.GetBlockDefs().then((res) => {
-            self.setState({ BlockDefs: res.data.data }); 
-        });
+    addBlock(code) {
+        this.props.AddNewBlock(code);
     }
 
     render() {
+        var self = this;
+
         return (
             <div>
                 {
-                    this.state.BlockDefs.map((x) => {
+                    this.props.BlockDefs.map((x) => {
                         return (
-                            <div key={x.code}>{x.name} - {x.code}</div>
+                            <div key={x.code}>
+                                <a onClick={() => {self.addBlock(x.code)}}>{x.name}</a>
+                            </div>
                         );
                     })
                 }

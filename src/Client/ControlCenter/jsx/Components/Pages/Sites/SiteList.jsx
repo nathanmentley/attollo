@@ -22,7 +22,7 @@ export default class SiteList extends BaseComponent {
         });
     }
 
-    GoToPageBin(siteId) {
+    goToPageBin(siteId) {
         browserHistory.push("/Pages/" + siteId);
     }
 
@@ -35,7 +35,7 @@ export default class SiteList extends BaseComponent {
                     this.state.Sites.map((x) => {
                         return (
                             <div key={x.id}>
-                                <a onClick={function() { self.GoToPageBin(x.id); }}>{x.name}</a>
+                                <a onClick={() => { self.goToPageBin(x.id); }}>{x.name}</a>
                             </div>
                         );
                     })

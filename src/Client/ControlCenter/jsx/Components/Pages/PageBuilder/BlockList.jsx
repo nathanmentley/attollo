@@ -9,6 +9,7 @@ export default class BlockList extends BaseComponent {
         super(props);
 
         this.state = {
+            EditingBlock: null,
             Blocks: []
         };
     }
@@ -21,13 +22,24 @@ export default class BlockList extends BaseComponent {
         });
     }
 
+    editBlock(id) {
+        this.setState({EditingBlock: this.state.Blocks.find((x) => { return x.id === id; })});
+    }
+
     render() {
+        var self = this;
+        
         return (
             <div>
+                <div style={{display: (this.state.EditingBlock != null ? 'inherit' : 'none')}}>
+                    {this.state.EditingBlock != null ? this.state.EditingBlock.template : ''}
+                </div>
                 {
                     this.state.Blocks.map((x) => {
                         return (
-                            <div key={x.id}>block</div>
+                            <div key={x.id}>
+                                <a onClick={() => { self.editBlock(x.id); }}>{x.name}</a>
+                            </div>
                         );
                     })
                 }

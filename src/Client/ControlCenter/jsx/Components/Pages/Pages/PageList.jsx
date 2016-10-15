@@ -22,7 +22,7 @@ export default class PageList extends BaseComponent {
         });
     }
 
-    GoToPageBuilder(pageId) {
+    goToPageBuilder(pageId) {
         browserHistory.push("/PageBuilder/" + pageId);
     }
 
@@ -35,7 +35,7 @@ export default class PageList extends BaseComponent {
                     this.state.Pages.map((x) => {
                         return (
                             <div key={x.id}>
-                                <a onClick={function(){ self.GoToPageBuilder(x.id); }}>{x.title}</a>
+                                <a onClick={() => { self.goToPageBuilder(x.id); }}>{x.title}</a>
                             </div>
                         );
                     })

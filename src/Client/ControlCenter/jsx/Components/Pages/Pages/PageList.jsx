@@ -34,8 +34,8 @@ export default class PageList extends BaseComponent {
                 {
                     this.state.Pages.map((x) => {
                         return (
-                            <div>
-                                <a key={x.id} onClick={function(){ self.GoToPageBuilder(x.id); }}>{x.name}</a>
+                            <div key={x.id}>
+                                <a onClick={function(){ self.GoToPageBuilder(x.id); }}>{x.title}</a>
                             </div>
                         );
                     })

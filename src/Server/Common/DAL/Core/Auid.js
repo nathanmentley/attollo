@@ -4,8 +4,6 @@
             return "L-" + id;
         },
         Decode: function(auid) {
-            Attollo.Utils.Log.Info(auid);
-            Attollo.Utils.Log.Info(auid.substring(2));
             return auid.substring(2);
         },
         Fetching: function(fields) {
@@ -30,15 +28,20 @@
 
             return function(models, result, options) {
                 return new Promise(function(resolve, reject) {
-                    for(var i = 1; i < models.length + 1; i++) {
+                    for(var i = 0; i < result.length; i++) {
                         var data = {};
+                        var model = result[i];
+
                         for(var j = 0; j < fields.length; j++) {
-                            data[fields[j]] = self.Encode(models.get(i).get(fields[j]));
+                            var field = fields[j];
+
+                            data[field] = self.Encode(model[field]);
                         }
-                        models.get(i).set(data);
+
+                        models.get(model.id).set(data);
                     }
 
-                    resolve(models);
+                    resolve();
                 });
             };
         },

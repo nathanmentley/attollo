@@ -11,7 +11,7 @@
 			
 			Attollo.Services.User.GetUser({}, request.body.username, request.body.password)
 			.then(function (users) {
-				var user = users.get(1);
+				var user = users.first();
 				if(user) {
 					var tokenData = { clientid: user.get('clientid'), name: user.get('name'), env: Attollo.Utils.Config.Environment };
 					
@@ -30,13 +30,11 @@
 					});
 				}
 			})
-			.catch(function() {
-				Attollo.Utils.Log.Info(JSON.stringify(err));
-
+			.catch(function(err) {
 				response.status(500).json({
 					error: true,
 					data: {
-						message: "Unknown Error."
+						message: err.message
 					}
 				});
 			});

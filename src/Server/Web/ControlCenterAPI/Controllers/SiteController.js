@@ -15,8 +15,6 @@
 				});
 			})
 			.catch(function (err) {
-				Attollo.Utils.Log.Info(JSON.stringify(err));
-
 				response.status(500).json({
 					error: true,
 					data: {

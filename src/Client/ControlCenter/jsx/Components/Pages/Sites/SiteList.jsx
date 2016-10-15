@@ -34,8 +34,8 @@ export default class SiteList extends BaseComponent {
                 {
                     this.state.Sites.map((x) => {
                         return (
-                            <div>
-                                <a key={x.id} onClick={function() { self.GoToPageBin(x.id); }}>{x.name}</a>
+                            <div key={x.id}>
+                                <a onClick={function() { self.GoToPageBin(x.id); }}>{x.name}</a>
                             </div>
                         );
                     })

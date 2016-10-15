@@ -10,10 +10,11 @@
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.User.GetUser({}, request.body.username, request.body.password)
-			.then(function (user) {
-				var tokenData = { clientid: user.get('clientid'), name: user.get('name'), env: Attollo.Utils.Config.Environment };
-
+			.then(function (users) {
+				var user = users.get(1);
 				if(user) {
+					var tokenData = { clientid: user.get('clientid'), name: user.get('name'), env: Attollo.Utils.Config.Environment };
+					
 					response.json({
 						error: false,
 						data: {
@@ -30,6 +31,8 @@
 				}
 			})
 			.catch(function() {
+				Attollo.Utils.Log.Info(JSON.stringify(err));
+
 				response.status(500).json({
 					error: true,
 					data: {

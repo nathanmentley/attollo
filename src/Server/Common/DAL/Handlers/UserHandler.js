@@ -20,7 +20,7 @@
 						password: password
 					}
 				})
-				.fetchOne();
+				.fetch();
 	};
 	
 	module.exports = classDef;

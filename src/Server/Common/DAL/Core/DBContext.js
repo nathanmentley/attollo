@@ -1,18 +1,24 @@
 (function () {
 	var classDef = function () {};
 	var Database = require("./Database");
-
+	var Auid = require("./Auid");
 
 	classDef.prototype.NonFiltered = {
 		DatabaseVersions: function() {
 			return Database.Bookshelf.Collection.extend({
 				model: require("../Models/DatabaseVersion")
-			}).forge();
+			}).forge()
+			.on("fetching", Auid.Fetching(['id']))
+			.on("fetched", Auid.Fetched(['id']))
+			.on("saving", Auid.Saving(['id']));
 		},
 		Users: function() {
 			return Database.Bookshelf.Collection.extend({
 				model: require("../Models/User")
-			}).forge();
+			}).forge()
+			.on("fetching", Auid.Fetching(['id', 'clientid']))
+			.on("fetched", Auid.Fetched(['id', 'clientid']))
+			.on("saving", Auid.Saving(['id', 'clientid']));
 		}
 	};
 
@@ -20,6 +26,9 @@
 		return Database.Bookshelf.Collection.extend({
 			model: require("../Models/Block")
 		}).forge()
+		.on("fetching", Auid.Fetching(['id', 'blockdefid', 'pageid', 'client.id']))
+		.on("fetched", Auid.Fetched(['id', 'blockdefid', 'pageid']))
+		.on("saving", Auid.Saving(['id', 'blockdefid', 'pageid']))
 		.query(function(query) {
 			query.join('page', 'page.id', '=', 'block.pageid');
 			query.join('site', 'site.id', '=', 'page.siteid');
@@ -32,40 +41,27 @@
 		return Database.Bookshelf.Collection.extend({
 			model: require("../Models/BlockDef")
 		}).forge()
-		.on("fetching", function(model, columns, options) {
-			return new Promise(function(resolve, reject) {
-				if(options.query._statements){
-					for(var i = 0; i < options.query._statements.length; i++) {
-						if(options.query._statements[i].column == "id") {
-							options.query._statements[i].value = options.query._statements[i].value - 99;
-						}
-					}
-				}
-
-				resolve();
-			});
-		})
-		.on("fetched", function(models, result, options) {
-			return new Promise(function(resolve, reject) {
-				for(var i = 1; i < models.length + 1; i++) {
-					models.get(i).set({id: models.get(i).id + 99});
-				}
-
-				resolve(models);
-			});
-		});
+		.on("fetching", Auid.Fetching(['id']))
+		.on("fetched", Auid.Fetched(['id']))
+		.on("saving", Auid.Saving(['id']));
 	};
 
 	classDef.prototype.Clients = function(authContext) {
 		return Database.Bookshelf.Collection.extend({
 			model: require("../Models/Client")
-		}).forge();
+		}).forge()
+		.on("fetching", Auid.Fetching(['id']))
+		.on("fetched", Auid.Fetched(['id']))
+		.on("saving", Auid.Saving(['id']));
 	};
 
 	classDef.prototype.Pages = function(authContext) {
 		return Database.Bookshelf.Collection.extend({
 			model: require("../Models/Page")
 		}).forge()
+		.on("fetching", Auid.Fetching(['id', 'siteid']))
+		.on("fetched", Auid.Fetched(['id', 'siteid']))
+		.on("saving", Auid.Saving(['id', 'siteid']))
 		.query(function(query) {
 			query.join('site', 'site.id', '=', 'page.siteid');
 			query.join('client', 'client.id', '=', 'site.clientid');
@@ -77,6 +73,9 @@
 		return Database.Bookshelf.Collection.extend({
 			model: require("../Models/Site")
 		}).forge()
+		.on("fetching", Auid.Fetching(['id', 'clientid']))
+		.on("fetched", Auid.Fetched(['id', 'clientid']))
+		.on("saving", Auid.Saving(['id', 'clientid']))
 		.query(function(query) {
 			query.join('client', 'client.id', '=', 'site.clientid');
 			query.where('client.id', '=', authContext.ClientID);
@@ -87,6 +86,9 @@
 		return Database.Bookshelf.Collection.extend({
 			model: require("../Models/User")
 		}).forge()
+		.on("fetching", Auid.Fetching(['id', 'clientid']))
+		.on("fetched", Auid.Fetched(['id', 'clientid']))
+		.on("saving", Auid.Saving(['id', 'clientid']))
 		.query(function(query) {
 			query.join('client', 'client.id', '=', 'site.clientid');
 			query.where('client.id', '=', authContext.ClientID);

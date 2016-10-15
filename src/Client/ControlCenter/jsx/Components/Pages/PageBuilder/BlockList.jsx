@@ -16,7 +16,7 @@ export default class BlockList extends BaseComponent {
     componentDidMount() {
         var self = this;
 
-        BlockService.GetBlocks(1).then((res) => {
+        BlockService.GetBlocks('L-1').then((res) => {
             self.setState({ Blocks: res.data.data }); 
         });
     }

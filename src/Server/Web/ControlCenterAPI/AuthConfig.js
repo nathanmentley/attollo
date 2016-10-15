@@ -5,6 +5,8 @@
 		if (req.headers.authorization) {
 			var decoded = jwt.decode(req.headers.authorization.substring(7), Attollo.Utils.Config.JwtSecret);
 
+			Attollo.Utils.Log.Info(JSON.stringify(decoded));
+
 			if(decoded) {
 				req.AuthContext = {
 					ClientID: decoded.clientid

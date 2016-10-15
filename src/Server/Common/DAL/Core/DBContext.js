@@ -59,7 +59,7 @@
 		return Database.Bookshelf.Collection.extend({
 			model: require("../Models/Page")
 		}).forge()
-		.on("fetching", Auid.Fetching(['id', 'siteid']))
+		.on("fetching", Auid.Fetching(['id', 'siteid', 'client.id']))
 		.on("fetched", Auid.Fetched(['id', 'siteid']))
 		.on("saving", Auid.Saving(['id', 'siteid']))
 		.query(function(query) {
@@ -73,7 +73,7 @@
 		return Database.Bookshelf.Collection.extend({
 			model: require("../Models/Site")
 		}).forge()
-		.on("fetching", Auid.Fetching(['id', 'clientid']))
+		.on("fetching", Auid.Fetching(['id', 'clientid', 'client.id']))
 		.on("fetched", Auid.Fetched(['id', 'clientid']))
 		.on("saving", Auid.Saving(['id', 'clientid']))
 		.query(function(query) {
@@ -86,7 +86,7 @@
 		return Database.Bookshelf.Collection.extend({
 			model: require("../Models/User")
 		}).forge()
-		.on("fetching", Auid.Fetching(['id', 'clientid']))
+		.on("fetching", Auid.Fetching(['id', 'clientid', 'client.id']))
 		.on("fetched", Auid.Fetched(['id', 'clientid']))
 		.on("saving", Auid.Saving(['id', 'clientid']))
 		.query(function(query) {

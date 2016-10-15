@@ -19,7 +19,7 @@ export default class Header extends React.Component {
             return (
                 <div>
                     <a onClick={function() { self.changePage('/Main')} }>Main</a>
-                    <a onClick={function() { self.changePage('/PageBuilder')} }>Page Builder</a>
+                    <a onClick={function() { self.changePage('/Sites')} }>Sites</a>
                     <a onClick={function() { self.changePage('/About')} }>About</a>
                     <a onClick={function() { self.changePage('/Login')} }>Logout</a>
                 </div>

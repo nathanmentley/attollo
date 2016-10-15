@@ -4,8 +4,8 @@
 		Context = serviceContext;
 	};
 	
-	classDef.prototype.GetPages = function (authContext){
-		return Context.Handlers.Page.GetPages(authContext);
+	classDef.prototype.GetPages = function (authContext, siteId){
+		return Context.Handlers.Page.GetPages(authContext, siteId);
 	};
 	
 	classDef.prototype.AddPage = function (authContext, page){

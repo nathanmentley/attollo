@@ -10,7 +10,7 @@ export default class PageBuilderPage extends BasePage {
         return (
             <div>
                 <BlockDefList />
-                <BlockList />
+                <BlockList PageID={this.props.params.PageID} />
             </div>
         );
     }

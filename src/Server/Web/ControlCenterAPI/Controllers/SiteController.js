@@ -1,13 +1,13 @@
 (function () {
 	var classDef = function () {};
 
-	var urlendpoint = '/Pages';
+	var urlendpoint = '/Sites';
 
 	classDef.prototype.Setup = function (app, express, auth) {
 		app.get(urlendpoint, auth, function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
-			Attollo.Services.Page.GetPages(request.AuthContext, request.query.siteId)
+			Attollo.Services.Site.GetSites(request.AuthContext)
 			.then(function (collection) {
 				response.json({
 					error: false,

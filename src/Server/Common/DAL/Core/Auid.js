@@ -81,6 +81,27 @@
                     resolve();
                 });
             };
+        },
+        Destroying: function(fields) {
+            var self = this;
+
+            return function(model, options) {
+                return new Promise(function(resolve, reject) {
+                    if(model) {
+                        var data = [];
+                        for(var i = 0; i < fields.length; i++) {
+                            var field = fields[i];
+
+                            if(model.get(field)) {
+                                data[field] = self.Decode(model.get(field));
+                            }
+                        }
+                        model.set(data)
+                    }
+
+                    resolve();
+                });
+            };
         }
     };
 })();

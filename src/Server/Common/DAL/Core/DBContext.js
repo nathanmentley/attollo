@@ -30,6 +30,7 @@
 		.on("fetching", Auid.Fetching(['id', 'blockdefid', 'pageid', 'client.id']))
 		.on("fetched", Auid.Fetched(['id', 'blockdefid', 'pageid']))
 		.on("saving", Auid.Saving(['id', 'blockdefid', 'pageid']))
+		.on("destroying", Auid.Destroying(['id']))
 		.query(function(query) {
 			query.join('page', 'page.id', '=', 'block.pageid');
 			query.join('site', 'site.id', '=', 'page.siteid');

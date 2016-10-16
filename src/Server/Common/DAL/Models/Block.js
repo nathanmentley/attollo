@@ -13,6 +13,7 @@
 				this.on("fetching", Auid.Fetching(['id', 'pageid', 'blockdefid', 'client.id']));
 				this.on("fetched", Auid.Fetched(['id', 'pageid', 'blockdefid']));
 				this.on("saving", Auid.Saving(['id', 'pageid', 'blockdefid']));
+				this.on("destroying", Auid.Destroying(['id']));
 			},
 		Page: function() {
 			return this.belongsTo(Page, 'pageid');

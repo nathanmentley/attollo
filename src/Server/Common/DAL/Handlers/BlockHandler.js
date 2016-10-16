@@ -30,5 +30,17 @@
 		return block.save();
 	};
 	
+	classDef.prototype.UpdateBlock = function (authContext, block){
+		var block = new Block(block);
+
+		return block.save();
+	};
+	
+	classDef.prototype.DeleteBlock = function (authContext, block){
+		var block = new Block(block);
+
+		return block.destroy();
+	};
+	
 	module.exports = classDef;
 })();

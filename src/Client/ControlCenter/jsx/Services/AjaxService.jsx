@@ -43,6 +43,14 @@ export default class AjaxService {
         return $ajax.post(Config.BaseAPIURL + url, body, headers);
     }
 
+    static Put(url, body, headers) {
+        return $ajax.put(Config.BaseAPIURL + url, body, headers);
+    }
+
+    static Delete(url, body, headers) {
+        return $ajax.delete(Config.BaseAPIURL + url, body, headers);
+    }
+
     //Event listeners
     static OnAuthenticate(callback){
         onAuthenticateCallbacks.push(callback);

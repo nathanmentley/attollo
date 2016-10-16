@@ -53,6 +53,44 @@
 				});
 			});
 		});
+
+		app.put(urlendpoint, auth, function(request, response) {
+			response.setHeader('Content-Type', 'application/json');
+			
+			Attollo.Services.Block.UpdateBlock(request.AuthContext, request.body.block)
+			.then(function() {
+				response.json({
+					error: false
+				});
+			})
+			.catch(function (err) {
+				response.status(500).json({
+					error: true,
+					data: {
+						message: err.message
+					}
+				});
+			});
+		});
+
+		app.delete(urlendpoint, auth, function(request, response) {
+			response.setHeader('Content-Type', 'application/json');
+			
+			Attollo.Services.Block.DeleteBlock(request.AuthContext, { id: request.query.blockId })
+			.then(function() {
+				response.json({
+					error: false
+				});
+			})
+			.catch(function (err) {
+				response.status(500).json({
+					error: true,
+					data: {
+						message: err.message
+					}
+				});
+			});
+		});
 	};
 	
 	module.exports = new classDef();

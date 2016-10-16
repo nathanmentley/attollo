@@ -1,6 +1,8 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 
+import ObjectUtils from '../../../Utils/ObjectUtils.jsx';
+
 import BlockDefService from '../../../Services/BlockDefService.jsx';
 import BlockService from '../../../Services/BlockService.jsx';
 
@@ -18,11 +20,15 @@ export default class PageBuilderPage extends BasePage {
             EditingBlock: null,
             Blocks: [],
             BlockDefs: []
-
         };
 
         this.setEditingBlock = this.setEditingBlock.bind(this);
+        this.updateEditingBlockTitle = this.updateEditingBlockTitle.bind(this);
+        this.updateEditingBlockTemplate = this.updateEditingBlockTemplate.bind(this);
+
         this.addNewBlock = this.addNewBlock.bind(this);
+        this.saveBlock = this.saveBlock.bind(this);
+        this.deleteBlock = this.deleteBlock.bind(this);
     }
     
     componentDidMount() {
@@ -37,9 +43,42 @@ export default class PageBuilderPage extends BasePage {
         });
     }
 
-
     setEditingBlock(block) {
-        this.setState({ EditingBlock: block });
+        this.setState({ EditingBlock: ObjectUtils.Clone(block) });
+    }
+
+    updateEditingBlockTitle(title) {
+        var newBlock = ObjectUtils.Clone(this.state.EditingBlock);
+        newBlock.title = title;
+        this.setState({ EditingBlock: newBlock });
+    }
+
+    updateEditingBlockTemplate(template) {
+        var newBlock = ObjectUtils.Clone(this.state.EditingBlock);
+        newBlock.template = template;
+        this.setState({ EditingBlock: newBlock });
+    }
+
+    saveBlock() {
+        var self = this;
+
+        BlockService.SaveBlock(this.state.EditingBlock).then((saveResult) => {
+            BlockService.GetBlocks(this.props.params.PageID).then((getResult) => {
+                self.setState({ Blocks: getResult.data.data }, () => {
+                    //self.setEditingBlock(*somehow get update block*);
+                }); 
+            });
+        });
+    }
+
+    deleteBlock() {
+        var self = this;
+
+        BlockService.DeleteBlock(this.state.EditingBlock.id).then((saveResult) => {
+            BlockService.GetBlocks(this.props.params.PageID).then((getResult) => {
+                self.setState({ Blocks: getResult.data.data, EditingBlock: null }); 
+            });
+        });
     }
 
     addNewBlock(code) {
@@ -47,7 +86,9 @@ export default class PageBuilderPage extends BasePage {
 
         BlockService.AddBlock(this.props.params.PageID, code).then((addResult) => {
             BlockService.GetBlocks(this.props.params.PageID).then((getResult) => {
-                self.setState({ Blocks: getResult.data.data }); 
+                self.setState({ Blocks: getResult.data.data }, () => {
+                    //self.setEditingBlock(*somehow get new block*);
+                }); 
             });
         });
     }
@@ -55,7 +96,13 @@ export default class PageBuilderPage extends BasePage {
     render() {
         var editingBlock = <div />;
         if(this.state.EditingBlock != null){
-            editingBlock = <BlockEditor Block={this.state.EditingBlock} />;
+            editingBlock = <BlockEditor
+                Block={this.state.EditingBlock}
+                UpdateTitle={this.updateEditingBlockTitle}
+                UpdateTemplate={this.updateEditingBlockTemplate}
+                SaveBlock={this.saveBlock}
+                DeleteBlock={this.deleteBlock}
+            />;
         }
 
         return (

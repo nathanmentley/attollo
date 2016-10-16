@@ -2,6 +2,8 @@
 	var baseHandler = require('../../BaseHandler')
 	var util = require('util');
 
+	var Block = require('../Models/Block');
+
 	var classDef = function (context) {
 		baseHandler.apply(this);
 		this.Context = context;
@@ -15,6 +17,17 @@
 					pageid: pageId
 				}
 			}).fetch();
+	};
+	
+	classDef.prototype.AddBlock = function (authContext, pageId, blockDef){
+		var block = new Block({
+			blockdefid: blockDef.id,
+			pageid: pageId,
+			title: blockDef.get('name'),
+			template: '<p>new ' + blockDef.get('name') + ' block</p>'
+		});
+
+		return block.save();
 	};
 	
 	module.exports = classDef;

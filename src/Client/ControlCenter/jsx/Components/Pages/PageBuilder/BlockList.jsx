@@ -22,7 +22,7 @@ export default class BlockList extends BaseComponent {
                     this.props.Blocks.map((x) => {
                         return (
                             <div key={x.id}>
-                                <a onClick={() => { self.editBlock(x.id); }}>{x.name}</a>
+                                <a onClick={() => { self.editBlock(x.id); }}>{x.title}</a>
                             </div>
                         );
                     })

@@ -19,6 +19,7 @@
 			.on("fetching", Auid.Fetching(['id', 'clientid']))
 			.on("fetched", Auid.Fetched(['id', 'clientid']))
 			.on("saving", Auid.Saving(['id', 'clientid']));
+			;
 		}
 	};
 

@@ -1,10 +1,18 @@
 (function () {
 	module.exports = {
         Encode: function(id) {
-            return "L-" + id;
+            if(id) {
+                return "L-" + id;
+            }else{
+                return null;
+            }
         },
         Decode: function(auid) {
-            return auid.substring(2);
+            if(auid) {
+                return auid.substring(2);
+            }else{
+                return null;
+            }
         },
         Fetching: function(fields) {
             var self = this;
@@ -50,6 +58,18 @@
 
             return function(model, columns, options) {
                 return new Promise(function(resolve, reject) {
+                    if(model) {
+                        var data = [];
+                        for(var i = 0; i < fields.length; i++) {
+                            var field = fields[i];
+
+                            if(model.get(field)) {
+                                data[field] = self.Decode(model.get(field));
+                            }
+                        }
+                        model.set(data)
+                    }
+
                     if(options.query._statements){
                         for(var i = 0; i < options.query._statements.length; i++) {
                             if(fields.indexOf(options.query._statements[i].column) > -1) {

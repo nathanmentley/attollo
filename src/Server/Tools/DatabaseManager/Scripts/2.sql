@@ -35,6 +35,6 @@ CREATE TABLE IF NOT EXISTS Block (
     ID SERIAL PRIMARY KEY,
     BlockDefID integer REFERENCES BlockDef,
     PageID integer REFERENCES Page,
-    Name VARCHAR(100) NOT NULL,
+    Title VARCHAR(100) NOT NULL,
     Template VARCHAR(100) NOT NULL
 );

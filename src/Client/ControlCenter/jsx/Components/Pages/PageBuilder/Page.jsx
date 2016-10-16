@@ -43,7 +43,13 @@ export default class PageBuilderPage extends BasePage {
     }
 
     addNewBlock(code) {
-        alert(code);
+        var self = this;
+
+        BlockService.AddBlock(this.props.params.PageID, code).then((addResult) => {
+            BlockService.GetBlocks(this.props.params.PageID).then((getResult) => {
+                self.setState({ Blocks: getResult.data.data }); 
+            });
+        });
     }
 
     render() {

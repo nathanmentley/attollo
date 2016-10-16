@@ -8,8 +8,8 @@
 		return Context.Handlers.Block.GetBlocks(authContext, pageId);
 	};
 	
-	classDef.prototype.AddBlock = function (authContext, block){
-		return Context.Handlers.Block.AddBlock(authContext, block);
+	classDef.prototype.AddBlock = function (authContext, pageId, blockDef){
+		return Context.Handlers.Block.AddBlock(authContext, pageId, blockDef);
 	};
 	
 	module.exports = classDef;

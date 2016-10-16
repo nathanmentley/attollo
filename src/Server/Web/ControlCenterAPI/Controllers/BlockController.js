@@ -23,6 +23,36 @@
 				});
 			});
 		});
+
+		app.post(urlendpoint, auth, function(request, response) {
+			response.setHeader('Content-Type', 'application/json');
+			
+			Attollo.Services.BlockDef.GetBlockDef(request.AuthContext, request.body.code)
+			.then(function(blockDefCollection) {
+				Attollo.Services.Block.AddBlock(request.AuthContext, request.body.pageId, blockDefCollection.first())
+				.then(function() {
+					response.json({
+						error: false
+					});
+				})
+				.catch(function (err) {
+					response.status(500).json({
+						error: true,
+						data: {
+							message: err.message
+						}
+					});
+				});
+			})
+			.catch(function (err) {
+				response.status(500).json({
+					error: true,
+					data: {
+						message: err.message
+					}
+				});
+			});
+		});
 	};
 	
 	module.exports = new classDef();

@@ -11,6 +11,16 @@
 	classDef.prototype.GetBlockDefs = function (authContext){
 		return this.Context.DatabaseContext.BlockDefs(authContext).fetch();
 	};
+
+	classDef.prototype.GetBlockDef = function (authContext, code){
+		return this.Context.DatabaseContext.BlockDefs(authContext)
+				.query({
+					where: {
+						code: code
+					}
+				})
+				.fetch();
+	};
 	
 	module.exports = classDef;
 })();

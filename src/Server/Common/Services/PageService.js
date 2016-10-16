@@ -8,8 +8,16 @@
 		return Context.Handlers.Page.GetPages(authContext, siteId);
 	};
 	
-	classDef.prototype.AddPage = function (authContext, page){
-		return Context.Handlers.Page.AddPage(authContext, page);
+	classDef.prototype.AddPage = function (authContext, siteId){
+		return Context.Handlers.Page.AddPage(authContext, siteId);
+	};
+
+	classDef.prototype.UpdatePage = function (authContext, model){
+		return Context.Handlers.Page.UpdatePage(authContext, model);
+	};
+
+	classDef.prototype.DeletePage = function (authContext, model){
+		return Context.Handlers.Page.DeletePage(authContext, model);
 	};
 	
 	module.exports = classDef;

@@ -29,16 +29,16 @@
 		return block.save();
 	};
 	
-	classDef.prototype.UpdateBlock = function (authContext, block){
+	classDef.prototype.UpdateBlock = function (authContext, model){
 		var Block = this.Context.DatabaseContext.Block(authContext, true);
-		var block = new Block(block);
+		var block = new Block(model);
 
 		return block.save();
 	};
 	
-	classDef.prototype.DeleteBlock = function (authContext, block){
+	classDef.prototype.DeleteBlock = function (authContext, model){
 		var Block = this.Context.DatabaseContext.Block(authContext, true);
-		var block = new Block(block);
+		var block = new Block(model);
 
 		return block.destroy();
 	};

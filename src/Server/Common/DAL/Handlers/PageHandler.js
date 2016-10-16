@@ -17,5 +17,29 @@
 			}).fetch();
 	};
 	
+	classDef.prototype.AddPage = function (authContext, siteId){
+		var Page = this.Context.DatabaseContext.Page(authContext);
+		var page = new Page({
+			url: '/new-page',
+			title: 'Title'
+		});
+
+		return page.save();
+	};
+	
+	classDef.prototype.UpdatePage = function (authContext, model){
+		var Page = this.Context.DatabaseContext.Page(authContext, true);
+		var page = new Page(model);
+
+		return page.save();
+	};
+	
+	classDef.prototype.DeletePage = function (authContext, model){
+		var Page = this.Context.DatabaseContext.Page(authContext, true);
+		var page = new Page(model);
+
+		return page.destroy();
+	};
+	
 	module.exports = classDef;
 })();

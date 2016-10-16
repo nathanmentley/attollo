@@ -10,10 +10,6 @@
 
 	classDef.prototype.GetBlockDef = function (authContext, code) {
 		return Context.Handlers.BlockDef.GetBlockDef(authContext, code);
-	}
-	
-	classDef.prototype.AddBlockDef = function (authContext, blockDef){
-		return Context.Handlers.BlockDef.AddBlockDef(authContext, blockDef);
 	};
 	
 	module.exports = classDef;

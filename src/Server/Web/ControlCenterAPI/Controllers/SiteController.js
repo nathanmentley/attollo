@@ -23,6 +23,63 @@
 				});
 			});
 		});
+
+		app.post(urlendpoint, auth, function(request, response) {
+			response.setHeader('Content-Type', 'application/json');
+			
+			Attollo.Services.Site.AddSite(request.AuthContext)
+			.then(function() {
+				response.json({
+					error: false
+				});
+			})
+			.catch(function (err) {
+				response.status(500).json({
+					error: true,
+					data: {
+						message: err.message
+					}
+				});
+			});
+		});
+
+		app.put(urlendpoint, auth, function(request, response) {
+			response.setHeader('Content-Type', 'application/json');
+			
+			Attollo.Services.Site.UpdateSite(request.AuthContext, request.body.site)
+			.then(function() {
+				response.json({
+					error: false
+				});
+			})
+			.catch(function (err) {
+				response.status(500).json({
+					error: true,
+					data: {
+						message: err.message
+					}
+				});
+			});
+		});
+
+		app.delete(urlendpoint, auth, function(request, response) {
+			response.setHeader('Content-Type', 'application/json');
+			
+			Attollo.Services.Site.DeleteSite(request.AuthContext, { id: request.query.siteId })
+			.then(function() {
+				response.json({
+					error: false
+				});
+			})
+			.catch(function (err) {
+				response.status(500).json({
+					error: true,
+					data: {
+						message: err.message
+					}
+				});
+			});
+		});
 	};
 	
 	module.exports = new classDef();

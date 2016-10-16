@@ -12,9 +12,5 @@
 		return Context.Handlers.User.GetUser(authContext, username, password);
 	};
 	
-	classDef.prototype.AddUser = function (authContext, user){
-		return Context.Handlers.User.AddUser(authContext, user);
-	};
-	
 	module.exports = classDef;
 })();

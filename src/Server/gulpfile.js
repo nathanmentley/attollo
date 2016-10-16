@@ -3,6 +3,11 @@
     var gulp = require('gulp');
     var watch = require('gulp-watch');
     var merge = require('gulp-merge-json');
+    var docker = (new require('dockerode'))({socketPath: '/var/run/docker.sock'});
+    var serverSideContainerNames = [
+        'attollo-controlcenterapi',
+        'attollo-runnerapi'
+    ];
 
     var util = require('gulp-util');
     var Attollo = {
@@ -40,9 +45,15 @@
              .pipe(gulp.dest('../dist/Server/'));
     });
 
+    gulp.task('Server:restart', ['Server:copy'], function () {
+        for(var i = 0; i < serverSideContainerNames.length; i++) {
+            docker.getContainer(serverSideContainerNames[i]).restart(function (err, data) {});
+        }
+    });
+
     gulp.task('Server:watch', function () {
         return watch('./Server/**/*', function () {
-            return gulp.run(['Server:copy']);
+            return gulp.run(['Server:restart']);
         });
     });
 

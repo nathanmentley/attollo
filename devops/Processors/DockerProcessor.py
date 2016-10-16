@@ -14,7 +14,6 @@ class DockerProcessor:
             #DockerDef(self.path + '/docker/dockerfiles/infrastructure/Dockerfile.mongo', 'attollo/mongo', 'attollo-mongo', [], [], False),
             DockerDef(self.path + '/docker/dockerfiles/infrastructure/Dockerfile.rabbitmq', 'attollo/rabbitmq', 'attollo-rabbitmq', [], [], False),
             DockerDef(self.path + '/docker/dockerfiles/dev/Dockerfile.build', 'attollo/build', 'attollo-build', [], [LinkDef('attollo-psql', 'database')], True),
-            DockerDef(self.path + '/docker/dockerfiles/dev/Dockerfile.dev', 'attollo/dev', 'attollo-dev', [], [], False),
             DockerDef(self.path + '/docker/dockerfiles/web/Dockerfile.runner', 'attollo/runner', 'attollo-runner', [PortMapDef(80, 8080)], [], False),
             DockerDef(self.path + '/docker/dockerfiles/web/Dockerfile.runnerapi', 'attollo/runnerapi', 'attollo-runnerapi', [PortMapDef(80, 8081)], [LinkDef('attollo-psql', 'database')], False),
             DockerDef(self.path + '/docker/dockerfiles/web/Dockerfile.controlcenter', 'attollo/controlcenter', 'attollo-controlcenter', [PortMapDef(80, 8082)], [], False),
@@ -22,6 +21,8 @@ class DockerProcessor:
             DockerDef(self.path + '/docker/dockerfiles/processor/Dockerfile.email', 'attollo/emailprocessor', 'attollo-emailprocessor', [], [LinkDef('attollo-psql', 'database')], False),
             DockerDef(self.path + '/docker/dockerfiles/task/Dockerfile.test', 'attollo/testtask', 'attollo-testtask', [], [LinkDef('attollo-psql', 'database')], False)
         ]
+        if options.env == 'local':
+            self.dockerfiles.append(DockerDef(self.path + '/docker/dockerfiles/dev/Dockerfile.dev', 'attollo/dev', 'attollo-dev', [], [], True));
 
     def stop(self):
         for dockerfile in self.dockerfiles:
@@ -44,7 +45,10 @@ class DockerProcessor:
                 links += ' --link ' + str(linkmap.name) + ':' + str(linkmap.alias)
             
             if dockerfile.foreground:
-                subprocess.call('docker run -it ' + ports + links + ' -v "' + self.path + '/dist":/home/web/dist -v "' + self.path + '/src":/home/web/src --name ' + dockerfile.instancename + ' ' + dockerfile.imagename, shell=True)
+                dockerSocket = ' ';
+                if options.env == 'local': 
+                    dockerSocket = ' -v /var/run/docker.sock:/var/run/docker.sock ';
+                subprocess.call('docker run -it ' + ports + links + ' -v "' + self.path + '/dist":/home/web/dist' + dockerSocket + '-v "' + self.path + '/src":/home/web/src --name ' + dockerfile.instancename + ' ' + dockerfile.imagename, shell=True)
             else:
                 subprocess.call('docker run -d ' + ports + links + ' -v "' + self.path + '/dist":/home/web/dist -v "' + self.path + '/logs":/home/web/logs -v "' + self.path + '/src":/home/web/src --name ' + dockerfile.instancename + ' ' + dockerfile.imagename, shell=True)
         return

@@ -6,25 +6,44 @@
 	var Site = require("./Site");
 	var Client = require("./Client");
 
-	var block = Database.Model.extend({
-		tableName: 'block',
+	var filter = function(authContext, query) {
+		query.join('page', 'page.id', '=', 'block.pageid');
+		query.join('site', 'site.id', '=', 'page.siteid');
+		query.join('client', 'client.id', '=', 'site.clientid');
+		query.where('client.id', '=', authContext.ClientID);
+	};
+
+	var model = function(authContext, skipFilter) {
+		return Database.Model.extend({
+			tableName: 'block',
 			constructor: function() {
 				Database.Model.apply(this, arguments);
-				this.on("fetching", Auid.Fetching(['id', 'pageid', 'blockdefid', 'client.id']));
-				this.on("fetched", Auid.Fetched(['id', 'pageid', 'blockdefid']));
-				this.on("saving", Auid.Saving(['id', 'pageid', 'blockdefid']));
-				this.on("destroying", Auid.Destroying(['id']));
+				this.on("fetching", Auid.Fetching(authContext, filter, ['id', 'pageid', 'blockdefid', 'client.id'], skipFilter));
+				this.on("fetched", Auid.Fetched(authContext, filter, ['id', 'pageid', 'blockdefid'], skipFilter));
+				this.on("saving", Auid.Saving(authContext, filter, ['id', 'pageid', 'blockdefid'], skipFilter));
+				this.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
 			},
-		Page: function() {
-			return this.belongsTo(Page, 'pageid');
-		},
-		Site: function() {
-			return this.belongsTo(Site, 'siteid').through(Page, 'pageid');
-		},
-		Client: function() {
-			return this.belongsTo(Client, 'clientid').through(Page, 'pageid').through(Site, 'siteid');
-		}
-	});
+			Page: function() {
+				return this.belongsTo(Page.Model, 'pageid');
+			},
+			Site: function() {
+				return this.belongsTo(Site.Model, 'siteid').through(Page.Model, 'pageid');
+			},
+			Client: function() {
+				return this.belongsTo(Client.Model, 'clientid').through(Page.Model, 'pageid').through(Site.Model, 'siteid');
+			}
+		});
+	};
 
-	module.exports = block;
+	var collection = function(authContext, skipFilter) {
+		return Database.Bookshelf.Collection.extend({
+			model: model(authContext, skipFilter)
+		}).forge()
+		.on("fetching", Auid.Fetching(authContext, filter, ['id', 'blockdefid', 'pageid', 'client.id'], skipFilter))
+		.on("fetched", Auid.Fetched(authContext, filter, ['id', 'blockdefid', 'pageid'], skipFilter))
+		.on("saving", Auid.Saving(authContext, filter, ['id', 'blockdefid', 'pageid'], skipFilter))
+		.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
+	};
+	
+	module.exports = { Model: model, Collection: collection };
 })();

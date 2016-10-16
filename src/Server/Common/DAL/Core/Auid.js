@@ -14,11 +14,15 @@
                 return null;
             }
         },
-        Fetching: function(fields) {
+        Fetching: function(authContext, filter, fields, skipFilter) {
             var self = this;
 
             return function(model, columns, options) {
                 return new Promise(function(resolve, reject) {
+                    if(!skipFilter) {
+                        filter(authContext, options.query);
+                    }
+
                     if(options.query._statements){
                         for(var i = 0; i < options.query._statements.length; i++) {
                             if(fields.indexOf(options.query._statements[i].column) > -1) {
@@ -31,11 +35,15 @@
                 });
             };
         },
-        Fetched: function(fields) {
+        Fetched: function(authContext, filter, fields, skipFilter) {
             var self = this;
 
             return function(models, result, options) {
                 return new Promise(function(resolve, reject) {
+                    if(!skipFilter) {
+                        filter(authContext, options.query);
+                    }
+
                     for(var i = 0; i < result.length; i++) {
                         var data = {};
                         var model = result[i];
@@ -53,11 +61,15 @@
                 });
             };
         },
-        Saving: function(fields) {
+        Saving: function(authContext, filter, fields, skipFilter) {
             var self = this;
 
             return function(model, columns, options) {
                 return new Promise(function(resolve, reject) {
+                    if(!skipFilter) {
+                        filter(authContext, options.query);
+                    }
+
                     if(model) {
                         var data = [];
                         for(var i = 0; i < fields.length; i++) {
@@ -82,11 +94,15 @@
                 });
             };
         },
-        Destroying: function(fields) {
+        Destroying: function(authContext, filter, fields, skipFilter) {
             var self = this;
 
             return function(model, options) {
                 return new Promise(function(resolve, reject) {
+                    if(!skipFilter) {
+                        filter(authContext, options.query);
+                    }
+
                     if(model) {
                         var data = [];
                         for(var i = 0; i < fields.length; i++) {

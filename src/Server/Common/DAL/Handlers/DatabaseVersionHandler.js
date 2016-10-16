@@ -9,7 +9,7 @@
 	util.inherits(classDef, baseHandler);
 	
 	classDef.prototype.GetDatabaseVersions = function (authContext){
-		return this.Context.DatabaseContext.NonFiltered.DatabaseVersions().fetch();
+		return this.Context.DatabaseContext.DatabaseVersions(authContext).fetch();
 	};
 	
 	module.exports = classDef;

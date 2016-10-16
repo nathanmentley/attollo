@@ -2,8 +2,6 @@
 	var baseHandler = require('../../BaseHandler')
 	var util = require('util');
 
-	var Block = require('../Models/Block');
-
 	var classDef = function (context) {
 		baseHandler.apply(this);
 		this.Context = context;
@@ -20,6 +18,7 @@
 	};
 	
 	classDef.prototype.AddBlock = function (authContext, pageId, blockDef){
+		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block({
 			blockdefid: blockDef.id,
 			pageid: pageId,
@@ -31,12 +30,14 @@
 	};
 	
 	classDef.prototype.UpdateBlock = function (authContext, block){
+		var Block = this.Context.DatabaseContext.Block(authContext, true);
 		var block = new Block(block);
 
 		return block.save();
 	};
 	
 	classDef.prototype.DeleteBlock = function (authContext, block){
+		var Block = this.Context.DatabaseContext.Block(authContext, true);
 		var block = new Block(block);
 
 		return block.destroy();

@@ -109,10 +109,20 @@ export default class PageBuilderPage extends BasePage {
             <Grid>
                 <Row>
                     <Col xs={12} md={12}>
+                        <h3>Widgets</h3>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={12} md={12}>
                         <BlockDefList BlockDefs={this.state.BlockDefs}  AddNewBlock={this.addNewBlock} />
                     </Col>
                 </Row>
 
+                <Row>
+                    <Col xs={12} md={12}>
+                        <h3>Page:</h3>
+                    </Col>
+                </Row>
                 <Row>
                     <Col xs={12} md={3}>
                         <BlockList Blocks={this.state.Blocks} SetEditingBlock={this.setEditingBlock} />

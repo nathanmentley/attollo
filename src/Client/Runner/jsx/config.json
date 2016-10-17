@@ -1,4 +1,4 @@
 {
 	"Environment": "Local",
-	"BaseAPIURL": "http://localhost:7000"
+	"BaseAPIURL": "http://localhost:8081"
 }

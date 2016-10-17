@@ -12,6 +12,10 @@
 		query.join('site', 'site.id', '=', 'page.siteid');
 		query.join('client', 'client.id', '=', 'site.clientid');
 		query.where('client.id', '=', authContext.ClientID);
+
+		if(authContext.SiteID) {
+			query.where('site.id', '=', authContext.SiteID);
+		}
 	};
 
 	var model = function(authContext, skipFilter) {
@@ -19,7 +23,7 @@
 			tableName: 'block',
 			constructor: function() {
 				Database.Model.apply(this, arguments);
-				this.on("fetching", Auid.Fetching(authContext, filter, ['id', 'pageid', 'blockdefid', 'client.id'], skipFilter));
+				this.on("fetching", Auid.Fetching(authContext, filter, ['id', 'pageid', 'blockdefid', 'client.id', 'site.id'], skipFilter));
 				this.on("fetched", Auid.Fetched(authContext, filter, ['id', 'pageid', 'blockdefid'], skipFilter));
 				this.on("saving", Auid.Saving(authContext, filter, ['id', 'pageid', 'blockdefid'], skipFilter));
 				this.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
@@ -46,7 +50,7 @@
 		return Database.Bookshelf.Collection.extend({
 			model: model(authContext, skipFilter)
 		}).forge()
-		.on("fetching", Auid.Fetching(authContext, filter, ['id', 'blockdefid', 'pageid', 'client.id'], skipFilter))
+		.on("fetching", Auid.Fetching(authContext, filter, ['id', 'blockdefid', 'pageid', 'client.id', 'site.id'], skipFilter))
 		.on("fetched", Auid.Fetched(authContext, filter, ['id', 'blockdefid', 'pageid'], skipFilter))
 		.on("saving", Auid.Saving(authContext, filter, ['id', 'blockdefid', 'pageid'], skipFilter))
 		.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));

@@ -46,7 +46,7 @@ class DockerProcessor:
             
             if dockerfile.foreground:
                 dockerSocket = ' ';
-                if options.env == 'local': 
+                if self.options.env == 'local': 
                     dockerSocket = ' -v /var/run/docker.sock:/var/run/docker.sock ';
                 subprocess.call('docker run -it ' + ports + links + ' -v "' + self.path + '/dist":/home/web/dist' + dockerSocket + '-v "' + self.path + '/src":/home/web/src --name ' + dockerfile.instancename + ' ' + dockerfile.imagename, shell=True)
             else:

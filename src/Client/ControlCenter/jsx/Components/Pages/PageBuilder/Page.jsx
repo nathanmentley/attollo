@@ -3,10 +3,10 @@ import { Grid, Row, Col } from 'react-bootstrap';
 
 import ObjectUtils from '../../../Utils/ObjectUtils.jsx';
 
+import BasePage from '../BasePage.jsx';
+
 import BlockDefService from '../../../Services/BlockDefService.jsx';
 import BlockService from '../../../Services/BlockService.jsx';
-
-import BasePage from '../BasePage.jsx';
 
 import BlockEditor from './BlockEditor.jsx';
 import BlockDefList from './BlockDefList.jsx';

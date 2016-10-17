@@ -1,7 +1,4 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
-
-import PageService from '../../../Services/PageService.jsx';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
@@ -9,21 +6,16 @@ export default class PageList extends BaseComponent {
     constructor(props) {
         super(props);
 
-        this.state = {
-            Pages: []
-        };
-    }
-    
-    componentDidMount() {
-        var self = this;
-
-        PageService.GetPages(this.props.SiteID).then((res) => {
-            self.setState({ Pages: res.data.data }); 
-        });
+        this.goToPageBuilder = this.goToPageBuilder.bind(this);
+        this.setEditingPage = this.setEditingPage.bind(this);
     }
 
     goToPageBuilder(pageId) {
-        browserHistory.push("/PageBuilder/" + pageId);
+        this.goToPage("/PageBuilder/" + pageId);
+    }
+
+    setEditingPage(page) {
+        this.props.SetEditingPage(page);
     }
 
     render() {
@@ -32,10 +24,12 @@ export default class PageList extends BaseComponent {
         return (
             <div>
                 {
-                    this.state.Pages.map((x) => {
+                    this.props.Pages.map((x) => {
                         return (
                             <div key={x.id}>
-                                <a onClick={() => { self.goToPageBuilder(x.id); }}>{x.title}</a>
+                                <a onClick={() => { self.setEditingPage(x); }}>{x.title}</a>
+                                <span> - </span>
+                                <a onClick={() => { self.goToPageBuilder(x.id); }}>edit</a>
                             </div>
                         );
                     })

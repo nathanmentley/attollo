@@ -14,11 +14,7 @@ export default class BlockService {
     static SaveBlock(block) {
         return AjaxService.Put(endpoint, { block: block }, {});
     }
-
-    static SaveBlock(block) {
-        return AjaxService.Put(endpoint, { block: block }, {});
-    }
-
+    
     static DeleteBlock(blockId) {
         return AjaxService.Delete(endpoint + "?blockId=" + blockId, {}, {});
     }

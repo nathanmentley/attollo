@@ -20,6 +20,7 @@
 	classDef.prototype.AddPage = function (authContext, siteId){
 		var Page = this.Context.DatabaseContext.Page(authContext);
 		var page = new Page({
+			siteid: siteId,
 			url: '/new-page',
 			title: 'Title'
 		});

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 export default class Html extends React.Component {
     constructor(props) {
@@ -7,7 +8,7 @@ export default class Html extends React.Component {
 
     render() {
         return (
-            <Col dangerouslySetInnerHTML={this.props.Block.compiledtemplate} />
+            <Col dangerouslySetInnerHTML={{__html: this.props.Block.compiledtemplate}} />
         );
     }
 }

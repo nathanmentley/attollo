@@ -20,7 +20,7 @@
 				this.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
 			},
 			Client: function() {
-				return this.belongsTo(Client, 'clientid');
+				return this.belongsTo(Client.Model(authContext, skipFilter), 'clientid');
 			}
 		});
 	};

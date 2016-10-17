@@ -19,6 +19,6 @@
 	classDef.prototype.DeletePage = function (authContext, model){
 		return Context.Handlers.Page.DeletePage(authContext, model);
 	};
-	
+
 	module.exports = classDef;
 })();

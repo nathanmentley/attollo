@@ -5,6 +5,7 @@
 	var Page = require("./Page");
 	var Site = require("./Site");
 	var Client = require("./Client");
+	var BlockDef = require("./BlockDef");
 
 	var filter = function(authContext, query) {
 		query.join('page', 'page.id', '=', 'block.pageid');
@@ -24,13 +25,19 @@
 				this.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
 			},
 			Page: function() {
-				return this.belongsTo(Page.Model, 'pageid');
+				return this.belongsTo(Page.Model(authContext, skipFilter), 'pageid');
 			},
 			Site: function() {
-				return this.belongsTo(Site.Model, 'siteid').through(Page.Model, 'pageid');
+				return this.belongsTo(Site.Model(authContext, skipFilter), 'siteid')
+							.through(Page.Model(authContext, skipFilter), 'pageid');
 			},
 			Client: function() {
-				return this.belongsTo(Client.Model, 'clientid').through(Page.Model, 'pageid').through(Site.Model, 'siteid');
+				return this.belongsTo(Client.Model(authContext, skipFilter), 'clientid')
+							.through(Page.Model(authContext, skipFilter), 'pageid')
+							.through(Site.Model(authContext, skipFilter), 'siteid');
+			},
+			BlockDef: function() {
+				return this.belongsTo(BlockDef.Model(authContext, skipFilter), 'blockdefid');
 			}
 		});
 	};

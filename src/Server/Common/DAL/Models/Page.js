@@ -22,11 +22,12 @@
 				this.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
 			},
 			Site: function() {
-				return this.belongsTo(Site, 'siteid');
+				return this.belongsTo(Site.Model(authContext, skipFilter), 'siteid');
 			},
 			Client: function() {
-				return this.belongsTo(Client, 'clientid').through(Site, 'siteid');
-			}
+				return this.belongsTo(Client.Model(authContext, skipFilter), 'clientid')
+							.through(Site.Model(authContext, skipFilter), 'siteid');
+			},
 		});
 	};
 

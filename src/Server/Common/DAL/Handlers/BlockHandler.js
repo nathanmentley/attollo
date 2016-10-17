@@ -14,7 +14,7 @@
 				where: {
 					pageid: pageId
 				}
-			}).fetch();
+			}).fetch({ withRelated: ['BlockDef'] });
 	};
 	
 	classDef.prototype.AddBlock = function (authContext, pageId, blockDef){

@@ -41,6 +41,6 @@
 
 		return page.destroy();
 	};
-	
+
 	module.exports = classDef;
 })();

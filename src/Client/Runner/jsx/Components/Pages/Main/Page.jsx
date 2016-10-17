@@ -24,10 +24,16 @@ export default class MainPage extends BasePage {
         var self = this;
 
         PageService.GetPages().then((res) => {
-            BlockService.GetBlocks(res.data.data[0].id).then((blockResult) => {
+            var page = res.data.data.find((x) => { return x.url == window.location.pathname; });
+
+            if(!page){
+                page = res.data.data[0];
+            }
+
+            BlockService.GetBlocks(page.id).then((blockResult) => {
                 self.setState({
                     Pages: res.data.data,
-                    Page: res.data.data[0],
+                    Page: page,
                     Blocks: blockResult.data.data
                 }); 
             });

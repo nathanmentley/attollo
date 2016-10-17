@@ -7,9 +7,7 @@ export default class Html extends React.Component {
 
     render() {
         return (
-            <div>
-                html
-            </div>
+            <Col dangerouslySetInnerHTML={this.props.Block.compiledtemplate} />
         );
     }
 }

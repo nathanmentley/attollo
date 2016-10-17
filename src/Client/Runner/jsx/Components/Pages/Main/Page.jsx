@@ -35,9 +35,20 @@ export default class MainPage extends BasePage {
     }
 
     renderBlock(block) {
+        var blockContent = (<Col />);
+
+        switch(block.BlockDef.code) {
+            case 'Html':
+                blockContent = (<HtmlBlock Block={block} />);
+                break;
+            case 'Other':
+                blockContent = (<OtherBlock Block={block} />);
+                break;
+        }
+
         return (
             <Row key={block.id}>
-                <Col>{block.title}</Col>
+                {blockContent}
             </Row>
         );
     }

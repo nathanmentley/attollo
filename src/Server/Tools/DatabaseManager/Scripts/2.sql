@@ -36,5 +36,6 @@ CREATE TABLE IF NOT EXISTS Block (
     BlockDefID integer REFERENCES BlockDef,
     PageID integer REFERENCES Page,
     Title VARCHAR(100) NOT NULL,
-    Template VARCHAR(100) NOT NULL
+    Template VARCHAR(100) NOT NULL,
+    CompiledTemplate VARCHAR(100) NOT NULL
 );

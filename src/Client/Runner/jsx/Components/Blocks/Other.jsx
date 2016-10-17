@@ -7,9 +7,7 @@ export default class Other extends React.Component {
 
     render() {
         return (
-            <div>
-                other
-            </div>
+            <Col dangerouslySetInnerHTML={this.props.Block.compiledtemplate} />
         );
     }
 }

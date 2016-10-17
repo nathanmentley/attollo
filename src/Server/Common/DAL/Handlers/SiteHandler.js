@@ -8,6 +8,15 @@
 	};
 	util.inherits(classDef, baseHandler);
 	
+	classDef.prototype.GetSite = function (authContext, domain){
+		return this.Context.DatabaseContext.Sites(authContext, true)
+			.query({
+				where: {
+					domain: domain
+				}
+			}).fetch();
+	};
+
 	classDef.prototype.GetSites = function (authContext){
 		return this.Context.DatabaseContext.Sites(authContext).fetch();
 	};

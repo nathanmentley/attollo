@@ -4,6 +4,10 @@
 		Context = serviceContext;
 	};
 	
+	classDef.prototype.GetSite = function (authContext, domain){
+		return Context.Handlers.Site.GetSite(authContext, domain);
+	};
+
 	classDef.prototype.GetSites = function (authContext){
 		return Context.Handlers.Site.GetSites(authContext);
 	};

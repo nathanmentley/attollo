@@ -15,7 +15,7 @@ export default class PageService {
         return AjaxService.Put(endpoint, { page: page }, {});
     }
     
-    static DeleteBlock(pageId) {
+    static DeletePage(pageId) {
         return AjaxService.Delete(endpoint + "?pageId=" + pageId, {}, {});
     }
 }

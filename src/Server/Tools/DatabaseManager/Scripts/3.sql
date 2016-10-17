@@ -1,5 +1,5 @@
-INSERT INTO BlockDef(Code, Name) VALUES('HTML', 'Simple Html');
-INSERT INTO BlockDef(Code, Name) VALUES('HTML2', 'Other Html');
+INSERT INTO BlockDef(Code, Name) VALUES('Html', 'Simple Html');
+INSERT INTO BlockDef(Code, Name) VALUES('Other', 'Other Html');
 
 
 

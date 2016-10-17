@@ -1,7 +1,6 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
 
-export default class Header extends React.Component {
+export default class Html extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -9,7 +8,7 @@ export default class Header extends React.Component {
     render() {
         return (
             <div>
-                header
+                html
             </div>
         );
     }

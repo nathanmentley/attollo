@@ -1,6 +1,7 @@
 (function () {
 	var Auid = require("../Core/Auid");
 	var Database = require("../Core/Database");
+	var ModelEvents = require("../Core/ModelEvents");
 
 	var Page = require("./Page");
 	var Site = require("./Site");
@@ -26,6 +27,7 @@
 				this.on("fetching", Auid.Fetching(authContext, filter, ['id', 'pageid', 'blockdefid', 'client.id', 'site.id'], skipFilter));
 				this.on("fetched", Auid.Fetched(authContext, filter, ['id', 'pageid', 'blockdefid'], skipFilter));
 				this.on("saving", Auid.Saving(authContext, filter, ['id', 'pageid', 'blockdefid'], skipFilter));
+				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef']));
 				this.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
 			},
 			Page: function() {
@@ -53,6 +55,7 @@
 		.on("fetching", Auid.Fetching(authContext, filter, ['id', 'blockdefid', 'pageid', 'client.id', 'site.id'], skipFilter))
 		.on("fetched", Auid.Fetched(authContext, filter, ['id', 'blockdefid', 'pageid'], skipFilter))
 		.on("saving", Auid.Saving(authContext, filter, ['id', 'blockdefid', 'pageid'], skipFilter))
+		.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef']))
 		.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
 	};
 	

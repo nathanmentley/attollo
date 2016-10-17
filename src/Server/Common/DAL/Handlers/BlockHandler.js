@@ -17,13 +17,14 @@
 			}).fetch({ withRelated: ['BlockDef'] });
 	};
 	
-	classDef.prototype.AddBlock = function (authContext, pageId, blockDef){
+	classDef.prototype.AddBlock = function (authContext, pageId, blockDef, compiledtemplate){
 		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block({
 			blockdefid: blockDef.id,
 			pageid: pageId,
 			title: blockDef.get('name'),
-			template: '<p>new ' + blockDef.get('name') + ' block</p>'
+			template: '<p>new ' + blockDef.get('name') + ' block</p>',
+			compiledtemplate: compiledtemplate
 		});
 
 		return block.save();

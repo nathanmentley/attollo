@@ -1,3 +1,5 @@
+React = require('react');
+
 //Setup common code.
 require("../../Common/Attollo");
 

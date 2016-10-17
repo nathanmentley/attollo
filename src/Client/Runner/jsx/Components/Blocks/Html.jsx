@@ -7,8 +7,10 @@ export default class Html extends React.Component {
     }
 
     render() {
-        return (
-            <Col dangerouslySetInnerHTML={{__html: this.props.Block.compiledtemplate}} />
-        );
+        var template = eval("var f = function(){ return " + this.props.Block.compiledtemplate + ";}; f() ;") ;
+
+        return template({});
     }
 }
+
+

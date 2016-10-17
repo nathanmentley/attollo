@@ -1,6 +1,6 @@
 (function () {
 	var jsx = require('react-jsx');
-	
+
 	var Context;
 	var classDef = function (serviceContext) {
 		Context = serviceContext;
@@ -11,9 +11,9 @@
 	};
 	
 	classDef.prototype.AddBlock = function (authContext, pageId, blockDef){
-		block.compiledtemplate = _renderTemplate(block.template);
+		var compiledtemplate = _renderTemplate("<p></p>");
 
-		return Context.Handlers.Block.AddBlock(authContext, pageId, blockDef);
+		return Context.Handlers.Block.AddBlock(authContext, pageId, blockDef, compiledtemplate);
 	};
 
 	classDef.prototype.UpdateBlock = function (authContext, block){
@@ -28,7 +28,9 @@
 	
 	//privateMethods
 	var _renderTemplate = function(template) {
-		return jsx.client(template, {});
+		return jsx.client(template).toString()
+				.replace("with (data)", "")
+				.replace("this.props ? this : data", "data");
 	};
 
 	module.exports = classDef;

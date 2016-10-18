@@ -9,21 +9,16 @@ export default class SiteList extends BaseComponent {
     constructor(props) {
         super(props);
 
-        this.state = {
-            Sites: []
-        };
-    }
-    
-    componentDidMount() {
-        var self = this;
-
-        SiteService.GetSites().then((res) => {
-            self.setState({ Sites: res.data.data }); 
-        });
+        this.goToPageBin = this.goToPageBin.bind(this);
+        this.setEditingSite = this.setEditingSite.bind(this);
     }
 
     goToPageBin(siteId) {
         browserHistory.push("/Pages/" + siteId);
+    }
+
+    setEditingSite(site) {
+        this.props.SetEditingSite(site);
     }
 
     render() {
@@ -32,10 +27,12 @@ export default class SiteList extends BaseComponent {
         return (
             <div>
                 {
-                    this.state.Sites.map((x) => {
+                    this.props.Sites.map((x) => {
                         return (
                             <div key={x.id}>
-                                <a onClick={() => { self.goToPageBin(x.id); }}>{x.name}</a>
+                                <a onClick={() => { self.setEditingSite(x); }}>{x.name}</a>
+                                <span> - </span>
+                                <a onClick={() => { self.goToPageBin(x.id); }}>edit</a>
                             </div>
                         );
                     })

@@ -1,7 +1,9 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
-export default class Header extends React.Component {
+import BaseComponent from '../BaseComponent.jsx';
+
+export default class Header extends BaseComponent {
     constructor(props) {
         super(props);
 

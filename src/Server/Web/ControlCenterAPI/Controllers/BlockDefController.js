@@ -7,7 +7,7 @@
 		app.get(urlendpoint, auth, function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
-			Attollo.Services.BlockDef.GetBlockDefs(request.AuthContext)
+			Attollo.Services.Block.GetBlockDefs(request.AuthContext)
 			.then(function (collection) {
 				response.json({
 					error: false,

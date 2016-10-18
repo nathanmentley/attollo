@@ -40,8 +40,10 @@ require("../../Common/Attollo");
 		var auth = require("./AuthConfig");
 		
 	    for (var i = 0; i < items.length; i++) {
-			var controller = require("./Controllers/" + items[i]);
-			controller.Setup(app, express, auth);
+			if(items[i].endsWith('Controller.js')) {
+				var controller = require("./Controllers/" + items[i]);
+				controller.Setup(app, express, auth);
+            }
 	    }
 	});
 

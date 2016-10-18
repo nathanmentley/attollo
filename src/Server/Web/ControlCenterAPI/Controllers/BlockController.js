@@ -27,7 +27,7 @@
 		app.post(urlendpoint, auth, function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
-			Attollo.Services.BlockDef.GetBlockDef(request.AuthContext, request.body.code)
+			Attollo.Services.Block.GetBlockDef(request.AuthContext, request.body.code)
 			.then(function(blockDefCollection) {
 				Attollo.Services.Block.AddBlock(request.AuthContext, request.body.pageId, blockDefCollection.first())
 				.then(function() {

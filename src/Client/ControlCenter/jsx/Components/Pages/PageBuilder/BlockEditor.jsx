@@ -33,7 +33,7 @@ export default class BlockEditor extends BaseComponent {
         return (
             <div>
                 <input type="text" value={this.props.Block.title} onChange={this.updateTitle} />
-                <input type="text" value={this.props.Block.template} onChange={this.updateTemplate} />
+                <textarea type="text" value={this.props.Block.template} onChange={this.updateTemplate} />
                 <a className="btn btn-primary" onClick={this.saveBlock}>Save</a>
                 <a className="btn btn-secondary" onClick={this.deleteBlock}>Delete</a>
             </div>

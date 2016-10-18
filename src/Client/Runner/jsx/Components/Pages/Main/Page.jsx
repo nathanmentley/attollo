@@ -6,9 +6,7 @@ import BasePage from '../BasePage.jsx';
 import PageService from '../../../Services/PageService.jsx';
 import BlockService from '../../../Services/BlockService.jsx';
 
-import HtmlBlock from '../../Blocks/Html.jsx';
-import OtherBlock from '../../Blocks/Other.jsx';
-import SitePagesBlock from '../../Blocks/SitePages.jsx';
+import BlockRenderer from './BlockRenderer.jsx';
 
 export default class MainPage extends BasePage {
     constructor(props) {
@@ -59,28 +57,6 @@ export default class MainPage extends BasePage {
         });
     }
 
-    renderBlock(block) {
-        var blockContent = (<Col />);
-
-        switch(block.BlockDef.code) {
-            case 'Html':
-                blockContent = (<HtmlBlock Block={block} UpdatePage={this.updatePage} />);
-                break;
-            case 'Other':
-                blockContent = (<OtherBlock Block={block} UpdatePage={this.updatePage} />);
-                break;
-            case 'SitePages':
-                blockContent = (<SitePagesBlock Block={block} UpdatePage={this.updatePage} />);
-                break;
-        }
-
-        return (
-            <Row key={block.id}>
-                {blockContent}
-            </Row>
-        );
-    }
-
     render() {
         var self = this;
 
@@ -88,13 +64,7 @@ export default class MainPage extends BasePage {
             return (<Grid/>);
         }else{
             return (
-                <Grid>
-                    {
-                        this.state.Blocks.map((x) => {
-                            return self.renderBlock(x);
-                        })
-                    }
-                </Grid>
+                <BlockRenderer Blocks={this.state.Blocks} UpdatePage={this.updatePage} />
             );
         }
     }

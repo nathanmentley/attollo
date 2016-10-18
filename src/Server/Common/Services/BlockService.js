@@ -6,6 +6,18 @@
 		Context = serviceContext;
 	};
 	
+	//blockDef
+
+	classDef.prototype.GetBlockDefs = function (authContext){
+		return Context.Handlers.Block.GetBlockDefs(authContext);
+	};
+
+	classDef.prototype.GetBlockDef = function (authContext, code) {
+		return Context.Handlers.Block.GetBlockDef(authContext, code);
+	};
+
+	//Block
+
 	classDef.prototype.GetBlocks = function (authContext, pageId){
 		return Context.Handlers.Block.GetBlocks(authContext, pageId);
 	};
@@ -28,9 +40,22 @@
 	
 	//privateMethods
 	var _renderTemplate = function(template) {
+		//Todo: Make this shit not fucking hacky as shit.
 		return jsx.client(template).toString()
 				.replace("with (data)", "")
 				.replace("this.props ? this : data", "data");
+	};
+
+	//BlockSettingDef
+
+	classDef.prototype.GetBlockSettingDefs = function (authContext, blockDefId){
+		return Context.Handlers.Block.GetBlockSettingDefs(authContext, blockDefId);
+	};
+
+	//BlockSetting
+
+	classDef.prototype.GetBlockSettings = function (authContext, block){
+		return Context.Handlers.Block.GetBlockSettings(authContext, block);
 	};
 
 	module.exports = classDef;

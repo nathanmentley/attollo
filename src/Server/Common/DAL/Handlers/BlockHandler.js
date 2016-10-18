@@ -8,6 +8,24 @@
 	};
 	util.inherits(classDef, baseHandler);
 	
+	//BlockDef
+	
+	classDef.prototype.GetBlockDefs = function (authContext){
+		return this.Context.DatabaseContext.BlockDefs(authContext).fetch();
+	};
+
+	classDef.prototype.GetBlockDef = function (authContext, code){
+		return this.Context.DatabaseContext.BlockDefs(authContext)
+				.query({
+					where: {
+						code: code
+					}
+				})
+				.fetch();
+	};
+
+	//Block
+
 	classDef.prototype.GetBlocks = function (authContext, pageId){
 		return this.Context.DatabaseContext.Blocks(authContext)
 			.query({
@@ -42,6 +60,28 @@
 		var block = new Block(model);
 
 		return block.destroy();
+	};
+
+	//BlockSettingDef
+
+	classDef.prototype.GetBlockSettingDefs = function (authContext, blockDefId){
+		return this.Context.DatabaseContext.BlockSettingDefs(authContext)
+			.query({
+				where: {
+					blockdefid: blockDefId
+				}
+			}).fetch();
+	};
+
+	//BlockSettings
+
+	classDef.prototype.GetBlockSettings = function (authContext, blockId){
+		return this.Context.DatabaseContext.BlockSettings(authContext)
+			.query({
+				where: {
+					blockid: blockId
+				}
+			}).fetch();
 	};
 	
 	module.exports = classDef;

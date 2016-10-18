@@ -1,5 +1,6 @@
 INSERT INTO BlockDef(Code, Name) VALUES('Html', 'Simple Html');
 INSERT INTO BlockDef(Code, Name) VALUES('Other', 'Other Html');
+INSERT INTO BlockDef(Code, Name) VALUES('SitePages', 'Site Navigation');
 
 
 

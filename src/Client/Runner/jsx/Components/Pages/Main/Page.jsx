@@ -8,6 +8,7 @@ import BlockService from '../../../Services/BlockService.jsx';
 
 import HtmlBlock from '../../Blocks/Html.jsx';
 import OtherBlock from '../../Blocks/Other.jsx';
+import SitePagesBlock from '../../Blocks/SitePages.jsx';
 
 export default class MainPage extends BasePage {
     constructor(props) {
@@ -18,6 +19,8 @@ export default class MainPage extends BasePage {
             Page: null,
             Blocks: []
         };
+
+        this.updatePage = this.updatePage.bind(this);
     }
     
     componentDidMount() {
@@ -40,15 +43,34 @@ export default class MainPage extends BasePage {
         });
     }
 
+    updatePage(url) {
+        var self = this;
+        var page = this.state.Pages.find((x) => { return x.url == url; });
+
+        if(!page){
+            page = this.state.Pages[0];
+        }
+
+        BlockService.GetBlocks(page.id).then((blockResult) => {
+            self.setState({
+                Page: page,
+                Blocks: blockResult.data.data
+            }); 
+        });
+    }
+
     renderBlock(block) {
         var blockContent = (<Col />);
 
         switch(block.BlockDef.code) {
             case 'Html':
-                blockContent = (<HtmlBlock Block={block} />);
+                blockContent = (<HtmlBlock Block={block} UpdatePage={this.updatePage} />);
                 break;
             case 'Other':
-                blockContent = (<OtherBlock Block={block} />);
+                blockContent = (<OtherBlock Block={block} UpdatePage={this.updatePage} />);
+                break;
+            case 'SitePages':
+                blockContent = (<SitePagesBlock Block={block} UpdatePage={this.updatePage} />);
                 break;
         }
 

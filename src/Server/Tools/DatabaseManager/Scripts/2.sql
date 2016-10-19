@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS BlockSettingDef (
     BlockDefID integer REFERENCES BlockDef,
     Code VARCHAR(255) NOT NULL,
     Name VARCHAR(255) NOT NULL,
-    Default TEXT NOT NULL
+    DefaultValue TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS BlockSetting (
@@ -54,17 +54,3 @@ CREATE TABLE IF NOT EXISTS BlockSetting (
     BlockSettingDefID integer REFERENCES BlockSettingDef,
     Value TEXT NOT NULL
 );
-
-/*
-CREATE TABLE IF NOT EXISTS PageBlocks {
-    ID SERIAL PRIMARY KEY,
-    BlockID integer REFERENCES Block,
-    PageID integer REFERENCES Page
-};
-
-CREATE TABLE IF NOT EXISTS BlockBlocks {
-    ID SERIAL PRIMARY KEY,
-    ParentBlockID integer REFERENCES Block,
-    ChildBlockID integer REFERENCES Block
-};
-*/

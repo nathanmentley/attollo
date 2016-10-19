@@ -1,13 +1,13 @@
 (function () {
 	var classDef = function () {};
 
-	var urlendpoint = '/Blocks';
+	var urlendpoint = '/BlockContainers';
 
 	classDef.prototype.Setup = function (app, express, auth) {
 		app.get(urlendpoint, auth, function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 
-			Attollo.Services.Block.GetBlocks(request.AuthContext, request.query.blockContainerId)
+			Attollo.Services.Block.GetBlockContainers(request.AuthContext, request.query.pageId)
 			.then(function (collection) {
 				response.json({
 					error: false,

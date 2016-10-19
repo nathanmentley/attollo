@@ -13,7 +13,6 @@ export default class BlockRenderer extends BaseComponent {
 
         this.state = {};
 
-        this.renderBlock = this.renderBlock.bind(this);
         this.updatePage = this.updatePage.bind(this);
     }
 
@@ -21,39 +20,23 @@ export default class BlockRenderer extends BaseComponent {
         this.props.UpdatePage(url);
     }
 
-    renderBlock(block) {
-        var blockContent = (<Col />);
+    render() {
+        var blockContent = (<div />);
 
-        switch(block.BlockDef.code) {
-            case 'Html':
-                blockContent = (<HtmlBlock Block={block} UpdatePage={this.updatePage} />);
-                break;
-            case 'Other':
-                blockContent = (<OtherBlock Block={block} UpdatePage={this.updatePage} />);
-                break;
-            case 'SitePages':
-                blockContent = (<SitePagesBlock Block={block} UpdatePage={this.updatePage} />);
-                break;
+        if(this.props.Block) {
+            switch(this.props.Block.BlockDef.code) {
+                case 'Html':
+                    blockContent = (<HtmlBlock Block={this.props.Block} UpdatePage={this.updatePage} />);
+                    break;
+                case 'Other':
+                    blockContent = (<OtherBlock Block={this.props.Block} UpdatePage={this.updatePage} />);
+                    break;
+                case 'SitePages':
+                    blockContent = (<SitePagesBlock Block={this.props.Block} UpdatePage={this.updatePage} />);
+                    break;
+            }
         }
 
-        return (
-            <Row key={block.id}>
-                {blockContent}
-            </Row>
-        );
-    }
-
-    render() {
-        var self = this;
-
-        return (
-            <Grid>
-                {
-                    this.props.Blocks.map((x) => {
-                        return self.renderBlock(x);
-                    })
-                }
-            </Grid>
-        );
+        return blockContent;
     }
 }

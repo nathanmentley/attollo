@@ -5,6 +5,12 @@
 	var classDef = function (serviceContext) {
 		Context = serviceContext;
 	};
+
+	//blockContainer
+
+	classDef.prototype.GetBlockContainers = function (authContext, pageId){
+		return Context.Handlers.Block.GetBlockContainers(authContext, pageId);
+	};
 	
 	//blockDef
 
@@ -18,14 +24,14 @@
 
 	//Block
 
-	classDef.prototype.GetBlocks = function (authContext, pageId){
-		return Context.Handlers.Block.GetBlocks(authContext, pageId);
+	classDef.prototype.GetBlocks = function (authContext, blockContainerId){
+		return Context.Handlers.Block.GetBlocks(authContext, blockContainerId);
 	};
 	
-	classDef.prototype.AddBlock = function (authContext, pageId, blockDef){
+	classDef.prototype.AddBlock = function (authContext, blockContainerId, blockDef){
 		var compiledtemplate = _renderTemplate("<p></p>");
 
-		return Context.Handlers.Block.AddBlock(authContext, pageId, blockDef, compiledtemplate);
+		return Context.Handlers.Block.AddBlock(authContext, blockContainerId, blockDef, compiledtemplate);
 	};
 
 	classDef.prototype.UpdateBlock = function (authContext, block){

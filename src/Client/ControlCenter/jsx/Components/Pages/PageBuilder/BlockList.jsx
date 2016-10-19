@@ -19,7 +19,7 @@ export default class BlockList extends BaseComponent {
         return (
             <div>
                 {
-                    this.props.Blocks.map((x) => {
+                    this.props.Blocks.sort((a, b) => a.displayorder - b.displayorder).map((x) => {
                         return (
                             <div key={x.id}>
                                 <a onClick={() => { self.editBlock(x.id); }}>{x.title}</a>

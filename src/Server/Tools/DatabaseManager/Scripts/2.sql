@@ -31,11 +31,25 @@ CREATE TABLE IF NOT EXISTS Page (
     Title VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS BlockContainerDef (
+    ID SERIAL PRIMARY KEY,
+    Code VARCHAR(255) NOT NULL,
+    Title VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS BlockContainer (
+    ID SERIAL PRIMARY KEY,
+    PageID integer REFERENCES Page,
+    BlockContainerDefID integer REFERENCES BlockContainer,
+    DisplayOrder integer NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS Block (
     ID SERIAL PRIMARY KEY,
     BlockDefID integer REFERENCES BlockDef,
-    PageID integer REFERENCES Page,
+    BlockContainerID integer REFERENCES BlockContainer,
     Title VARCHAR(255) NOT NULL,
+    DisplayOrder integer NOT NULL,
     Template TEXT NOT NULL,
     CompiledTemplate TEXT NOT NULL
 );
@@ -44,7 +58,7 @@ CREATE TABLE IF NOT EXISTS BlockSettingDef (
     ID SERIAL PRIMARY KEY,
     BlockDefID integer REFERENCES BlockDef,
     Code VARCHAR(255) NOT NULL,
-    Name VARCHAR(255) NOT NULL,
+    Title VARCHAR(255) NOT NULL,
     DefaultValue TEXT NOT NULL
 );
 

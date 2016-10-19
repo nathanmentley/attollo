@@ -26,20 +26,20 @@
 
 	//Block
 
-	classDef.prototype.GetBlocks = function (authContext, pageId){
+	classDef.prototype.GetBlocks = function (authContext, blockContainerId){
 		return this.Context.DatabaseContext.Blocks(authContext)
 			.query({
 				where: {
-					pageid: pageId
+					blockcontainerid: blockContainerId
 				}
 			}).fetch({ withRelated: ['BlockDef'] });
 	};
 	
-	classDef.prototype.AddBlock = function (authContext, pageId, blockDef, compiledtemplate){
+	classDef.prototype.AddBlock = function (authContext, blockContainerId, blockDef, compiledtemplate){
 		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block({
 			blockdefid: blockDef.id,
-			pageid: pageId,
+			blockcontainerid: blockContainerId,
 			title: blockDef.get('name'),
 			template: '<p>new ' + blockDef.get('name') + ' block</p>',
 			compiledtemplate: compiledtemplate
@@ -60,6 +60,23 @@
 		var block = new Block(model);
 
 		return block.destroy();
+	};
+
+	//BlockContainerDef
+
+	classDef.prototype.GetBlockContainerDefs = function (authContext){
+		return this.Context.DatabaseContext.BlockContainerDefs(authContext).fetch();
+	};
+
+	//BlockContainer
+
+	classDef.prototype.GetBlockContainers = function (authContext, pageId){
+		return this.Context.DatabaseContext.BlockContainers(authContext)
+			.query({
+				where: {
+					pageid: pageId
+				}
+			}).fetch({ withRelated: ['BlockContainerDef'] });
 	};
 
 	//BlockSettingDef

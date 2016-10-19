@@ -4,9 +4,9 @@ import { Grid, Row, Col } from 'react-bootstrap';
 import BasePage from '../BasePage.jsx';
 
 import PageService from '../../../Services/PageService.jsx';
-import BlockService from '../../../Services/BlockService.jsx';
+import BlockContainerService from '../../../Services/BlockContainerService.jsx';
 
-import BlockRenderer from './BlockRenderer.jsx';
+import BlockContainerRenderer from './BlockContainerRenderer.jsx';
 
 export default class MainPage extends BasePage {
     constructor(props) {
@@ -15,7 +15,7 @@ export default class MainPage extends BasePage {
         this.state = {
             Pages: [],
             Page: null,
-            Blocks: []
+            BlockContainers: []
         };
 
         this.updatePage = this.updatePage.bind(this);
@@ -31,11 +31,11 @@ export default class MainPage extends BasePage {
                 page = res.data.data[0];
             }
 
-            BlockService.GetBlocks(page.id).then((blockResult) => {
+            BlockContainerService.GetBlockContainers(page.id).then((blockResult) => {
                 self.setState({
                     Pages: res.data.data,
                     Page: page,
-                    Blocks: blockResult.data.data
+                    BlockContainers: blockResult.data.data
                 }); 
             });
         });
@@ -49,10 +49,10 @@ export default class MainPage extends BasePage {
             page = this.state.Pages[0];
         }
 
-        BlockService.GetBlocks(page.id).then((blockResult) => {
+        BlockContainerService.GetBlockContainers(page.id).then((blockResult) => {
             self.setState({
                 Page: page,
-                Blocks: blockResult.data.data
+                BlockContainers: blockResult.data.data
             }); 
         });
     }
@@ -64,7 +64,11 @@ export default class MainPage extends BasePage {
             return (<Grid/>);
         }else{
             return (
-                <BlockRenderer Blocks={this.state.Blocks} UpdatePage={this.updatePage} />
+                <Grid>
+                    {this.state.BlockContainers.map((x) => {
+                        return <BlockContainerRenderer key={x.id} BlockContainer={x} UpdatePage={self.updatePage} />
+                    })}
+                </Grid>
             );
         }
     }

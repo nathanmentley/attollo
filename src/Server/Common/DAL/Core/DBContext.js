@@ -5,6 +5,8 @@
 	var BlockDef = require("../Models/BlockDef");
 	var BlockContainer = require("../Models/BlockContainer");
 	var BlockContainerDef = require("../Models/BlockContainerDef");
+	var BlockContainerArea = require("../Models/BlockContainerArea");
+	var BlockContainerAreaDef = require("../Models/BlockContainerAreaDef");
 	var BlockSetting = require("../Models/BlockSetting");
 	var BlockSettingDef = require("../Models/BlockSettingDef");
 	var Client = require("../Models/Client");
@@ -24,6 +26,12 @@
 
 	classDef.prototype.BlockContainerDefs = BlockContainerDef.Collection;
 	classDef.prototype.BlockContainerDef = BlockContainerDef.Model;
+
+	classDef.prototype.BlockContainerAreas = BlockContainerArea.Collection;
+	classDef.prototype.BlockContainerArea = BlockContainerArea.Model;
+
+	classDef.prototype.BlockContainerAreaDefs = BlockContainerAreaDef.Collection;
+	classDef.prototype.BlockContainerAreaDef = BlockContainerAreaDef.Model;
 
 	classDef.prototype.BlockSettings = BlockSetting.Collection;
 	classDef.prototype.BlockSetting = BlockSetting.Model;

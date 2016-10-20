@@ -37,19 +37,31 @@ CREATE TABLE IF NOT EXISTS BlockContainerDef (
     Title VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS BlockContainerAreaDef (
+    ID SERIAL PRIMARY KEY,
+    BlockContainerDefID integer REFERENCES BlockContainerDef,
+    Code VARCHAR(255) NOT NULL,
+    Title VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS BlockContainer (
     ID SERIAL PRIMARY KEY,
     PageID integer REFERENCES Page,
-    BlockContainerDefID integer REFERENCES BlockContainer,
+    BlockContainerDefID integer REFERENCES BlockContainerDef,
     DisplayOrder integer NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS BlockContainerArea (
+    ID SERIAL PRIMARY KEY,
+    BlockContainerID integer REFERENCES BlockContainer,
+    BlockContainerAreaDefID integer REFERENCES BlockContainerAreaDef
 );
 
 CREATE TABLE IF NOT EXISTS Block (
     ID SERIAL PRIMARY KEY,
     BlockDefID integer REFERENCES BlockDef,
-    BlockContainerID integer REFERENCES BlockContainer,
+    BlockContainerAreaID integer REFERENCES BlockContainerArea,
     Title VARCHAR(255) NOT NULL,
-    DisplayOrder integer NOT NULL,
     Template TEXT NOT NULL,
     CompiledTemplate TEXT NOT NULL
 );

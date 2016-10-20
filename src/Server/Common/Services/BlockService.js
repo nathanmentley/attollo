@@ -6,6 +6,12 @@
 		Context = serviceContext;
 	};
 
+	//blockContainerDef
+
+	classDef.prototype.GetBlockContainerDefs = function (authContext){
+		return Context.Handlers.Block.GetBlockContainerDefs(authContext);
+	};
+
 	//blockContainer
 
 	classDef.prototype.GetBlockContainers = function (authContext, pageId){

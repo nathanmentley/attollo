@@ -39,8 +39,8 @@
 			},
 			Client: function() {
 				return this.belongsTo(Client.Model(authContext, skipFilter), 'clientid')
-							.through(Page.Model(authContext, skipFilter), 'pageid')
-							.through(Site.Model(authContext, skipFilter), 'siteid');
+							.through(Site.Model(authContext, skipFilter), 'siteid')
+							.through(Page.Model(authContext, skipFilter), 'pageid');
 			},
 			BlockContainerDef: function() {
 				return this.belongsTo(BlockContainerDef.Model(authContext, skipFilter), 'blockcontainerdefid');

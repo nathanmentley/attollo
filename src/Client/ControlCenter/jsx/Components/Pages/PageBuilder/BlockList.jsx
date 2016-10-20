@@ -16,6 +16,14 @@ export default class BlockList extends BaseComponent {
     render() {
         var self = this;
 
+        if(this.props.Target == null) {
+            return (
+                <div>
+                    No Layout Selected.
+                </div>
+            );
+        }
+
         return (
             <div>
                 {

@@ -6,10 +6,12 @@ import ObjectUtils from '../../../Utils/ObjectUtils.jsx';
 import BasePage from '../BasePage.jsx';
 
 import BlockDefService from '../../../Services/BlockDefService.jsx';
+import BlockContainerDefService from '../../../Services/BlockContainerDefService.jsx';
 import BlockService from '../../../Services/BlockService.jsx';
 
 import BlockEditor from './BlockEditor.jsx';
 import BlockDefList from './BlockDefList.jsx';
+import BlockContainerDefList from './BlockContainerDefList.jsx';
 import BlockList from './BlockList.jsx';
 
 export default class PageBuilderPage extends BasePage {
@@ -18,8 +20,10 @@ export default class PageBuilderPage extends BasePage {
 
         this.state = {
             EditingBlock: null,
+            EditingBlockContainer: null,
             Blocks: [],
-            BlockDefs: []
+            BlockDefs: [],
+            BlockContainerDefs: []
         };
 
         this.setEditingBlock = this.setEditingBlock.bind(this);
@@ -40,6 +44,10 @@ export default class PageBuilderPage extends BasePage {
 
         BlockDefService.GetBlockDefs().then((res) => {
             self.setState({ BlockDefs: res.data.data }); 
+        });
+
+        BlockContainerDefService.GetBlockContainerDefs().then((res) => {
+            self.setState({ BlockContainerDefs: res.data.data }); 
         });
     }
 
@@ -108,13 +116,19 @@ export default class PageBuilderPage extends BasePage {
         return (
             <Grid>
                 <Row>
-                    <Col xs={12} md={12}>
+                    <Col xs={6} md={6}>
+                        <h3>Layouts</h3>
+                    </Col>
+                    <Col xs={6} md={6}>
                         <h3>Widgets</h3>
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={12} md={12}>
-                        <BlockDefList BlockDefs={this.state.BlockDefs}  AddNewBlock={this.addNewBlock} />
+                    <Col xs={6} md={6}>
+                        <BlockContainerDefList BlockContainerDefs={this.state.BlockContainerDefs} AddNewBlockContainer={this.addNewBlock} />
+                    </Col>
+                    <Col xs={6} md={6}>
+                        <BlockDefList BlockDefs={this.state.BlockDefs} AddNewBlock={this.addNewBlock} Target={this.EditingBlockContainer} />
                     </Col>
                 </Row>
 

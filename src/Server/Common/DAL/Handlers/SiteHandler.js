@@ -16,6 +16,16 @@
 				}
 			}).fetch();
 	};
+	
+	classDef.prototype.GetCurrentSiteVersion = function (authContext, site){
+		return this.Context.DatabaseContext.SiteVersions(authContext, true)
+			.query({
+				where: {
+					siteid: site.get('id'),
+					current: true
+				}
+			}).fetch();
+	};
 
 	classDef.prototype.GetSites = function (authContext){
 		return this.Context.DatabaseContext.Sites(authContext).fetch();

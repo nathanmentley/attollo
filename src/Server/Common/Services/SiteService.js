@@ -8,6 +8,10 @@
 		return Context.Handlers.Site.GetSite(authContext, domain);
 	};
 
+	classDef.prototype.GetCurrentSiteVersion = function (authContext, site){
+		return Context.Handlers.Site.GetCurrentSiteVersion(authContext, site);
+	};
+
 	classDef.prototype.GetSites = function (authContext){
 		return Context.Handlers.Site.GetSites(authContext);
 	};

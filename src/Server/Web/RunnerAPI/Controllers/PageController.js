@@ -7,7 +7,7 @@
 		app.get(urlendpoint, auth, function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 
-			Attollo.Services.Page.GetPages(request.AuthContext, request.AuthContext.SiteID)
+			Attollo.Services.Page.GetPages(request.AuthContext, request.AuthContext.SiteVersionID)
 			.then(function (collection) {
 				response.json({
 					error: false,

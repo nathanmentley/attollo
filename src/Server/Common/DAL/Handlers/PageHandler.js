@@ -8,19 +8,19 @@
 	};
 	util.inherits(classDef, baseHandler);
 	
-	classDef.prototype.GetPages = function (authContext, siteId){
+	classDef.prototype.GetPages = function (authContext, siteVersionId){
 		return this.Context.DatabaseContext.Pages(authContext)
 			.query({
 				where: {
-					siteid: siteId
+					siteversionid: siteVersionId
 				}
 			}).fetch();
 	};
 	
-	classDef.prototype.AddPage = function (authContext, siteId){
+	classDef.prototype.AddPage = function (authContext, siteVersionId){
 		var Page = this.Context.DatabaseContext.Page(authContext);
 		var page = new Page({
-			siteid: siteId,
+			siteversionid: siteVersionId,
 			url: '/new-page',
 			title: 'Title'
 		});

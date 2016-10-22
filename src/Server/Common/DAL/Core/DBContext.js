@@ -13,6 +13,7 @@
 	var DatabaseVersion = require("../Models/DatabaseVersion");
 	var Page = require("../Models/Page");
 	var Site = require("../Models/Site");
+	var SiteVersion = require("../Models/SiteVersion");
 	var User = require("../Models/User");
 
 	classDef.prototype.Blocks = Block.Collection;
@@ -50,6 +51,9 @@
 
 	classDef.prototype.Sites = Site.Collection;
 	classDef.prototype.Site = Site.Model;
+
+	classDef.prototype.SiteVersions = SiteVersion.Collection;
+	classDef.prototype.SiteVersion = SiteVersion.Model;
 
 	classDef.prototype.Users = User.Collection;
 	classDef.prototype.User = User.Model;

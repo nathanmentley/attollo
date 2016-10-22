@@ -4,12 +4,12 @@
 		Context = serviceContext;
 	};
 	
-	classDef.prototype.GetPages = function (authContext, siteId){
-		return Context.Handlers.Page.GetPages(authContext, siteId);
+	classDef.prototype.GetPages = function (authContext, siteVersionId){
+		return Context.Handlers.Page.GetPages(authContext, siteVersionId);
 	};
 	
-	classDef.prototype.AddPage = function (authContext, siteId){
-		return Context.Handlers.Page.AddPage(authContext, siteId);
+	classDef.prototype.AddPage = function (authContext, siteVersionId){
+		return Context.Handlers.Page.AddPage(authContext, siteVersionId);
 	};
 
 	classDef.prototype.UpdatePage = function (authContext, model){

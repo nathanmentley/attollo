@@ -53,6 +53,10 @@
         var filename = __dirname + "/Scripts/" + items[i];
         ExecuteSqlScript(filename, recursiveCallback);
 	};
+
+	classDef.prototype.RunCleanSqlScripts = function (callback) {
+		ExecuteSqlScript(__dirname + '/DropScripts/dropattollo.sql', callback);
+	};
 	
 	module.exports = new classDef();
 })();

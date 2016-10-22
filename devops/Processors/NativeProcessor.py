@@ -14,7 +14,8 @@ class NativeProcessor:
         #build
         subprocess.call('nodejs ./node_modules/gulp/bin/gulp.js --Env ' + self.options.env, shell=True)
         #call db manager
-        subprocess.call('nodejs ../dist/Server/Tools/DatabaseManager/app.js ', shell=True)
+        subprocess.call('nodejs ../dist/Server/Tools/DatabaseManager/app.js clean', shell=True)
+        subprocess.call('nodejs ../dist/Server/Tools/DatabaseManager/app.js ensure', shell=True)
 
         #change working dir
         os.chdir('../')

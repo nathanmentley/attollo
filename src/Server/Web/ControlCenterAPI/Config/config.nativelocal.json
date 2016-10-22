@@ -1,5 +1,6 @@
 {
 	"Environment": "NativeLocal",
+	"PortNumber": 8083,
 
     "JwtSecret": ",M.MXz(vq%Kv34Cs",
     

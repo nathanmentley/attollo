@@ -23,6 +23,10 @@
         'Runner:watch',
         'Server:watch'
     ]);
+    gulp.task('watch-native', [
+        'ControlCenter:watch',
+        'Runner:watch'
+    ]);
 
     // Default task
     gulp.task('default', ['build']);

@@ -1,5 +1,6 @@
 {
 	"Environment": "NativeLocal",
+	"PortNumber": 8081,
     
     "DbHost": "elmer-02.db.elephantsql.com",
     "DbUser": "hchrmywz",

@@ -17,7 +17,6 @@
         var handlerContext = require("./HandlerContext");
         
         function LoadHandler(handlerName) {
-			console.log(handlerName);
             var handlerDef = require("./DAL/Handlers/" + handlerName);
             return new handlerDef(handlerContext);
         }

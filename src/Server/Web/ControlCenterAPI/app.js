@@ -53,6 +53,11 @@ require("../../Common/Attollo");
 	app.listen(app.get('port'), function() {
 		Attollo.Utils.Log.Info('Node app is running on port ' + app.get('port'));
 	});
-	
-	//Attollo.App.Stop();
+
+	//do something when app is closing
+	process.on('exit', function(options, err) { Attollo.App.Stop(); });
+	//catches ctrl+c event
+	process.on('SIGINT', function(options, err) { Attollo.App.Stop(); });
+	//catches uncaught exceptions
+	process.on('uncaughtException', function(options, err) { Attollo.App.Stop(); });
 })();

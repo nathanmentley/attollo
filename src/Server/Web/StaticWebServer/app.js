@@ -20,4 +20,11 @@ require("../../Common/Attollo");
     app.get('*', function(req, res){
         res.sendFile(webroot + '/index.html');
     });
+
+	//do something when app is closing
+	process.on('exit', function(options, err) { Attollo.App.Stop(); });
+	//catches ctrl+c event
+	process.on('SIGINT', function(options, err) { Attollo.App.Stop(); });
+	//catches uncaught exceptions
+	process.on('uncaughtException', function(options, err) { Attollo.App.Stop(); });
 })();

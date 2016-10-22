@@ -2,7 +2,7 @@
 	var fs = require('fs');
 	var os = require("os");
 
-	var LOGS_DIR = '/../../../../logs/';
+	var LOGS_DIR = Attollo.Utils.Config.LogDir;
 
 	var classDef = function () {};
 	

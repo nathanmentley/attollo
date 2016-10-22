@@ -1,0 +1,9 @@
+{
+    "Environment": "NativeLocal",
+    
+    "DbHost": "elmer-02.db.elephantsql.com",
+    "DbUser": "hchrmywz",
+    "DbPass": "2FORYgOiUgxoX9QzLu2SBMaxkaW6tvGM",
+    "DbPort": 5432,
+    "DbName": "hchrmywz"
+}

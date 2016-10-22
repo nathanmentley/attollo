@@ -2,12 +2,14 @@ import sys
 
 from DevOpsOptions import DevOpsOptions
 from Processors.DockerProcessor import DockerProcessor
+from Processors.NativeProcessor import NativeProcessor
 
 def main():
     options = DevOpsOptions();
 
     if options:
         dockerProcessor = DockerProcessor(options)
+        nativeProcessor = NativeProcessor(options)
 
         if options.command == 'start':
             dockerProcessor.build()
@@ -18,6 +20,8 @@ def main():
             dockerProcessor.build()
         elif options.command == 'run':
             dockerProcessor.run()
+        elif options.command == 'native-run':
+            nativeProcessor.run()
         else:
             print("unkonwn command.")
         return

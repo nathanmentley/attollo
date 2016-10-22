@@ -1,0 +1,5 @@
+{
+    "Environment": "NativeLocal",
+    
+    "BaseAPIURL": "http://localhost:8081"
+}

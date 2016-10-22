@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS DatabaseVersion;
+
 CREATE TABLE IF NOT EXISTS DatabaseVersion (
     ID SERIAL PRIMARY KEY,
     VersionID INT NOT NULL

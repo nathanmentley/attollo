@@ -50,14 +50,14 @@ require("../../Common/Attollo");
 	});
 
 	//begin server
-	app.listen(app.get('port'), function() {
+	var server = app.listen(app.get('port'), function() {
 		Attollo.Utils.Log.Info('Node app is running on port ' + app.get('port'));
 	});
 
 	//do something when app is closing
-	process.on('exit', function(options, err) { Attollo.App.Stop(); });
+	process.on('exit', function(options, err) { Attollo.App.Stop(); server.close(); });
 	//catches ctrl+c event
-	process.on('SIGINT', function(options, err) { Attollo.App.Stop(); });
+	process.on('SIGINT', function(options, err) { Attollo.App.Stop(); server.close(); });
 	//catches uncaught exceptions
-	process.on('uncaughtException', function(options, err) { Attollo.App.Stop(); });
+	process.on('uncaughtException', function(options, err) { Attollo.App.Stop(); server.close(); });
 })();

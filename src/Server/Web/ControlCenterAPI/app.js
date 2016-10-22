@@ -24,10 +24,13 @@ require("../../Common/Attollo");
 	app.set('port', Attollo.Utils.Config.PortNumber);
 	
 	//Setup Json Body Parser
-	app.use(require('body-parser').json())
+	app.use(require('body-parser').json());
 	
 	//Force HTTPS on non local
-	if (Attollo.Utils.Config.Environment != "Local" && Attollo.Utils.Config.Environment != "Demo") {
+	if (Attollo.Utils.Config.Environment != "Local" &&
+			Attollo.Utils.Config.Environment != "NativeLocal" &&
+			Attollo.Utils.Config.Environment != "Demo"
+	) {
 		app.use(function(request, response, next) {
 				if (request.headers['x-forwarded-proto'] != 'https') {
 						response.redirect('https://' + request.headers.host + request.path);

@@ -14,7 +14,23 @@ require("../../Common/Attollo");
 
 
     var app = express();
+
     app.set('port', port || Attollo.Utils.Config.PortNumber);
+
+	//Force HTTPS on non local
+	if (Attollo.Utils.Config.Environment != "Local" &&
+			Attollo.Utils.Config.Environment != "NativeLocal" &&
+			Attollo.Utils.Config.Environment != "Demo"
+	) {
+		app.use(function(request, response, next) {
+				if (request.headers['x-forwarded-proto'] != 'https') {
+						response.redirect('https://' + request.headers.host + request.path);
+				} else {
+						return next();
+				}
+		});
+	}
+
     app.use(express.static(webroot));
     
     // Listen for requests

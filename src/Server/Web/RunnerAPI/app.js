@@ -22,7 +22,7 @@ require("../../Common/Attollo");
 	app.set('port', Attollo.Utils.Config.PortNumber);
 	
 	//Setup Json Body Parser
-	app.use(require('body-parser').json())
+	app.use(require('body-parser').json());
 	
 	//Force HTTPS on non local
 	if (Attollo.Utils.Config.Environment != "Local" &&

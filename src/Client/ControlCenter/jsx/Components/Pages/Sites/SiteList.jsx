@@ -1,5 +1,6 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
+import { Table } from 'react-bootstrap';
 
 import SiteService from '../../../Services/SiteService.jsx';
 
@@ -25,19 +26,26 @@ export default class SiteList extends BaseComponent {
         var self = this;
 
         return (
-            <div>
-                {
-                    this.props.Sites.map((x) => {
-                        return (
-                            <div key={x.id}>
-                                <a onClick={() => { self.setEditingSite(x); }}>{x.name}</a>
-                                <span> - </span>
-                                <a onClick={() => { self.goToSiteVersionBin(x.id); }}>edit</a>
-                            </div>
-                        );
-                    })
-                }
-            </div>
+            <Table striped bordered condensed hover>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        this.props.Sites.map((x) => {
+                            return (
+                                <tr key={x.id}>
+                                    <td onClick={() => { self.goToSiteVersionBin(x.id); }}>{x.name}</td>
+                                    <td onClick={() => { self.setEditingSite(x); }}>edit</td>
+                                </tr>
+                            );
+                        })
+                    }
+                </tbody>
+            </Table>
         );
     }
 }

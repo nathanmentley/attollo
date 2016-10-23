@@ -30,24 +30,16 @@ export default class App extends React.Component {
 
     render() {
         return(
-            <Grid>
-                <Row>
-                    <Col xs={1} md={2} />
+            <Grid className="app-router">
+                <Header IsAuthenticated={this.state.IsAuthenticated} />
 
-                    <Col xs={10} md={8} >
-                        <Header IsAuthenticated={this.state.IsAuthenticated} />
-
-                        <Row className="content">
-                            <Col xs={12} md={12} >
-                                <Routing />
-                            </Col>
-                        </Row>
-
-                        <Footer IsAuthenticated={this.state.IsAuthenticated} />
+                <Row className="page-row">
+                    <Col xs={12} md={12} className="page-content">
+                        <Routing />
                     </Col>
-
-                    <Col xs={1} md={2} />
                 </Row>
+
+                <Footer IsAuthenticated={this.state.IsAuthenticated} />
             </Grid>
         );
     }

@@ -18,12 +18,17 @@ export default class BlockContainerEditor extends BaseComponent {
 
     render() {
         return (
-            <BlockContainerRenderer
-                BlockContainer={this.props.BlockContainer}
-                BlockRenderer={BlockRenderer}
-                BlockService={BlockService}
-                UpdatePage={self.updatePage}
-            />
+            <div>
+                <div>
+                    {this.props.BlockContainer.BlockContainerDef.title}
+                </div>
+                <BlockContainerRenderer
+                    BlockContainer={this.props.BlockContainer}
+                    BlockRenderer={BlockRenderer}
+                    BlockService={BlockService}
+                    UpdatePage={self.updatePage}
+                />
+            </div>
         );
     }
 }

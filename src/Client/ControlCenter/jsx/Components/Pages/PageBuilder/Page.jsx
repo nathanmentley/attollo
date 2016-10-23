@@ -103,6 +103,19 @@ export default class PageBuilderPage extends BasePage {
         });*/
     }
 
+    addNewBlockContainer(code) {
+        var self = this;
+
+        /*
+        BlockService.AddBlock(this.props.params.PageID, code).then((addResult) => {
+            BlockService.GetBlocks(this.props.params.PageID).then((getResult) => {
+                self.setState({ Blocks: getResult.data.data }, () => {
+                    //self.setEditingBlock(*somehow get new block*);
+                }); 
+            });
+        });*/
+    }
+
     render() {
         var editingBlock = <div />;
         if(this.state.EditingBlock != null){
@@ -127,7 +140,7 @@ export default class PageBuilderPage extends BasePage {
                 </Row>
                 <Row>
                     <Col xs={6} md={6}>
-                        <BlockContainerDefList BlockContainerDefs={this.state.BlockContainerDefs} AddNewBlockContainer={this.addNewBlock} />
+                        <BlockContainerDefList BlockContainerDefs={this.state.BlockContainerDefs} AddNewBlockContainer={this.addNewBlockContainer} />
                     </Col>
                     <Col xs={6} md={6}>
                         <BlockDefList BlockDefs={this.state.BlockDefs} AddNewBlock={this.addNewBlock} />

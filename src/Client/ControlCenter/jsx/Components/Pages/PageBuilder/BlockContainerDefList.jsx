@@ -22,7 +22,7 @@ export default class BlockContainerDefList extends BaseComponent {
                     this.props.BlockContainerDefs.map((x) => {
                         return (
                             <div key={x.code}>
-                                <a onClick={() => {self.addBlock(x.code)}}>{x.title}</a>
+                                <a onClick={() => {self.addBlockContainer(x.code)}}>{x.title}</a>
                             </div>
                         );
                     })

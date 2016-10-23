@@ -2,7 +2,7 @@ import React from 'react';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
-export default class BlockList extends BaseComponent {
+export default class BlockAreaList extends BaseComponent {
     constructor(props) {
         super(props);
 

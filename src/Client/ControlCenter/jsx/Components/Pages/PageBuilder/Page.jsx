@@ -7,12 +7,13 @@ import BasePage from '../BasePage.jsx';
 
 import BlockDefService from '../../../Services/BlockDefService.jsx';
 import BlockContainerDefService from '../../../Services/BlockContainerDefService.jsx';
+import BlockContainerService from '../../../Services/BlockContainerService.jsx';
 import BlockService from '../../../Services/BlockService.jsx';
 
 import BlockEditor from './BlockEditor.jsx';
 import BlockDefList from './BlockDefList.jsx';
 import BlockContainerDefList from './BlockContainerDefList.jsx';
-import BlockList from './BlockList.jsx';
+import BlockContainerList from './BlockContainerList.jsx';
 
 export default class PageBuilderPage extends BasePage {
     constructor(props) {
@@ -20,8 +21,7 @@ export default class PageBuilderPage extends BasePage {
 
         this.state = {
             EditingBlock: null,
-            EditingBlockContainer: null,
-            Blocks: [],
+            BlockContainers: [],
             BlockDefs: [],
             BlockContainerDefs: []
         };
@@ -38,8 +38,8 @@ export default class PageBuilderPage extends BasePage {
     componentDidMount() {
         var self = this;
 
-        BlockService.GetBlocks(this.props.params.PageID).then((res) => {
-            self.setState({ Blocks: res.data.data }); 
+        BlockContainerService.GetBlockContainers(this.props.params.PageID).then((res) => {
+            self.setState({ BlockContainers: res.data.data }); 
         });
 
         BlockDefService.GetBlockDefs().then((res) => {
@@ -128,7 +128,7 @@ export default class PageBuilderPage extends BasePage {
                         <BlockContainerDefList BlockContainerDefs={this.state.BlockContainerDefs} AddNewBlockContainer={this.addNewBlock} />
                     </Col>
                     <Col xs={6} md={6}>
-                        <BlockDefList BlockDefs={this.state.BlockDefs} AddNewBlock={this.addNewBlock} Target={this.EditingBlockContainer} />
+                        <BlockDefList BlockDefs={this.state.BlockDefs} AddNewBlock={this.addNewBlock} />
                     </Col>
                 </Row>
 
@@ -139,7 +139,7 @@ export default class PageBuilderPage extends BasePage {
                 </Row>
                 <Row>
                     <Col xs={12} md={3}>
-                        <BlockList Blocks={this.state.Blocks} SetEditingBlock={this.setEditingBlock} />
+                        <BlockContainerList BlockContainers={this.state.BlockContainers} SetEditingBlock={this.setEditingBlock} />
                     </Col>
 
                     <Col xs={12} md={9}>

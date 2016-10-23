@@ -37,7 +37,11 @@ export default class SitesPage extends BasePage {
     }
 
     setEditingSite(site) {
-        this.setState({ EditingSite: ObjectUtils.Clone(site) });
+        if(site) {
+            this.setState({ EditingSite: ObjectUtils.Clone(site) });
+        } else {
+            this.setState({ EditingSite: null });
+        }
     }
 
     updateEditingSiteName(name) {
@@ -57,7 +61,7 @@ export default class SitesPage extends BasePage {
 
         SiteService.SaveSite(this.state.EditingSite).then((saveResult) => {
             SiteService.GetSites().then((getResult) => {
-                self.setState({ Sites: getResult.data.data }, () => {
+                self.setState({ Sites: getResult.data.data, EditingSite: null }, () => {
                     //self.setEditingSite(*somehow get update Site*);
                 }); 
             });
@@ -93,6 +97,7 @@ export default class SitesPage extends BasePage {
                 UpdateDomain={this.updateEditingSiteDomain}
                 SaveSite={this.saveSite}
                 DeleteSite={this.deleteSite}
+                SetEditingSite={this.setEditingSite}
             />;
         }
 
@@ -105,13 +110,11 @@ export default class SitesPage extends BasePage {
                 </Row>
 
                 <Row>
-                    <Col xs={12} md={3}>
+                    <Col xs={12} md={12}>
                         <SiteList Sites={this.state.Sites} SetEditingSite={this.setEditingSite} />
                     </Col>
 
-                    <Col xs={12} md={9}>
-                        {editingSite}
-                    </Col>
+                    {editingSite}
                 </Row>
             </Grid>
         );

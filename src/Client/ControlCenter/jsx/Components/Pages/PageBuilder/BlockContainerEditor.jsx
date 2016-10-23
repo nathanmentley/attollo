@@ -4,30 +4,26 @@ import BaseComponent from '../../BaseComponent.jsx';
 
 import BlockService from '../../../Services/BlockService.jsx';
 
-import BlockList from './BlockList.jsx';
+import BlockContainerRenderer from '../../../../../Common/jsx/Components/BlockContainerRenderer.jsx';
+import BlockRenderer from './BlockRenderer.jsx';
 
 export default class BlockContainerEditor extends BaseComponent {
     constructor(props) {
         super(props);
 
-        this.state = {
-            Blocks: []
-        };
+        this.updatePage = this.updatePage.bind(this);
     }
 
-    componentDidMount() {
-        var self = this;
-
-        BlockService.GetBlocks(this.props.BlockContainer.id).then((res) => {
-            self.setState({ Blocks: res.data.data }); 
-        });
-    }
+    updatePage() { }
 
     render() {
         return (
-            <div>
-                <BlockList Blocks={this.state.Blocks} SetEditingBlock={this.props.SetEditingBlock} />
-            </div>
+            <BlockContainerRenderer
+                BlockContainer={this.props.BlockContainer}
+                BlockRenderer={BlockRenderer}
+                BlockService={BlockService}
+                UpdatePage={self.updatePage}
+            />
         );
     }
 }

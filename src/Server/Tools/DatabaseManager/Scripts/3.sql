@@ -36,7 +36,7 @@ INSERT INTO Block(BlockDefID, BlockContainerAreaID, Title, Template, CompiledTem
 INSERT INTO Page(SiteVersionID, Url, Title) VALUES(1, '/price', 'price title');
 INSERT INTO BlockContainer(PageID, BlockContainerDefID, DisplayOrder) VALUES(2, 1, 1);
 INSERT INTO BlockContainerArea(BlockContainerID, BlockContainerAreaDefID) VALUES(2, 1);
-INSERT INTO Block(BlockDefID, BlockContainerAreaID, Title, Template, CompiledTemplate) VALUES(1, 2, 'Price Hero', '<p>price</p>', 'function anonymous(data,config/**/) {data = data || {};var nodes = (function jsx() {return React.createElement("p",null,"price");}).call(data),options = {"render":"renderToString"};if ("DOM" === options.render || !(config || {}).html) return nodes;return ReactDOM[options.render](nodes);}');
+INSERT INTO Block(BlockDefID, BlockContainerAreaID, Title, Template, CompiledTemplate) VALUES(1, 3, 'Price Hero', '<p>price</p>', 'function anonymous(data,config/**/) {data = data || {};var nodes = (function jsx() {return React.createElement("p",null,"price");}).call(data),options = {"render":"renderToString"};if ("DOM" === options.render || !(config || {}).html) return nodes;return ReactDOM[options.render](nodes);}');
 
 
 
@@ -48,8 +48,8 @@ INSERT INTO SiteVersion(SiteID, Current) VALUES(2, TRUE);
 INSERT INTO Page(SiteVersionID, Url, Title) VALUES(2, '/home', 'home title 2');
 INSERT INTO BlockContainer(PageID, BlockContainerDefID, DisplayOrder) VALUES(3, 1, 1);
 INSERT INTO BlockContainerArea(BlockContainerID, BlockContainerAreaDefID) VALUES(3, 1);
-INSERT INTO Block(BlockDefID, BlockContainerAreaID, Title, Template, CompiledTemplate) VALUES(2, 3, 'Home Hero', '<p>home 2</p>', 'function anonymous(data,config/**/) {data = data || {};var nodes = (function jsx() {return React.createElement("p",null,"home 2");}).call(data),options = {"render":"renderToString"};if ("DOM" === options.render || !(config || {}).html) return nodes;return ReactDOM[options.render](nodes);}');
+INSERT INTO Block(BlockDefID, BlockContainerAreaID, Title, Template, CompiledTemplate) VALUES(2, 4, 'Home Hero', '<p>home 2</p>', 'function anonymous(data,config/**/) {data = data || {};var nodes = (function jsx() {return React.createElement("p",null,"home 2");}).call(data),options = {"render":"renderToString"};if ("DOM" === options.render || !(config || {}).html) return nodes;return ReactDOM[options.render](nodes);}');
 INSERT INTO Page(SiteVersionID, Url, Title) VALUES(2, '/price', 'price title 2');
 INSERT INTO BlockContainer(PageID, BlockContainerDefID, DisplayOrder) VALUES(4, 1, 1);
 INSERT INTO BlockContainerArea(BlockContainerID, BlockContainerAreaDefID) VALUES(4, 1);
-INSERT INTO Block(BlockDefID, BlockContainerAreaID, Title, Template, CompiledTemplate) VALUES(2, 4, 'Price Hero', '<p>price 2</p>', 'function anonymous(data,config/**/) {data = data || {};var nodes = (function jsx() {return React.createElement("p",null,"price 2");}).call(data),options = {"render":"renderToString"};if ("DOM" === options.render || !(config || {}).html) return nodes;return ReactDOM[options.render](nodes);}');
+INSERT INTO Block(BlockDefID, BlockContainerAreaID, Title, Template, CompiledTemplate) VALUES(2, 5, 'Price Hero', '<p>price 2</p>', 'function anonymous(data,config/**/) {data = data || {};var nodes = (function jsx() {return React.createElement("p",null,"price 2");}).call(data),options = {"render":"renderToString"};if ("DOM" === options.render || !(config || {}).html) return nodes;return ReactDOM[options.render](nodes);}');

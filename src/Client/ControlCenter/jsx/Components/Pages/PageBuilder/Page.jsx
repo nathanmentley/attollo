@@ -8,7 +8,6 @@ import BasePage from '../BasePage.jsx';
 import BlockDefService from '../../../Services/BlockDefService.jsx';
 import BlockContainerDefService from '../../../Services/BlockContainerDefService.jsx';
 import BlockContainerService from '../../../Services/BlockContainerService.jsx';
-import BlockService from '../../../Services/BlockService.jsx';
 
 import BlockEditor from './BlockEditor.jsx';
 import BlockDefList from './BlockDefList.jsx';
@@ -70,35 +69,38 @@ export default class PageBuilderPage extends BasePage {
     saveBlock() {
         var self = this;
 
+        /*
         BlockService.SaveBlock(this.state.EditingBlock).then((saveResult) => {
             BlockService.GetBlocks(this.props.params.PageID).then((getResult) => {
-                self.setState({ Blocks: getResult.data.data }, () => {
+                self.setState({ Blocks: getResBlockContainerListult.data.data }, () => {
                     //self.setEditingBlock(*somehow get update block*);
                 }); 
             });
-        });
+        });*/
     }
 
     deleteBlock() {
         var self = this;
 
+        /*
         BlockService.DeleteBlock(this.state.EditingBlock.id).then((saveResult) => {
             BlockService.GetBlocks(this.props.params.PageID).then((getResult) => {
                 self.setState({ Blocks: getResult.data.data, EditingBlock: null }); 
             });
-        });
+        });*/
     }
 
     addNewBlock(code) {
         var self = this;
 
+        /*
         BlockService.AddBlock(this.props.params.PageID, code).then((addResult) => {
             BlockService.GetBlocks(this.props.params.PageID).then((getResult) => {
                 self.setState({ Blocks: getResult.data.data }, () => {
                     //self.setEditingBlock(*somehow get new block*);
                 }); 
             });
-        });
+        });*/
     }
 
     render() {

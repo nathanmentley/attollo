@@ -2,7 +2,7 @@ import React from 'react';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
-export default class BlockAreaList extends BaseComponent {
+export default class BlockList extends BaseComponent {
     constructor(props) {
         super(props);
 
@@ -15,14 +15,6 @@ export default class BlockAreaList extends BaseComponent {
 
     render() {
         var self = this;
-
-        if(this.props.Target == null) {
-            return (
-                <div>
-                    No Layout Selected.
-                </div>
-            );
-        }
 
         return (
             <div>

@@ -29,7 +29,7 @@
 			
 			Attollo.Services.Block.GetBlockDef(request.AuthContext, request.body.code)
 			.then(function(blockDefCollection) {
-				Attollo.Services.Block.AddBlock(request.AuthContext, request.body.pageId, blockDefCollection.first())
+				Attollo.Services.Block.AddBlock(request.AuthContext, request.body.blockContainerId, blockDefCollection.first())
 				.then(function() {
 					response.json({
 						error: false

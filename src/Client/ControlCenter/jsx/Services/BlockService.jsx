@@ -3,12 +3,12 @@ import AjaxService from './AjaxService.jsx';
 var endpoint = "/Blocks";
 
 export default class BlockService {
-    static GetBlocks(pageId) {
-        return AjaxService.Get(endpoint + "?pageId=" + pageId, {}, {});
+    static GetBlocks(blockContainerId) {
+        return AjaxService.Get(endpoint + "?blockContainerId=" + blockContainerId, {}, {});
     }
 
-    static AddBlock(pageId, code) {
-        return AjaxService.Post(endpoint, { pageId: pageId, code: code }, {});
+    static AddBlock(blockContainerId, code) {
+        return AjaxService.Post(endpoint, { blockContainerId: blockContainerId, code: code }, {});
     }
 
     static SaveBlock(block) {

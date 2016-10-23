@@ -29,8 +29,9 @@ INSERT INTO Admin(ClientID, Name, Password, Salt) VALUES(1, 'attollo', 'password
 INSERT INTO Site(ClientID, Domain, Name) VALUES(1, 'nathans-mbp.hsd1.or.comcast.net:8080', 'Public Site');
 INSERT INTO SiteVersion(SiteID, Current) VALUES(1, TRUE);
 INSERT INTO Page(SiteVersionID, Url, Title) VALUES(1, '/home', 'home title');
-INSERT INTO BlockContainer(PageID, BlockContainerDefID, DisplayOrder) VALUES(1, 1, 1);
-INSERT INTO BlockContainerArea(BlockContainerID, BlockContainerAreaDefID) VALUES(1, 1);
+INSERT INTO BlockContainer(PageID, BlockContainerDefID, DisplayOrder) VALUES(1, 2, 1);
+INSERT INTO BlockContainerArea(BlockContainerID, BlockContainerAreaDefID) VALUES(1, 2);
+INSERT INTO BlockContainerArea(BlockContainerID, BlockContainerAreaDefID) VALUES(1, 3);
 INSERT INTO Block(BlockDefID, BlockContainerAreaID, Title, Template, CompiledTemplate) VALUES(1, 1, 'Home Hero', '<p>home</p>', 'function anonymous(data,config/**/) {data = data || {};var nodes = (function jsx() {return React.createElement("p",null,"home");}).call(data),options = {"render":"renderToString"};if ("DOM" === options.render || !(config || {}).html) return nodes;return ReactDOM[options.render](nodes);}');
 INSERT INTO Page(SiteVersionID, Url, Title) VALUES(1, '/price', 'price title');
 INSERT INTO BlockContainer(PageID, BlockContainerDefID, DisplayOrder) VALUES(2, 1, 1);

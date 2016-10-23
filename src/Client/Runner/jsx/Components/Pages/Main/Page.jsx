@@ -4,9 +4,11 @@ import { Grid, Row, Col } from 'react-bootstrap';
 import BasePage from '../BasePage.jsx';
 
 import PageService from '../../../Services/PageService.jsx';
+import BlockService from '../../../Services/BlockService.jsx';
 import BlockContainerService from '../../../Services/BlockContainerService.jsx';
 
-import BlockContainerRenderer from './BlockContainerRenderer.jsx';
+import BlockContainerRenderer from '../../../../../Common/jsx/Components/BlockContainerRenderer.jsx';
+import BlockRenderer from './BlockRenderer.jsx';
 
 export default class MainPage extends BasePage {
     constructor(props) {
@@ -66,7 +68,13 @@ export default class MainPage extends BasePage {
             return (
                 <Grid>
                     {this.state.BlockContainers.map((x) => {
-                        return <BlockContainerRenderer key={x.id} BlockContainer={x} UpdatePage={self.updatePage} />
+                        return <BlockContainerRenderer
+                            key={x.id}
+                            BlockContainer={x}
+                            BlockRenderer={BlockRenderer}
+                            BlockService={BlockService}
+                            UpdatePage={self.updatePage}
+                        />
                     })}
                 </Grid>
             );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 
-import BaseComponent from '../../BaseComponent.jsx';
+import BaseComponent from '../../../../../Common/jsx/Components/BaseComponent.jsx';
 
 import HtmlBlock from '../../Blocks/Html.jsx';
 import OtherBlock from '../../Blocks/Other.jsx';

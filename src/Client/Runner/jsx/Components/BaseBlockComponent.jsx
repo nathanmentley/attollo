@@ -1,7 +1,7 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
-import BaseComponent from './BaseComponent.jsx';
+import BaseComponent from '../../../Common/jsx/Components/BaseComponent.jsx';
 
 export default class BaseBlockComponent extends BaseComponent {
     constructor(props) {

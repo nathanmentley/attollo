@@ -2,7 +2,6 @@ import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 import BaseBlockContainerComponent from '../BaseBlockContainerComponent.jsx';
-import BlockRenderer from '../Pages/Main/BlockRenderer.jsx';
 
 export default class TwoCol extends BaseBlockContainerComponent {
     constructor(props) {
@@ -15,10 +14,10 @@ export default class TwoCol extends BaseBlockContainerComponent {
         return (
             <Row>
                 <Col xs={12} md={6}>
-                    <BlockRenderer Block={self.getBlockForAreaCode('First')} UpdatePage={this.updatePage} />
+                    <this.props.BlockRenderer Block={self.getBlockForAreaCode('First')} UpdatePage={this.updatePage} />
                 </Col>
                 <Col xs={12} md={6}>
-                    <BlockRenderer Block={self.getBlockForAreaCode('Second')} UpdatePage={this.updatePage} />
+                    <this.props.BlockRenderer Block={self.getBlockForAreaCode('Second')} UpdatePage={this.updatePage} />
                 </Col>
             </Row>
         );

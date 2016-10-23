@@ -8,6 +8,7 @@ import Login from '../Components/Pages/Login/Page.jsx';
 import Main from '../Components/Pages/Main/Page.jsx';
 import About from '../Components/Pages/About/Page.jsx';
 
+import SiteVersions from '../Components/Pages/SiteVersions/Page.jsx';
 import Sites from '../Components/Pages/Sites/Page.jsx';
 import Pages from '../Components/Pages/Pages/Page.jsx';
 import PageBuilder from '../Components/Pages/PageBuilder/Page.jsx';
@@ -23,7 +24,8 @@ export default class Routing extends React.Component {
                 <Route path="/About" component={About} onEnter={Auth.AuthRequired} />
 
                 <Route path="/Sites" component={Sites} onEnter={Auth.AuthRequired} />
-                <Route path="/Pages/:SiteID" component={Pages} onEnter={Auth.AuthRequired} />
+                <Route path="/SiteVersions/:SiteID" component={SiteVersions} onEnter={Auth.AuthRequired} />
+                <Route path="/Pages/:SiteVersionID" component={Pages} onEnter={Auth.AuthRequired} />
                 <Route path="/PageBuilder/:PageID" component={PageBuilder} onEnter={Auth.AuthRequired} />
 
                 <Route path="/" component={Main} onEnter={Auth.AuthRequired} />

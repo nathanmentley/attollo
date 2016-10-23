@@ -12,6 +12,10 @@
 		return Context.Handlers.Site.GetCurrentSiteVersion(authContext, site);
 	};
 
+	classDef.prototype.GetSiteVersions = function (authContext, siteId){
+		return Context.Handlers.Site.GetSiteVersions(authContext, siteId);
+	};
+
 	classDef.prototype.GetSites = function (authContext){
 		return Context.Handlers.Site.GetSites(authContext);
 	};

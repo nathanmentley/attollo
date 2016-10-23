@@ -31,7 +31,7 @@ export default class PagesPage extends BasePage {
     componentDidMount() {
         var self = this;
 
-        PageService.GetPages(this.props.params.SiteID).then((res) => {
+        PageService.GetPages(this.props.params.SiteVersionID).then((res) => {
             self.setState({ Pages: res.data.data }); 
         });
     }
@@ -56,7 +56,7 @@ export default class PagesPage extends BasePage {
         var self = this;
 
         PageService.SavePage(this.state.EditingPage).then((saveResult) => {
-            PageService.GetPages(this.props.params.SiteID).then((getResult) => {
+            PageService.GetPages(this.props.params.SiteVersionID).then((getResult) => {
                 self.setState({ Pages: getResult.data.data }, () => {
                     //self.setEditingPage(*somehow get update page*);
                 }); 
@@ -68,7 +68,7 @@ export default class PagesPage extends BasePage {
         var self = this;
 
         PageService.DeletePage(this.state.EditingPage.id).then((saveResult) => {
-            PageService.GetPages(this.props.params.SiteID).then((getResult) => {
+            PageService.GetPages(this.props.params.SiteVersionID).then((getResult) => {
                 self.setState({ Pages: getResult.data.data, EditingPage: null }); 
             });
         });
@@ -77,8 +77,8 @@ export default class PagesPage extends BasePage {
     addNewPage() {
         var self = this;
 
-        PageService.AddPage(this.props.params.SiteID).then((addRes) => {
-            PageService.GetPages(this.props.params.SiteID).then((res) => {
+        PageService.AddPage(this.props.params.SiteVersionID).then((addRes) => {
+            PageService.GetPages(this.props.params.SiteVersionID).then((res) => {
                 self.setState({ Pages: res.data.data }); 
             });
         });

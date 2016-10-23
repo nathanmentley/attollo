@@ -3,12 +3,12 @@ import AjaxService from './AjaxService.jsx';
 var endpoint = "/Pages";
 
 export default class PageService {
-    static GetPages(siteId) {
-        return AjaxService.Get(endpoint + "?siteId=" + siteId, {}, {});
+    static GetPages(siteVersionId) {
+        return AjaxService.Get(endpoint + "?siteVersionId=" + siteVersionId, {}, {});
     }
 
-    static AddPage(siteId) {
-        return AjaxService.Post(endpoint, { siteId: siteId }, {});
+    static AddPage(siteVersionId) {
+        return AjaxService.Post(endpoint, { siteVersionId: siteVersionId }, {});
     }
 
     static SavePage(page) {

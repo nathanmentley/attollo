@@ -7,7 +7,7 @@
 		app.get(urlendpoint, auth, function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 
-			Attollo.Services.Page.GetPages(request.AuthContext, request.query.siteId)
+			Attollo.Services.Page.GetPages(request.AuthContext, request.query.siteVersionId)
 			.then(function (collection) {
 				response.json({
 					error: false,
@@ -27,7 +27,7 @@
 		app.post(urlendpoint, auth, function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
-			Attollo.Services.Page.AddPage(request.AuthContext, request.body.siteId)
+			Attollo.Services.Page.AddPage(request.AuthContext, request.body.siteVersionId)
 			.then(function() {
 				response.json({
 					error: false

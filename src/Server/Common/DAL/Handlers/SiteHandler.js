@@ -27,6 +27,16 @@
 			}).fetch();
 	};
 
+	classDef.prototype.GetSiteVersions = function (authContext, siteId){
+		return this.Context.DatabaseContext.SiteVersions(authContext)
+			.query({
+				where: {
+					siteid: siteId
+				}
+			}).fetch();
+	};
+
+
 	classDef.prototype.GetSites = function (authContext){
 		return this.Context.DatabaseContext.Sites(authContext).fetch();
 	};

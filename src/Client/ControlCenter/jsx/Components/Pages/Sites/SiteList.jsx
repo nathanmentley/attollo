@@ -30,6 +30,7 @@ export default class SiteList extends BaseComponent {
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Domain</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -39,7 +40,10 @@ export default class SiteList extends BaseComponent {
                             return (
                                 <tr key={x.id}>
                                     <td onClick={() => { self.goToSiteVersionBin(x.id); }}>{x.name}</td>
-                                    <td onClick={() => { self.setEditingSite(x); }}>edit</td>
+                                    <td onClick={() => { self.goToSiteVersionBin(x.id); }}>{x.domain}</td>
+                                    <td onClick={() => { self.setEditingSite(x); }}>
+                                        edit
+                                    </td>
                                 </tr>
                             );
                         })

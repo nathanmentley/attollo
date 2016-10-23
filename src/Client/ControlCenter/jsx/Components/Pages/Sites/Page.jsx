@@ -104,8 +104,8 @@ export default class SitesPage extends BasePage {
         return (
             <Grid>
                 <Row>
-                    <Col xs={12} md={12}>
-                        <div className="btn btn-primary" onClick={this.addNewSite}>Add New Site</div>
+                    <Col xs={12} md={12} className="page-action-bar">
+                        <div className="btn btn-primary pull-right" onClick={this.addNewSite}>Add New Site</div>
                     </Col>
                 </Row>
 

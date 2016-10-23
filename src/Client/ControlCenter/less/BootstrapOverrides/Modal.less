@@ -11,3 +11,22 @@ INFO: I'm thinking we'll want to override the standard modal somehow?
         But editing a page's title / url, or a site's name / domain, or 
         user details are probably good fits.
 */
+
+div.modal-dialog {
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+    border-radius: 0;
+    width: 100%;
+
+    div.modal-content {
+        border-radius: 0;
+    }
+}
+
+div.modal.fade{
+    div.modal-dialog {
+        -webkit-transform: translate3d(0, 0%, 0);
+	    transform: translate3d(0, 0%, 0);
+    }
+}

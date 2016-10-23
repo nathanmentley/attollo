@@ -15,10 +15,7 @@ export default class OneCol extends BaseBlockContainerComponent {
         return (
             <Row>
                 <Col xs={12} md={12}>
-                    {(this.props.Blocks != null && this.props.Blocks.length >= 0) ?
-                        <BlockRenderer Block={this.props.Blocks[0]} UpdatePage={this.updatePage} /> :
-                        ''
-                    }
+                    <BlockRenderer Block={self.getBlockForAreaCode('First')} UpdatePage={this.updatePage} />
                 </Col>
             </Row>
         );

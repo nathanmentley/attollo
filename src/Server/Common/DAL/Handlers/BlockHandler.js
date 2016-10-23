@@ -25,14 +25,13 @@
 	};
 
 	//Block
-
 	classDef.prototype.GetBlocks = function (authContext, blockContainerId){
 		return this.Context.DatabaseContext.Blocks(authContext)
 			.query({
 				where: {
 					blockcontainerid: blockContainerId
 				}
-			}).fetch({ withRelated: ['BlockDef'] });
+			}).fetch({ withRelated: ['BlockDef', 'BlockContainerArea.BlockContainerAreaDef'] });
 	};
 	
 	classDef.prototype.AddBlock = function (authContext, blockContainerId, blockDef, compiledtemplate){

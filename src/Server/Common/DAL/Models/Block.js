@@ -9,6 +9,7 @@
 	var Client = require("./Client");
 	var BlockContainer = require("./BlockContainer");
 	var BlockContainerArea = require("./BlockContainerArea");
+	var BlockContainerAreaDef = require("./BlockContainerAreaDef");
 	var BlockDef = require("./BlockDef");
 
 	var filter = function(authContext, query) {
@@ -42,6 +43,10 @@
 			},
 			BlockContainerArea: function() {
 				return this.belongsTo(BlockContainerArea.Model(authContext, skipFilter), 'blockcontainerareaid');
+			},
+			BlockContainerAreaDef: function() {
+				return this.belongsTo(BlockContainerAreaDef.Model(authContext, skipFilter), 'blockcontainerareadefid')
+							.through(BlockContainerArea.Model(authContext, skipFilter), 'blockcontainerareaid');
 			},
 			BlockContainer: function() {
 				return this.belongsTo(BlockContainer.Model(authContext, skipFilter), 'blockcontainerid')

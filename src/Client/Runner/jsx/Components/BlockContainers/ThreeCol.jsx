@@ -15,22 +15,13 @@ export default class ThreeCol extends BaseBlockContainerComponent {
         return (
             <Row>
                 <Col xs={12} md={4}>
-                    {(this.props.Blocks != null && this.props.Blocks.length >= 0) ?
-                        <BlockRenderer Block={this.props.Blocks[0]} UpdatePage={this.updatePage} /> :
-                        ''
-                    }
+                    <BlockRenderer Block={self.getBlockForAreaCode('First')} UpdatePage={this.updatePage} />
                 </Col>
                 <Col  xs={12} md={4}>
-                    {(this.props.Blocks != null && this.props.Blocks.length >= 1) ?
-                        <BlockRenderer Block={this.props.Blocks[1]} UpdatePage={this.updatePage} /> :
-                        ''
-                    }
+                    <BlockRenderer Block={self.getBlockForAreaCode('Second')} UpdatePage={this.updatePage} />
                 </Col>
                 <Col xs={12} md={4}>
-                    {(this.props.Blocks != null && this.props.Blocks.length >= 2) ?
-                        <BlockRenderer Block={this.props.Blocks[2]} UpdatePage={this.updatePage} /> :
-                        ''
-                    }
+                    <BlockRenderer Block={self.getBlockForAreaCode('Third')} UpdatePage={this.updatePage} />
                 </Col>
             </Row>
         );

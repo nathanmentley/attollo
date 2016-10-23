@@ -27,15 +27,6 @@
 			}).fetch();
 	};
 
-	classDef.prototype.GetSiteVersions = function (authContext, siteId){
-		return this.Context.DatabaseContext.SiteVersions(authContext)
-			.query({
-				where: {
-					siteid: siteId
-				}
-			}).fetch();
-	};
-
 
 	classDef.prototype.GetSites = function (authContext){
 		return this.Context.DatabaseContext.Sites(authContext).fetch();
@@ -64,6 +55,26 @@
 		var site = new Site(model);
 
 		return site.destroy();
+	};
+
+
+	classDef.prototype.GetSiteVersions = function (authContext, siteId){
+		return this.Context.DatabaseContext.SiteVersions(authContext)
+			.query({
+				where: {
+					siteid: siteId
+				}
+			}).fetch();
+	};
+
+	classDef.prototype.AddSiteVersions = function (authContext, siteId){
+		var SiteVersion = this.Context.DatabaseContext.SiteVersion(authContext);
+		var siteVersion = new SiteVersion({
+			siteid: siteId,
+			current: true
+		});
+
+		return siteVersion.save();
 	};
 	
 	module.exports = classDef;

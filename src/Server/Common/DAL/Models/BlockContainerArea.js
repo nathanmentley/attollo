@@ -59,7 +59,7 @@
 							.through(BlockContainer.Model(authContext, skipFilter), 'blockcontainerid');
 			},
 			BlockContainerAreaDef: function() {
-				return this.belongsTo(BlockContainerDef.Model(authContext, skipFilter), 'blockcontaineraredefid');
+				return this.belongsTo(BlockContainerAreaDef.Model(authContext, skipFilter), 'blockcontainerareadefid');
 			}
 		});
 	};

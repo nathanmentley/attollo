@@ -7,6 +7,13 @@ export default class BaseBlockContainerComponent extends BaseComponent {
         super(props);
 
         this.updatePage = this.updatePage.bind(this);
+        this.getBlockForAreaCode = this.getBlockForAreaCode.bind(this);
+    }
+
+    getBlockForAreaCode(code) {
+        return this.props.Blocks.find((x) => {
+            return x.BlockContainerArea.BlockContainerAreaDef.code == code;
+        });
     }
 
     updatePage(url) {

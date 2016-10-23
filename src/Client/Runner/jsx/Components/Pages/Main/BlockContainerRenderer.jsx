@@ -19,7 +19,6 @@ export default class BlockContainerRenderer extends BaseComponent {
         };
 
         this.updatePage = this.updatePage.bind(this);
-        this.sortBlocks = this.sortBlocks.bind(this);
     }
     
     componentDidMount() {
@@ -27,13 +26,9 @@ export default class BlockContainerRenderer extends BaseComponent {
 
         BlockService.GetBlocks(this.props.BlockContainer.id).then((blockResult) => {
             self.setState({
-                Blocks: self.sortBlocks(blockResult.data.data)
+                Blocks: blockResult.data.data
             }); 
         });
-    }
-
-    sortBlocks(blocks){
-        return blocks.sort((a, b) => a.displayorder - b.displayorder);
     }
 
     updatePage(url) {

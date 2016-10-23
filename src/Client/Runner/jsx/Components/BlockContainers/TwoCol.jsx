@@ -15,16 +15,10 @@ export default class TwoCol extends BaseBlockContainerComponent {
         return (
             <Row>
                 <Col xs={12} md={6}>
-                    {(this.props.Blocks != null && this.props.Blocks.length >= 0) ?
-                        <BlockRenderer Block={this.props.Blocks[0]} UpdatePage={this.updatePage} /> :
-                        ''
-                    }
+                    <BlockRenderer Block={self.getBlockForAreaCode('First')} UpdatePage={this.updatePage} />
                 </Col>
                 <Col xs={12} md={6}>
-                    {(this.props.Blocks != null && this.props.Blocks.length >= 1) ?
-                        <BlockRenderer Block={this.props.Blocks[1]} UpdatePage={this.updatePage} /> :
-                        ''
-                    }
+                    <BlockRenderer Block={self.getBlockForAreaCode('Second')} UpdatePage={this.updatePage} />
                 </Col>
             </Row>
         );

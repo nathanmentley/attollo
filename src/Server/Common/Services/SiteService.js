@@ -21,7 +21,19 @@
 	};
 	
 	classDef.prototype.AddSite = function (authContext){
-		return Context.Handlers.Site.AddSite(authContext);
+		return new Promise(function(resolve, reject) {
+		    Context.Handlers.Site.AddSite(authContext)
+			.then(function(site) {
+				Context.Handlers.Site.AddSiteVersion(authContext, site.get('id'))
+				.then(function(version) {
+					resolve(site);
+				}).catch(function() {
+					reject();
+				});
+			}).catch(function() {
+				reject();
+			});
+		});
 	};
 
 	classDef.prototype.UpdateSite = function (authContext, model){

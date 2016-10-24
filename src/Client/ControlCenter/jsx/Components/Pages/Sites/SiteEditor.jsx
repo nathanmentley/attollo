@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
@@ -11,6 +11,9 @@ export default class SiteEditor extends BaseComponent {
 
         this.updateName = this.updateName.bind(this);
         this.updateDomain = this.updateDomain.bind(this);
+
+        this.getNameValidation = this.getNameValidation.bind(this);
+        this.getDomainValidation = this.getDomainValidation.bind(this);
 
         this.saveSite = this.saveSite.bind(this);
         this.deleteSite = this.deleteSite.bind(this);
@@ -28,6 +31,20 @@ export default class SiteEditor extends BaseComponent {
         this.props.UpdateDomain(event.target.value);
     }
 
+    getNameValidation() {
+        const length = this.props.Site.name.length;
+        if (length > 10) return 'success';
+        else if (length > 5) return 'warning';
+        else if (length > 0) return 'error';
+    }
+
+    getDomainValidation() {
+        const length = this.props.Site.domain.length;
+        if (length > 10) return 'success';
+        else if (length > 5) return 'warning';
+        else if (length > 0) return 'error';
+    }
+
     saveSite() {
         this.props.SaveSite();
     }
@@ -43,14 +60,37 @@ export default class SiteEditor extends BaseComponent {
                     <Modal.Title>{this.props.Site.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div>
-                        <label>Name</label>
-                        <input type="text" value={this.props.Site.name} onChange={this.updateName} />
-                    </div>
-                    <div>
-                        <label>Domain</label>
-                        <input type="text" value={this.props.Site.domain} onChange={this.updateDomain} />
-                    </div>
+
+                    <FormGroup
+                        controlId="siteName"
+                        validationState={this.getNameValidation()}
+                    >
+                        <ControlLabel>Working example with validation</ControlLabel>
+                        <FormControl
+                            type="text"
+                            value={this.props.Site.name}
+                            placeholder="Enter Site name"
+                            onChange={this.updateName}
+                        />
+                        <FormControl.Feedback />
+                        <HelpBlock>Validation is based on string length.</HelpBlock>
+                    </FormGroup>
+
+                    <FormGroup
+                        controlId="siteDomain"
+                        validationState={this.getDomainValidation()}
+                    >
+                        <ControlLabel>Working example with validation</ControlLabel>
+                        <FormControl
+                            type="text"
+                            value={this.props.Site.domain}
+                            placeholder="Enter Site Domain"
+                            onChange={this.updateDomain}
+                        />
+                        <FormControl.Feedback />
+                        <HelpBlock>Validation is based on string length.</HelpBlock>
+                    </FormGroup>
+
                 </Modal.Body>
                 <Modal.Footer>
                     <Button bsStyle="primary" onClick={this.saveSite}>Save</Button>

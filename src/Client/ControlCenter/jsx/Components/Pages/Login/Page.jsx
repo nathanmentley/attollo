@@ -45,7 +45,7 @@ export default class AboutPage extends BasePage {
                 if (self.props.location && self.props.location.state && self.props.location.state.nextPathname) {
                     browserHistory.push(self.props.location.state.nextPathname);
                 } else {
-                    browserHistory.push('/Main');
+                    browserHistory.push('/Dashboard');
                 }
             }
         }).catch((err) => {

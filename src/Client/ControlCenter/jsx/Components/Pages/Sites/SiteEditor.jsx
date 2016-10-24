@@ -17,7 +17,7 @@ export default class SiteEditor extends BaseComponent {
     }
 
     close() {
-        this.props.SetEditingPage();
+        this.props.SetEditingSite();
     }
 
     updateName(event) {

@@ -1,15 +1,37 @@
 (function () {
+    var key = 4747389;
+
+    var crypto = require('crypto');
+
 	module.exports = {
         Encode: function(id) {
             if(id) {
-                return "L-" + id;
+                var newId = id ^ key;
+                newId = newId << 5;
+                newId = newId.toString(36);
+
+                return newId + "-" + (crypto.createHash('sha1')
+                        .update(newId, 'utf8')
+                        .digest('hex').substring(0, 4));
             }else{
                 return null;
             }
         },
         Decode: function(auid) {
             if(auid) {
-                return auid.substring(2);
+                var newId = auid.split('-')[0];
+                var checkSumClaim = auid.split('-')[1];
+                var checkSumExpected = (crypto.createHash('sha1')
+                        .update(newId, 'utf8')
+                        .digest('hex').substring(0, 4))
+
+                if(checkSumClaim !== checkSumExpected) {
+                    throw new Error("Invalid AUID.");
+                }
+
+                newId = parseInt(newId, 36) >> 5;
+                newId = newId ^ key;
+                return newId;
             }else{
                 return null;
             }

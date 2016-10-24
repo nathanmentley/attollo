@@ -8,7 +8,7 @@
             if(id) {
                 var newId = id ^ key;
                 newId = newId << 5;
-                newId = newId.toString(36);
+                newId = newId.toString(36).toUpperCase();
 
                 return newId + "-" + (crypto.createHash('sha1')
                         .update(newId, 'utf8')
@@ -29,7 +29,7 @@
                     throw new Error("Invalid AUID.");
                 }
 
-                newId = parseInt(newId, 36) >> 5;
+                newId = parseInt(newId.toLowerCase(), 36) >> 5;
                 newId = newId ^ key;
                 return newId;
             }else{

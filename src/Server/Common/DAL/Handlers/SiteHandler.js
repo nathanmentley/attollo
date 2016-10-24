@@ -67,7 +67,7 @@
 			}).fetch();
 	};
 
-	classDef.prototype.AddSiteVersions = function (authContext, siteId){
+	classDef.prototype.AddSiteVersion = function (authContext, siteId){
 		var SiteVersion = this.Context.DatabaseContext.SiteVersion(authContext);
 		var siteVersion = new SiteVersion({
 			siteid: siteId,

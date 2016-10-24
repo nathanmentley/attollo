@@ -21,18 +21,24 @@
 	};
 	
 	classDef.prototype.AddSite = function (authContext){
+		var auid = require("../DAL/Core/Auid");
+
 		return new Promise(function(resolve, reject) {
-		    Context.Handlers.Site.AddSite(authContext)
-			.then(function(site) {
-				Context.Handlers.Site.AddSiteVersion(authContext, site.get('id'))
-				.then(function(version) {
-					resolve(site);
-				}).catch(function() {
-					reject();
+			try{
+				Context.Handlers.Site.AddSite(authContext)
+				.then(function(site) {
+					Context.Handlers.Site.AddSiteVersion(authContext, auid.Encode(site.get('id')))
+					.then(function(version) {
+						resolve(site);
+					}).catch(function(err) {
+						reject({ message: site.get('id') + " " + err.message });
+					});
+				}).catch(function(err) {
+					reject({ message: err.message });
 				});
-			}).catch(function() {
-				reject();
-			});
+			} catch(e) {
+				reject({ message: e.message });
+			}
 		});
 	};
 

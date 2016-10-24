@@ -116,7 +116,7 @@ export default class PageBuilderPage extends BasePage {
         });*/
     }
 
-    render() {
+    _render() {
         var editingBlock = <div />;
         if(this.state.EditingBlock != null){
             editingBlock = <BlockEditor

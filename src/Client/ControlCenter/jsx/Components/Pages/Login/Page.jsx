@@ -53,7 +53,7 @@ export default class AboutPage extends BasePage {
         });
     }
 
-    render() {
+    _render() {
         return (
             <div>
                 <div>{this.state.message}</div>

@@ -32,7 +32,22 @@ export default class PagesPage extends BasePage {
         var self = this;
 
         PageService.GetPages(this.props.params.SiteVersionID).then((res) => {
-            self.setState({ Pages: res.data.data }); 
+            self.setState({ Pages: res.data.data }, () => {
+                self.setBreadCrumbs([
+                    {
+                        title: "Dashboard",
+                        url: "/"
+                    },
+                    {
+                        title: "Sites",
+                        url: "/Sites"
+                    },
+                    {
+                        title: "Site Versions",
+                        url: "/SiteVersions/" + this.props.params.SiteVersionID
+                    }
+                ]);
+            });
         });
     }
 
@@ -84,7 +99,7 @@ export default class PagesPage extends BasePage {
         });
     }
 
-    render() {
+    _render() {
         var editingPage = <div />;
         if(this.state.EditingPage != null){
             editingPage = <PageEditor

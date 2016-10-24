@@ -29,7 +29,7 @@ export default class Header extends BaseComponent {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav>
-                            <NavItem eventKey={1} onClick={function() { self.changePage('/Dashboard')} }>Main</NavItem>
+                            <NavItem eventKey={1} onClick={function() { self.changePage('/Users')} }>Users</NavItem>
                             <NavDropdown eventKey={2} title="Sites" id="basic-nav-dropdown">
                                 <MenuItem eventKey={2.1} onClick={function() { self.changePage('/Sites')} }>Show All</MenuItem>
                                 

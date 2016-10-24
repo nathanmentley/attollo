@@ -13,7 +13,7 @@ export default class AboutPage extends BasePage {
     componentDidMount() {
     }
 
-    render() {
+    _render() {
         return (<div>About</div>);
     }
 }

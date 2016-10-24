@@ -32,7 +32,14 @@ export default class SitesPage extends BasePage {
         var self = this;
 
         SiteService.GetSites().then((res) => {
-            self.setState({ Sites: res.data.data }); 
+            self.setState({ Sites: res.data.data }, () => {
+                self.setBreadCrumbs([
+                    {
+                        title: "Dashboard",
+                        url: "/"
+                    }
+                ]);
+            }); 
         });
     }
 
@@ -88,7 +95,7 @@ export default class SitesPage extends BasePage {
         });
     }
 
-    render() {
+    _render() {
         var editingSite = <div />;
         if(this.state.EditingSite != null){
             editingSite = <SiteEditor

@@ -54,8 +54,8 @@ export default class SiteEditor extends BaseComponent {
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.saveSite}>Save</Button>
-                        <Button onClick={this.deleteSite}>Delete</Button>
+                        <Button bsStyle="primary" onClick={this.saveSite}>Save</Button>
+                        <Button bsStyle="danger" onClick={this.deleteSite}>Delete</Button>
                     </Modal.Footer>
                 </Modal>
             </div>

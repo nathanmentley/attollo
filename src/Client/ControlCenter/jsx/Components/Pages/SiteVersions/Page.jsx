@@ -22,11 +22,22 @@ export default class SiteVersionsPage extends BasePage {
         var self = this;
 
         SiteVersionService.GetSiteVersions(this.props.params.SiteID).then((res) => {
-            self.setState({ SiteVersions: res.data.data }); 
+            self.setState({ SiteVersions: res.data.data }, () => {
+                self.setBreadCrumbs([
+                    {
+                        title: "Dashboard",
+                        url: "/"
+                    },
+                    {
+                        title: "Sites",
+                        url: "/Sites"
+                    }
+                ]);
+            });
         });
     }
 
-    render() {
+    _render() {
         return (
             <Grid>
                 <Row>

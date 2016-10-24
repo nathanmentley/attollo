@@ -1,5 +1,6 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
+import { Table, DropdownButton, MenuItem } from 'react-bootstrap';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
@@ -11,24 +12,39 @@ export default class SiteVersionList extends BaseComponent {
     }
 
     goToPageBin(siteVersionId) {
-        browserHistory.push("/Pages/" + siteVersionId);
+        browserHistory.push("/Sites/" + this.props.SiteID + "/" + siteVersionId);
     }
 
     render() {
         var self = this;
 
         return (
-            <div>
-                {
-                    this.props.SiteVersions.map((x) => {
-                        return (
-                            <div key={x.id}>
-                                <a onClick={() => { self.goToPageBin(x.id); }}>Version: {x.id}</a>
-                            </div>
-                        );
-                    })
-                }
-            </div>
+            <Table striped bordered condensed hover>
+                <thead>
+                    <tr>
+                        <th>Version</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        this.props.SiteVersions.map((x) => {
+                            return (
+                                <tr key={x.id}>
+                                    <td onClick={() => { self.goToPageBin(x.id); }}>{x.id}</td>
+                                    <td >
+                                        <DropdownButton title="Actions" id={x.id + '-action-button'}>
+                                            <MenuItem eventKey="1" onClick={() => { self.goToPageBin(x.id); }}>
+                                                Edit
+                                            </MenuItem>
+                                        </DropdownButton>
+                                    </td>
+                                </tr>
+                            );
+                        })
+                    }
+                </tbody>
+            </Table>
         );
     }
 }

@@ -15,7 +15,7 @@ export default class SiteList extends BaseComponent {
     }
 
     goToSiteVersionBin(siteId) {
-        browserHistory.push("/SiteVersions/" + siteId);
+        browserHistory.push("/Sites/" + siteId);
     }
 
     setEditingSite(site) {

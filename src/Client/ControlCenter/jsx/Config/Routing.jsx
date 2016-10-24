@@ -24,9 +24,9 @@ export default class Routing extends React.Component {
                 <Route path="/About" component={About} onEnter={Auth.AuthRequired} />
 
                 <Route path="/Sites" component={Sites} onEnter={Auth.AuthRequired} />
-                <Route path="/SiteVersions/:SiteID" component={SiteVersions} onEnter={Auth.AuthRequired} />
-                <Route path="/Pages/:SiteVersionID" component={Pages} onEnter={Auth.AuthRequired} />
-                <Route path="/PageBuilder/:PageID" component={PageBuilder} onEnter={Auth.AuthRequired} />
+                <Route path="/Sites/:SiteID" component={SiteVersions} onEnter={Auth.AuthRequired} />
+                <Route path="/Sites/:SiteID/:SiteVersionID" component={Pages} onEnter={Auth.AuthRequired} />
+                <Route path="/Sites/:SiteID/:SiteVersionID/:PageID" component={PageBuilder} onEnter={Auth.AuthRequired} />
 
                 <Route path="/" component={Main} onEnter={Auth.AuthRequired} />
                 <Route path="*" component={Error404}/>

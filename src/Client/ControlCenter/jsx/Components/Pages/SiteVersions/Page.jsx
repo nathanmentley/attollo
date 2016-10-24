@@ -42,7 +42,7 @@ export default class SiteVersionsPage extends BasePage {
             <Grid>
                 <Row>
                     <Col xs={12} md={12}>
-                        <SiteVersionList SiteVersions={this.state.SiteVersions} />
+                        <SiteVersionList SiteVersions={this.state.SiteVersions} SiteID={this.props.params.SiteID} />
                     </Col>
                 </Row>
             </Grid>

@@ -44,7 +44,7 @@ export default class PagesPage extends BasePage {
                     },
                     {
                         title: "Site Versions",
-                        url: "/SiteVersions/" + this.props.params.SiteVersionID
+                        url: "/Sites/" + this.props.params.SiteVersionID
                     }
                 ]);
             });
@@ -52,7 +52,11 @@ export default class PagesPage extends BasePage {
     }
 
     setEditingPage(page) {
-        this.setState({ EditingPage: ObjectUtils.Clone(page) });
+        if(page) {
+            this.setState({ EditingPage: ObjectUtils.Clone(page) });
+        } else {
+            this.setState({ EditingPage: null });
+        }
     }
 
     updateEditingPageTitle(title) {
@@ -72,7 +76,7 @@ export default class PagesPage extends BasePage {
 
         PageService.SavePage(this.state.EditingPage).then((saveResult) => {
             PageService.GetPages(this.props.params.SiteVersionID).then((getResult) => {
-                self.setState({ Pages: getResult.data.data }, () => {
+                self.setState({ Pages: getResult.data.data, EditingPage: null }, () => {
                     //self.setEditingPage(*somehow get update page*);
                 }); 
             });
@@ -108,25 +112,29 @@ export default class PagesPage extends BasePage {
                 UpdateUrl={this.updateEditingPageUrl}
                 SavePage={this.savePage}
                 DeletePage={this.deletePage}
+                SetEditingPage={this.setEditingPage}
             />;
         }
 
         return (
             <Grid>
                 <Row>
-                    <Col xs={12} md={12}>
-                        <div className="btn btn-primary" onClick={this.addNewPage}>Add New Page</div>
+                    <Col xs={12} md={12} className="page-action-bar">
+                        <div className="btn btn-primary pull-right" onClick={this.addNewPage}>Add New Page</div>
                     </Col>
                 </Row>
 
                 <Row>
-                    <Col xs={12} md={3}>
-                        <PageList Pages={this.state.Pages} SetEditingPage={this.setEditingPage} />
+                    <Col xs={12} md={12}>
+                        <PageList
+                            Pages={this.state.Pages}
+                            SetEditingPage={this.setEditingPage}
+                            SiteID={this.props.params.SiteID}
+                            SiteVersionID={this.props.params.SiteVersionID}
+                        />
                     </Col>
-
-                    <Col xs={12} md={9}>
-                        {editingPage}
-                    </Col>
+                    
+                    {editingPage}
                 </Row>
             </Grid>
         );

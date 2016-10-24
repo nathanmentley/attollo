@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table, DropdownButton, MenuItem } from 'react-bootstrap';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
@@ -11,7 +12,7 @@ export default class PageList extends BaseComponent {
     }
 
     goToPageBuilder(pageId) {
-        this.goToPage("/PageBuilder/" + pageId);
+        this.goToPage("/Sites/" + this.props.SiteID + "/" + this.props.SiteVersionID + "/" + pageId);
     }
 
     setEditingPage(page) {
@@ -22,19 +23,32 @@ export default class PageList extends BaseComponent {
         var self = this;
 
         return (
-            <div>
-                {
-                    this.props.Pages.map((x) => {
-                        return (
-                            <div key={x.id}>
-                                <a onClick={() => { self.setEditingPage(x); }}>{x.title}</a>
-                                <span> - </span>
-                                <a onClick={() => { self.goToPageBuilder(x.id); }}>edit</a>
-                            </div>
-                        );
-                    })
-                }
-            </div>
+            <Table striped bordered condensed hover>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        this.props.Pages.map((x) => {
+                            return (
+                                <tr key={x.id}>
+                                    <td onClick={() => { self.goToPageBuilder(x.id); }}>{x.title}</td>
+                                    <td>
+                                        <DropdownButton title="Actions" id={x.id + '-action-button'}>
+                                            <MenuItem eventKey="1" onClick={() => { self.setEditingPage(x); }}>
+                                                Edit
+                                            </MenuItem>
+                                        </DropdownButton>
+                                    </td>
+                                </tr>
+                            );
+                        })
+                    }
+                </tbody>
+            </Table>
         );
     }
 }

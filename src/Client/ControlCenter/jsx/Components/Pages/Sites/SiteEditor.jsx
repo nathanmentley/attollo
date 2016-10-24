@@ -17,7 +17,7 @@ export default class SiteEditor extends BaseComponent {
     }
 
     close() {
-        this.props.SetEditingSite();
+        this.props.SetEditingPage();
     }
 
     updateName(event) {
@@ -38,27 +38,25 @@ export default class SiteEditor extends BaseComponent {
 
     render() {
         return (
-            <div>
-                <Modal show={true} onHide={this.close}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>{this.props.Site.name}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div>
-                            <label>Name</label>
-                            <input type="text" value={this.props.Site.name} onChange={this.updateName} />
-                        </div>
-                        <div>
-                            <label>Domain</label>
-                            <input type="text" value={this.props.Site.domain} onChange={this.updateDomain} />
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button bsStyle="primary" onClick={this.saveSite}>Save</Button>
-                        <Button bsStyle="danger" onClick={this.deleteSite}>Delete</Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
+            <Modal show={true} onHide={this.close}>
+                <Modal.Header closeButton>
+                    <Modal.Title>{this.props.Site.name}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div>
+                        <label>Name</label>
+                        <input type="text" value={this.props.Site.name} onChange={this.updateName} />
+                    </div>
+                    <div>
+                        <label>Domain</label>
+                        <input type="text" value={this.props.Site.domain} onChange={this.updateDomain} />
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button bsStyle="primary" onClick={this.saveSite}>Save</Button>
+                    <Button bsStyle="danger" onClick={this.deleteSite}>Delete</Button>
+                </Modal.Footer>
+            </Modal>
         );
     }
 }

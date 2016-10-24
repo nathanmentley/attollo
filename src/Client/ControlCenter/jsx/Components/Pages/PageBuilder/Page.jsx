@@ -38,7 +38,26 @@ export default class PageBuilderPage extends BasePage {
         var self = this;
 
         BlockContainerService.GetBlockContainers(this.props.params.PageID).then((res) => {
-            self.setState({ BlockContainers: res.data.data }); 
+            self.setState({ BlockContainers: res.data.data }, () => {
+                self.setBreadCrumbs([
+                    {
+                        title: "Dashboard",
+                        url: "/"
+                    },
+                    {
+                        title: "Sites",
+                        url: "/Sites"
+                    },
+                    {
+                        title: "Site Versions",
+                        url: "/Sites/" + this.props.params.SiteVersionID
+                    },
+                    {
+                        title: "Pages",
+                        url: "/Sites/" + this.props.params.SiteVersionID + "/" + this.props.params.SiteID
+                    }
+                ]);
+            }); 
         });
 
         BlockDefService.GetBlockDefs().then((res) => {

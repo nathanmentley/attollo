@@ -33,16 +33,20 @@ export default class SiteEditor extends BaseComponent {
 
     getNameValidation() {
         const length = this.props.Site.name.length;
-        if (length > 10) return 'success';
-        else if (length > 5) return 'warning';
-        else if (length > 0) return 'error';
+        if (length > 0) {
+            return 'success';
+        } else {
+            return 'error';
+        }
     }
 
     getDomainValidation() {
         const length = this.props.Site.domain.length;
-        if (length > 10) return 'success';
-        else if (length > 5) return 'warning';
-        else if (length > 0) return 'error';
+        if (length > 0) {
+            return 'success';
+        } else {
+            return 'error';
+        }
     }
 
     saveSite() {
@@ -65,7 +69,7 @@ export default class SiteEditor extends BaseComponent {
                         controlId="siteName"
                         validationState={this.getNameValidation()}
                     >
-                        <ControlLabel>Working example with validation</ControlLabel>
+                        <ControlLabel>Site Name</ControlLabel>
                         <FormControl
                             type="text"
                             value={this.props.Site.name}
@@ -73,14 +77,14 @@ export default class SiteEditor extends BaseComponent {
                             onChange={this.updateName}
                         />
                         <FormControl.Feedback />
-                        <HelpBlock>Validation is based on string length.</HelpBlock>
+                        <HelpBlock />
                     </FormGroup>
 
                     <FormGroup
                         controlId="siteDomain"
                         validationState={this.getDomainValidation()}
                     >
-                        <ControlLabel>Working example with validation</ControlLabel>
+                        <ControlLabel>Site Domain</ControlLabel>
                         <FormControl
                             type="text"
                             value={this.props.Site.domain}
@@ -88,7 +92,7 @@ export default class SiteEditor extends BaseComponent {
                             onChange={this.updateDomain}
                         />
                         <FormControl.Feedback />
-                        <HelpBlock>Validation is based on string length.</HelpBlock>
+                        <HelpBlock />
                     </FormGroup>
 
                 </Modal.Body>

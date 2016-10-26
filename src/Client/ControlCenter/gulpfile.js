@@ -70,7 +70,22 @@
     gulp.task('ControlCenter:html', ['ControlCenter:clean'], function () {
         return gulp.src('./Client/ControlCenter/assets/index.html', { base: 'src' })
             .pipe(rename('index.html'))
-            .pipe(gulp.dest('../dist/Client/ControlCenter/'));
+            .pipe(gulp.dest('../dist/Client/ControlCenter/'))
+            && gulp.src('./node_modules/bootstrap/fonts/glyphicons-halflings-regular.eot', { base: 'src' })
+                .pipe(rename('glyphicons-halflings-regular.eot'))
+                .pipe(gulp.dest('../dist/Client/ControlCenter/fonts/'))
+            && gulp.src('./node_modules/bootstrap/fonts/glyphicons-halflings-regular.svg', { base: 'src' })
+                .pipe(rename('glyphicons-halflings-regular.svg'))
+                .pipe(gulp.dest('../dist/Client/ControlCenter/fonts/'))
+            && gulp.src('./node_modules/bootstrap/fonts/glyphicons-halflings-regular.ttf', { base: 'src' })
+                .pipe(rename('glyphicons-halflings-regular.ttf'))
+                .pipe(gulp.dest('../dist/Client/ControlCenter/fonts/'))
+            && gulp.src('./node_modules/bootstrap/fonts/glyphicons-halflings-regular.woff', { base: 'src' })
+                .pipe(rename('glyphicons-halflings-regular.woff'))
+                .pipe(gulp.dest('../dist/Client/ControlCenter/fonts/'))
+            && gulp.src('./node_modules/bootstrap/fonts/glyphicons-halflings-regular.woff2', { base: 'src' })
+                .pipe(rename('glyphicons-halflings-regular.woff2'))
+                .pipe(gulp.dest('../dist/Client/ControlCenter/fonts/'));
     });
  
     gulp.task('ControlCenter:watch:jsx', function () {

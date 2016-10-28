@@ -35,7 +35,7 @@ export default class SiteVersionList extends BaseComponent {
                                     <td >
                                         <DropdownButton title={<Glyphicon glyph="cog" />} id={x.id + '-action-button'}>
                                             <MenuItem eventKey="1" onClick={() => { self.goToPageBin(x.id); }}>
-                                                Edit
+                                                <Glyphicon glyph="pencil" /> Edit
                                             </MenuItem>
                                         </DropdownButton>
                                     </td>

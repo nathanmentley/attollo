@@ -41,7 +41,7 @@ export default class PageList extends BaseComponent {
                                     <td>
                                         <DropdownButton title={<Glyphicon glyph="cog" />} id={x.id + '-action-button'}>
                                             <MenuItem eventKey="1" onClick={() => { self.setEditingPage(x); }}>
-                                                Edit
+                                                <Glyphicon glyph="pencil" /> Edit
                                             </MenuItem>
                                         </DropdownButton>
                                     </td>

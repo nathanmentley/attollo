@@ -153,10 +153,10 @@ export default class PageBuilderPage extends BasePage {
             <Grid>
                 <Row>
                     <Col xs={6} md={6}>
-                        <h3>Layouts</h3>
+                        <h5>Layouts</h5>
                     </Col>
                     <Col xs={6} md={6}>
-                        <h3>Widgets</h3>
+                        <h5>Widgets</h5>
                     </Col>
                 </Row>
                 <Row>
@@ -170,7 +170,7 @@ export default class PageBuilderPage extends BasePage {
 
                 <Row>
                     <Col xs={12} md={12}>
-                        <h3>Page:</h3>
+                        <h5>Page:</h5>
                     </Col>
                 </Row>
                 <Row>

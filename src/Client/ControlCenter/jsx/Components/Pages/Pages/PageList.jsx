@@ -27,6 +27,7 @@ export default class PageList extends BaseComponent {
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>URL</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -36,6 +37,7 @@ export default class PageList extends BaseComponent {
                             return (
                                 <tr key={x.id}>
                                     <td onClick={() => { self.goToPageBuilder(x.id); }}>{x.title}</td>
+                                    <td onClick={() => { self.goToPageBuilder(x.id); }}>{x.url}</td>
                                     <td>
                                         <DropdownButton title="Actions" id={x.id + '-action-button'}>
                                             <MenuItem eventKey="1" onClick={() => { self.setEditingPage(x); }}>

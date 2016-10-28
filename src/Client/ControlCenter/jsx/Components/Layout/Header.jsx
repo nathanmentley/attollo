@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Glyphicon } from 'react-bootstrap';
 import { browserHistory } from 'react-router';
 
 import BaseComponent from '../BaseComponent.jsx';
@@ -47,8 +47,10 @@ export default class Header extends BaseComponent {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav>
-                            <NavItem eventKey={1} onClick={function() { self.changePage('/Users')} }>Users</NavItem>
-                            <NavDropdown eventKey={2} title="Sites" id="basic-nav-dropdown">
+                            <NavItem eventKey={1} onClick={function() { self.changePage('/Users')} }>
+                                <Glyphicon glyph="user" /> Users
+                            </NavItem>
+                            <NavDropdown eventKey={2} title={<span><Glyphicon glyph="globe" /> Sites</span>} id="basic-nav-dropdown">
                                 <MenuItem eventKey={2.1} onClick={function() { self.changePage('/Sites')} }>Show All</MenuItem>
                                 
                                 <MenuItem divider />
@@ -69,11 +71,17 @@ export default class Header extends BaseComponent {
                                 })}
 
                             </NavDropdown>
-                            <NavItem eventKey={3} onClick={function() { self.changePage('/About')} }>About</NavItem>
+                            <NavItem eventKey={3} onClick={function() { self.changePage('/About')} }>
+                                <Glyphicon glyph="question-sign" /> About
+                            </NavItem>
                         </Nav>
                         <Nav pullRight>
-                            <NavItem eventKey={1} onClick={function() { self.changePage('/Account')} }>Account</NavItem>
-                            <NavItem eventKey={2} onClick={function() { self.changePage('/Login')} }>Logout</NavItem>
+                            <NavItem eventKey={1} onClick={function() { self.changePage('/Account')} }>
+                                <Glyphicon glyph="cog" /> Account
+                            </NavItem>
+                            <NavItem eventKey={2} onClick={function() { self.changePage('/Login')} }>
+                                <Glyphicon glyph="log-out" /> Logout
+                            </NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

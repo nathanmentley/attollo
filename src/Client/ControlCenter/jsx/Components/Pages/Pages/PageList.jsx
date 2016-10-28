@@ -28,7 +28,7 @@ export default class PageList extends BaseComponent {
                     <tr>
                         <th>Name</th>
                         <th>URL</th>
-                        <th>Action</th>
+                        <th className="action-col">Action</th>
                     </tr>
                 </thead>
                 <tbody>

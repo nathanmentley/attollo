@@ -23,7 +23,7 @@ export default class SiteVersionList extends BaseComponent {
                 <thead>
                     <tr>
                         <th>Version</th>
-                        <th>Action</th>
+                        <th className="action-col">Action</th>
                     </tr>
                 </thead>
                 <tbody>

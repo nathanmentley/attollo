@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Glyphicon } from 'react-bootstrap';
 
 import ObjectUtils from '../../../Utils/ObjectUtils.jsx';
 
@@ -113,17 +113,19 @@ export default class SitesPage extends BasePage {
         return (
             <Grid>
                 <Row>
-                    <Col xs={12} md={12} className="page-action-bar">
-                        <div className="btn btn-primary pull-right" onClick={this.addNewSite}>Add New Site</div>
-                    </Col>
-                </Row>
-
-                <Row>
                     <Col xs={12} md={12}>
                         <SiteList Sites={this.state.Sites} SetEditingSite={this.setEditingSite} />
                     </Col>
 
                     {editingSite}
+                </Row>
+
+                <Row>
+                    <Col xs={12} md={12} className="page-action-bar">
+                        <div className="btn btn-primary pull-right" onClick={this.addNewSite}>
+                            <Glyphicon glyph="plus" /> Add New Site
+                        </div>
+                    </Col>
                 </Row>
             </Grid>
         );

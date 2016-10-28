@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Glyphicon } from 'react-bootstrap';
 
 import ObjectUtils from '../../../Utils/ObjectUtils.jsx';
 
@@ -121,12 +121,6 @@ export default class PagesPage extends BasePage {
         return (
             <Grid>
                 <Row>
-                    <Col xs={12} md={12} className="page-action-bar">
-                        <div className="btn btn-primary pull-right" onClick={this.addNewPage}>Add New Page</div>
-                    </Col>
-                </Row>
-
-                <Row>
                     <Col xs={12} md={12}>
                         <PageList
                             Pages={this.state.Pages}
@@ -137,6 +131,14 @@ export default class PagesPage extends BasePage {
                     </Col>
                     
                     {editingPage}
+                </Row>
+
+                <Row>
+                    <Col xs={12} md={12} className="page-action-bar">
+                        <div className="btn btn-primary pull-right" onClick={this.addNewPage}>
+                            <Glyphicon glyph="plus" /> Add New Page
+                        </div>
+                    </Col>
                 </Row>
             </Grid>
         );

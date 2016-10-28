@@ -1,6 +1,6 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import { Table, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Table, DropdownButton, MenuItem, Glyphicon } from 'react-bootstrap';
 
 import SiteService from '../../../Services/SiteService.jsx';
 
@@ -42,7 +42,7 @@ export default class SiteList extends BaseComponent {
                                     <td onClick={() => { self.goToSiteVersionBin(x.id); }}>{x.name}</td>
                                     <td onClick={() => { self.goToSiteVersionBin(x.id); }}>{x.domain}</td>
                                     <td >
-                                        <DropdownButton title="Actions" id={x.id + '-action-button'}>
+                                        <DropdownButton title={<Glyphicon glyph="cog" />} id={x.id + '-action-button'}>
                                             <MenuItem eventKey="1" onClick={() => { self.setEditingSite(x); }}>Edit</MenuItem>
                                         </DropdownButton>
                                     </td>

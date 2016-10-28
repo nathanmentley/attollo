@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Table, DropdownButton, MenuItem, Glyphicon } from 'react-bootstrap';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
@@ -39,7 +39,7 @@ export default class PageList extends BaseComponent {
                                     <td onClick={() => { self.goToPageBuilder(x.id); }}>{x.title}</td>
                                     <td onClick={() => { self.goToPageBuilder(x.id); }}>{x.url}</td>
                                     <td>
-                                        <DropdownButton title="Actions" id={x.id + '-action-button'}>
+                                        <DropdownButton title={<Glyphicon glyph="cog" />} id={x.id + '-action-button'}>
                                             <MenuItem eventKey="1" onClick={() => { self.setEditingPage(x); }}>
                                                 Edit
                                             </MenuItem>

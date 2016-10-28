@@ -31,22 +31,24 @@ export default class PagesPage extends BasePage {
     componentDidMount() {
         var self = this;
 
-        PageService.GetPages(this.props.params.SiteVersionID).then((res) => {
-            self.setState({ Pages: res.data.data }, () => {
-                self.setBreadCrumbs([
-                    {
-                        title: "Dashboard",
-                        url: "/"
-                    },
-                    {
-                        title: "Sites",
-                        url: "/Sites"
-                    },
-                    {
-                        title: "Site Versions",
-                        url: "/Sites/" + this.props.params.SiteVersionID
-                    }
-                ]);
+        self.setPageTitle("Pages", () => {
+            PageService.GetPages(this.props.params.SiteVersionID).then((res) => {
+                self.setState({ Pages: res.data.data }, () => {
+                    self.setBreadCrumbs([
+                        {
+                            title: "Dashboard",
+                            url: "/"
+                        },
+                        {
+                            title: "Sites",
+                            url: "/Sites"
+                        },
+                        {
+                            title: "Site Versions",
+                            url: "/Sites/" + this.props.params.SiteVersionID
+                        }
+                    ]);
+                });
             });
         });
     }

@@ -31,15 +31,17 @@ export default class SitesPage extends BasePage {
     componentDidMount() {
         var self = this;
 
-        SiteService.GetSites().then((res) => {
-            self.setState({ Sites: res.data.data }, () => {
-                self.setBreadCrumbs([
-                    {
-                        title: "Dashboard",
-                        url: "/"
-                    }
-                ]);
-            }); 
+        self.setPageTitle("Sites", () => {
+            SiteService.GetSites().then((res) => {
+                self.setState({ Sites: res.data.data }, () => {
+                    self.setBreadCrumbs([
+                        {
+                            title: "Dashboard",
+                            url: "/"
+                        }
+                    ]);
+                }); 
+            });
         });
     }
 

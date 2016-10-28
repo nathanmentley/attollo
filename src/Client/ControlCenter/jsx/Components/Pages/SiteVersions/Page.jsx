@@ -21,18 +21,20 @@ export default class SiteVersionsPage extends BasePage {
     componentDidMount() {
         var self = this;
 
-        SiteVersionService.GetSiteVersions(this.props.params.SiteID).then((res) => {
-            self.setState({ SiteVersions: res.data.data }, () => {
-                self.setBreadCrumbs([
-                    {
-                        title: "Dashboard",
-                        url: "/"
-                    },
-                    {
-                        title: "Sites",
-                        url: "/Sites"
-                    }
-                ]);
+        self.setPageTitle("Site Versions", () => {
+            SiteVersionService.GetSiteVersions(this.props.params.SiteID).then((res) => {
+                self.setState({ SiteVersions: res.data.data }, () => {
+                    self.setBreadCrumbs([
+                        {
+                            title: "Dashboard",
+                            url: "/"
+                        },
+                        {
+                            title: "Sites",
+                            url: "/Sites"
+                        }
+                    ]);
+                });
             });
         });
     }

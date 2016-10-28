@@ -10,11 +10,16 @@ export default class BasePage extends BaseComponent {
         super(props);
 
         this.setBreadCrumbs = this.setBreadCrumbs.bind(this);
+        this.setPageTitle = this.setPageTitle.bind(this);
         this._render = this._render.bind(this);
     }
 
-    setBreadCrumbs(crumbs) {
-        this.setState({ BreadCrumbs: crumbs });
+    setBreadCrumbs(crumbs, callBack) {
+        this.setState({ BreadCrumbs: crumbs }, callBack);
+    }
+
+    setPageTitle(title, callBack) {
+        this.setState({ PageTitle: title }, callBack);
     }
 
     _render() {
@@ -47,6 +52,16 @@ export default class BasePage extends BaseComponent {
                             </Col>
                         </Row> :
                         ""
+                }
+
+                {
+                    (this.state && this.state.PageTitle) ?
+                    <Row>
+                        <Col xs={12} md={12} className="page-title">
+                            <h1>{this.state.PageTitle}</h1>
+                        </Col>
+                    </Row> :
+                    ""
                 }
 
                 {this._render()}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Glyphicon } from 'react-bootstrap';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
@@ -18,10 +19,12 @@ export default class BlockContainerEditor extends BaseComponent {
 
     render() {
         return (
-            <div>
-                <div>
+            <div className="block-container-node">
+                <Glyphicon glyph="move" className="pull-right" />
+                
+                <h6>
                     {this.props.BlockContainer.BlockContainerDef.title}
-                </div>
+                </h6>
                 <BlockContainerRenderer
                     BlockContainer={this.props.BlockContainer}
                     BlockRenderer={BlockRenderer}

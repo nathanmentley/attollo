@@ -21,6 +21,9 @@ export default class BlockContainerList extends BaseComponent {
                         );
                     })
                 }
+                <div className="block-container-def-target">
+                    <span>Drop Layout Here</span>
+                </div>
             </div>
         );
     }

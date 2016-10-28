@@ -174,11 +174,11 @@ export default class PageBuilderPage extends BasePage {
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={12} md={3}>
+                    <Col xs={12} md={12}>
                         <BlockContainerList BlockContainers={this.state.BlockContainers} SetEditingBlock={this.setEditingBlock} />
                     </Col>
 
-                    <Col xs={12} md={9}>
+                    <Col xs={12} md={12}>
                         {editingBlock}
                     </Col>
                 </Row>

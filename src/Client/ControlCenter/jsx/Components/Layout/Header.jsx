@@ -41,7 +41,9 @@ export default class Header extends BaseComponent {
                 <Navbar inverse>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <a onClick={function() { self.changePage('/Dashboard')} }>Attollo</a>
+                            <a onClick={function() { self.changePage('/Dashboard')} }>
+                                Attollo
+                            </a>
                         </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>

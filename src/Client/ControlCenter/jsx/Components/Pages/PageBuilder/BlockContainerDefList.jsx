@@ -1,4 +1,5 @@
 import React from 'react';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
@@ -17,17 +18,19 @@ export default class BlockContainerDefList extends BaseComponent {
         var self = this;
 
         return (
-            <div>
+            <Row>
                 {
                     this.props.BlockContainerDefs.map((x) => {
                         return (
-                            <div key={x.code}>
-                                <a onClick={() => {self.addBlockContainer(x.code)}}>{x.title}</a>
-                            </div>
+                            <Col key={x.code} xs={4} md={4}>
+                                <div className="block-container-def-node" onClick={() => {self.addBlockContainer(x.code)} }>
+                                    {x.title}
+                                </div>
+                            </Col>
                         );
                     })
                 }
-            </div>
+            </Row>
         );
     }
 }

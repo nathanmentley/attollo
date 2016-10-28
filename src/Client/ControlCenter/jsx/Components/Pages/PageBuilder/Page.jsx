@@ -150,7 +150,7 @@ export default class PageBuilderPage extends BasePage {
         }
 
         return (
-            <Grid>
+            <Grid className="page-builder-page-root">
                 <Row>
                     <Col xs={6} md={6}>
                         <h5>Layouts</h5>

@@ -4,11 +4,29 @@ import { browserHistory } from 'react-router';
 
 import BaseComponent from '../BaseComponent.jsx';
 
+import SiteService from '../../Services/SiteService.jsx';
+
 export default class Header extends BaseComponent {
     constructor(props) {
         super(props);
 
+        this.state = {
+            Sites: []
+        };
+
         this.changePage = this.changePage.bind(this);
+    }
+    
+    componentWillReceiveProps(nextProps) {
+        var self = this;
+
+        if(nextProps.IsAuthenticated) {
+            SiteService.GetSites().then((res) => {
+                self.setState({ Sites: res.data.data });
+            });
+        }else{
+            self.setState({ Sites: [] });
+        }
     }
 
     changePage(url) {
@@ -34,10 +52,22 @@ export default class Header extends BaseComponent {
                                 <MenuItem eventKey={2.1} onClick={function() { self.changePage('/Sites')} }>Show All</MenuItem>
                                 
                                 <MenuItem divider />
+                                
+                                {self.state.Sites.map((site) => {
+                                    var eventKey = 2;
+                                    eventKey += (0.1 * (2 + self.state.Sites.indexOf(site)));
 
-                                <MenuItem eventKey={2.2}>Dynamic</MenuItem>
-                                <MenuItem eventKey={2.3}>List Of User</MenuItem>
-                                <MenuItem eventKey={2.3}>Sites</MenuItem>
+                                    return (
+                                        <MenuItem
+                                            key={site.id}
+                                            eventKey={eventKey}
+                                            onClick={function() { self.changePage('/Sites/' + site.id )} }
+                                        >
+                                            {site.name}
+                                        </MenuItem>
+                                    );
+                                })}
+
                             </NavDropdown>
                             <NavItem eventKey={3} onClick={function() { self.changePage('/About')} }>About</NavItem>
                         </Nav>

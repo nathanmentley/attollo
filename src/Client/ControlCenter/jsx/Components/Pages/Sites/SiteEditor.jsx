@@ -64,7 +64,6 @@ export default class SiteEditor extends BaseComponent {
                     <Modal.Title>{this.props.Site.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-
                     <FormGroup
                         controlId="siteName"
                         validationState={this.getNameValidation()}
@@ -94,7 +93,6 @@ export default class SiteEditor extends BaseComponent {
                         <FormControl.Feedback />
                         <HelpBlock />
                     </FormGroup>
-
                 </Modal.Body>
                 <Modal.Footer>
                     <Button bsStyle="primary" onClick={this.saveSite}>Save</Button>

@@ -3,6 +3,7 @@ import React from 'react';
 import BaseComponent from '../../BaseComponent.jsx';
 
 import BlockContainerEditor from './BlockContainerEditor.jsx';
+import BlockContainerDefTarget from './BlockContainerDefTarget.jsx';
 
 export default class BlockContainerList extends BaseComponent {
     constructor(props) {
@@ -19,9 +20,7 @@ export default class BlockContainerList extends BaseComponent {
                         );
                     })
                 }
-                <div className="block-container-def-target">
-                    <span>Drop Layout Here</span>
-                </div>
+                <BlockContainerDefTarget />
             </div>
         );
     }

@@ -25,6 +25,8 @@ export default class PageBuilderPage extends BasePage {
             BlockContainerDefs: []
         };
 
+        this.swapBlockContainers = this.swapBlockContainers.bind(this);
+
         this.setEditingBlock = this.setEditingBlock.bind(this);
         this.updateEditingBlockTitle = this.updateEditingBlockTitle.bind(this);
         this.updateEditingBlockTemplate = this.updateEditingBlockTemplate.bind(this);
@@ -69,6 +71,19 @@ export default class PageBuilderPage extends BasePage {
         BlockContainerDefService.GetBlockContainerDefs().then((res) => {
             self.setState({ BlockContainerDefs: res.data.data }); 
         });
+    }
+
+    swapBlockContainers(containerId1, containerId2) {
+        var blockContainers = ObjectUtils.Clone(this.state.BlockContainers);
+
+        var container1 = blockContainers.find((x) => { return x.id == containerId1;});
+        var container2 = blockContainers.find((x) => { return x.id == containerId2;});
+
+        var temporder = container1.displayorder;
+        container1.displayorder = container2.displayorder;
+        container2.displayorder = temporder;
+
+        this.setState({ BlockContainers: blockContainers });
     }
 
     setEditingBlock(block) {
@@ -175,7 +190,7 @@ export default class PageBuilderPage extends BasePage {
                 </Row>
                 <Row>
                     <Col xs={12} md={12}>
-                        <BlockContainerList BlockContainers={this.state.BlockContainers} SetEditingBlock={this.setEditingBlock} />
+                        <BlockContainerList BlockContainers={this.state.BlockContainers} SetEditingBlock={this.setEditingBlock} SwapBlockContainers={this.swapBlockContainers} />
                     </Col>
 
                     <Col xs={12} md={12}>

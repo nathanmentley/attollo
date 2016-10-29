@@ -15,12 +15,20 @@ const BlockContainerEditorSource = {
         return {
             BlockContainerID: props.BlockContainer.id
         };
+    },
+    endDrag(props, monitor, component) {
+        var target = monitor.getDropResult();
+        var source = props.BlockContainer;
+
+        if(props.SwapBlockContainers) {
+            props.SwapBlockContainers(target.id, source.id);
+        }
     }
 }
 
 const BlockContainerEditorTarget = {
     drop(props) {
-        alert(props.BlockContainer.id);
+        return props.BlockContainer;
     }
 }
 

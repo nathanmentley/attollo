@@ -53,3 +53,9 @@ INSERT INTO Page(SiteVersionID, Url, Title) VALUES(2, '/price', 'price title 2')
 INSERT INTO BlockContainer(PageID, BlockContainerDefID, DisplayOrder) VALUES(4, 1, 1);
 INSERT INTO BlockContainerArea(BlockContainerID, BlockContainerAreaDefID) VALUES(4, 1);
 INSERT INTO Block(BlockDefID, BlockContainerAreaID, Title, Template, CompiledTemplate) VALUES(2, 5, 'Price Hero', '<p>price 2</p>', 'function anonymous(data,config/**/) {data = data || {};var nodes = (function jsx() {return React.createElement("p",null,"price 2");}).call(data),options = {"render":"renderToString"};if ("DOM" === options.render || !(config || {}).html) return nodes;return ReactDOM[options.render](nodes);}');
+
+
+INSERT INTO BlockContainer(PageID, BlockContainerDefID, DisplayOrder) VALUES(1, 1, 2);
+INSERT INTO BlockContainerArea(BlockContainerID, BlockContainerAreaDefID) VALUES(5, 1);
+INSERT INTO BlockContainer(PageID, BlockContainerDefID, DisplayOrder) VALUES(1, 1, 3);
+INSERT INTO BlockContainerArea(BlockContainerID, BlockContainerAreaDefID) VALUES(6, 1);

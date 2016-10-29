@@ -3,6 +3,8 @@ import { Grid, Row, Col, Glyphicon } from 'react-bootstrap';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
+import BlockContainerDef from './BlockContainerDef.jsx';
+
 export default class BlockContainerDefList extends BaseComponent {
     constructor(props) {
         super(props);
@@ -23,9 +25,7 @@ export default class BlockContainerDefList extends BaseComponent {
                     this.props.BlockContainerDefs.map((x) => {
                         return (
                             <Col key={x.code} xs={4} md={4}>
-                                <div className="block-container-def-node" onClick={() => {self.addBlockContainer(x.code)} }>
-                                    <Glyphicon glyph="equalizer" /> {x.title}
-                                </div>
+                                <BlockContainerDef BlockContainerDef={x} />
                             </Col>
                         );
                     })

@@ -20,7 +20,7 @@ const BlockContainerEditorSource = {
         var target = monitor.getDropResult();
         var source = props.BlockContainer;
 
-        if(props.SwapBlockContainers) {
+        if(props.SwapBlockContainers && target && source) {
             props.SwapBlockContainers(target.id, source.id);
         }
     }

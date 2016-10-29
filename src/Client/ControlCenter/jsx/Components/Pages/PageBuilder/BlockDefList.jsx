@@ -1,7 +1,9 @@
 import React from 'react';
-import { Grid, Row, Col, Glyphicon } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 import BaseComponent from '../../BaseComponent.jsx';
+
+import BlockDef from './BlockDef.jsx';
 
 export default class BlockDefList extends BaseComponent {
     constructor(props) {
@@ -23,9 +25,7 @@ export default class BlockDefList extends BaseComponent {
                     this.props.BlockDefs.map((x) => {
                         return (
                             <Col key={x.code} xs={4} md={4}>
-                                <div className="block-def-node" onClick={() => {self.addBlock(x.code)} }>
-                                    <Glyphicon glyph="flash" /> {x.name}
-                                </div>
+                                <BlockDef BlockDef={x} />
                             </Col>
                         );
                     })

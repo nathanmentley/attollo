@@ -9,7 +9,6 @@ import BlockService from '../../../Services/BlockService.jsx';
 import BlockContainerRenderer from '../../../../../Common/jsx/Components/BlockContainerRenderer.jsx';
 import BlockRenderer from './BlockRenderer.jsx';
 
-
 const BlockContainerEditorSource = {
     beginDrag(props) {
         return {
@@ -68,8 +67,6 @@ export default DropTarget("BlockContainerEditor", BlockContainerEditorTarget, dr
                                 backgroundColor: isOver ? 'yellow' : '#f0f0f0' 
                             }
                         }>
-                            <Glyphicon glyph="move" className="pull-right" />
-                            
                             <h6>
                                 {this.props.BlockContainer.BlockContainerDef.title}
                             </h6>

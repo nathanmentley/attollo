@@ -8,12 +8,6 @@ import BlockDef from './BlockDef.jsx';
 export default class BlockDefList extends BaseComponent {
     constructor(props) {
         super(props);
-
-        this.addBlock = this.addBlock.bind(this);
-    }
-
-    addBlock(code) {
-        this.props.AddNewBlock(code);
     }
 
     render() {

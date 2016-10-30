@@ -8,12 +8,6 @@ import BlockContainerDef from './BlockContainerDef.jsx';
 export default class BlockContainerDefList extends BaseComponent {
     constructor(props) {
         super(props);
-
-        this.addBlockContainer = this.addBlockContainer.bind(this);
-    }
-
-    addBlockContainer(code) {
-        this.props.AddNewBlockContainer(code);
     }
 
     render() {
@@ -25,7 +19,7 @@ export default class BlockContainerDefList extends BaseComponent {
                     this.props.BlockContainerDefs.map((x) => {
                         return (
                             <Col key={x.code} xs={4} md={4}>
-                                <BlockContainerDef BlockContainerDef={x} />
+                                <BlockContainerDef BlockContainerDef={x} AddBlockContainer={this.props.AddBlockContainer} />
                             </Col>
                         );
                     })

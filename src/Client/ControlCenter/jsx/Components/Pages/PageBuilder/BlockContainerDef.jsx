@@ -7,14 +7,14 @@ import BaseComponent from '../../BaseComponent.jsx';
 const BlockContainerDefSource = {
     beginDrag(props) {
         return {
-            BlockContainerDefID: props.BlockContainerDef.id
+            BlockContainerDefCode: props.BlockContainerDef.code
         };
     },
     endDrag(props, monitor, component) {
-        var source = props.BlockDef;
+        var source = props.BlockContainerDef;
 
         if(props.AddBlockContainer && source) {
-            props.AddBlockContainer(source.id);
+            props.AddBlockContainer(source.code);
         }
     }
 }

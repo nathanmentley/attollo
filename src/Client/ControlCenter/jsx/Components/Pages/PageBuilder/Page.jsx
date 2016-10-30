@@ -29,6 +29,7 @@ export default DragDropContext(HTML5Backend)(
             };
 
             this.swapBlockContainers = this.swapBlockContainers.bind(this);
+            this.addBlockContainer = this.addBlockContainer.bind(this);
 
             this.setEditingBlock = this.setEditingBlock.bind(this);
             this.updateEditingBlockTitle = this.updateEditingBlockTitle.bind(this);
@@ -142,8 +143,10 @@ export default DragDropContext(HTML5Backend)(
             });*/
         }
 
-        addNewBlockContainer(code) {
+        addBlockContainer(code) {
             var self = this;
+
+            alert(code);
 
             /*
             BlockService.AddBlock(this.props.params.PageID, code).then((addResult) => {
@@ -179,7 +182,7 @@ export default DragDropContext(HTML5Backend)(
                     </Row>
                     <Row>
                         <Col xs={6} md={6}>
-                            <BlockContainerDefList BlockContainerDefs={this.state.BlockContainerDefs} AddNewBlockContainer={this.addNewBlockContainer} />
+                            <BlockContainerDefList BlockContainerDefs={this.state.BlockContainerDefs} AddBlockContainer={this.addBlockContainer} />
                         </Col>
                         <Col xs={6} md={6}>
                             <BlockDefList BlockDefs={this.state.BlockDefs} AddNewBlock={this.addNewBlock} />

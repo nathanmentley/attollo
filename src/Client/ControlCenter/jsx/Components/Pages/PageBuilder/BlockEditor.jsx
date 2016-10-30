@@ -85,7 +85,7 @@ export default class BlockEditor extends BaseComponent {
                     >
                         <ControlLabel>Block Template</ControlLabel>
                         <FormControl
-                            type="textarea"
+                            componentClass="textarea"
                             value={this.props.Block.template}
                             placeholder="Enter Block template"
                             onChange={this.updateTemplate}

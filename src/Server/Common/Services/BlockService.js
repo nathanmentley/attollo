@@ -17,6 +17,18 @@
 	classDef.prototype.GetBlockContainers = function (authContext, pageId){
 		return Context.Handlers.Block.GetBlockContainers(authContext, pageId);
 	};
+
+	classDef.prototype.AddBlockContainers = function (authContext, pageId, code){
+		return Context.Handlers.Block.AddBlockContainers(authContext, pageId, code);
+	};
+
+	classDef.prototype.UpdateBlockContainer = function (authContext, blockContainer){
+		return Context.Handlers.Block.UpdateBlockContainer(authContext, blockContainer);
+	};
+
+	classDef.prototype.DeleteBlockContainer = function (authContext, blockContainer){
+		return Context.Handlers.Block.DeleteBlockContainer(authContext, blockContainer);
+	};
 	
 	//blockDef
 

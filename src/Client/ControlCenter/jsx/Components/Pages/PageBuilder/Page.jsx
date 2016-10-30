@@ -78,8 +78,9 @@ export default DragDropContext(HTML5Backend)(
         }
 
         swapBlockContainers(containerId1, containerId2) {
-            var blockContainers = ObjectUtils.Clone(this.state.BlockContainers);
+            var self = this;
 
+            var blockContainers = ObjectUtils.Clone(this.state.BlockContainers);
             var container1 = blockContainers.find((x) => { return x.id == containerId1;});
             var container2 = blockContainers.find((x) => { return x.id == containerId2;});
 
@@ -87,7 +88,23 @@ export default DragDropContext(HTML5Backend)(
             container1.displayorder = container2.displayorder;
             container2.displayorder = temporder;
 
-            this.setState({ BlockContainers: blockContainers });
+            BlockContainerService.SaveBlockContainer(container1).then((res1) => {
+                BlockContainerService.SaveBlockContainer(container2).then((res2) => {
+                    BlockContainerService.GetBlockContainers(this.props.params.PageID).then((getResult) => {
+                        self.setState({ BlockContainers: getResult.data.data }); 
+                    });
+                })
+            });
+        }
+
+        addBlockContainer(code) {
+            var self = this;
+
+            BlockContainerService.AddBlockContainer(this.props.params.PageID, code).then((res) => {
+                BlockContainerService.GetBlockContainers(this.props.params.PageID).then((getResult) => {
+                    self.setState({ BlockContainers: getResult.data.data }); 
+                });
+            });
         }
 
         setEditingBlock(block) {
@@ -132,21 +149,6 @@ export default DragDropContext(HTML5Backend)(
 
         addNewBlock(code) {
             var self = this;
-
-            /*
-            BlockService.AddBlock(this.props.params.PageID, code).then((addResult) => {
-                BlockService.GetBlocks(this.props.params.PageID).then((getResult) => {
-                    self.setState({ Blocks: getResult.data.data }, () => {
-                        //self.setEditingBlock(*somehow get new block*);
-                    }); 
-                });
-            });*/
-        }
-
-        addBlockContainer(code) {
-            var self = this;
-
-            alert(code);
 
             /*
             BlockService.AddBlock(this.props.params.PageID, code).then((addResult) => {

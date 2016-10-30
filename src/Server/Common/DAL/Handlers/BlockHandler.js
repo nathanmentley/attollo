@@ -78,6 +78,33 @@
 			}).fetch({ withRelated: ['BlockContainerDef'] });
 	};
 
+	classDef.prototype.AddBlockContainers = function (authContext, pageId, code){
+		return this.Context.DatabaseContext.BlockContainers(authContext)
+			.query({
+				where: {
+					pageid: pageId
+				}
+			}).fetch({ withRelated: ['BlockContainerDef'] });
+	};
+
+	classDef.prototype.UpdateBlockContainer = function (authContext, blockContainer){
+		return this.Context.DatabaseContext.BlockContainers(authContext)
+			.query({
+				where: {
+					pageid: blockContainer.id
+				}
+			}).fetch({ withRelated: ['BlockContainerDef'] });
+	};
+
+	classDef.prototype.DeleteBlockContainer = function (authContext, blockContainer){
+		return this.Context.DatabaseContext.BlockContainers(authContext)
+			.query({
+				where: {
+					pageid: blockContainer.id
+				}
+			}).fetch({ withRelated: ['BlockContainerDef'] });
+	};
+
 	//BlockSettingDef
 
 	classDef.prototype.GetBlockSettingDefs = function (authContext, blockDefId){

@@ -77,15 +77,16 @@ export default DropTarget("BlockDef", BlockRendererTarget, dropCollect)(
                                     {this.props.Block.title}
                                 </p>
 
-                                <DropdownButton
-                                    className="pull-right"
-                                    title={<Glyphicon glyph="cog" />}
-                                    id={this.props.Block.id + '-action-button'}
-                                >
-                                    <MenuItem eventKey="1" onClick={() => {  }}>
-                                        <Glyphicon glyph="pencil" /> Edit
-                                    </MenuItem>
-                                </DropdownButton>
+                                <div className="pull-right">
+                                    <DropdownButton
+                                        title={<Glyphicon glyph="cog" />}
+                                        id={this.props.Block.id + '-action-button'}
+                                    >
+                                        <MenuItem eventKey="1" onClick={() => {  }}>
+                                            <Glyphicon glyph="pencil" /> Edit
+                                        </MenuItem>
+                                    </DropdownButton>
+                                </div>
                             </div>
                         );
                     }else{

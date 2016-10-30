@@ -27,21 +27,10 @@
 		app.post(urlendpoint, auth, function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
-			Attollo.Services.Block.GetBlockDef(request.AuthContext, request.body.code)
-			.then(function(blockDefCollection) {
-				Attollo.Services.Block.AddBlock(request.AuthContext, request.body.blockContainerId, blockDefCollection.first())
-				.then(function() {
-					response.json({
-						error: false
-					});
-				})
-				.catch(function (err) {
-					response.status(500).json({
-						error: true,
-						data: {
-							message: err.message
-						}
-					});
+			Attollo.Services.Block.AddBlock(request.AuthContext, request.body.blockContainerId, request.body.areaCode, request.body.code)
+			.then(function() {
+				response.json({
+					error: false
 				});
 			})
 			.catch(function (err) {

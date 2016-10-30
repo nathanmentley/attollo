@@ -36,9 +36,6 @@
 							.then((blockContainerAreaDefs) => {
 								var areaDefs = blockContainerAreaDefs.toJSON();
 
-								Attollo.Utils.Log.Info(JSON.stringify(areaDefs));
-								Attollo.Utils.Log.Info(JSON.stringify(blockContainerAreaDefs));
-
 								for(var i = 0; i < areaDefs.length; i++) {
 									self.AddBlockContainerArea(authContext, blockContainer.get('id'), areaDefs[i]['id'])
 									.then(() => {
@@ -107,10 +104,33 @@
 		return Context.Handlers.Block.GetBlocks(authContext, blockContainerId);
 	};
 	
-	classDef.prototype.AddBlock = function (authContext, blockContainerId, blockDef){
-		var compiledtemplate = _renderTemplate("<p></p>");
+	classDef.prototype.AddBlock = function (authContext, blockContainerId, areaCode, blockDefCode){
+		var self = this;
+		var compiledtemplate = _renderTemplate("<p>new block</p>");
 
-		return Context.Handlers.Block.AddBlock(authContext, blockContainerId, blockDef, compiledtemplate);
+		return new Promise(function(resolve, reject) {
+			try{
+				self.GetBlockContainerArea(authContext, blockContainerId, areaCode)
+				.then((area) => {
+					self.GetBlockDef(authContext, blockDefCode)
+					.then(function(blockDef) {
+						Context.Handlers.Block.AddBlock(authContext, area.first(), blockDef.first(), compiledtemplate)
+						.then(() => {
+							resolve();
+						})
+						.catch(function(err) {
+							reject({ message: err.message });
+						});
+					}).catch(function(err) {
+						reject({ message: err.message });
+					});
+				}).catch((err) => {
+					reject({ message: err.message });
+				});
+			} catch(e) {
+				reject({ message: e.message });
+			}
+		});
 	};
 
 	classDef.prototype.UpdateBlock = function (authContext, block){

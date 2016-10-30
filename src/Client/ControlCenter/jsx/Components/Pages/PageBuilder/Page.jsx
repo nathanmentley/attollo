@@ -168,16 +168,11 @@ export default DragDropContext(HTML5Backend)(
         addBlock(blockContainerId, areaCode, blockDefCode) {
             var self = this;
 
-            alert(blockContainerId + " | " + areaCode + " | " + blockDefCode);
-
-            /*
-            BlockService.AddBlock(this.props.params.PageID, code).then((addResult) => {
-                BlockService.GetBlocks(this.props.params.PageID).then((getResult) => {
-                    self.setState({ Blocks: getResult.data.data }, () => {
-                        //self.setEditingBlock(*somehow get new block*);
-                    }); 
+            BlockService.AddBlock(blockContainerId, areaCode, blockDefCode).then((addResult) => {
+                BlockContainerService.GetBlockContainers(self.props.params.PageID).then((res) => {
+                    self.setState({ BlockContainers: res.data.data });
                 });
-            });*/
+            });
         }
 
         _render() {

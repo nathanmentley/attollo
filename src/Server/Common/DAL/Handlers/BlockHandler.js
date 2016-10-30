@@ -32,11 +32,11 @@
 			}).fetch({ withRelated: ['BlockDef', 'BlockContainerArea.BlockContainerAreaDef'] });
 	};
 	
-	classDef.prototype.AddBlock = function (authContext, blockContainerId, blockDef, compiledtemplate){
+	classDef.prototype.AddBlock = function (authContext, blockContainerArea, blockDef, compiledtemplate){
 		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block({
 			blockdefid: blockDef.id,
-			blockcontainerid: blockContainerId,
+			blockcontainerareaid: blockContainerArea.get('id'),
 			title: blockDef.get('name'),
 			template: '<p>new ' + blockDef.get('name') + ' block</p>',
 			compiledtemplate: compiledtemplate
@@ -78,7 +78,7 @@
 		return this.Context.DatabaseContext.BlockContainers(authContext)
 			.query((qb) => {
 				qb.where('pageid', '=', pageId);
-			}).fetch({ withRelated: ['BlockContainerDef', 'BlockContainerAreas.Blocks', 'BlockContainerAreas.BlockContainerAreaDef'] });
+			}).fetch({ withRelated: ['BlockContainerDef', 'BlockContainerAreas.Blocks', 'BlockContainerAreas.Blocks.BlockDef', 'BlockContainerAreas.BlockContainerAreaDef'] });
 	};
 
 	classDef.prototype.AddBlockContainers = function (authContext, pageId, blockContainerDefId, displayOrder){
@@ -132,9 +132,6 @@
 	};
 
 	classDef.prototype.AddBlockContainerArea = function (authContext, blockContainerId, areaDefId) {
-		Attollo.Utils.Log.Info(blockContainerId);
-		Attollo.Utils.Log.Info(areaDefId);
-
 		var BlockContainerArea = this.Context.DatabaseContext.BlockContainerArea(authContext);
 		var blockContainerArea = new BlockContainerArea({
 			blockcontainerid: blockContainerId,

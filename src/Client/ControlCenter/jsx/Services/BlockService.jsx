@@ -7,8 +7,8 @@ export default class BlockService {
         return AjaxService.Get(endpoint + "?blockContainerId=" + blockContainerId, {}, {});
     }
 
-    static AddBlock(blockContainerId, code) {
-        return AjaxService.Post(endpoint, { blockContainerId: blockContainerId, code: code }, {});
+    static AddBlock(blockContainerId, areaCode, code) {
+        return AjaxService.Post(endpoint, { blockContainerId: blockContainerId, areaCode: areaCode, code: code }, {});
     }
 
     static SaveBlock(block) {

@@ -11,9 +11,15 @@ export default class BaseBlockContainerComponent extends BaseComponent {
     }
 
     getBlockForAreaCode(code) {
-        return this.props.Blocks.find((x) => {
-            return x.BlockContainerArea.BlockContainerAreaDef.code == code;
+        var area = this.props.BlockContainer.BlockContainerAreas.find((x) => {
+            return x.BlockContainerAreaDef.code == code
         });
+
+        if(area && area.Blocks.length) {
+            return area.Blocks[0];
+        }
+
+        return null;
     }
 
     updatePage(url) {

@@ -15,7 +15,7 @@ const BlockRendererSource = {
         var source = props.Block;
 
         if(props.MoveBlock && target && source) {
-            props.MoveBlock(target.BlockContainerID, target.AreaCode, source.id);
+            props.MoveBlock(target.BlockContainerID, target.AreaCode, source);
         }
     }
 }

@@ -12,21 +12,7 @@ export default class BlockContainerRenderer extends BaseComponent {
     constructor(props) {
         super(props);
 
-        this.state = {
-            Blocks: []
-        };
-
         this.updatePage = this.updatePage.bind(this);
-    }
-    
-    componentDidMount() {
-        var self = this;
-
-        this.props.BlockService.GetBlocks(this.props.BlockContainer.id).then((blockResult) => {
-            self.setState({
-                Blocks: blockResult.data.data
-            }); 
-        });
     }
 
     updatePage(url) {
@@ -43,7 +29,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                     <OneCol
                         BlockRenderer={self.props.BlockRenderer}
                         BlockContainer={self.props.BlockContainer}
-                        Blocks={self.state.Blocks}
+                        Blocks={self.props.Blocks}
                         UpdatePage={self.updatePage}
                         MoveBlock={self.props.MoveBlock}
                     />
@@ -54,7 +40,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                     <TwoCol
                         BlockRenderer={self.props.BlockRenderer}
                         BlockContainer={self.props.BlockContainer}
-                        Blocks={self.state.Blocks}
+                        Blocks={self.props.Blocks}
                         UpdatePage={self.updatePage}
                         MoveBlock={self.props.MoveBlock}
                     />
@@ -65,7 +51,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                     <ThreeCol
                         BlockRenderer={self.props.BlockRenderer}
                         BlockContainer={self.props.BlockContainer}
-                        Blocks={self.state.Blocks}
+                        Blocks={self.props.Blocks}
                         UpdatePage={self.updatePage}
                         MoveBlock={self.props.MoveBlock}
                     />
@@ -76,7 +62,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                     <FourCol
                         BlockRenderer={self.props.BlockRenderer}
                         BlockContainer={self.props.BlockContainer}
-                        Blocks={self.state.Blocks}
+                        Blocks={self.props.Blocks}
                         UpdatePage={self.updatePage}
                         MoveBlock={self.props.MoveBlock}
                     />

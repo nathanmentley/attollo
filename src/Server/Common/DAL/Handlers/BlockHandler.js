@@ -27,10 +27,8 @@
 	//Block
 	classDef.prototype.GetBlocks = function (authContext, blockContainerId){
 		return this.Context.DatabaseContext.Blocks(authContext)
-			.query({
-				where: {
-					blockcontainerid: blockContainerId
-				}
+			.query((qb) => {
+				qb.where('blockcontainer.id', '=', blockContainerId);
 			}).fetch({ withRelated: ['BlockDef', 'BlockContainerArea.BlockContainerAreaDef'] });
 	};
 	
@@ -67,24 +65,31 @@
 		return this.Context.DatabaseContext.BlockContainerDefs(authContext).fetch();
 	};
 
+	classDef.prototype.GetBlockContainerDef = function (authContext, code){
+		return this.Context.DatabaseContext.BlockContainerDefs(authContext)
+			.query((qb) => {
+				qb.where('code', '=', code);
+			}).fetch();
+	};
+
 	//BlockContainer
 
 	classDef.prototype.GetBlockContainers = function (authContext, pageId){
 		return this.Context.DatabaseContext.BlockContainers(authContext)
-			.query({
-				where: {
-					pageid: pageId
-				}
-			}).fetch({ withRelated: ['BlockContainerDef'] });
+			.query((qb) => {
+				qb.where('pageid', '=', pageId);
+			}).fetch({ withRelated: ['BlockContainerDef', 'BlockContainerAreas.Blocks', 'BlockContainerAreas.BlockContainerAreaDef'] });
 	};
 
-	classDef.prototype.AddBlockContainers = function (authContext, pageId, code){
-		return this.Context.DatabaseContext.BlockContainers(authContext)
-			.query({
-				where: {
-					pageid: pageId
-				}
-			}).fetch({ withRelated: ['BlockContainerDef'] });
+	classDef.prototype.AddBlockContainers = function (authContext, pageId, blockContainerDefId, displayOrder){
+		var BlockContainer = this.Context.DatabaseContext.BlockContainer(authContext);
+		var blockContainer = new BlockContainer({
+			pageid: pageId,
+			blockcontainerdefid: blockContainerDefId,
+			displayorder: displayOrder
+		});
+
+		return blockContainer.save();
 	};
 
 	classDef.prototype.UpdateBlockContainer = function (authContext, blockContainer){
@@ -103,6 +108,40 @@
 					pageid: blockContainer.id
 				}
 			}).fetch({ withRelated: ['BlockContainerDef'] });
+	};
+
+	//BlockContainerAreaDef
+
+	classDef.prototype.GetBlockContainerAreaDefs = function (authContext, blockContainerCode) {
+		return this.Context.DatabaseContext.BlockContainerAreaDefs(authContext)
+			.query((qb) => {
+				qb.where('blockcontainerdef.code', '=', blockContainerCode);
+				qb.innerJoin('blockcontainerdef', 'blockcontainerareadef.blockcontainerdefid', 'blockcontainerdef.id');
+			}).fetch();
+	};
+
+	//BlockContainerArea
+
+	classDef.prototype.GetBlockContainerArea = function (authContext, blockContainerId, areaCode) {
+		return this.Context.DatabaseContext.BlockContainerAreas(authContext)
+			.query((qb) => {
+				qb.where('blockcontainerid', '=', blockContainerId);
+				qb.where('blockcontainerareadef.code', '=', areaCode);
+				qb.innerJoin('blockcontainerareadef', 'blockcontainerarea.blockcontainerareadefid', 'blockcontainerareadef.id');
+			}).fetch();
+	};
+
+	classDef.prototype.AddBlockContainerArea = function (authContext, blockContainerId, areaDefId) {
+		Attollo.Utils.Log.Info(blockContainerId);
+		Attollo.Utils.Log.Info(areaDefId);
+
+		var BlockContainerArea = this.Context.DatabaseContext.BlockContainerArea(authContext);
+		var blockContainerArea = new BlockContainerArea({
+			blockcontainerid: blockContainerId,
+			blockcontainerareadefid: areaDefId
+		});
+
+		return blockContainerArea.save();
 	};
 
 	//BlockSettingDef

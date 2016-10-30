@@ -28,10 +28,12 @@
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.Block.AddBlockContainers(request.AuthContext, request.body.pageId, request.body.code)
-			.then(function (collection) {
+			.then(function () {
 				response.json({
 					error: false,
-					data: collection.toJSON()
+					data: {
+						message: 'success'
+					}
 				});
 			})
 			.catch(function (err) {

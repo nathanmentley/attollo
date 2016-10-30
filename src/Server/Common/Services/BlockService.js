@@ -12,6 +12,10 @@
 		return Context.Handlers.Block.GetBlockContainerDefs(authContext);
 	};
 
+	classDef.prototype.GetBlockContainerDef = function (authContext, code){
+		return Context.Handlers.Block.GetBlockContainerDef(authContext, code);
+	};
+
 	//blockContainer
 
 	classDef.prototype.GetBlockContainers = function (authContext, pageId){
@@ -19,7 +23,48 @@
 	};
 
 	classDef.prototype.AddBlockContainers = function (authContext, pageId, code){
-		return Context.Handlers.Block.AddBlockContainers(authContext, pageId, code);
+		var self = this;
+		return new Promise(function(resolve, reject) {
+			try{
+				self.GetBlockContainers(authContext, pageId)
+				.then((containers) => {
+					self.GetBlockContainerDef(authContext, code)
+					.then(function(blockContainerDef) {
+						Context.Handlers.Block.AddBlockContainers(authContext, pageId, blockContainerDef.first().get('id'), 9)
+						.then(function(blockContainer) {
+							self.GetBlockContainerAreaDefs(authContext, code)
+							.then((blockContainerAreaDefs) => {
+								var areaDefs = blockContainerAreaDefs.toJSON();
+
+								Attollo.Utils.Log.Info(JSON.stringify(areaDefs));
+								Attollo.Utils.Log.Info(JSON.stringify(blockContainerAreaDefs));
+
+								for(var i = 0; i < areaDefs.length; i++) {
+									self.AddBlockContainerArea(authContext, blockContainer.get('id'), areaDefs[i]['id'])
+									.then(() => {
+										resolve();
+									})
+									.catch((err) => {
+										reject({ message: err.message });
+									});
+								}
+							})
+							.catch((err) => {
+								reject({ message: err.message });
+							});
+						}).catch(function(err) {
+							reject({ message: site.get('id') + " " + err.message });
+						});
+					}).catch(function(err) {
+						reject({ message: err.message });
+					});
+				}).catch((err) => {
+					reject({ message: err.message });
+				});
+			} catch(e) {
+				reject({ message: e.message });
+			}
+		});
 	};
 
 	classDef.prototype.UpdateBlockContainer = function (authContext, blockContainer){
@@ -30,6 +75,22 @@
 		return Context.Handlers.Block.DeleteBlockContainer(authContext, blockContainer);
 	};
 	
+	//blockContainerAreaDef
+
+	classDef.prototype.GetBlockContainerAreaDefs = function (authContext, containerCode) {
+		return Context.Handlers.Block.GetBlockContainerAreaDefs(authContext, containerCode);
+	};
+	
+	//blockContainerArea
+
+	classDef.prototype.GetBlockContainerArea = function (authContext, blockContainerId, areaCode) {
+		return Context.Handlers.Block.GetBlockContainerArea(authContext, blockContainerId, areaCode);
+	};
+
+	classDef.prototype.AddBlockContainerArea = function (authContext, blockContainerId, areaCode) {
+		return Context.Handlers.Block.AddBlockContainerArea(authContext, blockContainerId, areaCode);
+	};
+
 	//blockDef
 
 	classDef.prototype.GetBlockDefs = function (authContext){

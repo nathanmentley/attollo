@@ -18,7 +18,7 @@
             }
         },
         Decode: function(auid) {
-            if(auid) {
+            if(auid && typeof auid === 'string') {
                 var newId = auid.split('-')[0];
                 var checkSumClaim = auid.split('-')[1];
                 var checkSumExpected = (crypto.createHash('sha1')
@@ -33,7 +33,7 @@
                 newId = newId ^ key;
                 return newId;
             }else{
-                return null;
+                return auid;
             }
         },
         Fetching: function(authContext, filter, fields, skipFilter) {
@@ -48,7 +48,9 @@
                     if(options.query._statements){
                         for(var i = 0; i < options.query._statements.length; i++) {
                             if(fields.indexOf(options.query._statements[i].column) > -1) {
-                                options.query._statements[i].value = self.Decode(options.query._statements[i].value);
+                                var id = self.Decode(options.query._statements[i].value);
+
+                                options.query._statements[i].value = id;
                             }
                         }
                     }
@@ -72,6 +74,7 @@
 
                         for(var j = 0; j < fields.length; j++) {
                             var field = fields[j];
+                            var fieldParts = field.split('.');
 
                             data[field] = self.Encode(model[field]);
                         }

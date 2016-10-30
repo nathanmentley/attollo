@@ -93,11 +93,6 @@ export default class AboutPage extends BasePage {
                     <Col xs={12} md={6}>
                         <Row>
                             <Col xs={12} md={12}>
-                                {this.state.message}
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs={12} md={12}>
                                 <FormGroup
                                     controlId="username"
                                 >
@@ -128,6 +123,11 @@ export default class AboutPage extends BasePage {
                                     <FormControl.Feedback />
                                     <HelpBlock />
                                 </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={12} md={12}>
+                                {this.state.message}
                             </Col>
                         </Row>
                         <Row>

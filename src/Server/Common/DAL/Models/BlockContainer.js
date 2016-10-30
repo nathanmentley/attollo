@@ -31,7 +31,7 @@
 			constructor: function() {
 				Database.Model.apply(this, arguments);
 				this.on("fetching", Auid.Fetching(authContext, filter, ['id', 'pageid', 'blockcontainerdefid', 'client.id', 'site.id', 'siteversion.id'], skipFilter));
-				this.on("fetched", Auid.Fetched(authContext, filter, ['id', 'pageid', 'blockcontainerdefid'], skipFilter));
+				this.on("fetched", Auid.Fetched(authContext, filter, ['id', 'pageid', 'blockcontainerdefid', 'BlockContainerAreas.id', 'BlockContainerAreas.Blocks.id'], skipFilter));
 				this.on("saving", Auid.Saving(authContext, filter, ['id', 'pageid', 'blockcontainerdefid'], skipFilter));
 				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockContainerDef']));
 				this.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
@@ -52,6 +52,18 @@
 			},
 			BlockContainerDef: function() {
 				return this.belongsTo(BlockContainerDef.Model(authContext, skipFilter), 'blockcontainerdefid');
+			},
+			BlockContainerAreas: function() {
+				var BlockContainerArea = require("./BlockContainerArea");
+
+				return this.hasMany(BlockContainerArea.Model(authContext, skipFilter), 'blockcontainerid');
+			},
+			Blocks: function() {
+				var Block = require("./Block");
+				var BlockContainerArea = require("./BlockContainerArea");
+				
+				return this.hasMany(Block.Model(authContext, skipFilter), 'blockcontainerareaid')
+							.through(BlockContainerArea.Model(authContext, skipFilter), 'blockcontainerid');
 			}
 		});
 	};
@@ -61,7 +73,7 @@
 			model: model(authContext, skipFilter)
 		}).forge()
 		.on("fetching", Auid.Fetching(authContext, filter, ['id', 'blockcontainerdefid', 'pageid', 'client.id', 'site.id', 'siteversion.id'], skipFilter))
-		.on("fetched", Auid.Fetched(authContext, filter, ['id', 'blockcontainerdefid', 'pageid'], skipFilter))
+		.on("fetched", Auid.Fetched(authContext, filter, ['id', 'blockcontainerdefid', 'pageid', 'BlockContainerAreas.id', 'BlockContainerAreas.Blocks.id'], skipFilter))
 		.on("saving", Auid.Saving(authContext, filter, ['id', 'blockcontainerdefid', 'pageid'], skipFilter))
 		.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockContainerDef']))
 		.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));

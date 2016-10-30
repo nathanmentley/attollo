@@ -7,9 +7,11 @@ import ObjectUtils from '../../../Utils/ObjectUtils.jsx';
 
 import BasePage from '../BasePage.jsx';
 
+import BlockService from '../../../Services/BlockService.jsx';
 import BlockDefService from '../../../Services/BlockDefService.jsx';
 import BlockContainerDefService from '../../../Services/BlockContainerDefService.jsx';
 import BlockContainerService from '../../../Services/BlockContainerService.jsx';
+import BlockContainerAreaService from '../../../Services/BlockContainerAreaService.jsx';
 
 import BlockEditor from './BlockEditor.jsx';
 import BlockDefList from './BlockDefList.jsx';
@@ -91,7 +93,7 @@ export default DragDropContext(HTML5Backend)(
 
             BlockContainerService.SaveBlockContainer(container1).then((res1) => {
                 BlockContainerService.SaveBlockContainer(container2).then((res2) => {
-                    BlockContainerService.GetBlockContainers(this.props.params.PageID).then((getResult) => {
+                    BlockContainerService.GetBlockContainers(self.props.params.PageID).then((getResult) => {
                         self.setState({ BlockContainers: getResult.data.data }); 
                     });
                 })
@@ -148,10 +150,19 @@ export default DragDropContext(HTML5Backend)(
             });*/
         }
 
-        moveBlock(blockContainerId, areaCode, blockId) {
+        moveBlock(blockContainerId, areaCode, block) {
             var self = this;
+            var newBlock = ObjectUtils.Clone(block);
 
-            alert(blockContainerId + " | " + areaCode + " | " + blockId);
+            BlockContainerAreaService.GetBlockContainerArea(blockContainerId, areaCode).then((getResult) => {
+                newBlock.blockcontainerareaid = getResult.data.data.id;
+                
+                BlockService.SaveBlock(newBlock).then((saveResult) => {
+                    BlockContainerService.GetBlockContainers(self.props.params.PageID).then((res) => {
+                        self.setState({ BlockContainers: res.data.data });
+                    });
+                });
+            });
         }
 
         addBlock(blockContainerId, areaCode, blockDefCode) {

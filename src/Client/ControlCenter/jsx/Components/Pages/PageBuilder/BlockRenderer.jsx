@@ -12,23 +12,20 @@ const BlockRendererSource = {
     },
     endDrag(props, monitor, component) {
         var target = monitor.getDropResult();
-        var source = props.BlockContainer;
+        var source = props.Block;
 
-        if(props.SwapBlockAreas && target && source) {
-            props.SwapBlockAreas(target.id, source.id);
+        if(props.MoveBlock && target && source) {
+            props.MoveBlock(target.BlockContainerID, target.AreaCode, source.id);
         }
     }
 }
 
 const BlockRendererTarget = {
     drop(props) {
-        return {};
-    }
-}
-
-const BlockRendererBlockTarget = {
-    drop(props) {
-        return {};
+        return {
+            BlockContainerID: props.BlockContainer.id,
+            AreaCode: props.AreaCode
+        };
     }
 }
 
@@ -54,7 +51,7 @@ function dragCollect(connect, monitor) {
 }
 
 export default DropTarget("BlockDef", BlockRendererTarget, dropCollect)(
-    DropTarget("Block", BlockRendererBlockTarget, dropBlockCollect)(
+    DropTarget("Block", BlockRendererTarget, dropBlockCollect)(
         DragSource("Block", BlockRendererSource, dragCollect)(
             class BlockRenderer extends BaseComponent {
                 constructor(props) {

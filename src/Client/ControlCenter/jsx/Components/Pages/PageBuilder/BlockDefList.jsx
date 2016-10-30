@@ -19,7 +19,7 @@ export default class BlockDefList extends BaseComponent {
                     this.props.BlockDefs.map((x) => {
                         return (
                             <Col key={x.code} xs={4} md={4}>
-                                <BlockDef BlockDef={x} />
+                                <BlockDef BlockDef={x} AddBlock={this.props.AddBlock} />
                             </Col>
                         );
                     })

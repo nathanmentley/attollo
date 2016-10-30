@@ -16,7 +16,12 @@ export default class BlockContainerList extends BaseComponent {
                 {
                     this.props.BlockContainers.sort((a, b) => a.displayorder - b.displayorder).map((x) => {
                         return (
-                            <BlockContainerEditor key={x.id} BlockContainer={x} SwapBlockContainers={this.props.SwapBlockContainers} />
+                            <BlockContainerEditor
+                                key={x.id}
+                                BlockContainer={x}
+                                SwapBlockContainers={self.props.SwapBlockContainers}
+                                MoveBlock={self.props.MoveBlock}
+                            />
                         );
                     })
                 }

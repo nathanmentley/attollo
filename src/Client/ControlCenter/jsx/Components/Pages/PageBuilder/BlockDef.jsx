@@ -15,7 +15,7 @@ const BlockDefSource = {
         var source = props.BlockDef;
 
         if(props.AddBlock && target && source) {
-            props.AddBlock(source.id, target.id);
+            props.AddBlock(target.BlockContainerID, target.AreaCode, source.code);
         }
     }
 }

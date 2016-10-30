@@ -35,7 +35,8 @@ export default DragDropContext(HTML5Backend)(
             this.updateEditingBlockTitle = this.updateEditingBlockTitle.bind(this);
             this.updateEditingBlockTemplate = this.updateEditingBlockTemplate.bind(this);
 
-            this.addNewBlock = this.addNewBlock.bind(this);
+            this.moveBlock = this.moveBlock.bind(this);
+            this.addBlock = this.addBlock.bind(this);
             this.saveBlock = this.saveBlock.bind(this);
             this.deleteBlock = this.deleteBlock.bind(this);
         }
@@ -147,8 +148,16 @@ export default DragDropContext(HTML5Backend)(
             });*/
         }
 
-        addNewBlock(code) {
+        moveBlock(blockContainerId, areaCode, blockId) {
             var self = this;
+
+            alert(blockContainerId + " | " + areaCode + " | " + blockId);
+        }
+
+        addBlock(blockContainerId, areaCode, blockDefCode) {
+            var self = this;
+
+            alert(blockContainerId + " | " + areaCode + " | " + blockDefCode);
 
             /*
             BlockService.AddBlock(this.props.params.PageID, code).then((addResult) => {
@@ -184,10 +193,16 @@ export default DragDropContext(HTML5Backend)(
                     </Row>
                     <Row>
                         <Col xs={6} md={6}>
-                            <BlockContainerDefList BlockContainerDefs={this.state.BlockContainerDefs} AddBlockContainer={this.addBlockContainer} />
+                            <BlockContainerDefList
+                                BlockContainerDefs={this.state.BlockContainerDefs}
+                                AddBlockContainer={this.addBlockContainer}
+                            />
                         </Col>
                         <Col xs={6} md={6}>
-                            <BlockDefList BlockDefs={this.state.BlockDefs} AddNewBlock={this.addNewBlock} />
+                            <BlockDefList
+                                BlockDefs={this.state.BlockDefs}
+                                AddBlock={this.addBlock}
+                            />
                         </Col>
                     </Row>
 
@@ -198,7 +213,12 @@ export default DragDropContext(HTML5Backend)(
                     </Row>
                     <Row>
                         <Col xs={12} md={12}>
-                            <BlockContainerList BlockContainers={this.state.BlockContainers} SetEditingBlock={this.setEditingBlock} SwapBlockContainers={this.swapBlockContainers} />
+                            <BlockContainerList
+                                BlockContainers={this.state.BlockContainers}
+                                SwapBlockContainers={this.swapBlockContainers}
+                                SetEditingBlock={this.setEditingBlock}
+                                MoveBlock={this.moveBlock}
+                            />
                         </Col>
 
                         <Col xs={12} md={12}>

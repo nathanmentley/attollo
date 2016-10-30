@@ -57,6 +57,7 @@ export default DropTarget("BlockContainerEditor", BlockContainerEditorTarget, dr
             updatePage() { }
 
             render() {
+                var self = this;
                 const { x, y, connectDropTarget, isOver, connectDragSource, isDragging } = this.props;
 
                 return connectDropTarget(
@@ -75,6 +76,7 @@ export default DropTarget("BlockContainerEditor", BlockContainerEditorTarget, dr
                                 BlockRenderer={BlockRenderer}
                                 BlockService={BlockService}
                                 UpdatePage={self.updatePage}
+                                MoveBlock={self.props.MoveBlock}
                             />
                         </div>
                     )

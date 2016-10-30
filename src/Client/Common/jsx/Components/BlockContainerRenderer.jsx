@@ -39,16 +39,48 @@ export default class BlockContainerRenderer extends BaseComponent {
 
         switch(this.props.BlockContainer.BlockContainerDef.code) {
             case 'OneCol':
-                blockContainerContent = (<OneCol BlockRenderer={this.props.BlockRenderer} Blocks={self.state.Blocks} UpdatePage={this.updatePage} />);
+                blockContainerContent = (
+                    <OneCol
+                        BlockRenderer={self.props.BlockRenderer}
+                        BlockContainer={self.props.BlockContainer}
+                        Blocks={self.state.Blocks}
+                        UpdatePage={self.updatePage}
+                        MoveBlock={self.props.MoveBlock}
+                    />
+                );
                 break;
             case 'TwoCol':
-                blockContainerContent = (<TwoCol BlockRenderer={this.props.BlockRenderer} Blocks={self.state.Blocks} UpdatePage={this.updatePage} />);
+                blockContainerContent = (
+                    <TwoCol
+                        BlockRenderer={self.props.BlockRenderer}
+                        BlockContainer={self.props.BlockContainer}
+                        Blocks={self.state.Blocks}
+                        UpdatePage={self.updatePage}
+                        MoveBlock={self.props.MoveBlock}
+                    />
+                );
                 break;
             case 'ThreeCol':
-                blockContainerContent = (<ThreeCol BlockRenderer={this.props.BlockRenderer} Blocks={self.state.Blocks} UpdatePage={this.updatePage} />);
+                blockContainerContent = (
+                    <ThreeCol
+                        BlockRenderer={self.props.BlockRenderer}
+                        BlockContainer={self.props.BlockContainer}
+                        Blocks={self.state.Blocks}
+                        UpdatePage={self.updatePage}
+                        MoveBlock={self.props.MoveBlock}
+                    />
+                );
                 break;
             case 'FourCol':
-                blockContainerContent = (<FourCol BlockRenderer={this.props.BlockRenderer} Blocks={self.state.Blocks} UpdatePage={this.updatePage} />);
+                blockContainerContent = (
+                    <FourCol
+                        BlockRenderer={self.props.BlockRenderer}
+                        BlockContainer={self.props.BlockContainer}
+                        Blocks={self.state.Blocks}
+                        UpdatePage={self.updatePage}
+                        MoveBlock={self.props.MoveBlock}
+                    />
+                );
                 break;
         }
 

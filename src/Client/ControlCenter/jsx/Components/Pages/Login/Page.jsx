@@ -1,4 +1,5 @@
 import React from 'react';
+import { Grid, Row, Col, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
 import { browserHistory } from 'react-router';
 
 import BasePage from '../BasePage.jsx';
@@ -17,6 +18,8 @@ export default class AboutPage extends BasePage {
 
         this.updateUsername = this.updateUsername.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
+        this.getUsernameValidation = this.getUsernameValidation.bind(this);
+        this.getPasswordValidation = this.getPasswordValidation.bind(this);
         this.login = this.login.bind(this);
     }
 
@@ -30,6 +33,24 @@ export default class AboutPage extends BasePage {
 
     updatePassword(event) {
         this.setState({password: event.target.value});
+    }
+
+    getUsernameValidation() {
+        const length = this.state.username.length;
+        if (length > 0) {
+            return 'success';
+        } else {
+            return 'error';
+        }
+    }
+
+    getPasswordValidation() {
+        const length = this.state.password.length;
+        if (length > 0) {
+            return 'success';
+        } else {
+            return 'error';
+        }
     }
 
     login(event) {
@@ -55,18 +76,68 @@ export default class AboutPage extends BasePage {
 
     _render() {
         return (
-            <div>
-                <div>{this.state.message}</div>
-                <div>
-                    <input type="text" value={this.state.username} onChange={this.updateUsername} placeholder="username" />
-                </div>
-                <div>
-                    <input type="password" value={this.state.password} onChange={this.updatePassword} placeholder="password" />
-                </div>
-                <div>
-                    <div className="btn btn-primary" onClick={this.login}>login</div>
-                </div>
-            </div>
+            <Grid className="login-page-root">
+                <Row>
+                    <Col xs={12} md={6}>
+                        <Row>
+                            <Col xs={12} md={12}>
+                                Welcome to Attollo.
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={12} md={12}>
+                                Build your Web Application with our easy to use drag and drop tools.
+                            </Col>
+                        </Row>
+                    </Col>
+                    <Col xs={12} md={6}>
+                        <Row>
+                            <Col xs={12} md={12}>
+                                {this.state.message}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={12} md={12}>
+                                <FormGroup
+                                    controlId="username"
+                                >
+                                    <ControlLabel>Username</ControlLabel>
+                                    <FormControl
+                                        type="text"
+                                        value={this.state.username}
+                                        placeholder="Username"
+                                        onChange={this.updateUsername}
+                                    />
+                                    <FormControl.Feedback />
+                                    <HelpBlock />
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={12} md={12}>
+                                <FormGroup
+                                    controlId="password"
+                                >
+                                    <ControlLabel>Password</ControlLabel>
+                                    <FormControl
+                                        type="password"
+                                        value={this.state.password}
+                                        placeholder="Password"
+                                        onChange={this.updatePassword}
+                                    />
+                                    <FormControl.Feedback />
+                                    <HelpBlock />
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={12} md={12}>
+                                <Button bsStyle="primary" onClick={this.login}>Login</Button>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </Grid>
         );
     }
 }

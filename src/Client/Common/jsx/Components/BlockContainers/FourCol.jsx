@@ -13,7 +13,7 @@ export default class FourCol extends BaseBlockContainerComponent {
 
         return (
             <Row>
-                <Col xs={12} md={3}>
+                <Col xs={12} md={6} lg={3}>
                     <this.props.BlockRenderer
                         BlockContainer={self.props.BlockContainer}
                         Block={self.getBlockForAreaCode('First')}
@@ -23,7 +23,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         SetEditingBlock={self.props.SetEditingBlock}
                     />
                 </Col>
-                <Col xs={12} md={3}>
+                <Col xs={12} md={6} lg={3}>
                     <this.props.BlockRenderer
                         BlockContainer={self.props.BlockContainer}
                         Block={self.getBlockForAreaCode('Second')}
@@ -33,7 +33,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         SetEditingBlock={self.props.SetEditingBlock}
                     />
                 </Col>
-                <Col xs={12} md={3}>
+                <Col xs={12} md={6} lg={3}>
                     <this.props.BlockRenderer
                         BlockContainer={self.props.BlockContainer}
                         Block={self.getBlockForAreaCode('Third')}
@@ -43,7 +43,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         SetEditingBlock={self.props.SetEditingBlock}
                     />
                 </Col>
-                <Col xs={12} md={3}>
+                <Col xs={12} md={6} lg={3}>
                     <this.props.BlockRenderer
                         BlockContainer={self.props.BlockContainer}
                         Block={self.getBlockForAreaCode('Fourth')}

@@ -20,6 +20,7 @@ export default class TwoCol extends BaseBlockContainerComponent {
                         AreaCode={'First'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
+                        SetEditingBlock={self.props.SetEditingBlock}
                     />
                 </Col>
                 <Col xs={12} md={6}>
@@ -29,6 +30,7 @@ export default class TwoCol extends BaseBlockContainerComponent {
                         AreaCode={'Second'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
+                        SetEditingBlock={self.props.SetEditingBlock}
                     />
                 </Col>
             </Row>

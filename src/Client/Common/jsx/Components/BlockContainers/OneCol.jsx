@@ -20,6 +20,7 @@ export default class OneCol extends BaseBlockContainerComponent {
                         AreaCode={'First'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
+                        SetEditingBlock={self.props.SetEditingBlock}
                     />
                 </Col>
             </Row>

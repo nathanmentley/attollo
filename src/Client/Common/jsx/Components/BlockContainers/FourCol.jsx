@@ -20,6 +20,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         AreaCode={'First'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
+                        SetEditingBlock={self.props.SetEditingBlock}
                     />
                 </Col>
                 <Col xs={12} md={3}>
@@ -29,6 +30,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         AreaCode={'Second'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
+                        SetEditingBlock={self.props.SetEditingBlock}
                     />
                 </Col>
                 <Col xs={12} md={3}>
@@ -38,6 +40,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         AreaCode={'Third'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
+                        SetEditingBlock={self.props.SetEditingBlock}
                     />
                 </Col>
                 <Col xs={12} md={3}>
@@ -47,6 +50,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         AreaCode={'Fourth'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
+                        SetEditingBlock={self.props.SetEditingBlock}
                     />
                 </Col>
             </Row>

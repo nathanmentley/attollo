@@ -20,6 +20,7 @@ export default class ThreeCol extends BaseBlockContainerComponent {
                         AreaCode={'First'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
+                        SetEditingBlock={self.props.SetEditingBlock}
                     />
                 </Col>
                 <Col  xs={12} md={4}>
@@ -29,6 +30,7 @@ export default class ThreeCol extends BaseBlockContainerComponent {
                         AreaCode={'Second'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
+                        SetEditingBlock={self.props.SetEditingBlock}
                     />
                 </Col>
                 <Col xs={12} md={4}>
@@ -38,6 +40,7 @@ export default class ThreeCol extends BaseBlockContainerComponent {
                         AreaCode={'Third'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
+                        SetEditingBlock={self.props.SetEditingBlock}
                     />
                 </Col>
             </Row>

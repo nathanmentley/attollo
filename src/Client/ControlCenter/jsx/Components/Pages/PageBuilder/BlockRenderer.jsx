@@ -57,10 +57,16 @@ export default DropTarget("BlockDef", BlockRendererTarget, dropCollect)(
                 constructor(props) {
                     super(props);
 
-                    this.state = {};
+                }
+
+                setEditingBlock() {
+                    if(this.props.SetEditingBlock) {
+                        this.props.SetEditingBlock(this.props.Block);
+                    }
                 }
 
                 render() {
+                    var self = this;
                     const { connectDropTarget, isOver, connectBlockDropTarget, isBlockOver, connectDragSource, isDragging } = this.props;
 
                     if(this.props.Block) {
@@ -79,7 +85,7 @@ export default DropTarget("BlockDef", BlockRendererTarget, dropCollect)(
                                         title={<Glyphicon glyph="cog" />}
                                         id={this.props.Block.id + '-action-button'}
                                     >
-                                        <MenuItem eventKey="1" onClick={() => {  }}>
+                                        <MenuItem eventKey="1" onClick={() => { self.setEditingBlock(); }}>
                                             <Glyphicon glyph="pencil" /> Edit
                                         </MenuItem>
                                     </DropdownButton>

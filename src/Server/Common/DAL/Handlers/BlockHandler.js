@@ -92,13 +92,11 @@
 		return blockContainer.save();
 	};
 
-	classDef.prototype.UpdateBlockContainer = function (authContext, blockContainer){
-		return this.Context.DatabaseContext.BlockContainers(authContext)
-			.query({
-				where: {
-					pageid: blockContainer.id
-				}
-			}).fetch({ withRelated: ['BlockContainerDef'] });
+	classDef.prototype.UpdateBlockContainer = function (authContext, model){
+		var BlockContainer = this.Context.DatabaseContext.BlockContainer(authContext, true);
+		var blockContainer = new BlockContainer(model);
+
+		return blockContainer.save();
 	};
 
 	classDef.prototype.DeleteBlockContainer = function (authContext, blockContainer){

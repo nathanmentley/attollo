@@ -28,9 +28,12 @@
 			try{
 				self.GetBlockContainers(authContext, pageId)
 				.then((containers) => {
+					var containersArray = containers.toJSON();
+					var maxDisplayOrder = Math.max.apply(Math,containersArray.map(function(x){return x.displayorder;})) + 1;
+
 					self.GetBlockContainerDef(authContext, code)
 					.then(function(blockContainerDef) {
-						Context.Handlers.Block.AddBlockContainers(authContext, pageId, blockContainerDef.first().get('id'), 9)
+						Context.Handlers.Block.AddBlockContainers(authContext, pageId, blockContainerDef.first().get('id'), maxDisplayOrder)
 						.then(function(blockContainer) {
 							self.GetBlockContainerAreaDefs(authContext, code)
 							.then((blockContainerAreaDefs) => {

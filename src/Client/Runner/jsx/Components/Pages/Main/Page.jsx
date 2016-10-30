@@ -67,7 +67,7 @@ export default class MainPage extends BasePage {
         }else{
             return (
                 <Grid>
-                    {this.state.BlockContainers.map((x) => {
+                    {this.state.BlockContainers.sort((a, b) => a.displayorder - b.displayorder).map((x) => {
                         return <BlockContainerRenderer
                             key={x.id}
                             BlockContainer={x}

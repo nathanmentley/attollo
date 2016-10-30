@@ -109,9 +109,13 @@ export default DragDropContext(HTML5Backend)(
                 });
             });
         }
-
+        
         setEditingBlock(block) {
-            this.setState({ EditingBlock: ObjectUtils.Clone(block) });
+            if(block) {
+                this.setState({ EditingBlock: ObjectUtils.Clone(block) });
+            } else {
+                this.setState({ EditingBlock: null });
+            }
         }
 
         updateEditingBlockTitle(title) {
@@ -129,25 +133,21 @@ export default DragDropContext(HTML5Backend)(
         saveBlock() {
             var self = this;
 
-            /*
             BlockService.SaveBlock(this.state.EditingBlock).then((saveResult) => {
-                BlockService.GetBlocks(this.props.params.PageID).then((getResult) => {
-                    self.setState({ Blocks: getResBlockContainerListult.data.data }, () => {
-                        //self.setEditingBlock(*somehow get update block*);
-                    }); 
+                BlockContainerService.GetBlockContainers(self.props.params.PageID).then((res) => {
+                    self.setState({ BlockContainers: res.data.data, EditingBlock: null });
                 });
-            });*/
+            });
         }
 
         deleteBlock() {
             var self = this;
 
-            /*
             BlockService.DeleteBlock(this.state.EditingBlock.id).then((saveResult) => {
-                BlockService.GetBlocks(this.props.params.PageID).then((getResult) => {
-                    self.setState({ Blocks: getResult.data.data, EditingBlock: null }); 
+                BlockContainerService.GetBlockContainers(self.props.params.PageID).then((res) => {
+                    self.setState({ BlockContainers: res.data.data, EditingBlock: null });
                 });
-            });*/
+            });
         }
 
         moveBlock(blockContainerId, areaCode, block) {
@@ -184,6 +184,7 @@ export default DragDropContext(HTML5Backend)(
                     UpdateTemplate={this.updateEditingBlockTemplate}
                     SaveBlock={this.saveBlock}
                     DeleteBlock={this.deleteBlock}
+                    SetEditingBlock={this.setEditingBlock}
                 />;
             }
 
@@ -226,11 +227,9 @@ export default DragDropContext(HTML5Backend)(
                                 MoveBlock={this.moveBlock}
                             />
                         </Col>
-
-                        <Col xs={12} md={12}>
-                            {editingBlock}
-                        </Col>
                     </Row>
+
+                    {editingBlock}
                 </Grid>
             );
         }

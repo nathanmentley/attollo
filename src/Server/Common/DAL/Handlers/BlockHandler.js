@@ -24,6 +24,19 @@
 				.fetch();
 	};
 
+	//blockTemplateDef
+
+	classDef.prototype.GetBlockTemplateDef = function (authContext, blockDefId, templateCode) {
+		return this.Context.DatabaseContext.BlockTemplateDefs(authContext)
+				.query({
+					where: {
+						blockdefid: blockDefId,
+						code: templateCode
+					}
+				})
+				.fetch();
+	};
+
 	//Block
 	classDef.prototype.GetBlocks = function (authContext, blockContainerId){
 		return this.Context.DatabaseContext.Blocks(authContext)
@@ -32,14 +45,13 @@
 			}).fetch({ withRelated: ['BlockDef', 'BlockContainerArea.BlockContainerAreaDef'] });
 	};
 	
-	classDef.prototype.AddBlock = function (authContext, blockContainerArea, blockDef, compiledtemplate){
+	classDef.prototype.AddBlock = function (authContext, blockContainerArea, blockDef, blockTemplateDef){
 		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block({
 			blockdefid: blockDef.id,
 			blockcontainerareaid: blockContainerArea.get('id'),
 			title: blockDef.get('name'),
-			template: '<p>new ' + blockDef.get('name') + ' block</p>',
-			compiledtemplate: compiledtemplate
+			blocktemplatedefid: blockTemplateDef.get('id')
 		});
 
 		return block.save();
@@ -78,7 +90,13 @@
 		return this.Context.DatabaseContext.BlockContainers(authContext)
 			.query((qb) => {
 				qb.where('pageid', '=', pageId);
-			}).fetch({ withRelated: ['BlockContainerDef', 'BlockContainerAreas.Blocks', 'BlockContainerAreas.Blocks.BlockDef', 'BlockContainerAreas.BlockContainerAreaDef'] });
+			}).fetch({ withRelated: [
+				'BlockContainerDef',
+				'BlockContainerAreas.Blocks',
+				'BlockContainerAreas.Blocks.BlockDef',
+				'BlockContainerAreas.Blocks.BlockTemplateDef',
+				'BlockContainerAreas.BlockContainerAreaDef'
+			] });
 	};
 
 	classDef.prototype.AddBlockContainers = function (authContext, pageId, blockContainerDefId, displayOrder){

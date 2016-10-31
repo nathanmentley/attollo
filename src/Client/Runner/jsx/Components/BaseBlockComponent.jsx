@@ -16,7 +16,7 @@ export default class BaseBlockComponent extends BaseComponent {
     }
 
     render() {
-        var template = eval("var f = function(){ return " + this.props.Block.compiledtemplate + ";}; f() ;");
+        var template = eval("var f = function(){ return " + this.props.Block.BlockTemplateDef.compiledtemplate + ";}; f();");
 
         return template(this);
     }

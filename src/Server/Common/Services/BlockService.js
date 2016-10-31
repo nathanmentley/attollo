@@ -101,30 +101,41 @@
 		return Context.Handlers.Block.GetBlockDef(authContext, code);
 	};
 
+	//blockTemplateDef
+
+	classDef.prototype.GetBlockTemplateDef = function (authContext, blockDefId, templateCode) {
+		return Context.Handlers.Block.GetBlockTemplateDef(authContext, blockDefId, templateCode);
+	};
+
 	//Block
 
 	classDef.prototype.GetBlocks = function (authContext, blockContainerId){
 		return Context.Handlers.Block.GetBlocks(authContext, blockContainerId);
 	};
 	
-	classDef.prototype.AddBlock = function (authContext, blockContainerId, areaCode, blockDefCode){
+	classDef.prototype.AddBlock = function (authContext, blockContainerId, areaCode, blockDefCode, blockTemplateCode){
 		var self = this;
-		var compiledtemplate = _renderTemplate("<p>new block</p>");
 
 		return new Promise(function(resolve, reject) {
 			try{
 				self.GetBlockContainerArea(authContext, blockContainerId, areaCode)
 				.then((area) => {
 					self.GetBlockDef(authContext, blockDefCode)
-					.then(function(blockDef) {
-						Context.Handlers.Block.AddBlock(authContext, area.first(), blockDef.first(), compiledtemplate)
-						.then(() => {
-							resolve();
+					.then((blockDef) => {
+						self.GetBlockTemplateDef(authContext, blockDef.first().get('id'), blockTemplateCode)
+						.then((blockTemplateDef) => {
+							Context.Handlers.Block.AddBlock(authContext, area.first(), blockDef.first(), blockTemplateDef.first())
+							.then(() => {
+								resolve();
+							})
+							.catch((err) => {
+								reject({ message: err.message });
+							});
 						})
-						.catch(function(err) {
+						.catch((err) => {
 							reject({ message: err.message });
 						});
-					}).catch(function(err) {
+					}).catch((err) => {
 						reject({ message: err.message });
 					});
 				}).catch((err) => {
@@ -136,13 +147,11 @@
 		});
 	};
 
-	classDef.prototype.UpdateBlock = function (authContext, block){
-		block.compiledtemplate = _renderTemplate(block.template);
-
+	classDef.prototype.UpdateBlock = function (authContext, block) {
 		return Context.Handlers.Block.UpdateBlock(authContext, block);
 	};
 
-	classDef.prototype.DeleteBlock = function (authContext, block){
+	classDef.prototype.DeleteBlock = function (authContext, block) {
 		return Context.Handlers.Block.DeleteBlock(authContext, block);
 	};
 	

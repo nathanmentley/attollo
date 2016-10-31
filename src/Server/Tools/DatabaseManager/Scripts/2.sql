@@ -63,13 +63,21 @@ CREATE TABLE IF NOT EXISTS BlockDef (
     Name VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS BlockTemplateDef (
+    ID SERIAL PRIMARY KEY,
+    Code VARCHAR(32) NOT NULL,
+    Name VARCHAR(255) NOT NULL,
+    BlockDefID integer REFERENCES BlockDef,
+    Template TEXT NOT NULL,
+    CompiledTemplate TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS Block (
     ID SERIAL PRIMARY KEY,
     BlockDefID integer REFERENCES BlockDef,
     BlockContainerAreaID integer REFERENCES BlockContainerArea,
-    Title VARCHAR(255) NOT NULL,
-    Template TEXT NOT NULL,
-    CompiledTemplate TEXT NOT NULL
+    BlockTemplateDefID integer REFERENCES BlockTemplateDef,
+    Title VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS BlockSettingDef (

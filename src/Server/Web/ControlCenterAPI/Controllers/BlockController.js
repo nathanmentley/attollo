@@ -27,13 +27,14 @@
 		app.post(urlendpoint, auth, function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
-			Attollo.Services.Block.AddBlock(request.AuthContext, request.body.blockContainerId, request.body.areaCode, request.body.code)
-			.then(function() {
+			Attollo.Services.Block.AddBlock(
+				request.AuthContext, request.body.blockContainerId, request.body.areaCode,
+				request.body.code, request.body.templateCode
+			).then(() => {
 				response.json({
 					error: false
 				});
-			})
-			.catch(function (err) {
+			}).catch((err) => {
 				response.status(500).json({
 					error: true,
 					data: {

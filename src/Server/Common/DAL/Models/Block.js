@@ -11,6 +11,7 @@
 	var BlockContainerArea = require("./BlockContainerArea");
 	var BlockContainerAreaDef = require("./BlockContainerAreaDef");
 	var BlockDef = require("./BlockDef");
+	var BlockTemplateDef = require("./BlockTemplateDef");
 
 	var filter = function(authContext, query) {
 		query.join('blockcontainerarea', 'blockcontainerarea.id', '=', 'block.blockcontainerareaid');
@@ -74,6 +75,9 @@
 			},
 			BlockDef: function() {
 				return this.belongsTo(BlockDef.Model(authContext, skipFilter), 'blockdefid');
+			},
+			BlockTemplateDef: function() {
+				return this.belongsTo(BlockTemplateDef.Model(authContext, skipFilter), 'blocktemplatedefid');
 			}
 		});
 	};

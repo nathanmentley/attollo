@@ -191,10 +191,10 @@ export default DragDropContext(HTML5Backend)(
             return (
                 <Grid className="page-builder-page-root">
                     <Row>
-                        <Col xs={6} md={6}>
+                        <Col xs={12} md={6}>
                             <h5>Layouts</h5>
                         </Col>
-                        <Col xs={6} md={6}>
+                        <Col xs={12} md={6}>
                             <h5>Widgets</h5>
                         </Col>
                     </Row>

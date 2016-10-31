@@ -9,6 +9,7 @@
 	var BlockContainerAreaDef = require("../Models/BlockContainerAreaDef");
 	var BlockSetting = require("../Models/BlockSetting");
 	var BlockSettingDef = require("../Models/BlockSettingDef");
+	var BlockTemplateDef = require("../Models/BlockTemplateDef");
 	var Client = require("../Models/Client");
 	var DatabaseVersion = require("../Models/DatabaseVersion");
 	var Page = require("../Models/Page");
@@ -39,6 +40,9 @@
 
 	classDef.prototype.BlockSettingDefs = BlockSettingDef.Collection;
 	classDef.prototype.BlockSettingDef = BlockSettingDef.Model;
+
+	classDef.prototype.BlockTemplateDefs = BlockTemplateDef.Collection;
+	classDef.prototype.BlockTemplateDef = BlockTemplateDef.Model;
 
 	classDef.prototype.Clients = Client.Collection;
 	classDef.prototype.Client = Client.Model;

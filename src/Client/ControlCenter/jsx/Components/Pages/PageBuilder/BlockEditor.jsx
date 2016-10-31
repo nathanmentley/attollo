@@ -13,7 +13,6 @@ export default class BlockEditor extends BaseComponent {
         this.updateTemplate = this.updateTemplate.bind(this);
 
         this.getTitleValidation = this.getTitleValidation.bind(this);
-        this.getTemplateValidation = this.getTemplateValidation.bind(this);
 
         this.saveBlock = this.saveBlock.bind(this);
         this.deleteBlock = this.deleteBlock.bind(this);
@@ -40,15 +39,6 @@ export default class BlockEditor extends BaseComponent {
         }
     }
 
-    getTemplateValidation() {
-        const length = this.props.Block.template.length;
-        if (length > 0) {
-            return 'success';
-        } else {
-            return 'error';
-        }
-    }
-
     saveBlock() {
         this.props.SaveBlock();
     }
@@ -57,7 +47,17 @@ export default class BlockEditor extends BaseComponent {
         this.props.DeleteBlock();
     }
 
+    getBlockTemplateDefs() {
+        var self = this;
+
+        return self.props.BlockTemplateDefs.filter((x) => {
+            return x.blockdefid == self.props.Block.blockdefid;
+        });
+    }
+
     render() {
+        var self = this;
+
         return (
             <Modal show={true} onHide={this.close}>
                 <Modal.Header closeButton>
@@ -81,15 +81,29 @@ export default class BlockEditor extends BaseComponent {
 
                     <FormGroup
                         controlId="blockTemplate"
-                        validationState={this.getTemplateValidation()}
                     >
                         <ControlLabel>Block Template</ControlLabel>
+                        
                         <FormControl
-                            componentClass="textarea"
-                            value={this.props.Block.template}
+                            componentClass="select"
                             placeholder="Enter Block template"
+                            value={this.props.Block.blocktemplatedefid}
                             onChange={this.updateTemplate}
-                        />
+                        >
+                            {
+                                self.getBlockTemplateDefs().map((blockTemplateDefs) => {
+                                    return (
+                                        <option
+                                            key={blockTemplateDefs.id}
+                                            value={blockTemplateDefs.id}
+                                        >
+                                            {blockTemplateDefs.name}
+                                        </option>
+                                    );
+                                })
+                            }
+                        </FormControl>
+
                         <FormControl.Feedback />
                         <HelpBlock />
                     </FormGroup>

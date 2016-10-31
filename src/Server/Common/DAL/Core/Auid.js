@@ -5,6 +5,7 @@
 
 	module.exports = {
         Encode: function(id) {
+            /*
             if(id) {
                 var newId = id ^ key;
                 newId = newId << 5;
@@ -16,8 +17,11 @@
             }else{
                 return null;
             }
+            */
+            return id;
         },
         Decode: function(auid) {
+            /*
             if(auid && typeof auid === 'string') {
                 var newId = auid.split('-')[0];
                 var checkSumClaim = auid.split('-')[1];
@@ -35,6 +39,8 @@
             }else{
                 return auid;
             }
+            */
+            return auid;
         },
         Fetching: function(authContext, filter, fields, skipFilter) {
             var self = this;

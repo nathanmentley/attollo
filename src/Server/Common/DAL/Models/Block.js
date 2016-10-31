@@ -36,10 +36,10 @@
 			tableName: 'block',
 			constructor: function() {
 				Database.Model.apply(this, arguments);
-				this.on("fetching", Auid.Fetching(authContext, filter, ['id', 'blockcontainerareaid', 'blockdefid', 'client.id', 'site.id', 'siteversion.id', 'blockcontainer.id'], skipFilter));
-				this.on("fetched", Auid.Fetched(authContext, filter, ['id', 'blockcontainerareaid', 'blockdefid'], skipFilter));
-				this.on("saving", Auid.Saving(authContext, filter, ['id', 'blockcontainerareaid', 'blockdefid'], skipFilter));
-				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea']));
+				this.on("fetching", Auid.Fetching(authContext, filter, ['id', 'blockcontainerareaid', 'blockdefid', 'blocktemplatedefid', 'client.id', 'site.id', 'siteversion.id', 'blockcontainer.id'], skipFilter));
+				this.on("fetched", Auid.Fetched(authContext, filter, ['id', 'blockcontainerareaid', 'blockdefid', 'blocktemplatedefid'], skipFilter));
+				this.on("saving", Auid.Saving(authContext, filter, ['id', 'blockcontainerareaid', 'blockdefid', 'blocktemplatedefid'], skipFilter));
+				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea', 'BlockTemplateDef']));
 				this.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
 			},
 			BlockContainerArea: function() {
@@ -86,10 +86,10 @@
 		return Database.Bookshelf.Collection.extend({
 			model: model(authContext, skipFilter)
 		}).forge()
-		.on("fetching", Auid.Fetching(authContext, filter, ['id', 'blockdefid', 'blockcontainerareaid', 'client.id', 'site.id', 'siteversion.id', 'blockcontainer.id'], skipFilter))
-		.on("fetched", Auid.Fetched(authContext, filter, ['id', 'blockdefid', 'blockcontainerareaid'], skipFilter))
-		.on("saving", Auid.Saving(authContext, filter, ['id', 'blockdefid', 'blockcontainerareaid'], skipFilter))
-		.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea']))
+		.on("fetching", Auid.Fetching(authContext, filter, ['id', 'blockdefid', 'blockcontainerareaid', 'blocktemplatedefid', 'client.id', 'site.id', 'siteversion.id', 'blockcontainer.id'], skipFilter))
+		.on("fetched", Auid.Fetched(authContext, filter, ['id', 'blockdefid', 'blockcontainerareaid', 'blocktemplatedefid'], skipFilter))
+		.on("saving", Auid.Saving(authContext, filter, ['id', 'blockdefid', 'blockcontainerareaid', 'blocktemplatedefid'], skipFilter))
+		.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea', 'BlockTemplateDef']))
 		.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
 	};
 	

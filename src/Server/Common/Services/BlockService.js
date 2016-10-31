@@ -107,6 +107,10 @@
 		return Context.Handlers.Block.GetBlockTemplateDef(authContext, blockDefId, templateCode);
 	};
 
+	classDef.prototype.GetBlockTemplateDefs = function (authContext) {
+		return Context.Handlers.Block.GetBlockTemplateDefs(authContext);
+	};
+
 	//Block
 
 	classDef.prototype.GetBlocks = function (authContext, blockContainerId){

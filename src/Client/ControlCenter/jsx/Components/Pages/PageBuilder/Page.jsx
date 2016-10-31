@@ -12,6 +12,7 @@ import BlockDefService from '../../../Services/BlockDefService.jsx';
 import BlockContainerDefService from '../../../Services/BlockContainerDefService.jsx';
 import BlockContainerService from '../../../Services/BlockContainerService.jsx';
 import BlockContainerAreaService from '../../../Services/BlockContainerAreaService.jsx';
+import BlockTemplateDefService from '../../../Services/BlockTemplateDefService.jsx';
 
 import BlockEditor from './BlockEditor.jsx';
 import BlockDefList from './BlockDefList.jsx';
@@ -27,7 +28,8 @@ export default DragDropContext(HTML5Backend)(
                 EditingBlock: null,
                 BlockContainers: [],
                 BlockDefs: [],
-                BlockContainerDefs: []
+                BlockContainerDefs: [],
+                BlockTemplateDefs: []
             };
 
             this.swapBlockContainers = this.swapBlockContainers.bind(this);
@@ -78,6 +80,10 @@ export default DragDropContext(HTML5Backend)(
             BlockContainerDefService.GetBlockContainerDefs().then((res) => {
                 self.setState({ BlockContainerDefs: res.data.data }); 
             });
+
+            BlockTemplateDefService.GetBlockTemplateDef().then((res) => {
+                self.setState({ BlockTemplateDefs: res.data.data }); 
+            });
         }
 
         swapBlockContainers(containerId1, containerId2) {
@@ -124,9 +130,9 @@ export default DragDropContext(HTML5Backend)(
             this.setState({ EditingBlock: newBlock });
         }
 
-        updateEditingBlockTemplate(template) {
+        updateEditingBlockTemplate(blockTemplateId) {
             var newBlock = ObjectUtils.Clone(this.state.EditingBlock);
-            newBlock.template = template;
+            newBlock.blocktemplatedefid = blockTemplateId;
             this.setState({ EditingBlock: newBlock });
         }
 
@@ -184,6 +190,7 @@ export default DragDropContext(HTML5Backend)(
                     UpdateTemplate={this.updateEditingBlockTemplate}
                     SaveBlock={this.saveBlock}
                     DeleteBlock={this.deleteBlock}
+                    BlockTemplateDefs={this.state.BlockTemplateDefs}
                     SetEditingBlock={this.setEditingBlock}
                 />;
             }

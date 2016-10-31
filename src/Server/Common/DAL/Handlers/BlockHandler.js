@@ -37,6 +37,11 @@
 				.fetch();
 	};
 
+	classDef.prototype.GetBlockTemplateDefs = function (authContext) {
+		return this.Context.DatabaseContext.BlockTemplateDefs(authContext)
+				.fetch();
+	};
+
 	//Block
 	classDef.prototype.GetBlocks = function (authContext, blockContainerId){
 		return this.Context.DatabaseContext.Blocks(authContext)

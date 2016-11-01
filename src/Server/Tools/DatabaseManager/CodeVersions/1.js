@@ -6,6 +6,6 @@
         })
         .catch(() => {
             errorCallback();
-        })
+        });
     };
 })();

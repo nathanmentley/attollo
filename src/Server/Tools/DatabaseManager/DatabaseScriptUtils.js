@@ -49,7 +49,7 @@
 		try{
 			var dbVersions = Attollo.Services.DatabaseVersion.GetDatabaseVersions(dbContext);
 			maxDbVersion = Math.max.apply(Math, dbVersions.map((x) => { return x.versionid; }));
-		}catch{ 
+		}catch (e){ 
 			maxDbVersion = 0;
 		}
 

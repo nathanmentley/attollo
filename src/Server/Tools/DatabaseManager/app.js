@@ -16,9 +16,11 @@ require("../../Common/Attollo");
 			Attollo.Utils.Log.Info('database manager running ensure');
 
 			require("./DatabaseScriptUtils").RunSqlScripts(function () {
-				Attollo.Utils.Log.Info('database manager finished');
-				
-				Attollo.App.Stop();
+				require("./DatabaseCodeUtils").RunSqlCode(function () {
+					Attollo.Utils.Log.Info('database manager finished');
+					
+					Attollo.App.Stop();
+				});
 			});
 		break;
 		case 'clean':

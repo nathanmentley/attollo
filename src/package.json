@@ -5,15 +5,6 @@
   "author": "Nathan Mentley <nathanmentley@gmail.com>",
 
   "dependencies": {
-    "bootstrap": "3.3.7",
-    "react-bootstrap": "0.30.3",
-    "react": "15.3.1",
-    "react-dom": "15.3.1",
-    "react-router": "2.7.0",
-    "react-dnd": "2.1.4",
-    "react-dnd-html5-backend": "2.1.2",
-    "axios": "0.14.0",
-
     "express": "4.14.0",
     "body-parser": "1.15.2",
     "react-jsx": "1.0.0",
@@ -24,6 +15,15 @@
     "pg": "6.1.0"
   },
   "devDependencies": {
+    "bootstrap": "3.3.7",
+    "react-bootstrap": "0.30.3",
+    "react": "15.3.1",
+    "react-dom": "15.3.1",
+    "react-router": "2.7.0",
+    "react-dnd": "2.1.4",
+    "react-dnd-html5-backend": "2.1.2",
+    "axios": "0.14.0",
+
     "dockerode": "2.3.1",
     "gulp": "3.9.1",
     "gulp-chug": "0.5.1",

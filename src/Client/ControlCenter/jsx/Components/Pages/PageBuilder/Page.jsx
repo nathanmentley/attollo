@@ -174,7 +174,10 @@ export default DragDropContext(HTML5Backend)(
         addBlock(blockContainerId, areaCode, blockDefCode) {
             var self = this;
 
-            BlockService.AddBlock(blockContainerId, areaCode, blockDefCode).then((addResult) => {
+            var blockDefId = this.state.BlockDefs.find((x) => { return x.code == blockDefCode; }).id;
+            var templateCode = this.state.BlockTemplateDefs.find((x) => { return x.blockdefid == blockDefId; }).code;
+
+            BlockService.AddBlock(blockContainerId, areaCode, blockDefCode, templateCode).then((addResult) => {
                 BlockContainerService.GetBlockContainers(self.props.params.PageID).then((res) => {
                     self.setState({ BlockContainers: res.data.data });
                 });

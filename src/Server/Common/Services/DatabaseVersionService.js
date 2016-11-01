@@ -12,5 +12,13 @@
 		return Context.Handlers.DatabaseVersion.AddDatabaseVersion(authContext, databaseVersion);
 	};
 	
+	classDef.prototype.GetDatabaseCodeVersions = function (authContext){
+		return Context.Handlers.DatabaseVersion.GetDatabaseCodeVersions(authContext);
+	};
+	
+	classDef.prototype.AddDatabaseCodeVersion = function (authContext, databaseCodeVersion){
+		return Context.Handlers.DatabaseVersion.AddDatabaseCodeVersion(authContext, databaseCodeVersion);
+	};
+	
 	module.exports = classDef;
 })();

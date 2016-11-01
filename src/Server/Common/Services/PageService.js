@@ -8,6 +8,10 @@
 		return Context.Handlers.Page.GetPageDefs(authContext);
 	};
 	
+	classDef.prototype.AddPageDef = function (authContext, pageDef){
+		return Context.Handlers.Page.AddPageDef(authContext, pageDef);
+	};
+	
 	classDef.prototype.GetPages = function (authContext, siteVersionId){
 		return Context.Handlers.Page.GetPages(authContext, siteVersionId);
 	};

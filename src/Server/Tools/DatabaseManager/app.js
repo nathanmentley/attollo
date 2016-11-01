@@ -15,22 +15,38 @@ require("../../Common/Attollo");
 		case 'ensure':
 			Attollo.Utils.Log.Info('database manager running ensure');
 
-			require("./DatabaseScriptUtils").RunSqlScripts(function () {
-				require("./DatabaseCodeUtils").RunSqlCode(function () {
-					Attollo.Utils.Log.Info('database manager finished');
-					
-					Attollo.App.Stop();
-				});
-			});
+			require("./DatabaseScriptUtils").RunSqlScripts(
+				require("./DBManagerDbContext"),
+				() => {
+					require("./DatabaseCodeUtils").RunSqlCode(
+						require("./DBManagerDbContext"),
+						() => {
+							Attollo.Utils.Log.Info('database manager finished');
+							
+							Attollo.App.Stop();
+						},
+						() => {
+
+						}
+					)
+				}, () => {
+
+				}
+			);
 		break;
 		case 'clean':
 			Attollo.Utils.Log.Info('database manager running clean');
 
-			require("./DatabaseScriptUtils").RunCleanSqlScripts(function () {
-				Attollo.Utils.Log.Info('database manager finished');
-				
-				Attollo.App.Stop();
-			});
+			require("./DatabaseScriptUtils").RunCleanSqlScripts(
+				require("./DBManagerDbContext"),
+				() => {
+					Attollo.Utils.Log.Info('database manager finished');
+					
+					Attollo.App.Stop();
+				}, () => {
+
+				}
+			);
 		break;
 		default:
 			Attollo.Utils.Log.Info('database manager cant run unknown command: ' + command);

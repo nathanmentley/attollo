@@ -12,6 +12,7 @@
 	var BlockTemplateDef = require("../Models/BlockTemplateDef");
 	var Client = require("../Models/Client");
 	var DatabaseVersion = require("../Models/DatabaseVersion");
+	var DatabaseCodeVersion = require("../Models/DatabaseCodeVersion");
 	var Page = require("../Models/Page");
 	var PageDef = require("../Models/PageDef");
 	var Site = require("../Models/Site");
@@ -50,6 +51,9 @@
 
 	classDef.prototype.DatabaseVersions = DatabaseVersion.Collection;
 	classDef.prototype.DatabaseVersion = DatabaseVersion.Model;
+
+	classDef.prototype.DatabaseCodeVersions = DatabaseCodeVersion.Collection;
+	classDef.prototype.DatabaseCodeVersion = DatabaseCodeVersion.Model;
 
 	classDef.prototype.Pages = Page.Collection;
 	classDef.prototype.Page = Page.Model;

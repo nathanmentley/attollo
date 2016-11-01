@@ -12,6 +12,13 @@
 		return this.Context.DatabaseContext.PageDefs(authContext).fetch();
 	};
 	
+	classDef.prototype.AddPageDef = function (authContext, model){
+		var PageDef = this.Context.DatabaseContext.PageDef(authContext);
+		var pageDef = new PageDef(model);
+
+		return page.save();
+	};
+	
 	classDef.prototype.GetPages = function (authContext, siteVersionId){
 		return this.Context.DatabaseContext.Pages(authContext)
 			.query({

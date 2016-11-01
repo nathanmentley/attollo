@@ -33,18 +33,6 @@ require("../../Common/Attollo");
 					);
 				}, () => {
 					Attollo.Utils.Log.Info('database manager script error');
-					require("./DatabaseCodeUtils").RunSqlCode(
-						require("./DBManagerDbContext"),
-						() => {
-							Attollo.Utils.Log.Info('database manager code finished');
-							Attollo.Utils.Log.Info('database manager finished');
-							
-							Attollo.App.Stop();
-						},
-						() => {
-							Attollo.Utils.Log.Info('database manager code error');
-						}
-					);
 				}
 			);
 		break;

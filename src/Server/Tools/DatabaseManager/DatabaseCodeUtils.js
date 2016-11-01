@@ -1,27 +1,32 @@
 (function () {
 	var fs = require('fs');
-	
+
 	function ExecuteSqlCode(dbContext, filename, callback, errorCallback, version) {
 		Attollo.Utils.Log.Info("running file: " + filename);
-		
-		(require(filename))(dbContext, () => {
-			Attollo.Utils.Log.Info("finished file: " + filename);
+		try{
+			var codeScript = require(filename);
+			codeScript.Logic(dbContext, () => {
+				Attollo.Utils.Log.Info("finished file: " + filename);
 
-			if(version) {
-				Attollo.Services.DatabaseVersion.AddDatabaseCodeVersion(dbContext, { versionid: version })
-				.then(() => {
+				if(version) {
+					Attollo.Services.DatabaseVersion.AddDatabaseCodeVersion(dbContext, { versionid: version })
+					.then(() => {
+						callback();
+					})
+					.catch((err) => {
+						Attollo.Utils.Log.Error("finished file: " + err);
+						errorCallback();
+					});
+				}else{
 					callback();
-				})
-				.catch((err) => {
-					Attollo.Utils.Log.Error("finished file: " + err);
-					errorCallback();
-				});
-			}else{
-				callback();
-			}
-		}, () => {
-			errorCallback();
-		});
+				}
+			}, () => {
+				errorCallback();
+			});
+		}catch(e) {
+			Attollo.Utils.Log.Info("catch: " + e);
+			throw e;
+		}
 	}
 
     var classDef = function () {};

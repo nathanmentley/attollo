@@ -16,7 +16,7 @@
 		var PageDef = this.Context.DatabaseContext.PageDef(authContext);
 		var pageDef = new PageDef(model);
 
-		return page.save();
+		return pageDef.save();
 	};
 	
 	classDef.prototype.GetPages = function (authContext, siteVersionId){

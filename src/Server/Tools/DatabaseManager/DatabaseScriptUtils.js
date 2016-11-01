@@ -45,13 +45,13 @@
     var classDef = function () {};
     
 	classDef.prototype.RunSqlScripts = function (dbContext, callback, errorCallback) {
-		var maxDbVersion;
-		try{
-			var dbVersions = Attollo.Services.DatabaseVersion.GetDatabaseVersions(dbContext);
-			maxDbVersion = Math.max.apply(Math, dbVersions.map((x) => { return x.versionid; }));
-		}catch (e){ 
-			maxDbVersion = 0;
-		}
+		var maxDbVersion = 0;
+		//try{
+		//	var dbVersions = Attollo.Services.DatabaseVersion.GetDatabaseVersions(dbContext);
+		//	maxDbVersion = Math.max.apply(Math, dbVersions.map((x) => { return x.versionid; }));
+		//}catch (e){ 
+		//	maxDbVersion = 0;
+		//}
 
         var items = fs.readdirSync(__dirname + '/Scripts').sort(function(a, b) {
             var an = a.split('.')[0];

@@ -1,10 +1,10 @@
 (function () {
+	var fs = require('fs');
+	
 	function ExecuteSqlCode(dbContext, filename, callback, errorCallback, version) {
-		var codeFunction = require(filename);
-		
 		Attollo.Utils.Log.Info("running file: " + filename);
 		
-		codeFunction(dbContext, () => {
+		(require(filename))(dbContext, () => {
 			Attollo.Utils.Log.Info("finished file: " + filename);
 
 			if(version) {
@@ -12,7 +12,8 @@
 				.then(() => {
 					callback();
 				})
-				.catch(() => {
+				.catch((err) => {
+					Attollo.Utils.Log.Error("finished file: " + err);
 					errorCallback();
 				});
 			}else{
@@ -26,13 +27,13 @@
     var classDef = function () {};
     
 	classDef.prototype.RunSqlCode = function (dbContext, callback, errorCallback) {
-		var maxDbVersion;
-		try{
-			var dbVersions = Attollo.Services.DatabaseVersion.GetDatabaseCodeVersions(dbContext);
-			maxDbVersion = Math.max.apply(Math, dbVersions.map((x) => { return x.versionid; }));
-		}catch (e){ 
-			maxDbVersion = 0;
-		}
+		var maxDbVersion = 0;
+		//try{
+		//	var dbVersions = Attollo.Services.DatabaseVersion.GetDatabaseCodeVersions(dbContext);
+		//	maxDbVersion = Math.max.apply(Math, dbVersions.map((x) => { return x.versionid; }));
+		//}catch (e){ 
+		//	maxDbVersion = 0;
+		//}
 
         var items = fs.readdirSync(__dirname + '/CodeVersions').sort(function(a, b) {
             var an = a.split('.')[0];
@@ -50,11 +51,11 @@
 				i++;
 					
 				if(i < items.length)
-					ExecuteSqlCode(dbContext, __dirname + "/CodeVersions/" + items[i], recursiveCallback, errorCallback, i + 1);
+					ExecuteSqlCode(dbContext, "./CodeVersions/" + items[i].split('.')[0], recursiveCallback, errorCallback, i + 1);
 				else
 					callback();
 			};
-			var filename = __dirname + "/CodeVersions/" + items[i];
+			var filename = "./CodeVersions/" + items[i].split('.')[0];
 			ExecuteSqlCode(dbContext, filename, recursiveCallback, errorCallback, i + 1);
 		}else{
 			callback();

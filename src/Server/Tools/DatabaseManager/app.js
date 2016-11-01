@@ -18,19 +18,33 @@ require("../../Common/Attollo");
 			require("./DatabaseScriptUtils").RunSqlScripts(
 				require("./DBManagerDbContext"),
 				() => {
+					Attollo.Utils.Log.Info('database manager scripts finished');
 					require("./DatabaseCodeUtils").RunSqlCode(
 						require("./DBManagerDbContext"),
 						() => {
+							Attollo.Utils.Log.Info('database manager code finished');
 							Attollo.Utils.Log.Info('database manager finished');
 							
 							Attollo.App.Stop();
 						},
 						() => {
-
+							Attollo.Utils.Log.Info('database manager code error');
 						}
-					)
+					);
 				}, () => {
-
+					Attollo.Utils.Log.Info('database manager script error');
+					require("./DatabaseCodeUtils").RunSqlCode(
+						require("./DBManagerDbContext"),
+						() => {
+							Attollo.Utils.Log.Info('database manager code finished');
+							Attollo.Utils.Log.Info('database manager finished');
+							
+							Attollo.App.Stop();
+						},
+						() => {
+							Attollo.Utils.Log.Info('database manager code error');
+						}
+					);
 				}
 			);
 		break;

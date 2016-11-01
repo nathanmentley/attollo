@@ -1,13 +1,13 @@
 (function () {
 	var classDef = function () {};
 
-	var urlendpoint = '/BlockDefs';
+	var urlendpoint = '/PageDefs';
 
 	classDef.prototype.Setup = function (app, express, auth) {
 		app.get(urlendpoint, auth, function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
-			
-			Attollo.Services.Block.GetBlockDefs(request.AuthContext, request.query.pageDefId)
+
+			Attollo.Services.Page.GetPageDefs(request.AuthContext)
 			.then(function (collection) {
 				response.json({
 					error: false,

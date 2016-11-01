@@ -11,8 +11,8 @@ export default class PageList extends BaseComponent {
         this.setEditingPage = this.setEditingPage.bind(this);
     }
 
-    goToPageBuilder(pageId) {
-        this.goToPage("/Sites/" + this.props.SiteID + "/" + this.props.SiteVersionID + "/" + pageId);
+    goToPageBuilder(pageId, pageDefId) {
+        this.goToPage("/Sites/" + this.props.SiteID + "/" + this.props.SiteVersionID + "/" + pageId + "/" + pageDefId);
     }
 
     setEditingPage(page) {
@@ -36,8 +36,8 @@ export default class PageList extends BaseComponent {
                         this.props.Pages.map((x) => {
                             return (
                                 <tr key={x.id}>
-                                    <td onClick={() => { self.goToPageBuilder(x.id); }}>{x.title}</td>
-                                    <td onClick={() => { self.goToPageBuilder(x.id); }}>{x.url}</td>
+                                    <td onClick={() => { self.goToPageBuilder(x.id, x.pagedefid); }}>{x.title}</td>
+                                    <td onClick={() => { self.goToPageBuilder(x.id, x.pagedefid); }}>{x.url}</td>
                                     <td>
                                         <DropdownButton title={<Glyphicon glyph="cog" />} id={x.id + '-action-button'}>
                                             <MenuItem eventKey="1" onClick={() => { self.setEditingPage(x); }}>

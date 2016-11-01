@@ -2,23 +2,18 @@
 	var Auid = require("../Core/Auid");
 	var Database = require("../Core/Database");
 
-	var PageDef = require("./PageDef");
-
 	var filter = function(authContext, query) {
 	};
 
 	var model = function(authContext, skipFilter) {
 		return Database.Model.extend({
-			tableName: 'blockdef',
+			tableName: 'pagedef',
 			constructor: function() {
 				Database.Model.apply(this, arguments);
 				this.on("fetching", Auid.Fetching(authContext, filter, ['id'], skipFilter));
 				this.on("fetched", Auid.Fetched(authContext, filter, ['id'], skipFilter));
 				this.on("saving", Auid.Saving(authContext, filter, ['id'], skipFilter));
 				this.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
-			},
-			PageDef: function() {
-				return this.belongsTo(PageDef.Model(authContext, skipFilter), 'pagedefid');
 			}
 		});
 	};

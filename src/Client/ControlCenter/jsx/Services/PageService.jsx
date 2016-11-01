@@ -7,8 +7,8 @@ export default class PageService {
         return AjaxService.Get(endpoint + "?siteVersionId=" + siteVersionId, {}, {});
     }
 
-    static AddPage(siteVersionId) {
-        return AjaxService.Post(endpoint, { siteVersionId: siteVersionId }, {});
+    static AddPage(page) {
+        return AjaxService.Post(endpoint, { page: page }, {});
     }
 
     static SavePage(page) {

@@ -93,8 +93,8 @@
 
 	//blockDef
 
-	classDef.prototype.GetBlockDefs = function (authContext){
-		return Context.Handlers.Block.GetBlockDefs(authContext);
+	classDef.prototype.GetBlockDefs = function (authContext, pageDefId){
+		return Context.Handlers.Block.GetBlockDefs(authContext, pageDefId);
 	};
 
 	classDef.prototype.GetBlockDef = function (authContext, code) {

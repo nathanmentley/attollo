@@ -73,7 +73,7 @@ export default DragDropContext(HTML5Backend)(
                 });
             });
 
-            BlockDefService.GetBlockDefs().then((res) => {
+            BlockDefService.GetBlockDefs(this.props.params.PageDefID).then((res) => {
                 self.setState({ BlockDefs: res.data.data }); 
             });
 

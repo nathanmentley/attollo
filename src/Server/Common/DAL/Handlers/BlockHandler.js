@@ -10,8 +10,12 @@
 	
 	//BlockDef
 	
-	classDef.prototype.GetBlockDefs = function (authContext){
-		return this.Context.DatabaseContext.BlockDefs(authContext).fetch();
+	classDef.prototype.GetBlockDefs = function (authContext, pageDefId){
+		return this.Context.DatabaseContext.BlockDefs(authContext)
+			.query((qb) => {
+				qb.whereNull('pagedefid')
+					.orWhere('pagedefid', '=', pageDefId);
+			}).fetch();
 	};
 
 	classDef.prototype.GetBlockDef = function (authContext, code){

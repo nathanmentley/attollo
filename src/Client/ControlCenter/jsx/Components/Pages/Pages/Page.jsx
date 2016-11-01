@@ -6,9 +6,11 @@ import ObjectUtils from '../../../Utils/ObjectUtils.jsx';
 import BasePage from '../BasePage.jsx';
 
 import PageService from '../../../Services/PageService.jsx';
+import PageDefService from '../../../Services/PageDefService.jsx';
 
 import PageList from './PageList.jsx';
 import PageEditor from './PageEditor.jsx';
+import PageCreator from './PageCreator.jsx';
 
 export default class PagesPage extends BasePage {
     constructor(props) {
@@ -16,16 +18,26 @@ export default class PagesPage extends BasePage {
 
         this.state = {
             EditingPage: null,
-            Pages: []
+            CreatingPage: null,
+            Pages: [],
+            PageDefs: []
         };
 
         this.setEditingPage = this.setEditingPage.bind(this);
         this.updateEditingPageTitle = this.updateEditingPageTitle.bind(this);
         this.updateEditingPageUrl = this.updateEditingPageUrl.bind(this);
 
-        this.addNewPage = this.addNewPage.bind(this);
         this.savePage = this.savePage.bind(this);
         this.deletePage = this.deletePage.bind(this);
+
+        this.updateCreatingPageTitle = this.updateCreatingPageTitle.bind(this);
+        this.updateCreatingPageUrl = this.updateCreatingPageUrl.bind(this);
+        this.updatePageDef = this.updatePageDef.bind(this);
+
+        this.createPage = this.createPage.bind(this);
+
+        this.addNewPage = this.addNewPage.bind(this);
+        this.closePageCreator = this.closePageCreator.bind(this);
     }
     
     componentDidMount() {
@@ -50,6 +62,10 @@ export default class PagesPage extends BasePage {
                     ]);
                 });
             });
+        });
+
+        PageDefService.GetPageDefs().then((res) => {
+            self.setState({ PageDefs: res.data.data });
         });
     }
 
@@ -95,14 +111,47 @@ export default class PagesPage extends BasePage {
         });
     }
 
-    addNewPage() {
+    updateCreatingPageTitle(title) {
+        var newPage = ObjectUtils.Clone(this.state.CreatingPage);
+        newPage.title = title;
+        this.setState({ CreatingPage: newPage });
+    }
+
+    updateCreatingPageUrl(url) {
+        var newPage = ObjectUtils.Clone(this.state.CreatingPage);
+        newPage.url = url;
+        this.setState({ CreatingPage: newPage });
+    }
+
+    updatePageDef(pageDefId) {
+        var newPage = ObjectUtils.Clone(this.state.CreatingPage);
+        newPage.pagedefid = pageDefId;
+        this.setState({ CreatingPage: newPage });
+    }
+
+    createPage() {
         var self = this;
 
-        PageService.AddPage(this.props.params.SiteVersionID).then((addRes) => {
+        PageService.AddPage(this.state.CreatingPage).then((addRes) => {
             PageService.GetPages(this.props.params.SiteVersionID).then((res) => {
                 self.setState({ Pages: res.data.data }); 
             });
         });
+    }
+
+    addNewPage() {
+        this.setState({
+            CreatingPage: {
+                url: '',
+                title: '',
+                pagedefid: 1,
+                siteversionid: this.props.params.SiteVersionID
+            }
+        });
+    }
+
+    closePageCreator() {
+        this.setState({ CreatingPage: null });
     }
 
     _render() {
@@ -110,12 +159,25 @@ export default class PagesPage extends BasePage {
         if(this.state.EditingPage != null){
             editingPage = <PageEditor
                 Page={this.state.EditingPage}
-                UpdateTitle={this.updateEditingPageTitle}
+                UpdateTitle={this.updateCreatingPageTitle}
                 UpdateUrl={this.updateEditingPageUrl}
                 SavePage={this.savePage}
                 DeletePage={this.deletePage}
                 SetEditingPage={this.setEditingPage}
             />;
+        }
+
+        var creatingPage = <div />;
+        if(this.state.CreatingPage != null){
+            creatingPage = <PageCreator
+                PageDefs={this.state.PageDefs}
+                Page={this.state.CreatingPage}
+                UpdateTitle={this.updateCreatingPageTitle}
+                UpdateUrl={this.updateCreatingPageUrl}
+                UpdatePageDef={this.updatePageDef}
+                CreatePage={this.createPage}
+                ClosePageCreator={this.closePageCreator}
+            />
         }
 
         return (
@@ -131,6 +193,7 @@ export default class PagesPage extends BasePage {
                     </Col>
                     
                     {editingPage}
+                    {creatingPage}
                 </Row>
 
                 <Row>

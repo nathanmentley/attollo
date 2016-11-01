@@ -5,6 +5,7 @@
 	var SiteVersion = require("./SiteVersion");
 	var Site = require("./Site");
 	var Client = require("./Client");
+	var PageDef = require("./PageDef");
 
 	var filter = function(authContext, query) {
 		query.join('siteversion', 'siteversion.id', '=', 'page.siteversionid');
@@ -43,6 +44,9 @@
 							.through(Site.Model(authContext, skipFilter), 'siteid')
 							.through(SiteVersion.Model(authContext, skipFilter), 'siteversionid');
 			},
+			PageDef: function() {
+				return this.belongsTo(PageDef.Model(authContext, skipFilter), 'pagedefid');
+			}
 		});
 	};
 

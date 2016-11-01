@@ -13,6 +13,7 @@
 	var Client = require("../Models/Client");
 	var DatabaseVersion = require("../Models/DatabaseVersion");
 	var Page = require("../Models/Page");
+	var PageDef = require("../Models/PageDef");
 	var Site = require("../Models/Site");
 	var SiteVersion = require("../Models/SiteVersion");
 	var User = require("../Models/User");
@@ -52,6 +53,9 @@
 
 	classDef.prototype.Pages = Page.Collection;
 	classDef.prototype.Page = Page.Model;
+
+	classDef.prototype.PageDefs = PageDef.Collection;
+	classDef.prototype.PageDef = PageDef.Model;
 
 	classDef.prototype.Sites = Site.Collection;
 	classDef.prototype.Site = Site.Model;

@@ -35,8 +35,14 @@ export default class BlockRenderer extends BaseComponent {
                     blockContent = (<SitePagesBlock Block={this.props.Block} UpdatePage={this.updatePage} />);
                     break;
             }
+        } else {
+            return (<div />);
         }
 
-        return blockContent;
+        return ( 
+            <div id={this.props.Block.id}>
+                {blockContent}
+            </div>
+        );
     }
 }

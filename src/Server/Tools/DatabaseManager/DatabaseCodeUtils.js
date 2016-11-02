@@ -11,17 +11,17 @@
 				if(version) {
 					Attollo.Services.DatabaseVersion.AddDatabaseCodeVersion(dbContext, { versionid: version })
 					.then(() => {
+						Attollo.Utils.Log.Error("finished file: " + filename);
 						callback();
 					})
 					.catch((err) => {
-						Attollo.Utils.Log.Error("finished file: " + err);
-						errorCallback();
+						errorCallback(err);
 					});
 				}else{
 					callback();
 				}
-			}, () => {
-				errorCallback();
+			}, (err) => {
+				errorCallback(err);
 			});
 		}catch(e) {
 			Attollo.Utils.Log.Info("catch: " + e);
@@ -29,16 +29,8 @@
 		}
 	}
 
-    var classDef = function () {};
-    
-	classDef.prototype.RunSqlCode = function (dbContext, callback, errorCallback) {
-		var maxDbVersion = 0;
-		//try{
-		//	var dbVersions = Attollo.Services.DatabaseVersion.GetDatabaseCodeVersions(dbContext);
-		//	maxDbVersion = Math.max.apply(Math, dbVersions.map((x) => { return x.versionid; }));
-		//}catch (e){ 
-		//	maxDbVersion = 0;
-		//}
+	function ExecuteDbCodes(dbContext, currentDbVersion, callback, errorCallback) {
+		Attollo.Utils.Log.Info("Current Db Code Version: " + currentDbVersion);
 
         var items = fs.readdirSync(__dirname + '/CodeVersions').sort(function(a, b) {
             var an = a.split('.')[0];
@@ -46,8 +38,8 @@
             return parseInt(an) < parseInt(bn) ? -1 : 1;
         });
         
-		if(items.length > maxDbVersion) {
-			var i = (maxDbVersion - 1);
+		if(items.length > currentDbVersion) {
+			var i = currentDbVersion;
 			if(i < 0) {
 				i = 0;
 			}
@@ -65,8 +57,22 @@
 		}else{
 			callback();
 		}
+	}
 
-        callback();
+    var classDef = function () {};
+    
+	classDef.prototype.RunSqlCode = function (dbContext, callback, errorCallback) {
+		try{
+			Attollo.Services.DatabaseVersion.GetDatabaseCodeVersions(dbContext)
+			.then((dbVersions) => {
+				ExecuteDbCodes(dbContext, Math.max.apply(Math, dbVersions.map((x) => { return x.get('versionid'); })), callback, errorCallback);
+			})
+			.catch(() => {
+				ExecuteDbCodes(dbContext, 0, callback, errorCallback);
+			});
+		}catch (e){ 
+			ExecuteDbCodes(dbContext, 0, callback, errorCallback);
+		}
 	};
 	
 	module.exports = new classDef();

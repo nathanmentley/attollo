@@ -27,12 +27,12 @@ require("../../Common/Attollo");
 							
 							Attollo.App.Stop();
 						},
-						() => {
-							Attollo.Utils.Log.Info('database manager code error');
+						(err) => {
+							Attollo.Utils.Log.Info('database manager code error: ' + err);
 						}
 					);
-				}, () => {
-					Attollo.Utils.Log.Info('database manager script error');
+				}, (err) => {
+					Attollo.Utils.Log.Info('database manager script error: ' + err);
 				}
 			);
 		break;
@@ -45,8 +45,8 @@ require("../../Common/Attollo");
 					Attollo.Utils.Log.Info('database manager finished');
 					
 					Attollo.App.Stop();
-				}, () => {
-
+				}, (err) => {
+					Attollo.Utils.Log.Info('database manager script error: ' + err);
 				}
 			);
 		break;

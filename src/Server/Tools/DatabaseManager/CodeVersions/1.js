@@ -6,8 +6,8 @@
         .then(() => {
             callback();
         })
-        .catch(() => {
-            errorCallback();
+        .catch((err) => {
+            errorCallback(err);
         });
     };
 

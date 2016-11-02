@@ -29,8 +29,8 @@
 						.then(() => {
 							callback();
 						})
-						.catch(() => {
-							errorCallback();
+						.catch((err) => {
+							errorCallback(err);
 						});
 					}else{
 						callback();
@@ -41,17 +41,9 @@
 			});
 		});
 	}
-    
-    var classDef = function () {};
-    
-	classDef.prototype.RunSqlScripts = function (dbContext, callback, errorCallback) {
-		var maxDbVersion = 0;
-		//try{
-		//	var dbVersions = Attollo.Services.DatabaseVersion.GetDatabaseVersions(dbContext);
-		//	maxDbVersion = Math.max.apply(Math, dbVersions.map((x) => { return x.versionid; }));
-		//}catch (e){ 
-		//	maxDbVersion = 0;
-		//}
+
+	function ExecuteDbScripts(dbContext, currentDbVersion, callback, errorCallback) {
+		Attollo.Utils.Log.Info("Current Db Script Version: " + currentDbVersion);
 
         var items = fs.readdirSync(__dirname + '/Scripts').sort(function(a, b) {
             var an = a.split('.')[0];
@@ -59,8 +51,8 @@
             return parseInt(an) < parseInt(bn) ? -1 : 1;
         });
         
-		if(items.length > maxDbVersion) {
-			var i = (maxDbVersion - 1);
+		if(items.length > currentDbVersion) {
+			var i = currentDbVersion;
 			if(i < 0) {
 				i = 0;
 			}
@@ -77,6 +69,23 @@
 			ExecuteSqlScript(dbContext, filename, recursiveCallback, errorCallback, i + 1);
 		}else{
 			callback();
+		}
+	}
+    
+    var classDef = function () {};
+    
+	classDef.prototype.RunSqlScripts = function (dbContext, callback, errorCallback) {
+		try{
+			Attollo.Services.DatabaseVersion.GetDatabaseVersions(dbContext)
+			.then((dbVersions) => {
+
+				ExecuteDbScripts(dbContext, Math.max.apply(Math, dbVersions.map((x) => { return x.get('versionid'); })), callback, errorCallback);
+			})
+			.catch(() => {
+				ExecuteDbScripts(dbContext, 0, callback, errorCallback);
+			});
+		}catch (e){ 
+			ExecuteDbScripts(dbContext, 0, callback, errorCallback);
 		}
 	};
 

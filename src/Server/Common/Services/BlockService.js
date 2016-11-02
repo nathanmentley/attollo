@@ -173,10 +173,34 @@
 		return Context.Handlers.Block.GetBlockSettingDefs(authContext, blockDefId);
 	};
 
+	classDef.prototype.AddBlockSettingDefs = function (authContext, blockDefCode, code, title, defaultValue){
+		var self = this;
+
+		return new Promise((resolve, reject) => {
+			self.GetBlockDef(authContext, blockDefCode)
+			.then((blockDefs) => {
+				Context.Handlers.Block.AddBlockSettingDefs(authContext, blockDefs.first().get('id'), code, title, defaultValue)
+				.then((result) => {
+					resolve(result);
+				})
+				.catch((err) => {
+					reject(err);
+				});
+			})
+			.catch((err) => {
+				reject(err);
+			});
+		});
+	};
+
 	//BlockSetting
 
 	classDef.prototype.GetBlockSettings = function (authContext, block){
 		return Context.Handlers.Block.GetBlockSettings(authContext, block);
+	};
+
+	classDef.prototype.AddBlockSetting = function (authContext, blockId, blockSettingDefId, value){
+		return Context.Handlers.Block.AddBlockSetting(authContext, blockId, blockSettingDefId, value);
 	};
 
 	module.exports = classDef;

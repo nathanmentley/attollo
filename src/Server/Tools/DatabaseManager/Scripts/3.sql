@@ -1,8 +1,8 @@
 INSERT INTO PageDef(Code, Name) VALUES('Landing', 'Landing Page');
 INSERT INTO PageDef(Code, Name) VALUES('404Page', 'Error 404 Page');
 
-INSERT INTO BlockDef(PageDefID, Code, Name) VALUES(null, 'Html', 'Simple Html');
-INSERT INTO BlockDef(PageDefID, Code, Name) VALUES(null, 'Image', 'Other Html');
+INSERT INTO BlockDef(PageDefID, Code, Name) VALUES(null, 'Html', 'Raw Html');
+INSERT INTO BlockDef(PageDefID, Code, Name) VALUES(null, 'Image', 'Image Block');
 INSERT INTO BlockDef(PageDefID, Code, Name) VALUES(1, 'LandingBlock', 'Landing Block');
 INSERT INTO BlockDef(PageDefID, Code, Name) VALUES(2, '404 Block', '404 Block');
 

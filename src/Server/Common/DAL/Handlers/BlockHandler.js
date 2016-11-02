@@ -177,6 +177,18 @@
 			}).fetch();
 	};
 
+	classDef.prototype.AddBlockSettingDefs = function (authContext, blockDefId, code, title, defaultValue){
+		var BlockSettingDef = this.Context.DatabaseContext.BlockSettingDef(authContext);
+		var blockSettingDef = new BlockSettingDef({
+			blockdefid: blockDefId,
+			code: code,
+			title: title,
+			defaultvalue: defaultValue
+		});
+
+		return blockSettingDef.save();
+	};
+
 	//BlockSettings
 
 	classDef.prototype.GetBlockSettings = function (authContext, blockId){
@@ -186,6 +198,17 @@
 					blockid: blockId
 				}
 			}).fetch();
+	};
+
+	classDef.prototype.AddBlockSetting = function (authContext, blockId, blockSettingDefId, value) {
+		var BlockSetting = this.Context.DatabaseContext.BlockSetting(authContext);
+		var blockSetting = new BlockSetting({
+			blockid: blockId,
+			blocksettingdefid: blockSettingDefId,
+			value: value
+		});
+
+		return blockSetting.save();
 	};
 	
 	module.exports = classDef;

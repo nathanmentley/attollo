@@ -16,6 +16,10 @@
 		return Context.Handlers.Block.GetBlockContainerDef(authContext, code);
 	};
 
+	classDef.prototype.AddBlockContainerDef = function (authContext, code, title){
+		return Context.Handlers.Block.AddBlockContainerDef(authContext, code, title);
+	};
+
 	//blockContainer
 
 	classDef.prototype.GetBlockContainers = function (authContext, pageId){
@@ -80,6 +84,26 @@
 	classDef.prototype.GetBlockContainerAreaDefs = function (authContext, containerCode) {
 		return Context.Handlers.Block.GetBlockContainerAreaDefs(authContext, containerCode);
 	};
+
+	classDef.prototype.AddBlockContainerAreaDef = function (authContext, blockContainerDefCode, code, title) {
+		var self = this;
+
+		return new Promise((resolve, reject) => {
+			self.GetBlockContainerDef(authContext, blockContainerDefCode)
+			.then((blockContainerDef) => {
+				Context.Handlers.Block.AddBlockContainerAreaDef(authContext, blockContainerDef.first().get('id'), code, title)
+				.then((result) => {
+					resolve(result);
+				})
+				.catch((err) => {
+					reject(err);
+				});
+			})
+			.catch((err) => {
+				reject(err);
+			});
+		});
+	};
 	
 	//blockContainerArea
 
@@ -101,10 +125,62 @@
 		return Context.Handlers.Block.GetBlockDef(authContext, code);
 	};
 
+
+	classDef.prototype.AddBlockDef = function (authContext, pageDefCode, code, name){
+		var self = this;
+
+		return new Promise((resolve, reject) => {
+			if(pageDefCode) {
+				Attollo.Services.Page.GetPageDef(authContext, pageDefCode)
+				.then((pageDef) => {
+					Context.Handlers.Block.AddBlockDef(authContext, pageDef.first().get('id'), code, name)
+					.then((result) => {
+						resolve(result);
+					})
+					.catch((err) => {
+						reject(err);
+					});
+				})
+				.catch((err) => {
+					reject(err);
+				});
+			} else {
+				Context.Handlers.Block.AddBlockDef(authContext, null, code, name)
+				.then((result) => {
+					resolve(result);
+				})
+				.catch((err) => {
+					reject(err);
+				});
+			}
+		});
+	};
+
 	//blockTemplateDef
 
 	classDef.prototype.GetBlockTemplateDef = function (authContext, blockDefId, templateCode) {
 		return Context.Handlers.Block.GetBlockTemplateDef(authContext, blockDefId, templateCode);
+	};
+
+	classDef.prototype.AddBlockTemplateDef = function (authContext, blockDefCode, code, name, template) {
+		var self = this;
+
+		return new Promise((resolve, reject) => {
+			self.GetBlockDef(authContext, blockDefCode)
+			.then((blockDef) => {
+				Context.Handlers.Block.AddBlockTemplateDef(
+					authContext, blockDef.first().get('id'), code, name, template, _renderTemplate(template)
+				).then((result) => {
+					resolve(result);
+				})
+				.catch((err) => {
+					reject(err);
+				});
+			})
+			.catch((err) => {
+				reject(err);
+			});
+		});
 	};
 
 	classDef.prototype.GetBlockTemplateDefs = function (authContext) {

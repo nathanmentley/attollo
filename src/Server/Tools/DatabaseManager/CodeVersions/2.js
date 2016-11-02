@@ -1,10 +1,14 @@
+//Seed BlockContainerDefs
+
 (function () {
     var classDef = function () {};
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
-            Attollo.Services.Block.AddBlockSettingDefs(dbContext, 'Html', 'htmlContent', 'HTML Content', '<p></p>'),
-            Attollo.Services.Block.AddBlockSettingDefs(dbContext, 'Image', 'imageUrl', 'Image Url', 'http://fpoimg.com/300x250')
+            Attollo.Services.Block.AddBlockContainerDef(dbContext, 'OneCol', 'One Column'),
+            Attollo.Services.Block.AddBlockContainerDef(dbContext, 'TwoCol', 'Two Column'),
+            Attollo.Services.Block.AddBlockContainerDef(dbContext, 'ThreeCol', 'Three Column'),
+            Attollo.Services.Block.AddBlockContainerDef(dbContext, 'FourCol', 'Four Column')
         ])
         .then(() => {
             callback();

@@ -11,7 +11,7 @@
 				if(version) {
 					Attollo.Services.DatabaseVersion.AddDatabaseCodeVersion(dbContext, { versionid: version })
 					.then(() => {
-						Attollo.Utils.Log.Error("finished file: " + filename);
+						Attollo.Utils.Log.Info("finished file: " + filename);
 						callback();
 					})
 					.catch((err) => {

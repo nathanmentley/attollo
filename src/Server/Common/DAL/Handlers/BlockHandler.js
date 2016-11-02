@@ -28,6 +28,17 @@
 				.fetch();
 	};
 
+	classDef.prototype.AddBlockDef = function (authContext, pageDefId, code, name){
+		var BlockDef = this.Context.DatabaseContext.BlockDef(authContext);
+		var blockDef = new BlockDef({
+			pagedefid: pageDefId,
+			code: code,
+			name: name
+		});
+
+		return blockDef.save();
+	};
+
 	//blockTemplateDef
 
 	classDef.prototype.GetBlockTemplateDef = function (authContext, blockDefId, templateCode) {
@@ -44,6 +55,19 @@
 	classDef.prototype.GetBlockTemplateDefs = function (authContext) {
 		return this.Context.DatabaseContext.BlockTemplateDefs(authContext)
 				.fetch();
+	};
+
+	classDef.prototype.AddBlockTemplateDef = function (authContext, blockDefId, code, name, template, compiledTemplate) {
+		var BlockTemplateDef = this.Context.DatabaseContext.BlockTemplateDef(authContext);
+		var blockTemplateDef = new BlockTemplateDef({
+			blockdefid: blockDefId,
+			code: code,
+			name: name,
+			template: template,
+			compiledtemplate: compiledTemplate
+		});
+
+		return blockTemplateDef.save();
 	};
 
 	//Block
@@ -91,6 +115,16 @@
 			.query((qb) => {
 				qb.where('code', '=', code);
 			}).fetch();
+	};
+
+	classDef.prototype.AddBlockContainerDef = function (authContext, code, title){
+		var BlockContainerDef = this.Context.DatabaseContext.BlockContainerDef(authContext);
+		var blockContainerDef = new BlockContainerDef({
+			code: code,
+			title: title
+		});
+
+		return blockContainerDef.save();
 	};
 
 	//BlockContainer
@@ -143,6 +177,17 @@
 				qb.where('blockcontainerdef.code', '=', blockContainerCode);
 				qb.innerJoin('blockcontainerdef', 'blockcontainerareadef.blockcontainerdefid', 'blockcontainerdef.id');
 			}).fetch();
+	};
+
+	classDef.prototype.AddBlockContainerAreaDef = function (authContext, blockContainerDefID, code, title) {
+		var BlockContainerAreaDef = this.Context.DatabaseContext.BlockContainerAreaDef(authContext);
+		var blockContainerAreaDef = new BlockContainerAreaDef({
+			blockcontainerdefid: blockContainerDefID,
+			code: code,
+			title: title
+		});
+
+		return blockContainerAreaDef.save();
 	};
 
 	//BlockContainerArea

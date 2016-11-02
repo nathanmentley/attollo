@@ -11,6 +11,15 @@
 	classDef.prototype.GetPageDefs = function (authContext){
 		return this.Context.DatabaseContext.PageDefs(authContext).fetch();
 	};
+
+	classDef.prototype.GetPageDef = function (authContext, code){
+		return this.Context.DatabaseContext.PageDefs(authContext)
+			.query({
+				where: {
+					code: code
+				}
+			}).fetch();
+	};
 	
 	classDef.prototype.AddPageDef = function (authContext, model){
 		var PageDef = this.Context.DatabaseContext.PageDef(authContext);

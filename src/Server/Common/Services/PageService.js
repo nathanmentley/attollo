@@ -7,6 +7,10 @@
 	classDef.prototype.GetPageDefs = function (authContext){
 		return Context.Handlers.Page.GetPageDefs(authContext);
 	};
+
+	classDef.prototype.GetPageDef = function (authContext, code){
+		return Context.Handlers.Page.GetPageDef(authContext, code);
+	};
 	
 	classDef.prototype.AddPageDef = function (authContext, pageDef){
 		return Context.Handlers.Page.AddPageDef(authContext, pageDef);

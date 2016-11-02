@@ -73,9 +73,9 @@ CREATE TABLE IF NOT EXISTS BlockDef (
 
 CREATE TABLE IF NOT EXISTS BlockTemplateDef (
     ID SERIAL PRIMARY KEY,
+    BlockDefID integer REFERENCES BlockDef NOT NULL,
     Code VARCHAR(32) NOT NULL,
     Name VARCHAR(255) NOT NULL,
-    BlockDefID integer REFERENCES BlockDef NOT NULL,
     Template TEXT NOT NULL,
     CompiledTemplate TEXT NOT NULL
 );

@@ -136,7 +136,9 @@
 			}).fetch({ withRelated: [
 				'BlockContainerDef',
 				'BlockContainerAreas.Blocks',
+				'BlockContainerAreas.Blocks.BlockSettings',
 				'BlockContainerAreas.Blocks.BlockDef',
+				'BlockContainerAreas.Blocks.BlockDef.BlockSettingDefs',
 				'BlockContainerAreas.Blocks.BlockTemplateDef',
 				'BlockContainerAreas.BlockContainerAreaDef'
 			] });

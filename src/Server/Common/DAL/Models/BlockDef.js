@@ -19,6 +19,10 @@
 			},
 			PageDef: function() {
 				return this.belongsTo(PageDef.Model(authContext, skipFilter), 'pagedefid');
+			},
+			BlockSettingDefs: function() {
+				var BlockSettingDef = require("./BlockSettingDef");
+				return this.hasMany(BlockSettingDef.Model(authContext, skipFilter), "blockdefid");
 			}
 		});
 	};

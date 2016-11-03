@@ -78,6 +78,10 @@
 			},
 			BlockTemplateDef: function() {
 				return this.belongsTo(BlockTemplateDef.Model(authContext, skipFilter), 'blocktemplatedefid');
+			},
+			BlockSettings: function() {
+				var BlockSetting = require("./BlockSetting");
+				return this.hasMany(BlockSetting.Model(authContext, skipFilter), "blockid");
 			}
 		});
 	};

@@ -5,11 +5,10 @@
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
-            Attollo.Services.Block.AddBlockTemplateDef(dbContext, 'Html', 'HtmlHtml1', 'Html 1', '<p>Html 1</p>'),
-            Attollo.Services.Block.AddBlockTemplateDef(dbContext, 'Html', 'HtmlHtml2', 'Html 2', '<p>Html 2</p>'),
+            Attollo.Services.Block.AddBlockTemplateDef(dbContext, 'Html', 'HtmlHtml1', 'Html 1', '<p>1 {this.state.Settings["htmlContent"]}</p>'),
+            Attollo.Services.Block.AddBlockTemplateDef(dbContext, 'Html', 'HtmlHtml2', 'Html 2', '<p>2 {this.state.Settings["htmlContent"]}</p>'),
 
-            Attollo.Services.Block.AddBlockTemplateDef(dbContext, 'Image', 'ImageHtml1', 'Html 2', '<p>Html 1</p>'),
-            Attollo.Services.Block.AddBlockTemplateDef(dbContext, 'Image', 'ImageHtml2', 'Html 2', '<p>Html 2</p>'),
+            Attollo.Services.Block.AddBlockTemplateDef(dbContext, 'Image', 'ImageHtml1', 'Html 2', '<p><img src={this.state.Settings["imageUrl"]} /></p>'),
 
             Attollo.Services.Block.AddBlockTemplateDef(dbContext, 'Blog', 'BlogHtml1', 'Html 1', '<p>Html 1</p>'),
             Attollo.Services.Block.AddBlockTemplateDef(dbContext, 'Blog', 'BlogHtml2', 'Html 2', '<p>Html 2</p>'),

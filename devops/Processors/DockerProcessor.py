@@ -18,7 +18,7 @@ class DockerProcessor:
             DockerDef(self.path + '/docker/dockerfiles/web/Dockerfile.runnerapi', 'attollo/runnerapi', 'attollo-runnerapi', [PortMapDef(80, 8081)], [LinkDef('attollo-psql', 'database')], False),
             DockerDef(self.path + '/docker/dockerfiles/web/Dockerfile.controlcenter', 'attollo/controlcenter', 'attollo-controlcenter', [PortMapDef(80, 8082)], [], False),
             DockerDef(self.path + '/docker/dockerfiles/web/Dockerfile.controlcenterapi', 'attollo/controlcenterapi', 'attollo-controlcenterapi', [PortMapDef(80, 8083)], [LinkDef('attollo-psql', 'database')], False),
-            DockerDef(self.path + '/docker/dockerfiles/processor/Dockerfile.email', 'attollo/emailprocessor', 'attollo-emailprocessor', [], [LinkDef('attollo-psql', 'database')], False),
+            #DockerDef(self.path + '/docker/dockerfiles/processor/Dockerfile.email', 'attollo/emailprocessor', 'attollo-emailprocessor', [], [LinkDef('attollo-psql', 'database')], False),
             DockerDef(self.path + '/docker/dockerfiles/task/Dockerfile.test', 'attollo/testtask', 'attollo-testtask', [], [LinkDef('attollo-psql', 'database')], False)
         ]
         if options.env == 'local':

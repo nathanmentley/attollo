@@ -39,7 +39,7 @@
 				this.on("fetching", Auid.Fetching(authContext, filter, ['id', 'blockcontainerareaid', 'blockdefid', 'blocktemplatedefid', 'client.id', 'site.id', 'siteversion.id', 'blockcontainer.id'], skipFilter));
 				this.on("fetched", Auid.Fetched(authContext, filter, ['id', 'blockcontainerareaid', 'blockdefid', 'blocktemplatedefid'], skipFilter));
 				this.on("saving", Auid.Saving(authContext, filter, ['id', 'blockcontainerareaid', 'blockdefid', 'blocktemplatedefid'], skipFilter));
-				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea', 'BlockTemplateDef']));
+				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea', 'BlockTemplateDef', 'BlockSettings']));
 				this.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
 			},
 			BlockContainerArea: function() {
@@ -93,7 +93,7 @@
 		.on("fetching", Auid.Fetching(authContext, filter, ['id', 'blockdefid', 'blockcontainerareaid', 'blocktemplatedefid', 'client.id', 'site.id', 'siteversion.id', 'blockcontainer.id'], skipFilter))
 		.on("fetched", Auid.Fetched(authContext, filter, ['id', 'blockdefid', 'blockcontainerareaid', 'blocktemplatedefid'], skipFilter))
 		.on("saving", Auid.Saving(authContext, filter, ['id', 'blockdefid', 'blockcontainerareaid', 'blocktemplatedefid'], skipFilter))
-		.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea', 'BlockTemplateDef']))
+		.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea', 'BlockTemplateDef', 'BlockSettings']))
 		.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
 	};
 	

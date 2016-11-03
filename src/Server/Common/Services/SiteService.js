@@ -3,10 +3,8 @@
 	var classDef = function (serviceContext) {
 		Context = serviceContext;
 	};
-	
-	classDef.prototype.GetSite = function (authContext, domain){
-		return Context.Handlers.Site.GetSite(authContext, domain);
-	};
+
+	//SiteVersion
 
 	classDef.prototype.GetCurrentSiteVersion = function (authContext, site){
 		return Context.Handlers.Site.GetCurrentSiteVersion(authContext, site);
@@ -14,6 +12,12 @@
 
 	classDef.prototype.GetSiteVersions = function (authContext, siteId){
 		return Context.Handlers.Site.GetSiteVersions(authContext, siteId);
+	};
+	
+	//Site
+
+	classDef.prototype.GetSite = function (authContext, domain){
+		return Context.Handlers.Site.GetSite(authContext, domain);
 	};
 
 	classDef.prototype.GetSites = function (authContext){
@@ -48,6 +52,16 @@
 
 	classDef.prototype.DeleteSite = function (authContext, model){
 		return Context.Handlers.Site.DeleteSite(authContext, model);
+	};
+
+	//SiteVersionStatus
+
+	classDef.prototype.GetSiteVersionStatuses = function (authContext){
+		return Context.Handlers.Site.GetSiteVersionStatuses(authContext);
+	};
+
+	classDef.prototype.AddSiteVersionStatus = function (authContext, name, code){
+		return Context.Handlers.Site.AddSiteVersionStatus(authContext, name, code);
 	};
 	
 	module.exports = classDef;

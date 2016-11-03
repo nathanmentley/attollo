@@ -76,6 +76,21 @@
 
 		return siteVersion.save();
 	};
+
+
+	classDef.prototype.GetSiteVersionStatuses = function (authContext){
+		return this.Context.DatabaseContext.SiteVersionStatuses(authContext).fetch();
+	};
+
+	classDef.prototype.AddSiteVersionStatus = function (authContext, name, code){
+		var SiteVersionStatus = this.Context.DatabaseContext.SiteVersionStatus(authContext);
+		var siteVersionStatus = new SiteVersionStatus({
+			name: name,
+			code: code
+		});
+
+		return siteVersionStatus.save();
+	};
 	
 	module.exports = classDef;
 })();

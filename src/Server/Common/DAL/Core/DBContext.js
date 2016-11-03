@@ -17,6 +17,7 @@
 	var PageDef = require("../Models/PageDef");
 	var Site = require("../Models/Site");
 	var SiteVersion = require("../Models/SiteVersion");
+	var SiteVersionStatus = require("../Models/SiteVersionStatus");
 	var User = require("../Models/User");
 
 	classDef.prototype.Blocks = Block.Collection;
@@ -66,6 +67,9 @@
 
 	classDef.prototype.SiteVersions = SiteVersion.Collection;
 	classDef.prototype.SiteVersion = SiteVersion.Model;
+
+	classDef.prototype.SiteVersionStatuses = SiteVersionStatus.Collection;
+	classDef.prototype.SiteVersionStatus = SiteVersionStatus.Model;
 
 	classDef.prototype.Users = User.Collection;
 	classDef.prototype.User = User.Model;

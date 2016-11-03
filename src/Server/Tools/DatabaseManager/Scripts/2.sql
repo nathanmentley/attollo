@@ -18,9 +18,16 @@ CREATE TABLE IF NOT EXISTS Site (
     Name VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS SiteVersionStatus (
+    ID SERIAL PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Code VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS SiteVersion (
     ID SERIAL PRIMARY KEY,
     SiteID integer REFERENCES Site NOT NULL,
+    SiteVersionStatusID integer REFERENCES SiteVersionStatus NOT NULL,
     Current boolean NOT NULL
 );
 

@@ -25,24 +25,25 @@
 	};
 	
 	classDef.prototype.AddSite = function (authContext){
-		var auid = require("../DAL/Core/Auid");
+		var self = this;
 
 		return new Promise(function(resolve, reject) {
-			try{
+			self.GetSiteVersionStatus(authContext, "Published")
+			.then((status) => {
 				Context.Handlers.Site.AddSite(authContext)
-				.then(function(site) {
-					Context.Handlers.Site.AddSiteVersion(authContext, auid.Encode(site.get('id')))
-					.then(function(version) {
+				.then((site) => {
+					Context.Handlers.Site.AddSiteVersion(authContext, site.get('id'), status.first().get('id'))
+					.then((version) => {
 						resolve(site);
-					}).catch(function(err) {
+					}).catch((err) => {
 						reject({ message: site.get('id') + " " + err.message });
 					});
-				}).catch(function(err) {
+				}).catch((err) => {
 					reject({ message: err.message });
 				});
-			} catch(e) {
-				reject({ message: e.message });
-			}
+			}).catch((err) => {
+				reject({ message: err.message });
+			});
 		});
 	};
 
@@ -55,6 +56,10 @@
 	};
 
 	//SiteVersionStatus
+
+	classDef.prototype.GetSiteVersionStatus = function (authContext, code){
+		return Context.Handlers.Site.GetSiteVersionStatus(authContext, code);
+	};
 
 	classDef.prototype.GetSiteVersionStatuses = function (authContext){
 		return Context.Handlers.Site.GetSiteVersionStatuses(authContext);

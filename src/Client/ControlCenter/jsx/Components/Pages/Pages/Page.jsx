@@ -134,7 +134,7 @@ export default class PagesPage extends BasePage {
 
         PageService.AddPage(this.state.CreatingPage).then((addRes) => {
             PageService.GetPages(this.props.params.SiteVersionID).then((res) => {
-                self.setState({ Pages: res.data.data }); 
+                self.setState({ Pages: res.data.data, CreatingPage: null }); 
             });
         });
     }

@@ -67,9 +67,10 @@
 			}).fetch();
 	};
 
-	classDef.prototype.AddSiteVersion = function (authContext, siteId){
+	classDef.prototype.AddSiteVersion = function (authContext, siteId, siteVersionStatusId){
 		var SiteVersion = this.Context.DatabaseContext.SiteVersion(authContext);
 		var siteVersion = new SiteVersion({
+			siteversionstatusid: siteVersionStatusId,
 			siteid: siteId,
 			current: true
 		});
@@ -77,6 +78,15 @@
 		return siteVersion.save();
 	};
 
+
+	classDef.prototype.GetSiteVersionStatus = function (authContext, code){
+		return this.Context.DatabaseContext.SiteVersionStatuses(authContext)
+			.query({
+				where: {
+					code: code
+				}
+			}).fetch();
+	};
 
 	classDef.prototype.GetSiteVersionStatuses = function (authContext){
 		return this.Context.DatabaseContext.SiteVersionStatuses(authContext).fetch();

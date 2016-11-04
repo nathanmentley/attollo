@@ -9,11 +9,28 @@ export default class BlockSettingsEditor extends BaseComponent {
 
         this.close = this.close.bind(this);
 
+        this.getValueFromCode = this.getValueFromCode.bind(this);
+        this.setValueForCode = this.setValueForCode.bind(this);
+
         this.saveBlockSettings = this.saveBlockSettings.bind(this);
     }
 
     close() {
         this.props.SetEditingSettingsBlock();
+    }
+
+    getValueFromCode(code) {
+        var setting = this.props.Block.BlockSettings.find((x) => { return x.BlockSettingDef.code == code; });
+
+        if(setting) {
+            return setting.value;
+        } else {
+            return '';
+        }
+    }
+
+    setValueForCode(code, value) {
+        this.props.UpdateBlockSetting(code, value);
     }
 
     saveBlockSettings() {
@@ -33,15 +50,16 @@ export default class BlockSettingsEditor extends BaseComponent {
                         this.props.Block.BlockDef.BlockSettingDefs.map((x) => {
                             return (
                                 <FormGroup
+                                    key={x.code}
                                     controlId={x.code}
-                                    validationState={"valid"}
+                                    validationState={"success"}
                                 >
                                     <ControlLabel>{x.title}</ControlLabel>
                                     <FormControl
                                         type="text"
-                                        value={x.defaultvalue}
+                                        value={self.getValueFromCode(x.code)}
                                         placeholder={x.defaultvalue}
-                                        onChange={() => {}}
+                                        onChange={(e) => { self.setValueForCode(x.code, e.target.value) }}
                                     />
                                     <FormControl.Feedback />
                                     <HelpBlock />

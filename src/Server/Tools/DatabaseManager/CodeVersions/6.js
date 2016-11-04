@@ -6,7 +6,8 @@
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
             Attollo.Services.Block.AddBlockSettingDefs(dbContext, 'Html', 'htmlContent', 'HTML Content', '<p>html content from setting</p>'),
-            Attollo.Services.Block.AddBlockSettingDefs(dbContext, 'Image', 'imageUrl', 'Image Url', 'http://fpoimg.com/300x250')
+            Attollo.Services.Block.AddBlockSettingDefs(dbContext, 'Image', 'imageUrl', 'Image Url', 'http://fpoimg.com/300x250'),
+            Attollo.Services.Block.AddBlockSettingDefs(dbContext, 'Image', 'imageCaption', 'Image Caption', 'Image Caption')
         ])
         .then(() => {
             callback();

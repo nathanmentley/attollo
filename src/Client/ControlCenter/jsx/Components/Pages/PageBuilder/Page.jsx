@@ -42,9 +42,11 @@ export default DragDropContext(HTML5Backend)(
             this.updateEditingBlockTitle = this.updateEditingBlockTitle.bind(this);
             this.updateEditingBlockTemplate = this.updateEditingBlockTemplate.bind(this);
 
+            this.updateBlockSetting = this.updateBlockSetting.bind(this);
+            this.saveBlockSettings = this.saveBlockSettings.bind(this);
+
             this.moveBlock = this.moveBlock.bind(this);
             this.addBlock = this.addBlock.bind(this);
-            this.saveBlockSettings = this.saveBlockSettings.bind(this);
             this.saveBlock = this.saveBlock.bind(this);
             this.deleteBlock = this.deleteBlock.bind(this);
         }
@@ -148,6 +150,24 @@ export default DragDropContext(HTML5Backend)(
             this.setState({ EditingBlock: newBlock });
         }
 
+        updateBlockSetting(code, value) {
+            var newBlock = ObjectUtils.Clone(this.state.EditingSettingsBlock);
+
+            var setting = newBlock.BlockSettings.find((x) => { return x.BlockSettingDef.code == code; });
+
+            if(setting) {
+                setting.value = value;
+            } else {
+                newBlock.BlockSettings.push({
+                    BlockSettingDef: {
+                        code: code
+                    },
+                    value: value
+                });
+            }
+            this.setState({ EditingSettingsBlock: newBlock });
+        }
+
         saveBlockSettings() {
             var self = this;
 
@@ -221,6 +241,7 @@ export default DragDropContext(HTML5Backend)(
                 editingBlockSettings = <BlockSettingsEditor
                     Block={this.state.EditingSettingsBlock}
                     SaveBlockSettings={this.saveBlockSettings}
+                    UpdateBlockSetting={this.updateBlockSetting}
                     SetEditingSettingsBlock={this.setEditingSettingsBlock}
                 />;
             }

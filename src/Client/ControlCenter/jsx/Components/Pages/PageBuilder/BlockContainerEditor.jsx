@@ -78,6 +78,7 @@ export default DropTarget("BlockContainerEditor", BlockContainerEditorTarget, dr
                                 UpdatePage={self.updatePage}
                                 MoveBlock={self.props.MoveBlock}
                                 SetEditingBlock={self.props.SetEditingBlock}
+                                SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                             />
                         </div>
                     )

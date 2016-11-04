@@ -21,6 +21,7 @@ export default class TwoCol extends BaseBlockContainerComponent {
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
+                        SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                     />
                 </Col>
                 <Col xs={12} md={6}>
@@ -31,6 +32,7 @@ export default class TwoCol extends BaseBlockContainerComponent {
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
+                        SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                     />
                 </Col>
             </Row>

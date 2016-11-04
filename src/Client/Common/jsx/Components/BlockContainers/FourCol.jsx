@@ -21,6 +21,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
+                        SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                     />
                 </Col>
                 <Col xs={12} md={6} lg={3}>
@@ -31,6 +32,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
+                        SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                     />
                 </Col>
                 <Col xs={12} md={6} lg={3}>
@@ -41,6 +43,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
+                        SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                     />
                 </Col>
                 <Col xs={12} md={6} lg={3}>
@@ -51,6 +54,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
+                        SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                     />
                 </Col>
             </Row>

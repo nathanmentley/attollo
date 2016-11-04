@@ -33,6 +33,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                         UpdatePage={self.updatePage}
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
+                        SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                     />
                 );
                 break;
@@ -45,6 +46,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                         UpdatePage={self.updatePage}
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
+                        SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                     />
                 );
                 break;
@@ -57,6 +59,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                         UpdatePage={self.updatePage}
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
+                        SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                     />
                 );
                 break;
@@ -69,6 +72,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                         UpdatePage={self.updatePage}
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
+                        SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                     />
                 );
                 break;

@@ -14,6 +14,7 @@ import BlockContainerService from '../../../Services/BlockContainerService.jsx';
 import BlockContainerAreaService from '../../../Services/BlockContainerAreaService.jsx';
 import BlockTemplateDefService from '../../../Services/BlockTemplateDefService.jsx';
 
+import BlockSettingsEditor from './BlockSettingsEditor.jsx';
 import BlockEditor from './BlockEditor.jsx';
 import BlockDefList from './BlockDefList.jsx';
 import BlockContainerDefList from './BlockContainerDefList.jsx';
@@ -25,6 +26,7 @@ export default DragDropContext(HTML5Backend)(
             super(props);
 
             this.state = {
+                EditingSettingsBlock: null,
                 EditingBlock: null,
                 BlockContainers: [],
                 BlockDefs: [],
@@ -36,11 +38,13 @@ export default DragDropContext(HTML5Backend)(
             this.addBlockContainer = this.addBlockContainer.bind(this);
 
             this.setEditingBlock = this.setEditingBlock.bind(this);
+            this.setEditingSettingsBlock = this.setEditingSettingsBlock.bind(this);
             this.updateEditingBlockTitle = this.updateEditingBlockTitle.bind(this);
             this.updateEditingBlockTemplate = this.updateEditingBlockTemplate.bind(this);
 
             this.moveBlock = this.moveBlock.bind(this);
             this.addBlock = this.addBlock.bind(this);
+            this.saveBlockSettings = this.saveBlockSettings.bind(this);
             this.saveBlock = this.saveBlock.bind(this);
             this.deleteBlock = this.deleteBlock.bind(this);
         }
@@ -123,6 +127,14 @@ export default DragDropContext(HTML5Backend)(
                 this.setState({ EditingBlock: null });
             }
         }
+        
+        setEditingSettingsBlock(block) {
+            if(block) {
+                this.setState({ EditingSettingsBlock: ObjectUtils.Clone(block) });
+            } else {
+                this.setState({ EditingSettingsBlock: null });
+            }
+        }
 
         updateEditingBlockTitle(title) {
             var newBlock = ObjectUtils.Clone(this.state.EditingBlock);
@@ -134,6 +146,12 @@ export default DragDropContext(HTML5Backend)(
             var newBlock = ObjectUtils.Clone(this.state.EditingBlock);
             newBlock.blocktemplatedefid = blockTemplateId;
             this.setState({ EditingBlock: newBlock });
+        }
+
+        saveBlockSettings() {
+            var self = this;
+
+            self.setState({ EditingSettingsBlock: null });
         }
 
         saveBlock() {
@@ -198,6 +216,15 @@ export default DragDropContext(HTML5Backend)(
                 />;
             }
 
+            var editingBlockSettings = <div />;
+            if(this.state.EditingSettingsBlock != null){
+                editingBlockSettings = <BlockSettingsEditor
+                    Block={this.state.EditingSettingsBlock}
+                    SaveBlockSettings={this.saveBlockSettings}
+                    SetEditingSettingsBlock={this.setEditingSettingsBlock}
+                />;
+            }
+
             return (
                 <Grid className="page-builder-page-root">
                     <Row>
@@ -234,12 +261,14 @@ export default DragDropContext(HTML5Backend)(
                                 BlockContainers={this.state.BlockContainers}
                                 SwapBlockContainers={this.swapBlockContainers}
                                 SetEditingBlock={this.setEditingBlock}
+                                SetEditingSettingsBlock={this.setEditingSettingsBlock}
                                 MoveBlock={this.moveBlock}
                             />
                         </Col>
                     </Row>
 
                     {editingBlock}
+                    {editingBlockSettings}
                 </Grid>
             );
         }

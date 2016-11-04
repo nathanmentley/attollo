@@ -61,7 +61,7 @@ export default class BlockEditor extends BaseComponent {
         return (
             <Modal show={true} onHide={this.close}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{this.props.Block.title}</Modal.Title>
+                    <Modal.Title>{this.props.Block.BlockDef.name} - {this.props.Block.title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <FormGroup

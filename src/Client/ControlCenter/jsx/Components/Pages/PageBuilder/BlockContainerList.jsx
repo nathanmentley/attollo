@@ -22,6 +22,7 @@ export default class BlockContainerList extends BaseComponent {
                                 SwapBlockContainers={self.props.SwapBlockContainers}
                                 MoveBlock={self.props.MoveBlock}
                                 SetEditingBlock={self.props.SetEditingBlock}
+                                SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                             />
                         );
                     })

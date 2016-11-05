@@ -3,6 +3,7 @@
 	var Database = require("../Core/Database");
     
 	var BlockDef = require("./BlockDef");
+	var SettingType = require("./SettingType");
 
 	var filter = function(authContext, query) {
 	};
@@ -19,6 +20,9 @@
 			},
 			BlockDef: function() {
 				return this.belongsTo(BlockDef.Model(authContext, skipFilter), 'blockdefid');
+			},
+			SettingType: function() {
+				return this.belongsTo(SettingType.Model(authContext, skipFilter), 'settingtypeid');
 			}
 		});
 	};

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Modal, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
-import ReactQuill from 'react-quill';
+import { Modal, Button } from 'react-bootstrap';
 
 import BaseComponent from '../../BaseComponent.jsx';
+
+import SettingEditor from '../../Shared/SettingEditor.jsx';
 
 export default class BlockSettingsEditor extends BaseComponent {
     constructor(props) {
@@ -54,20 +55,14 @@ export default class BlockSettingsEditor extends BaseComponent {
                     {
                         this.props.Block.BlockDef.BlockSettingDefs.map((x) => {
                             return (
-                                <FormGroup
-                                    key={x.code}
-                                    controlId={x.code}
-                                    validationState={"success"}
-                                >
-                                    <ControlLabel>{x.title}</ControlLabel>
-                                    
-                                    <ReactQuill theme="snow"
-                                        value={self.getValueFromCode(x.code)}
-                                        onChange={(value) => { self.setValueForCode(x.code, value) }} />
-
-                                    <FormControl.Feedback />
-                                    <HelpBlock />
-                                </FormGroup>
+                                <SettingEditor key={x.id}
+                                    SettingTypeCode={x.SettingType.code}
+                                    Code={x.code}
+                                    Title={x.title}
+                                    DefaultValue={x.defaultvalue}
+                                    GetValueFromCode={self.getValueFromCode}
+                                    SetValueForCode={self.setValueForCode}
+                                />
                             );
                         })
                     }
@@ -80,12 +75,3 @@ export default class BlockSettingsEditor extends BaseComponent {
         );
     }
 }
-
-/*
-<FormControl
-    type="text"
-    value={self.getValueFromCode(x.code)}
-    placeholder={x.defaultvalue}
-    onChange={(e) => { self.setValueForCode(x.code, e.target.value) }}
-/>
-*/

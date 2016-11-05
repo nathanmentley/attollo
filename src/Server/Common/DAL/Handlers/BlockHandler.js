@@ -138,8 +138,10 @@
 				'BlockContainerAreas.Blocks',
 				'BlockContainerAreas.Blocks.BlockSettings',
 				'BlockContainerAreas.Blocks.BlockSettings.BlockSettingDef',
+				'BlockContainerAreas.Blocks.BlockSettings.BlockSettingDef.SettingType',
 				'BlockContainerAreas.Blocks.BlockDef',
 				'BlockContainerAreas.Blocks.BlockDef.BlockSettingDefs',
+				'BlockContainerAreas.Blocks.BlockDef.BlockSettingDefs.SettingType',
 				'BlockContainerAreas.Blocks.BlockTemplateDef',
 				'BlockContainerAreas.BlockContainerAreaDef'
 			] });

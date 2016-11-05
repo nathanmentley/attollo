@@ -23,5 +23,27 @@
 				.fetch();
 	};
 	
+	classDef.prototype.AddUser = function (authContext){
+		var User = this.Context.DatabaseContext.User(authContext);
+		var user = new User({
+		});
+
+		return user.save();
+	};
+	
+	classDef.prototype.UpdateUser = function (authContext, model){
+		var User = this.Context.DatabaseContext.User(authContext);
+		var user = new User(model);
+
+		return user.save();
+	};
+	
+	classDef.prototype.DeleteUser = function (authContext, userId){
+		var User = this.Context.DatabaseContext.User(authContext);
+		var user = new User({ id: userId });
+
+		return user.destroy();
+	};
+	
 	module.exports = classDef;
 })();

@@ -32,7 +32,7 @@ export default class BaseBlockComponent extends BaseComponent {
             if(this.props.Block.BlockSettings) {
                 for(var i = 0; i < this.props.Block.BlockSettings.length; i++) {
                     var blockSetting = this.props.Block.BlockSettings[i];
-                    ret[blockSetting.code] = blockSetting.value;
+                    ret[blockSetting.BlockSettingDef.code] = blockSetting.value;
                 }
             }
         }

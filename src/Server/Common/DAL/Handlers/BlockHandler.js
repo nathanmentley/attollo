@@ -137,6 +137,7 @@
 				'BlockContainerDef',
 				'BlockContainerAreas.Blocks',
 				'BlockContainerAreas.Blocks.BlockSettings',
+				'BlockContainerAreas.Blocks.BlockSettings.BlockSettingDef',
 				'BlockContainerAreas.Blocks.BlockDef',
 				'BlockContainerAreas.Blocks.BlockDef.BlockSettingDefs',
 				'BlockContainerAreas.Blocks.BlockTemplateDef',
@@ -254,6 +255,13 @@
 			blocksettingdefid: blockSettingDefId,
 			value: value
 		});
+
+		return blockSetting.save();
+	};
+
+	classDef.prototype.UpdateBlockSetting = function(authContext, model) {
+		var BlockSetting = this.Context.DatabaseContext.BlockSetting(authContext);
+		var blockSetting = new BlockSetting(model);
 
 		return blockSetting.save();
 	};

@@ -150,18 +150,17 @@ export default DragDropContext(HTML5Backend)(
             this.setState({ EditingBlock: newBlock });
         }
 
-        updateBlockSetting(code, value) {
+        updateBlockSetting(blockSettingDefId, value) {
             var newBlock = ObjectUtils.Clone(this.state.EditingSettingsBlock);
 
-            var setting = newBlock.BlockSettings.find((x) => { return x.BlockSettingDef.code == code; });
+            var setting = newBlock.BlockSettings.find((x) => { return x.blocksettingdefid == blockSettingDefId; });
 
             if(setting) {
                 setting.value = value;
             } else {
                 newBlock.BlockSettings.push({
-                    BlockSettingDef: {
-                        code: code
-                    },
+                    blocksettingdefid: blockSettingDefId,
+                    blockid: this.state.EditingSettingsBlock.id,
                     value: value
                 });
             }
@@ -171,7 +170,11 @@ export default DragDropContext(HTML5Backend)(
         saveBlockSettings() {
             var self = this;
 
-            self.setState({ EditingSettingsBlock: null });
+            BlockService.SaveBlock(this.state.EditingSettingsBlock).then((saveResult) => {
+                BlockContainerService.GetBlockContainers(self.props.params.PageID).then((res) => {
+                    self.setState({ BlockContainers: res.data.data, EditingSettingsBlock: null });
+                });
+            });
         }
 
         saveBlock() {

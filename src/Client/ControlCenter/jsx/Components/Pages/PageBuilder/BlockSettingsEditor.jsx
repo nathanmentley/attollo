@@ -20,7 +20,8 @@ export default class BlockSettingsEditor extends BaseComponent {
     }
 
     getValueFromCode(code) {
-        var setting = this.props.Block.BlockSettings.find((x) => { return x.BlockSettingDef.code == code; });
+        var blockSettingDefId = this.props.Block.BlockDef.BlockSettingDefs.find((x) => { return x.code == code; }).id;
+        var setting = this.props.Block.BlockSettings.find((x) => { return x.blocksettingdefid == blockSettingDefId; });
 
         if(setting) {
             return setting.value;
@@ -30,7 +31,10 @@ export default class BlockSettingsEditor extends BaseComponent {
     }
 
     setValueForCode(code, value) {
-        this.props.UpdateBlockSetting(code, value);
+        this.props.UpdateBlockSetting(
+            this.props.Block.BlockDef.BlockSettingDefs.find((x) => { return x.code == code; }).id,
+            value
+        );
     }
 
     saveBlockSettings() {

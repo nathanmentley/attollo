@@ -230,8 +230,32 @@
 		});
 	};
 
+	classDef.prototype.UpdateBlockSetting = function(authContext, blockSetting) {
+		return Context.Handlers.Block.UpdateBlockSetting(authContext, blockSetting);
+	};
+
 	classDef.prototype.UpdateBlock = function (authContext, block) {
-		return Context.Handlers.Block.UpdateBlock(authContext, block);
+		var self = this;
+
+		return new Promise((resolve, reject) => {
+			Context.Handlers.Block.UpdateBlock(authContext, block)
+			.then(() => {
+				if(block.BlockSettings.length > 0) {
+					block.BlockSettings.map((x) => {
+						self.UpdateBlockSetting(authContext, x)
+						.then(() => {
+							resolve();
+						}).catch((err) => {
+							reject({ message: err.message });
+						});
+					});
+				} else {
+					resolve();
+				}
+			}).catch((err) => {
+				reject({ message: err.message });
+			});
+		});
 	};
 
 	classDef.prototype.DeleteBlock = function (authContext, block) {

@@ -1,12 +1,13 @@
-//Seed BlockTemplateDefs
+//Seed BlockSettingDefs
 
 (function () {
     var classDef = function () {};
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
-            Attollo.Services.Setting.AddSettingType(dbContext, { code: 'text', title: 'Text' }),
-            Attollo.Services.Setting.AddSettingType(dbContext, { code: 'html', title: 'HTML' })
+            Attollo.Services.Site.AddSiteVersionStatus(dbContext, 'Published', 'Published'),
+            Attollo.Services.Site.AddSiteVersionStatus(dbContext, 'Editing', 'Editing'),
+            Attollo.Services.Site.AddSiteVersionStatus(dbContext, 'Archived', 'Archived')
         ])
         .then(() => {
             callback();

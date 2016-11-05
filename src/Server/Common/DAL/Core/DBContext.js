@@ -15,6 +15,7 @@
 	var DatabaseCodeVersion = require("../Models/DatabaseCodeVersion");
 	var Page = require("../Models/Page");
 	var PageDef = require("../Models/PageDef");
+	var SettingType = require("../Models/SettingType");
 	var Site = require("../Models/Site");
 	var SiteVersion = require("../Models/SiteVersion");
 	var SiteVersionStatus = require("../Models/SiteVersionStatus");
@@ -61,6 +62,9 @@
 
 	classDef.prototype.PageDefs = PageDef.Collection;
 	classDef.prototype.PageDef = PageDef.Model;
+
+	classDef.prototype.SettingTypes = SettingType.Collection;
+	classDef.prototype.SettingType = SettingType.Model;
 
 	classDef.prototype.Sites = Site.Collection;
 	classDef.prototype.Site = Site.Model;

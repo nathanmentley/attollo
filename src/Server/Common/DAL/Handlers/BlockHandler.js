@@ -225,10 +225,11 @@
 			}).fetch();
 	};
 
-	classDef.prototype.AddBlockSettingDefs = function (authContext, blockDefId, code, title, defaultValue){
+	classDef.prototype.AddBlockSettingDefs = function (authContext, blockDefId, code, title, settingTypeId, defaultValue){
 		var BlockSettingDef = this.Context.DatabaseContext.BlockSettingDef(authContext);
 		var blockSettingDef = new BlockSettingDef({
 			blockdefid: blockDefId,
+			settingtypeid: settingTypeId,
 			code: code,
 			title: title,
 			defaultvalue: defaultValue

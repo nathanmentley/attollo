@@ -95,9 +95,16 @@ CREATE TABLE IF NOT EXISTS Block (
     Title VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS SettingType (
+    ID SERIAL PRIMARY KEY,
+    Code VARCHAR(255) NOT NULL,
+    Title VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS BlockSettingDef (
     ID SERIAL PRIMARY KEY,
     BlockDefID integer REFERENCES BlockDef,
+    SettingTypeID integer REFERENCES SettingType,
     Code VARCHAR(255) NOT NULL,
     Title VARCHAR(255) NOT NULL,
     DefaultValue TEXT NOT NULL

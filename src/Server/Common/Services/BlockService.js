@@ -276,15 +276,21 @@
 		return Context.Handlers.Block.GetBlockSettingDefs(authContext, blockDefId);
 	};
 
-	classDef.prototype.AddBlockSettingDefs = function (authContext, blockDefCode, code, title, defaultValue){
+	classDef.prototype.AddBlockSettingDefs = function (authContext, blockDefCode, code, title, settingTypeCode, defaultValue){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
-			self.GetBlockDef(authContext, blockDefCode)
-			.then((blockDefs) => {
-				Context.Handlers.Block.AddBlockSettingDefs(authContext, blockDefs.first().get('id'), code, title, defaultValue)
-				.then((result) => {
-					resolve(result);
+			Attollo.Services.Setting.GetSettingType(authContext, settingTypeCode)
+			.then((settingType) => {
+				self.GetBlockDef(authContext, blockDefCode)
+				.then((blockDefs) => {
+					Context.Handlers.Block.AddBlockSettingDefs(authContext, blockDefs.first().get('id'), code, title, settingType.first().get('id'), defaultValue)
+					.then((result) => {
+						resolve(result);
+					})
+					.catch((err) => {
+						reject(err);
+					});
 				})
 				.catch((err) => {
 					reject(err);

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
+import ReactQuill from 'react-quill';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
@@ -59,12 +60,11 @@ export default class BlockSettingsEditor extends BaseComponent {
                                     validationState={"success"}
                                 >
                                     <ControlLabel>{x.title}</ControlLabel>
-                                    <FormControl
-                                        type="text"
+                                    
+                                    <ReactQuill theme="snow"
                                         value={self.getValueFromCode(x.code)}
-                                        placeholder={x.defaultvalue}
-                                        onChange={(e) => { self.setValueForCode(x.code, e.target.value) }}
-                                    />
+                                        onChange={(value) => { self.setValueForCode(x.code, value) }} />
+
                                     <FormControl.Feedback />
                                     <HelpBlock />
                                 </FormGroup>
@@ -80,3 +80,12 @@ export default class BlockSettingsEditor extends BaseComponent {
         );
     }
 }
+
+/*
+<FormControl
+    type="text"
+    value={self.getValueFromCode(x.code)}
+    placeholder={x.defaultvalue}
+    onChange={(e) => { self.setValueForCode(x.code, e.target.value) }}
+/>
+*/

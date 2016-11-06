@@ -8,13 +8,21 @@
 	var PageDef = require("./PageDef");
 
 	var filter = function(authContext, query) {
-		query.join('siteversion', 'siteversion.id', '=', 'page.siteversionid');
-		query.join('site', 'site.id', '=', 'siteversion.siteid');
-		query.join('client', 'client.id', '=', 'site.clientid');
-		query.where('client.id', '=', authContext.ClientID);
-		
+		if(authContext.ClientID) {
+			var subQuery = Database.Knex.select('clientid').from('site')
+				.leftJoin('siteversion', 'site.id', '=', 'siteversion.siteid');
+
+			query.whereRaw(
+				'(' + subQuery + ' where siteversion.id = page.siteversionid) = ' + authContext.ClientID
+			);
+		}
+
 		if(authContext.SiteID) {
-			query.where('site.id', '=', authContext.SiteID);
+			var subQuery = Database.Knex.select('siteid').from('siteversion');
+
+			query.whereRaw(
+				'(' + subQuery + ' where siteversion.id = page.siteversionid) = ' + authContext.SiteID
+			);
 		}
 		
 		if(authContext.SiteVersionID) {

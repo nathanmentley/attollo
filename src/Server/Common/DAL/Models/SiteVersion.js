@@ -6,12 +6,20 @@
 	var Client = require("./Client");
 
 	var filter = function(authContext, query) {
-		query.join('site', 'site.id', '=', 'siteversion.siteid');
-		query.join('client', 'client.id', '=', 'site.clientid');
-		query.where('client.id', '=', authContext.ClientID);
-		
+		if(authContext.ClientID) {
+			var subQuery = Database.Knex.select('clientid').from('site');
+
+			query.whereRaw(
+				'(' + subQuery + ' where site.id = siteversion.siteid) = ' + authContext.ClientID
+			);
+		}
+
 		if(authContext.SiteID) {
-			query.where('site.id', '=', authContext.SiteID);
+			var subQuery = Database.Knex.select('id').from('site');
+
+			query.whereRaw(
+				'(' + subQuery + ' where site.id = siteversion.siteid) = ' + authContext.SiteID
+			);
 		}
 		
 		if(authContext.SiteVersionID) {

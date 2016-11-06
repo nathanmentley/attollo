@@ -44,14 +44,14 @@
 	};
 	
 	classDef.prototype.UpdateSite = function (authContext, model){
-		var Site = this.Context.DatabaseContext.Site(authContext, true);
+		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site(model);
 
 		return site.save();
 	};
 	
 	classDef.prototype.DeleteSite = function (authContext, model){
-		var Site = this.Context.DatabaseContext.Site(authContext, true);
+		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site(model);
 
 		return site.destroy();

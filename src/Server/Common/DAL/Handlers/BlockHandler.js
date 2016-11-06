@@ -91,14 +91,14 @@
 	};
 	
 	classDef.prototype.UpdateBlock = function (authContext, model){
-		var Block = this.Context.DatabaseContext.Block(authContext, true);
+		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block(model);
 
 		return block.save();
 	};
 	
 	classDef.prototype.DeleteBlock = function (authContext, model){
-		var Block = this.Context.DatabaseContext.Block(authContext, true);
+		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block(model);
 
 		return block.destroy();
@@ -159,7 +159,7 @@
 	};
 
 	classDef.prototype.UpdateBlockContainer = function (authContext, model){
-		var BlockContainer = this.Context.DatabaseContext.BlockContainer(authContext, true);
+		var BlockContainer = this.Context.DatabaseContext.BlockContainer(authContext);
 		var blockContainer = new BlockContainer(model);
 
 		return blockContainer.save();
@@ -263,7 +263,7 @@
 	};
 
 	classDef.prototype.UpdateBlockSetting = function(authContext, model) {
-		var BlockSetting = this.Context.DatabaseContext.BlockSetting(authContext, true);
+		var BlockSetting = this.Context.DatabaseContext.BlockSetting(authContext);
 		var blockSetting = new BlockSetting(model);
 
 		return blockSetting.save();

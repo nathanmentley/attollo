@@ -15,6 +15,7 @@
 	
 	var bookshelf = require('bookshelf')(knex);
 
+	classDef.prototype.Knex = knex;
 	classDef.prototype.Bookshelf = bookshelf;
 	classDef.prototype.Model = bookshelf.Model.extend({
 		constructor: function() {

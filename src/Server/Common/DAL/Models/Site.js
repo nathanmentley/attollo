@@ -5,8 +5,16 @@
 	var Client = require("./Client");
 
 	var filter = function(authContext, query) {
-		query.join('client', 'client.id', '=', 'site.clientid');
-		query.where('client.id', '=', authContext.ClientID);
+		if(authContext.ClientID) {
+			query.where('clientid', '=', authContext.ClientID);
+		}
+
+		if(authContext.SiteID) {
+			query.where('id', '=', authContext.SiteID);
+		}
+		
+		if(authContext.SiteVersionID) {
+		}
 	};
 
 	var model = function(authContext, skipFilter) {

@@ -2,7 +2,17 @@
 	var Auid = require("../Core/Auid");
 	var Database = require("../Core/Database");
 
-	var filter = function(authContext, query) {};
+	var filter = function(authContext, query) {
+		if(authContext.ClientID) {
+			query.where('id', '=', authContext.ClientID);
+		}
+
+		if(authContext.SiteID) {
+		}
+		
+		if(authContext.SiteVersionID) {
+		}
+	};
 
 	var model = function(authContext, skipFilter) {
 		return Database.Model.extend({

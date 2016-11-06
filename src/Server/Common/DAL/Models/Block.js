@@ -14,20 +14,37 @@
 	var BlockTemplateDef = require("./BlockTemplateDef");
 
 	var filter = function(authContext, query) {
-		query.join('blockcontainerarea', 'blockcontainerarea.id', '=', 'block.blockcontainerareaid');
-		query.join('blockcontainer', 'blockcontainer.id', '=', 'blockcontainerarea.blockcontainerid');
-		query.join('page', 'page.id', '=', 'blockcontainer.pageid');
-		query.join('siteversion', 'siteversion.id', '=', 'page.siteversionid');
-		query.join('site', 'site.id', '=', 'siteversion.siteid');
-		query.join('client', 'client.id', '=', 'site.clientid');
-		query.where('client.id', '=', authContext.ClientID);
+		if(authContext.ClientID) {
+			var subQuery = Database.Knex.select('clientid').from('site')
+				.leftJoin('siteversion', 'site.id', '=', 'siteversion.siteid')
+				.leftJoin('page', 'siteversion.id', '=', 'page.siteversionid')
+				.leftJoin('blockcontainer', 'blockcontainer.pageid', '=', 'page.id')
+				.leftJoin('blockcontainerarea', 'blockcontainerarea.blockcontainerid', '=', 'blockcontainer.id');
+
+			query.whereRaw(
+				'(' + subQuery + ' where blockcontainerarea.id = block.blockcontainerareaid) = ' + authContext.ClientID
+			);
+		}
 
 		if(authContext.SiteID) {
-			query.where('site.id', '=', authContext.SiteID);
+			var subQuery = Database.Knex.select('siteid').from('siteversion')
+				.leftJoin('page', 'siteversion.id', '=', 'page.siteversionid')
+				.leftJoin('blockcontainer', 'blockcontainer.pageid', '=', 'page.id')
+				.leftJoin('blockcontainerarea', 'blockcontainerarea.blockcontainerid', '=', 'blockcontainer.id');
+
+			query.whereRaw(
+				'(' + subQuery + ' where blockcontainerarea.id = block.blockcontainerareaid) = ' + authContext.SiteID
+			);
 		}
 		
 		if(authContext.SiteVersionID) {
-			query.where('siteversion.id', '=', authContext.SiteVersionID);
+			var subQuery = Database.Knex.select('siteversionid').from('page')
+				.leftJoin('blockcontainer', 'blockcontainer.pageid', '=', 'page.id')
+				.leftJoin('blockcontainerarea', 'blockcontainerarea.blockcontainerid', '=', 'blockcontainer.id');
+
+			query.whereRaw(
+				'(' + subQuery + ' where blockcontainerarea.id = block.blockcontainerareaid) = ' + authContext.SiteVersionID
+			);
 		}
 	};
 

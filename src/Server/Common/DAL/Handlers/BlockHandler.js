@@ -263,7 +263,7 @@
 	};
 
 	classDef.prototype.UpdateBlockSetting = function(authContext, model) {
-		var BlockSetting = this.Context.DatabaseContext.BlockSetting(authContext);
+		var BlockSetting = this.Context.DatabaseContext.BlockSetting(authContext, true);
 		var blockSetting = new BlockSetting(model);
 
 		return blockSetting.save();

@@ -99,7 +99,9 @@
                         for(var j = 0; j < SchemaIdFields.length; j++) {
                             var field = SchemaIdFields[j];
 
-                            data[field] = self.Encode(model[field]);
+                            if(model[field]) {
+                                data[field] = self.Encode(model[field]);
+                            }
                         }
 
                         models.get(model.id).set(data);

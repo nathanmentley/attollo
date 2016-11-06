@@ -26,7 +26,7 @@
 		}
 		
 		if(authContext.SiteVersionID) {
-			query.where('siteversion.id', '=', authContext.SiteVersionID);
+			query.where('siteversionid', '=', authContext.SiteVersionID);
 		}
 	};
 

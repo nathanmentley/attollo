@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col, Breadcrumb } from 'react-bootstrap';
+import { Grid, Row, Col, Breadcrumb, Alert } from 'react-bootstrap';
 
 import ObjectUtils from '../../Utils/ObjectUtils.jsx';
 
@@ -11,6 +11,10 @@ export default class BasePage extends BaseComponent {
 
         this.setBreadCrumbs = this.setBreadCrumbs.bind(this);
         this.setPageTitle = this.setPageTitle.bind(this);
+
+        this.addAlert = this.addAlert.bind(this);
+        this.removeAlert = this.removeAlert.bind(this);
+
         this._render = this._render.bind(this);
     }
 
@@ -22,6 +26,25 @@ export default class BasePage extends BaseComponent {
         this.setState({ PageTitle: title }, callBack);
     }
 
+    addAlert(style, title, content) {
+        var alerts = [];
+        if(this.state && this.state.Alerts) {
+            alerts = ObjectUtils.Clone(this.state.Alerts);
+        }
+
+        alerts.push({ Style: style, Title: title, Content: content });
+
+        this.setState({ Alerts: alerts });
+    }
+
+    removeAlert(alert) {
+        var alerts = ObjectUtils.Clone(this.state.Alerts);
+
+        alerts.splice(alerts.indexOf(alert), 1);
+
+        this.setState({ Alerts: alerts });
+    }
+
     _render() {
         return <Grid />;
     }
@@ -31,6 +54,35 @@ export default class BasePage extends BaseComponent {
 
         return (
             <Grid>
+                {
+                    (this.state && this.state.Alerts) ?
+                        this.state.Alerts.map((x) => {
+                            return (
+                                <Row key={self.state.Alerts.indexOf(x)}>
+                                    <Col xs={12} md={12} className="page-title">
+                                        <Alert bsStyle={x.Style} onDismiss={() => { self.removeAlert(x) }}>
+                                            <div>
+                                                <h4>{x.Title}</h4>
+                                                <p>{x.Content}</p>
+                                            </div>
+                                        </Alert>
+                                    </Col>
+                                </Row>
+                            );
+                        }) :
+                        ""
+                }
+
+                {
+                    (this.state && this.state.PageTitle) ?
+                    <Row>
+                        <Col xs={12} md={12} className="page-title">
+                            <h1>{this.state.PageTitle}</h1>
+                        </Col>
+                    </Row> :
+                    ""
+                }
+
                 {
                     (this.state && this.state.BreadCrumbs && this.state.BreadCrumbs.length) ? 
                         <Row>
@@ -53,17 +105,6 @@ export default class BasePage extends BaseComponent {
                         </Row> :
                         ""
                 }
-
-                {
-                    (this.state && this.state.PageTitle) ?
-                    <Row>
-                        <Col xs={12} md={12} className="page-title">
-                            <h1>{this.state.PageTitle}</h1>
-                        </Col>
-                    </Row> :
-                    ""
-                }
-
                 {this._render()}
             </Grid>
         );

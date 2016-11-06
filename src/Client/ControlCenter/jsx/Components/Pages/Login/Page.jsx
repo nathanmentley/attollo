@@ -24,7 +24,10 @@ export default class AboutPage extends BasePage {
     }
 
     componentDidMount() {
+        var self = this;
         AjaxService.ClearAuth();
+
+        self.setPageTitle("Login");
     }
 
     updateUsername(event) {

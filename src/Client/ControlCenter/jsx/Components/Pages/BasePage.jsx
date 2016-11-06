@@ -5,6 +5,11 @@ import ObjectUtils from '../../Utils/ObjectUtils.jsx';
 
 import BaseComponent from '../BaseComponent.jsx';
 
+import AjaxService from '../../Services/AjaxService.jsx';
+
+import Header from '../Layout/Header.jsx';
+import Footer from '../Layout/Footer.jsx';
+
 export default class BasePage extends BaseComponent {
     constructor(props) {
         super(props);
@@ -53,60 +58,81 @@ export default class BasePage extends BaseComponent {
         var self = this;
 
         return (
-            <Grid>
-                {
-                    (this.state && this.state.Alerts) ?
-                        this.state.Alerts.map((x) => {
-                            return (
-                                <Row key={self.state.Alerts.indexOf(x)}>
+            <div>
+                <Row>
+                    <Col xs={12} md={12}>
+                        <Header IsAuthenticated={AjaxService.IsAuthenticated()} />
+                    </Col>
+                </Row>
+
+                <Grid className="app-router">
+                    <Row className="page-row">
+                        <Col xs={12} md={12} className="page-content">
+                            {
+                                (this.state && this.state.Alerts) ?
+                                    this.state.Alerts.map((x) => {
+                                        return (
+                                            <Row key={self.state.Alerts.indexOf(x)}>
+                                                <Col xs={12} md={12} className="page-title">
+                                                    <Alert bsStyle={x.Style} onDismiss={() => { self.removeAlert(x) }}>
+                                                        <div>
+                                                            <h4>{x.Title}</h4>
+                                                            <p>{x.Content}</p>
+                                                        </div>
+                                                    </Alert>
+                                                </Col>
+                                            </Row>
+                                        );
+                                    }) :
+                                    ""
+                            }
+
+                            {
+                                (this.state && this.state.PageTitle) ?
+                                <Row>
                                     <Col xs={12} md={12} className="page-title">
-                                        <Alert bsStyle={x.Style} onDismiss={() => { self.removeAlert(x) }}>
-                                            <div>
-                                                <h4>{x.Title}</h4>
-                                                <p>{x.Content}</p>
-                                            </div>
-                                        </Alert>
+                                        <h1>{this.state.PageTitle}</h1>
                                     </Col>
-                                </Row>
-                            );
-                        }) :
-                        ""
-                }
+                                </Row> :
+                                ""
+                            }
 
-                {
-                    (this.state && this.state.PageTitle) ?
-                    <Row>
-                        <Col xs={12} md={12} className="page-title">
-                            <h1>{this.state.PageTitle}</h1>
+                            {
+                                (this.state && this.state.BreadCrumbs && this.state.BreadCrumbs.length) ? 
+                                    <Row>
+                                        <Col xs={12} md={12} className="page-bread-crumbs">
+                                            <Breadcrumb>
+                                                {
+                                                    this.state.BreadCrumbs.map((x) => {
+                                                        return (
+                                                            <Breadcrumb.Item
+                                                                key={x.url}
+                                                                onClick={() => { self.goToPage(x.url); } }
+                                                            >
+                                                                {x.title}
+                                                            </Breadcrumb.Item>
+                                                        );
+                                                    })
+                                                }
+                                            </Breadcrumb>
+                                        </Col>
+                                    </Row> :
+                                    ""
+                            }
+
+                            {
+                                this._render()
+                            }
                         </Col>
-                    </Row> :
-                    ""
-                }
+                    </Row>
+                </Grid>
 
-                {
-                    (this.state && this.state.BreadCrumbs && this.state.BreadCrumbs.length) ? 
-                        <Row>
-                            <Col xs={12} md={12} className="page-bread-crumbs">
-                                <Breadcrumb>
-                                    {
-                                        this.state.BreadCrumbs.map((x) => {
-                                            return (
-                                                <Breadcrumb.Item
-                                                    key={x.url}
-                                                    onClick={() => { self.goToPage(x.url); } }
-                                                >
-                                                    {x.title}
-                                                </Breadcrumb.Item>
-                                            );
-                                        })
-                                    }
-                                </Breadcrumb>
-                            </Col>
-                        </Row> :
-                        ""
-                }
-                {this._render()}
-            </Grid>
+                <Row>
+                    <Col xs={12} md={12}>
+                        <Footer IsAuthenticated={AjaxService.IsAuthenticated()} />
+                    </Col>
+                </Row>
+            </div>
         );
     }
 }

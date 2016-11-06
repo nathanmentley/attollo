@@ -15,6 +15,7 @@ import Account from '../Components/Pages/Account/Page.jsx';
 import About from '../Components/Pages/About/Page.jsx';
 
 import Dashboard from '../Components/Pages/Dashboard/Page.jsx';
+import Reports from '../Components/Pages/Reports/Page.jsx';
 
 import Error404 from '../Components/Pages/Error404/Page.jsx';
 
@@ -23,7 +24,6 @@ export default class Routing extends React.Component {
         return (
             <Router history={browserHistory}>
                 <Route path="/Login" component={Login} />
-
 
                 <Route path="/Sites" component={Sites} onEnter={Auth.AuthRequired} />
                 <Route path="/Sites/:SiteID" component={SiteVersions} onEnter={Auth.AuthRequired} />
@@ -35,6 +35,8 @@ export default class Routing extends React.Component {
                 <Route path="/About" component={About} onEnter={Auth.AuthRequired} />
 
                 <Route path="/Dashboard" component={Dashboard} onEnter={Auth.AuthRequired} />
+                <Route path="/Reports" component={Reports} onEnter={Auth.AuthRequired} />
+
                 <Route path="/" component={Dashboard} onEnter={Auth.AuthRequired} />
 
                 <Route path="*" component={Error404}/>

@@ -9,10 +9,10 @@
 			tableName: 'databaseversion',
 			constructor: function() {
 				Database.Model.apply(this, arguments);
-				this.on("fetching", Auid.Fetching(authContext, filter, ['id'], skipFilter));
-				this.on("fetched", Auid.Fetched(authContext, filter, ['id'], skipFilter));
-				this.on("saving", Auid.Saving(authContext, filter, ['id'], skipFilter));
-				this.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
+				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
+				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
+				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
+				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
 			}
 		});
 	};
@@ -21,10 +21,10 @@
 		return Database.Bookshelf.Collection.extend({
 			model: model(authContext, skipFilter)
 		}).forge()
-		.on("fetching", Auid.Fetching(authContext, filter, ['id'], skipFilter))
-		.on("fetched", Auid.Fetched(authContext, filter, ['id'], skipFilter))
-		.on("saving", Auid.Saving(authContext, filter, ['id'], skipFilter))
-		.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
+		.on("fetching", Auid.Fetching(authContext, filter, skipFilter))
+		.on("fetched", Auid.Fetched(authContext, filter, skipFilter))
+		.on("saving", Auid.Saving(authContext, filter, skipFilter))
+		.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
 	};
 	
 	module.exports = { Model: model, Collection: collection };

@@ -37,9 +37,7 @@
 			}).catch((err) => {
 				response.status(500).json({
 					error: true,
-					data: {
-						message: err.message
-					}
+					data: err
 				});
 			});
 		});

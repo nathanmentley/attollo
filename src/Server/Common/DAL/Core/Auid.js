@@ -1,11 +1,28 @@
 (function () {
     var key = 4747389;
-
     var crypto = require('crypto');
+    
+    var SchemaIdFields = [
+        'ID'.toLowerCase(),
+        'ClientID'.toLowerCase(),
+        'SiteID'.toLowerCase(),
+        'SiteVersionStatusID'.toLowerCase(),
+        'PageDefID'.toLowerCase(),
+        'SiteVersionID'.toLowerCase(),
+        'BlockContainerDefID'.toLowerCase(),
+        'BlockContainerAreaID'.toLowerCase(),
+        'PageID'.toLowerCase(),
+        'BlockContainerID'.toLowerCase(),
+        'BlockContainerAreaDefID'.toLowerCase(),
+        'BlockDefID'.toLowerCase(),
+        'BlockTemplateDefID'.toLowerCase(),
+        'SettingTypeID'.toLowerCase(),
+        'BlockID'.toLowerCase(),
+        'BlockSettingDefID'.toLowerCase()
+    ];
 
 	module.exports = {
         Encode: function(id) {
-            /*
             if(id) {
                 var newId = id ^ key;
                 newId = newId << 5;
@@ -17,11 +34,8 @@
             }else{
                 return null;
             }
-            */
-            return id;
         },
         Decode: function(auid) {
-            /*
             if(auid && typeof auid === 'string') {
                 var newId = auid.split('-')[0];
                 var checkSumClaim = auid.split('-')[1];
@@ -39,10 +53,8 @@
             }else{
                 return auid;
             }
-            */
-            return auid;
         },
-        Fetching: function(authContext, filter, fields, skipFilter) {
+        Fetching: function(authContext, filter, skipFilter) {
             var self = this;
 
             return function(model, columns, options) {
@@ -53,10 +65,16 @@
 
                     if(options.query._statements){
                         for(var i = 0; i < options.query._statements.length; i++) {
-                            if(fields.indexOf(options.query._statements[i].column) > -1) {
-                                var id = self.Decode(options.query._statements[i].value);
+                            if(options.query._statements[i].column) {
+                                var column = options.query._statements[i].column.split('.').pop();
 
-                                options.query._statements[i].value = id;
+                                if(SchemaIdFields.indexOf(column) > -1) {
+                                    if(options.query._statements[i].value) {
+                                        var id = self.Decode(options.query._statements[i].value);
+
+                                        options.query._statements[i].value = id;
+                                    }
+                                }
                             }
                         }
                     }
@@ -65,7 +83,7 @@
                 });
             };
         },
-        Fetched: function(authContext, filter, fields, skipFilter) {
+        Fetched: function(authContext, filter, skipFilter) {
             var self = this;
 
             return function(models, result, options) {
@@ -78,9 +96,8 @@
                         var data = {};
                         var model = result[i];
 
-                        for(var j = 0; j < fields.length; j++) {
-                            var field = fields[j];
-                            var fieldParts = field.split('.');
+                        for(var j = 0; j < SchemaIdFields.length; j++) {
+                            var field = SchemaIdFields[j];
 
                             data[field] = self.Encode(model[field]);
                         }
@@ -92,7 +109,7 @@
                 });
             };
         },
-        Saving: function(authContext, filter, fields, skipFilter) {
+        Saving: function(authContext, filter, skipFilter) {
             var self = this;
 
             return function(model, columns, options) {
@@ -103,8 +120,8 @@
 
                     if(model) {
                         var data = [];
-                        for(var i = 0; i < fields.length; i++) {
-                            var field = fields[i];
+                        for(var i = 0; i < SchemaIdFields.length; i++) {
+                            var field = SchemaIdFields[i];
 
                             if(model.get(field)) {
                                 data[field] = self.Decode(model.get(field));
@@ -115,8 +132,16 @@
 
                     if(options.query._statements){
                         for(var i = 0; i < options.query._statements.length; i++) {
-                            if(fields.indexOf(options.query._statements[i].column) > -1) {
-                                options.query._statements[i].value = self.Decode(options.query._statements[i].value);
+                            if(options.query._statements[i].column) {
+                                var column = options.query._statements[i].column.split('.').pop();
+
+                                if(SchemaIdFields.indexOf(column) > -1) {
+                                    if(options.query._statements[i].value) {
+                                        var id = self.Decode(options.query._statements[i].value);
+
+                                        options.query._statements[i].value = id;
+                                    }
+                                }
                             }
                         }
                     }
@@ -125,7 +150,7 @@
                 });
             };
         },
-        Destroying: function(authContext, filter, fields, skipFilter) {
+        Destroying: function(authContext, filter, skipFilter) {
             var self = this;
 
             return function(model, options) {
@@ -136,8 +161,8 @@
 
                     if(model) {
                         var data = [];
-                        for(var i = 0; i < fields.length; i++) {
-                            var field = fields[i];
+                        for(var i = 0; i < SchemaIdFields.length; i++) {
+                            var field = SchemaIdFields[i];
 
                             if(model.get(field)) {
                                 data[field] = self.Decode(model.get(field));

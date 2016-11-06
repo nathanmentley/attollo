@@ -10,7 +10,7 @@
 			var subQuery = Database.Knex.select('clientid').from('site');
 
 			query.whereRaw(
-				'(' + subQuery + ' where site.id = siteversion.siteid) = ' + authContext.ClientID
+				'(' + subQuery + ' where site.id = siteversion.siteid) = ' + Auid.Decode(authContext.ClientID)
 			);
 		}
 
@@ -18,7 +18,7 @@
 			var subQuery = Database.Knex.select('id').from('site');
 
 			query.whereRaw(
-				'(' + subQuery + ' where site.id = siteversion.siteid) = ' + authContext.SiteID
+				'(' + subQuery + ' where site.id = siteversion.siteid) = ' + Auid.Decode(authContext.SiteID)
 			);
 		}
 		
@@ -32,10 +32,10 @@
 			tableName: 'siteversion',
 			constructor: function() {
 				Database.Model.apply(this, arguments);
-				this.on("fetching", Auid.Fetching(authContext, filter, ['id', 'siteid', 'client.id', 'site.id'], skipFilter));
-				this.on("fetched", Auid.Fetched(authContext, filter, ['id', 'siteid'], skipFilter));
-				this.on("saving", Auid.Saving(authContext, filter, ['id', 'siteid'], skipFilter));
-				this.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
+				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
+				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
+				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
+				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
 			},
 			Site: function() {
 				return this.belongsTo(Site.Model(authContext, skipFilter), 'siteid');
@@ -51,10 +51,10 @@
 		return Database.Bookshelf.Collection.extend({
 			model: model(authContext, skipFilter)
 		}).forge()
-		.on("fetching", Auid.Fetching(authContext, filter, ['id', 'siteid', 'client.id', 'site.id'], skipFilter))
-		.on("fetched", Auid.Fetched(authContext, filter, ['id', 'siteid'], skipFilter))
-		.on("saving", Auid.Saving(authContext, filter, ['id', 'siteid'], skipFilter))
-		.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
+		.on("fetching", Auid.Fetching(authContext, filter, skipFilter))
+		.on("fetched", Auid.Fetched(authContext, filter, skipFilter))
+		.on("saving", Auid.Saving(authContext, filter, skipFilter))
+		.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
 	};
 	
 	module.exports = { Model: model, Collection: collection };

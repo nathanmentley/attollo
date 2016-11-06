@@ -22,7 +22,7 @@
 				.leftJoin('block', 'block.blockcontainerareaid', '=', 'blockcontainerarea.id');
 
 			query.whereRaw(
-				'(' + subQuery + ' where block.id = blocksetting.blockid) = ' + authContext.ClientID
+				'(' + subQuery + ' where block.id = blocksetting.blockid) = ' + Auid.Decode(authContext.ClientID)
 			);
 		}
 
@@ -34,7 +34,7 @@
 				.leftJoin('block', 'block.blockcontainerareaid', '=', 'blockcontainerarea.id');
 
 			query.whereRaw(
-				'(' + subQuery + ' where block.id = blocksetting.blockid) = ' + authContext.SiteID
+				'(' + subQuery + ' where block.id = blocksetting.blockid) = ' + Auid.Decode(authContext.SiteID)
 			);
 		}
 		
@@ -45,7 +45,7 @@
 				.leftJoin('block', 'block.blockcontainerareaid', '=', 'blockcontainerarea.id');
 
 			query.whereRaw(
-				'(' + subQuery + ' where block.id = blocksetting.blockid) = ' + authContext.SiteVersionID
+				'(' + subQuery + ' where block.id = blocksetting.blockid) = ' + Auid.Decode(authContext.SiteVersionID)
 			);
 		}
 	};
@@ -55,11 +55,11 @@
 			tableName: 'blocksetting',
 			constructor: function() {
 				Database.Model.apply(this, arguments);
-				this.on("fetching", Auid.Fetching(authContext, filter, ['id', 'pageid', 'blockid', 'blockcontainerareaid', 'blockcontainerid', 'blocksettingdefid', 'client.id', 'site.id', 'siteversion.id'], skipFilter));
-				this.on("fetched", Auid.Fetched(authContext, filter, ['id', 'pageid', 'blockid', 'blockcontainerareaid', 'blockcontainerid', 'blocksettingdefid'], skipFilter));
-				this.on("saving", Auid.Saving(authContext, filter, ['id', 'pageid', 'blockid', 'blockcontainerareaid', 'blockcontainerid', 'blocksettingdefid'], skipFilter));
+				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
+				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
+				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
 				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockSettingDef']));
-				this.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
+				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
 			},
 			Block: function() {
 				return this.belongsTo(Block.Model(authContext, skipFilter), 'blockid');
@@ -106,11 +106,11 @@
 		return Database.Bookshelf.Collection.extend({
 			model: model(authContext, skipFilter)
 		}).forge()
-		.on("fetching", Auid.Fetching(authContext, filter, ['id', 'blockid', 'blockcontainerareaid', 'blockcontainerid', 'blocksettingdefid', 'pageid', 'client.id', 'site.id', 'siteversion.id'], skipFilter))
-		.on("fetched", Auid.Fetched(authContext, filter, ['id', 'blockid', 'blockcontainerareaid', 'blockcontainerid', 'blocksettingdefid', 'pageid'], skipFilter))
-		.on("saving", Auid.Saving(authContext, filter, ['id', 'blockid', 'blockcontainerareaid', 'blockcontainerid', 'blocksettingdefid', 'pageid'], skipFilter))
+		.on("fetching", Auid.Fetching(authContext, filter, skipFilter))
+		.on("fetched", Auid.Fetched(authContext, filter, skipFilter))
+		.on("saving", Auid.Saving(authContext, filter, skipFilter))
 		.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockSettingDef']))
-		.on("destroying", Auid.Destroying(authContext, filter, ['id'], skipFilter));
+		.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
 	};
 	
 	module.exports = { Model: model, Collection: collection };

@@ -212,17 +212,17 @@
 								resolve();
 							})
 							.catch((err) => {
-								reject({ message: err.message });
+								reject({ stack: err.stack, message: err.message });
 							});
 						})
 						.catch((err) => {
-							reject({ message: err.message });
+							reject({ stack: err.stack, message: err.message });
 						});
 					}).catch((err) => {
-						reject({ message: err.message });
+						reject({ stack: err.stack, message: err.message });
 					});
 				}).catch((err) => {
-					reject({ message: err.message });
+					reject({ stack: err.stack, message: err.message });
 				});
 			} catch(e) {
 				reject({ message: e.message });

@@ -71,13 +71,10 @@ export default class Header extends BaseComponent {
                                         </MenuItem>
                                     );
                                 })}
-
+                                
                             </NavDropdown>
                             <NavItem eventKey={3} onClick={function() { self.changePage('/Reports')} }>
                                 <Glyphicon glyph="signal" /> Reports
-                            </NavItem>
-                            <NavItem eventKey={4} onClick={function() { self.changePage('/About')} }>
-                                <Glyphicon glyph="question-sign" /> About
                             </NavItem>
                         </Nav>
                         <Nav pullRight>

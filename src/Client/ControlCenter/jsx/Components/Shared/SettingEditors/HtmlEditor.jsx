@@ -1,12 +1,30 @@
 import React from 'react';
 import { FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
-import ReactQuill from 'react-quill';
+import RichTextEditor from 'react-rte';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
 export default class HtmlEditor extends BaseComponent {
     constructor(props) {
         super(props);
+
+        var currentValue = this.props.GetValueFromCode(this.props.Code);
+
+        this.state = {
+            value: currentValue ?
+                    RichTextEditor.createValueFromString(currentValue, 'html') :
+                    RichTextEditor.createEmptyValue()
+        }
+
+        this.onChange = this.onChange.bind(this);
+    }
+
+    onChange(value) {
+        var self = this;
+
+        this.setState({ value }, () => {
+            self.props.SetValueForCode(this.props.Code, value.toString('html'));
+        });
     }
 
     render() {
@@ -18,9 +36,9 @@ export default class HtmlEditor extends BaseComponent {
             >
                 <ControlLabel>{this.props.Title}</ControlLabel>
 
-                <ReactQuill theme="snow"
-                    value={this.props.GetValueFromCode(this.props.Code)}
-                    onChange={(value) => { this.props.SetValueForCode(this.props.Code, value) }}
+                <RichTextEditor
+                    value={this.state.value}
+                    onChange={this.onChange}
                 />
 
                 <FormControl.Feedback />

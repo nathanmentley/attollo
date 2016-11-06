@@ -12,7 +12,6 @@ import PageBuilder from '../Components/Pages/PageBuilder/Page.jsx';
 
 import Users from '../Components/Pages/Users/Page.jsx';
 import Account from '../Components/Pages/Account/Page.jsx';
-import About from '../Components/Pages/About/Page.jsx';
 
 import Dashboard from '../Components/Pages/Dashboard/Page.jsx';
 import Reports from '../Components/Pages/Reports/Page.jsx';
@@ -32,7 +31,6 @@ export default class Routing extends React.Component {
 
                 <Route path="/Users" component={Users} onEnter={Auth.AuthRequired} />
                 <Route path="/Account" component={Account} onEnter={Auth.AuthRequired} />
-                <Route path="/About" component={About} onEnter={Auth.AuthRequired} />
 
                 <Route path="/Dashboard" component={Dashboard} onEnter={Auth.AuthRequired} />
                 <Route path="/Reports" component={Reports} onEnter={Auth.AuthRequired} />

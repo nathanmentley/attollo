@@ -4,6 +4,7 @@
 @import "./Theme/Bootswatch.less";
 
 @import "./BootstrapOverrides/Modal.less";
+@import "./BootstrapOverrides/Row.less";
 
 @import "./Components/Header.less";
 @import "./Components/Footer.less";
@@ -17,18 +18,26 @@
 html {
     body {
         div#app-container {
-            div.app-router {
-                div.page-row {
-                    div.page-content {
+            div.base-page-root {
+                div.app-router {
+                    div.page-row {
+                        div.page-content {
+                            height: 100%;
+                        }
                         height: 100%;
                     }
-                    height: 100%;
+                    height: calc(100% - 170px);
                 }
-                height: calc(100% - 170px);
+                height: 100%;
+                
+                margin-bottom: 30px;
             }
             height: 100%;
         }
         height: 100%;
+
+        margin: 0; /* bottom = footer height */
     }
-    height: 100%;
+    position: relative;
+    min-height: 100%;
 }

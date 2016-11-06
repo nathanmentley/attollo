@@ -58,12 +58,8 @@ export default class BasePage extends BaseComponent {
         var self = this;
 
         return (
-            <div>
-                <Row>
-                    <Col xs={12} md={12}>
-                        <Header IsAuthenticated={AjaxService.IsAuthenticated()} />
-                    </Col>
-                </Row>
+            <div className="base-page-root">
+                <Header IsAuthenticated={AjaxService.IsAuthenticated()} />
 
                 <Grid className="app-router">
                     <Row className="page-row">
@@ -126,12 +122,8 @@ export default class BasePage extends BaseComponent {
                         </Col>
                     </Row>
                 </Grid>
-
-                <Row>
-                    <Col xs={12} md={12}>
-                        <Footer IsAuthenticated={AjaxService.IsAuthenticated()} />
-                    </Col>
-                </Row>
+                
+                <Footer IsAuthenticated={AjaxService.IsAuthenticated()} />
             </div>
         );
     }

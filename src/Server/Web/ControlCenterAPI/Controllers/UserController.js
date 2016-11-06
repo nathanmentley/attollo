@@ -27,7 +27,7 @@
 		app.post(urlendpoint, auth, function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
-			Attollo.Services.User.AddUser(request.AuthContext)
+			Attollo.Services.User.AddUser(request.AuthContext, request.body.username, request.body.password)
 			.then(function() {
 				response.json({
 					error: false

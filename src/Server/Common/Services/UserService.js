@@ -12,8 +12,8 @@
 		return Context.Handlers.User.GetUser(authContext, username, password);
 	};
 	
-	classDef.prototype.AddUser = function (authContext){
-		return Context.Handlers.User.AddUser(authContext);
+	classDef.prototype.AddUser = function (authContext, name, password){
+		return Context.Handlers.User.AddUser(authContext, name, password, 'salt');
 	};
 	
 	classDef.prototype.UpdateUser = function (authContext, user){

@@ -7,8 +7,8 @@ export default class UserService {
         return AjaxService.Get(endpoint, {}, {});
     }
 
-    static AddUser() {
-        return AjaxService.Post(endpoint, {}, {});
+    static AddUser(name, password) {
+        return AjaxService.Post(endpoint, { username: name, password: password }, {});
     }
 
     static SaveUser(user) {

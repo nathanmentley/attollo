@@ -23,9 +23,13 @@
 				.fetch();
 	};
 	
-	classDef.prototype.AddUser = function (authContext){
+	classDef.prototype.AddUser = function (authContext, name, password, salt){
 		var User = this.Context.DatabaseContext.User(authContext);
 		var user = new User({
+			clientid: authContext.ClientID,
+			name: name,
+			password: password,
+			salt: salt
 		});
 
 		return user.save();

@@ -9,6 +9,7 @@ import UserService from '../../../Services/UserService.jsx';
 
 import UserList from './UserList.jsx';
 import UserEditor from './UserEditor.jsx';
+import UserCreator from './UserCreator.jsx';
 
 export default class UsersPage extends BasePage {
     constructor(props) {
@@ -16,14 +17,19 @@ export default class UsersPage extends BasePage {
 
         this.state = {
             EditingUser: null,
+            CreatingUser: null,
             Users: []
         };
 
         this.setEditingUser = this.setEditingUser.bind(this);
-
-        this.addNewUser = this.addNewUser.bind(this);
         this.saveUser = this.saveUser.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
+
+        this.addNewUser = this.addNewUser.bind(this);
+        this.closeUserCreator = this.closeUserCreator.bind(this);
+        this.updateCreatingName = this.updateCreatingName.bind(this);
+        this.updateCreatingPassword = this.updateCreatingPassword.bind(this);
+        this.createUser = this.createUser.bind(this);
     }
     
     componentDidMount() {
@@ -73,13 +79,38 @@ export default class UsersPage extends BasePage {
     }
 
     addNewUser() {
+        this.setState({ CreatingUser: { name: '', password: '' }});
+    }
+
+    updateCreatingName(value) {
+        var newUser = ObjectUtils.Clone(this.state.CreatingUser);
+        newUser.name = value;
+
+        this.setState({ CreatingUser: newUser });
+    }
+
+    updateCreatingPassword(value) {
+        var newUser = ObjectUtils.Clone(this.state.CreatingUser);
+        newUser.password = value;
+
+        this.setState({ CreatingUser: newUser });
+    }
+
+    createUser() {
         var self = this;
 
-        UserService.AddUser().then((addRes) => {
+        UserService.AddUser(
+            this.state.CreatingUser.name,
+            this.state.CreatingUser.password
+        ).then((addRes) => {
             UserService.GetUsers().then((res) => {
                 self.setState({ Users: res.data.data }); 
             });
         });
+    }
+
+    closeUserCreator() {
+        this.setState({ CreatingUser: null });
     }
 
     _render() {
@@ -92,6 +123,16 @@ export default class UsersPage extends BasePage {
                 SetEditingUser={this.setEditingUser}
             />;
         }
+        var creatingUser = <div />;
+        if(this.state.CreatingUser != null){
+            creatingUser = <UserCreator
+                User={this.state.CreatingUser}
+                CreateUser={this.createUser}
+                CloseUserCreator={this.closeUserCreator}
+                UpdateName={this.updateCreatingName}
+                UpdatePassword={this.updateCreatingPassword}
+            />;
+        }
 
         return (
             <Grid>
@@ -101,6 +142,7 @@ export default class UsersPage extends BasePage {
                     </Col>
 
                     {editingUser}
+                    {creatingUser}
                 </Row>
 
                 <Row>

@@ -54,6 +54,79 @@
                 return auid;
             }
         },
+
+        EncodeIdsForModel: function (models, model, touched) {
+            var self = this;
+            var data = {};
+
+            if (model) {
+                var uniqueid = '';//model.tableName + '[' + model.id + ']';
+                
+                if (touched.indexOf(uniqueid) > -1) {
+                    //return;
+                } else {
+                    touched.push(uniqueid);
+                }
+
+                if (model.attributes) {
+                    Object.keys(model.attributes).forEach(function(key) {
+                        for(var i = 0; i < SchemaIdFields.length; i++) {
+                            if(SchemaIdFields[i] == key) {
+                                var field = SchemaIdFields[i];
+
+                                if(model.get(field)) {
+                                    data[field] = self.Encode(model.get(field));
+                                }
+                            }
+                        }
+                    });
+                }
+
+                if (model.relations) {
+                    Object.keys(model.relations).forEach(function(key) {
+                        var related = model.relations[key];
+
+                        if (related) {
+                            if(related.length) {
+                                self.EncodeIdsForSubCollection(models, related, touched);
+                            } else {
+                                self.EncodeIdsForModel(models, related, touched);
+                            }
+                        }
+                    });
+                }
+
+                model.set(data);
+            }
+        },
+
+        EncodeIdsForSubCollection: function (models, collection, touched) {
+            var self = this;
+
+            if(!touched) {
+                touched = [];
+            }
+
+            collection.forEach(function (model) {
+                var bsModel = collection.get(model.id);
+
+                self.EncodeIdsForModel(models, bsModel, touched);
+            });
+        },
+
+        EncodeIdsForCollection: function (models, collection, touched) {
+            var self = this;
+
+            if(!touched) {
+                touched = [];
+            }
+
+            for(var i = 0; i < collection.length; i++) {
+                var bsModel = models.get(collection[i].id);
+                self.EncodeIdsForModel(models, bsModel, touched);
+            }
+        },
+
         Fetching: function(authContext, filter, skipFilter) {
             var self = this;
 
@@ -92,20 +165,7 @@
                         filter(authContext, options.query);
                     }
 
-                    for(var i = 0; i < result.length; i++) {
-                        var data = {};
-                        var model = result[i];
-
-                        for(var j = 0; j < SchemaIdFields.length; j++) {
-                            var field = SchemaIdFields[j];
-
-                            if(model[field]) {
-                                data[field] = self.Encode(model[field]);
-                            }
-                        }
-
-                        models.get(model.id).set(data);
-                    }
+                    self.EncodeIdsForCollection(models, result);
 
                     resolve();
                 });

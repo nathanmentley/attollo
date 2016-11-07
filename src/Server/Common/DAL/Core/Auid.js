@@ -30,7 +30,8 @@
 
                 return newId + "-" + (crypto.createHash('sha1')
                         .update(newId, 'utf8')
-                        .digest('hex').substring(0, 4));
+                        .digest('hex').substring(0, 4))
+                        .toUpperCase();
             }else{
                 return null;
             }
@@ -42,6 +43,7 @@
                 var checkSumExpected = (crypto.createHash('sha1')
                         .update(newId, 'utf8')
                         .digest('hex').substring(0, 4))
+                        .toUpperCase();
 
                 if(checkSumClaim !== checkSumExpected) {
                     throw new Error("Invalid AUID.");
@@ -87,8 +89,10 @@
                         var related = model.relations[key];
 
                         if (related) {
-                            if(related.length) {
-                                self.EncodeIdsForSubCollection(models, related, touched);
+                            if(related.length != null) {
+                                if(related.length > 0) {
+                                    self.EncodeIdsForSubCollection(models, related, touched);
+                                }
                             } else {
                                 self.EncodeIdsForModel(models, related, touched);
                             }

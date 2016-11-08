@@ -4,7 +4,7 @@
 	var urlendpoint = '/Sites';
 
 	classDef.prototype.Setup = function (app, express, auth) {
-		app.get(urlendpoint, auth, function(request, response) {
+		app.get(urlendpoint, auth(null), function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.Site.GetSites(request.AuthContext)
@@ -24,7 +24,7 @@
 			});
 		});
 
-		app.post(urlendpoint, auth, function(request, response) {
+		app.post(urlendpoint, auth(null), function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.Site.AddSite(request.AuthContext)
@@ -43,7 +43,7 @@
 			});
 		});
 
-		app.put(urlendpoint, auth, function(request, response) {
+		app.put(urlendpoint, auth(null), function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.Site.UpdateSite(request.AuthContext, request.body.site)
@@ -62,7 +62,7 @@
 			});
 		});
 
-		app.delete(urlendpoint, auth, function(request, response) {
+		app.delete(urlendpoint, auth(null), function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.Site.DeleteSite(request.AuthContext, { id: request.query.siteId })

@@ -4,7 +4,7 @@
 	var urlendpoint = '/BlockContainers';
 
 	classDef.prototype.Setup = function (app, express, auth) {
-		app.get(urlendpoint, auth, function(request, response) {
+		app.get(urlendpoint, auth(null), function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.Block.GetBlockContainers(request.AuthContext, request.query.pageId)
@@ -24,7 +24,7 @@
 			});
 		});
 
-		app.post(urlendpoint, auth, function(request, response) {
+		app.post(urlendpoint, auth(null), function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.Block.AddBlockContainers(request.AuthContext, request.body.pageId, request.body.code)
@@ -46,7 +46,7 @@
 			});
 		});
 
-		app.put(urlendpoint, auth, function(request, response) {
+		app.put(urlendpoint, auth(null), function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.Block.UpdateBlockContainer(request.AuthContext, request.body.blockContainer)
@@ -65,7 +65,7 @@
 			});
 		});
 
-		app.delete(urlendpoint, auth, function(request, response) {
+		app.delete(urlendpoint, auth(null), function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.Block.DeleteBlockContainer(request.AuthContext, { id: request.query.blockContainerId })

@@ -4,7 +4,7 @@
 	var urlendpoint = '/BlockDefs';
 
 	classDef.prototype.Setup = function (app, express, auth) {
-		app.get(urlendpoint, auth, function(request, response) {
+		app.get(urlendpoint, auth(null), function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.Block.GetBlockDefs(request.AuthContext, request.query.pageDefId)

@@ -1,26 +1,49 @@
 (function() {
 	var jwt = require('jwt-simple');
 
-	module.exports = function(req, res, next) {
-		if (req.headers.authorization) {
-			var decoded = jwt.decode(req.headers.authorization.substring(7), Attollo.Utils.Config.JwtSecret);
+	module.exports = function(permission) {
+		return function(req, res, next) {
+			if (req.headers.authorization) {
+				var decoded = jwt.decode(req.headers.authorization.substring(7), Attollo.Utils.Config.JwtSecret);
 
-			if(decoded) {
-				req.AuthContext = {
-					ClientID: decoded.clientid,
-					Permissions: decoded.role.RolePermisions
-				};
+				if(decoded) {
+					req.AuthContext = {
+						ClientID: decoded.clientid,
+						Role: decoded.role
+					};
 
-				next();
+					if(permission) {
+						var authorized = false;
+
+						Attollo.Utils.Log.Info(JSON.stringify(req.AuthContext));
+
+						decoded.role.RolePermisions.forEach((userPermission) => {
+							if(userPermission.code === permission) {
+								authorized = true;
+							}
+						});
+
+						if(authorized) {
+							next();
+						} else {
+							res.statusCode = 403;
+							res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
+							res.end('Forbidden');
+						}
+					}else {
+						next();
+					}
+
+				}else{
+					res.statusCode = 403;
+					res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
+					res.end('Forbidden');
+				}
 			}else{
-				res.statusCode = 403;
+				res.statusCode = 401;
 				res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
-				res.end('Forbidden');
+				res.end('Unauthorized');
 			}
-		}else{
-			res.statusCode = 401;
-			res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
-			res.end('Unauthorized');
-		}
+		};
 	};
 })(); 

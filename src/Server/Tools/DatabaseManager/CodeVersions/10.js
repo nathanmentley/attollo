@@ -4,18 +4,22 @@
     var classDef = function () {};
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
+        dbContext.SetClientID(1);
         Promise.all([
-            Attollo.Services.User.AddRole(dbContext, 'Admin', 'Admin')
+            Attollo.Services.Client.AddClient(dbContext, { name: 'Attollo' })
         ])
         .then(() => {
-            Promise.all([
-                Attollo.Services.User.AddRolePermission(dbContext, 'login', 'login', 'Can Log In.', 1),
-                Attollo.Services.User.AddRolePermission(dbContext, 'login2', 'login2', 'Can Log In 2.', 1)
-            ])
+            dbContext.SetClientID(1);
+
+            Attollo.Services.User.AddUser(dbContext, 'username', 'password', 'Admin')
             .then(() => {
+                dbContext.ClearClientID();
+
                 callback();
             })
             .catch((err) => {
+                dbContext.ClearClientID();
+
                 errorCallback(err);
             });
         })

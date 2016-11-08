@@ -19,15 +19,16 @@
 						name: username
 					}
 				})
-				.fetch();
+				.fetch({ withRelated: [ 'Role', 'Role.RolePermisions' ]});
 	};
 	
-	classDef.prototype.AddUser = function (authContext, name, password){
+	classDef.prototype.AddUser = function (authContext, name, password, role){
 		var User = this.Context.DatabaseContext.User(authContext);
 		var user = new User({
 			clientid: authContext.ClientID,
 			name: name,
-			password: password
+			password: password,
+			roleid: role.get('id')
 		});
 
 		return user.save();
@@ -46,6 +47,44 @@
 
 		return user.destroy();
 	};
+
+	//Roles
+
+	classDef.prototype.GetRole = function (authContext, code) {
+		return this.Context.DatabaseContext.Roles(authContext)
+				.query({
+					where: {
+						code: code
+					}
+				})
+				.fetch();
+	}
+
+	classDef.prototype.GetRoles = function (authContext) {
+		return this.Context.DatabaseContext.Roles(authContext).fetch();
+	}
+
+	classDef.prototype.AddRole = function (authContext, name, code) {
+		var Role = this.Context.DatabaseContext.Role(authContext);
+		var role = new Role({
+			name: name,
+			code: code
+		});
+
+		return role.save();
+	}
+
+	classDef.prototype.AddRolePermission = function (authContext, name, code, description, roleid) {
+		var RolePermission = this.Context.DatabaseContext.RolePermission(authContext);
+		var rolePermission = new RolePermission({
+			name: name,
+			code: code,
+			description: description,
+			roleid: roleid
+		});
+
+		return rolePermission.save();
+	}
 	
 	module.exports = classDef;
 })();

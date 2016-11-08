@@ -18,7 +18,8 @@
         'BlockTemplateDefID'.toLowerCase(),
         'SettingTypeID'.toLowerCase(),
         'BlockID'.toLowerCase(),
-        'BlockSettingDefID'.toLowerCase()
+        'BlockSettingDefID'.toLowerCase(),
+        'RoleID'.toLowerCase()
     ];
 
 	module.exports = {

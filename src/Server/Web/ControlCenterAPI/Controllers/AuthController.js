@@ -14,7 +14,7 @@
 				var user = users.first();
 
 				if(user) {
-					var tokenData = { clientid: user.get('clientid'), name: user.get('name'), env: Attollo.Utils.Config.Environment };
+					var tokenData = { clientid: user.get('clientid'), name: user.get('name'), role: user.relations['Role'], env: Attollo.Utils.Config.Environment };
 					
 					response.json({
 						error: false,

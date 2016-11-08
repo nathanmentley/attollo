@@ -40,18 +40,26 @@
 		});
 	};
 	
-	classDef.prototype.AddUser = function (authContext, name, password){
+	classDef.prototype.AddUser = function (authContext, name, password, roleCode){
+		var self = this;
+
 		return new Promise((resolve, reject) => {
-			bcrypt.genSalt(10, (err, salt) => {
-				bcrypt.hash(password, salt, (err, hash) => {
-					Context.Handlers.User.AddUser(authContext, name, hash)
-					.then((result) => {
-						resolve(result);
-					})
-					.catch((err) => {
-						reject(err);
+			self.GetRole(authContext, roleCode)
+			.then((roles) => {
+				bcrypt.genSalt(10, (err, salt) => {
+					bcrypt.hash(password, salt, (err, hash) => {
+						Context.Handlers.User.AddUser(authContext, name, hash, roles.first())
+						.then((result) => {
+							resolve(result);
+						})
+						.catch((err) => {
+							reject(err);
+						});
 					});
 				});
+			})
+			.catch((err) => {
+				reject(err);
 			});
 		});
 	};
@@ -63,6 +71,24 @@
 	classDef.prototype.DeleteUser = function (authContext, userId){
 		return Context.Handlers.User.DeleteUser(authContext, userId);
 	};
+
+	//Roles
+
+	classDef.prototype.GetRole = function (authContext, code) {
+		return Context.Handlers.User.GetRole(authContext, code);
+	}
+
+	classDef.prototype.GetRoles = function (authContext) {
+		return Context.Handlers.User.GetRoles(authContext);
+	}
+
+	classDef.prototype.AddRole = function (authContext, name, code) {
+		return Context.Handlers.User.AddRole(authContext, name, code);
+	}
+
+	classDef.prototype.AddRolePermission = function (authContext, name, code, description, roleid) {
+		return Context.Handlers.User.AddRolePermission(authContext, name, code, description, roleid);
+	}
 	
 	module.exports = classDef;
 })();

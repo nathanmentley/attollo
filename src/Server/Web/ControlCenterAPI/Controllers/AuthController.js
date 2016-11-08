@@ -12,6 +12,7 @@
 			Attollo.Services.User.GetUser({}, request.body.username, request.body.password)
 			.then(function (users) {
 				var user = users.first();
+
 				if(user) {
 					var tokenData = { clientid: user.get('clientid'), name: user.get('name'), env: Attollo.Utils.Config.Environment };
 					
@@ -21,7 +22,7 @@
 							token: jwt.encode(tokenData, Attollo.Utils.Config.JwtSecret)
 						}
 					});
-				}else {
+				}else{
 					response.json({
 						error: true,
 						data: {

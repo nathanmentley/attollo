@@ -13,7 +13,9 @@
         .then(() => {
             callback();
         })
-        .catch((err) => { errorCallback(err); });
+        .catch((err) => {
+            errorCallback(err);
+        });
     };
 
     module.exports = new classDef();

@@ -104,7 +104,7 @@ export default class UsersPage extends BasePage {
             this.state.CreatingUser.password
         ).then((addRes) => {
             UserService.GetUsers().then((res) => {
-                self.setState({ Users: res.data.data }); 
+                self.setState({ Users: res.data.data, CreatingUser: null }); 
             });
         });
     }

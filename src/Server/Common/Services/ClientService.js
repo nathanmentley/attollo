@@ -8,5 +8,9 @@
 		return Context.Handlers.Client.GetClients(authContext);
 	};
 	
+	classDef.prototype.AddClient = function (authContext, name){
+		return Context.Handlers.Client.AddClient(authContext, name);
+	};
+	
 	module.exports = classDef;
 })();

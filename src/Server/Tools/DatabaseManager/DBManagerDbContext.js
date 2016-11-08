@@ -1,9 +1,14 @@
 (function () {
     var classDef = function () {};
     
-	classDef.prototype.RunSqlCode = function (dbContext, callback, errorCallback) {
-        callback();
-	};
-	
-	module.exports = {};
+    classDef.prototype.ClientID = null;
+
+    classDef.prototype.SetClientID = function (clientId) {
+        this.ClientID = clientId;
+    };
+    classDef.prototype.ClearClientID = function () {
+        this.ClientID = null;
+    };
+
+	module.exports = new classDef();
 })();

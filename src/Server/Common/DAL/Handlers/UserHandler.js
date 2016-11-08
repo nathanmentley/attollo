@@ -12,24 +12,22 @@
 		return this.Context.DatabaseContext.Users(authContext).fetch();
 	};
 
-	classDef.prototype.GetUser = function (authContext, username, password) {
+	classDef.prototype.GetUser = function (authContext, username) {
 		return this.Context.DatabaseContext.Users(authContext, true)
 				.query({
 					where: {
-						name: username,
-						password: password
+						name: username
 					}
 				})
 				.fetch();
 	};
 	
-	classDef.prototype.AddUser = function (authContext, name, password, salt){
+	classDef.prototype.AddUser = function (authContext, name, password){
 		var User = this.Context.DatabaseContext.User(authContext);
 		var user = new User({
 			clientid: authContext.ClientID,
 			name: name,
-			password: password,
-			salt: salt
+			password: password
 		});
 
 		return user.save();

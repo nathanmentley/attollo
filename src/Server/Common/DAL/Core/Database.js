@@ -14,6 +14,7 @@
 	});
 	
 	var bookshelf = require('bookshelf')(knex);
+	bookshelf.plugin('visibility');
 
 	classDef.prototype.Knex = knex;
 	classDef.prototype.Bookshelf = bookshelf;

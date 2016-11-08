@@ -19,6 +19,7 @@
 	var model = function(authContext, skipFilter) {
 		return Database.Model.extend({
 			tableName: 'admin',
+			hidden: ['password'],
 			constructor: function() {
 				Database.Model.apply(this, arguments);
 				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));

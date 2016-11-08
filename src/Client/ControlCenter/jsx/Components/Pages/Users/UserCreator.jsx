@@ -82,7 +82,7 @@ export default class UserCreator extends BaseComponent {
                     >
                         <ControlLabel>Password</ControlLabel>
                         <FormControl
-                            type="text"
+                            type="password"
                             value={this.props.User.password}
                             placeholder="Enter Password"
                             onChange={this.updatePassword}

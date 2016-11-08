@@ -8,14 +8,11 @@
 
 				if(decoded) {
 					req.AuthContext = {
-						ClientID: decoded.clientid,
-						Role: decoded.role
+						ClientID: decoded.clientid
 					};
 
 					if(permission) {
 						var authorized = false;
-
-						Attollo.Utils.Log.Info(JSON.stringify(req.AuthContext));
 
 						decoded.role.RolePermisions.forEach((userPermission) => {
 							if(userPermission.code === permission) {

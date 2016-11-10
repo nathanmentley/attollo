@@ -2,6 +2,8 @@ import React from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Glyphicon } from 'react-bootstrap';
 import { browserHistory } from 'react-router';
 
+import PermissionDefCodes from '../../../../../Platform/Constants/PermissionDefCodes.js';
+
 import BaseComponent from '../BaseComponent.jsx';
 
 import AjaxService from '../../Services/AjaxService.jsx';
@@ -38,13 +40,11 @@ export default class Header extends BaseComponent {
         var self = this;
 
         if (this.props.IsAuthenticated) {
-            var permissions = AjaxService.GetPermissions();
-
             return (
                 <Navbar inverse>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <a onClick={function() { self.changePage('/Dashboard')} }>
+                            <a onClick={() => { self.changePage('/Dashboard')} }>
                                 Attollo
                             </a>
                         </Navbar.Brand>
@@ -52,11 +52,11 @@ export default class Header extends BaseComponent {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav>
-                            <NavItem style={{ display: (AjaxService.HasPermission("ViewUsers") ? 'inherit' : 'none') }} eventKey={1} onClick={function() { self.changePage('/Users')} }>
+                            <NavItem style={{ display: (AjaxService.HasPermission(PermissionDefCodes.ViewUsers) ? 'inherit' : 'none') }} eventKey={1} onClick={() => { self.changePage('/Users')} }>
                                 <Glyphicon glyph="user" /> Users
                             </NavItem>
                             <NavDropdown eventKey={2} title={<span><Glyphicon glyph="globe" /> Sites</span>} id="basic-nav-dropdown">
-                                <MenuItem eventKey={2.1} onClick={function() { self.changePage('/Sites')} }>Show All</MenuItem>
+                                <MenuItem eventKey={2.1} onClick={() => { self.changePage('/Sites')} }>Show All</MenuItem>
                                 
                                 <MenuItem divider />
                                 
@@ -68,7 +68,7 @@ export default class Header extends BaseComponent {
                                         <MenuItem
                                             key={site.id}
                                             eventKey={eventKey}
-                                            onClick={function() { self.changePage('/Sites/' + site.id )} }
+                                            onClick={() => { self.changePage('/Sites/' + site.id )} }
                                         >
                                             {site.name}
                                         </MenuItem>
@@ -76,15 +76,15 @@ export default class Header extends BaseComponent {
                                 })}
                                 
                             </NavDropdown>
-                            <NavItem eventKey={3} onClick={function() { self.changePage('/Reports')} }>
+                            <NavItem eventKey={3} onClick={() => { self.changePage('/Reports')} }>
                                 <Glyphicon glyph="signal" /> Reports
                             </NavItem>
                         </Nav>
                         <Nav pullRight>
-                            <NavItem eventKey={1} onClick={function() { self.changePage('/Account')} }>
+                            <NavItem eventKey={1} onClick={() => { self.changePage('/Account')} }>
                                 <Glyphicon glyph="cog" /> Account
                             </NavItem>
-                            <NavItem eventKey={2} onClick={function() { self.changePage('/Login')} }>
+                            <NavItem eventKey={2} onClick={() => { self.changePage('/Login')} }>
                                 <Glyphicon glyph="log-out" /> Logout
                             </NavItem>
                         </Nav>
@@ -96,7 +96,7 @@ export default class Header extends BaseComponent {
                 <Navbar inverse>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <a onClick={function() { self.changePage('/Dashboard')} }>
+                            <a onClick={() => { self.changePage('/Dashboard')} }>
                                 Attollo
                             </a>
                         </Navbar.Brand>

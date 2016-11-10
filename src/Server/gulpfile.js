@@ -17,6 +17,8 @@
     // Clean
     gulp.task('Server:clean', function() {
     });
+    gulp.task('Platform:clean', function() {
+    });
 
     gulp.task('Server:DatabaseManager:config', function() {
     });
@@ -45,18 +47,23 @@
              .pipe(gulp.dest('../dist/Server/'));
     });
 
-    gulp.task('Server:restart', ['Server:copy'], function () {
+    gulp.task('Platform:copy', ['Platform:clean'], function () {
+        return gulp.src('./Platform/**/*', { base: 'src' })
+             .pipe(gulp.dest('../dist/Platform/'));
+    });
+
+    gulp.task('Server:restart', ['Server:copy', 'Platform:copy'], function () {
         for(var i = 0; i < serverSideContainerNames.length; i++) {
             docker.getContainer(serverSideContainerNames[i]).restart(function (err, data) {});
         }
     });
 
     gulp.task('Server:watch', function () {
-        return watch('./Server/**/*', function () {
+        return watch(['./Server/**/*', './Platform/**/*'], function () {
             return gulp.run(['Server:restart']);
         });
     });
 
     // Build
-    gulp.task('Server:build', ['Server:copy', 'Server:config']);
+    gulp.task('Server:build', ['Server:copy', 'Platform:copy', 'Server:config']);
 })();

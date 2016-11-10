@@ -5,8 +5,22 @@ import { Line, Doughnut, Bar } from 'react-chartjs-2';
 import BasePage from '../BasePage.jsx';
 
 export default class DashboardPage extends BasePage {
+    constructor(props) {
+        super(props);
+
+        var activities = [];
+        for(var i = 0; i < 50; i++) {
+            activities.push({});
+        }
+
+        this.state = {
+            Activities: activities
+        };
+    }
+    
     componentDidMount() {
-        var self = this;    
+        var self = this; 
+
         self.setPageTitle("Dashboard", () => {
             self.setBreadCrumbs([
                 {
@@ -36,67 +50,46 @@ export default class DashboardPage extends BasePage {
                 <Row>
                     <Col xs={12} md={6}>
                         <Row>
-                            <Col xs={12} md={12} className="section-title">
-                                <h2>Activity</h2>
+                            <Col xs={12} md={12}>
+                                <Line data={data} />
                             </Col>
                         </Row>
+
                         <Row>
-                            <Col xs={12} md={12} className="section-title">
-                                <p>Someone did something.</p>
+                            <Col xs={12} md={12}>
+                                <Doughnut data={data} />
                             </Col>
-                            <Col xs={12} md={12} className="section-title">
-                                <p>Someone did something.</p>
+                        </Row>
+
+                        <Row>
+                            <Col xs={12} md={12}>
+                                <Line data={data} />
                             </Col>
-                            <Col xs={12} md={12} className="section-title">
-                                <p>Someone did something.</p>
-                            </Col>
-                            <Col xs={12} md={12} className="section-title">
-                                <p>Someone did something.</p>
-                            </Col>
-                            <Col xs={12} md={12} className="section-title">
-                                <p>Someone did something.</p>
-                            </Col>
-                            <Col xs={12} md={12} className="section-title">
-                                <p>Someone did something.</p>
-                            </Col>
-                            <Col xs={12} md={12} className="section-title">
-                                <p>Someone did something.</p>
-                            </Col>
-                            <Col xs={12} md={12} className="section-title">
-                                <p>Someone did something.</p>
-                            </Col>
-                            <Col xs={12} md={12} className="section-title">
-                                <p>Someone did something.</p>
-                            </Col>
-                            <Col xs={12} md={12} className="section-title">
-                                <p>Someone did something.</p>
+                        </Row>
+
+                        <Row>
+                            <Col xs={12} md={12}>
+                                <Doughnut data={data} />
                             </Col>
                         </Row>
                     </Col>
 
                     <Col xs={12} md={6}>
                         <Row>
-                            <Col xs={12} md={12}>
-                                <Line data={data} />
+                            <Col xs={12} md={12} className="section-title">
+                                <h2>Recent User Activity</h2>
                             </Col>
                         </Row>
-
                         <Row>
-                            <Col xs={12} md={12}>
-                                <Doughnut data={data} />
-                            </Col>
-                        </Row>
-
-                        <Row>
-                            <Col xs={12} md={12}>
-                                <Line data={data} />
-                            </Col>
-                        </Row>
-
-                        <Row>
-                            <Col xs={12} md={12}>
-                                <Doughnut data={data} />
-                            </Col>
+                            {
+                                this.state.Activities.map((x) => {
+                                    return (
+                                        <Col xs={12} md={6}>
+                                            <p>Someone did something.</p>
+                                        </Col>
+                                    );
+                                })
+                            }
                         </Row>
                     </Col>
                 </Row>

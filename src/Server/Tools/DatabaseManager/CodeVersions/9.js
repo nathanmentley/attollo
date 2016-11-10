@@ -1,13 +1,15 @@
 //Seed PageDefs
 
 (function () {
+	var PermissionDefCodes = require('../../../../Platform/Constants/PermissionDefCodes');
+
     var classDef = function () {};
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
             Attollo.Services.User.AddPermissionDef(dbContext, 'Login', 'Login', 'Can Log In.'),
             Attollo.Services.User.AddPermissionDef(dbContext, 'Login2', 'Login2', 'Can Log In 2.'),
-            Attollo.Services.User.AddPermissionDef(dbContext, 'ViewUsers', 'ViewUsers', 'View Users.')
+            Attollo.Services.User.AddPermissionDef(dbContext, 'View Users', PermissionDefCodes.ViewUsers, 'User Can View Users.')
         ])
         .then(() => {
             Promise.all([
@@ -18,8 +20,8 @@
                 Promise.all([
                     Attollo.Services.User.AddRolePermission(dbContext, 'Login', 'Admin'),
                     Attollo.Services.User.AddRolePermission(dbContext, 'Login2', 'Admin'),
-                    Attollo.Services.User.AddRolePermission(dbContext, 'ViewUsers', 'Admin'),
-                    Attollo.Services.User.AddRolePermission(dbContext, 'ViewUsers', 'UserAdmin')
+                    Attollo.Services.User.AddRolePermission(dbContext, PermissionDefCodes.ViewUsers, 'Admin'),
+                    Attollo.Services.User.AddRolePermission(dbContext, PermissionDefCodes.ViewUsers, 'UserAdmin')
                 ])
                 .then(() => {
                     callback();

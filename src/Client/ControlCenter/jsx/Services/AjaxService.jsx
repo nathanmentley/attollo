@@ -34,10 +34,6 @@ export default class AjaxService {
         return false;
     }
 
-    static GetPermissions() {
-        return permissions;
-    }
-
     static IsAuthenticated() {
         return authenticated;
     }

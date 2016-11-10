@@ -20,8 +20,10 @@ def main():
             dockerProcessor.build()
         elif options.command == 'run':
             dockerProcessor.run()
+
         elif options.command == 'nativerun':
             nativeProcessor.run()
+            
         else:
             print("unkonwn command.")
         return

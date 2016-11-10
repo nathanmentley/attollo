@@ -1,10 +1,12 @@
 (function () {
+	var PermissionDefCodes = require('../../../../Platform/Constants/PermissionDefCodes');
+
 	var classDef = function () {};
 
 	var urlendpoint = '/Users';
 
 	classDef.prototype.Setup = function (app, express, auth) {
-		app.get(urlendpoint, auth('Login'), function(request, response) {
+		app.get(urlendpoint, auth(PermissionDefCodes.ViewUsers), function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.User.GetUsers(request.AuthContext)

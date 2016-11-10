@@ -16,9 +16,9 @@
             ])
             .then(() => {
                 Promise.all([
-                    Attollo.Services.User.AddRolePermission(dbContext, 'Login', 1),
-                    Attollo.Services.User.AddRolePermission(dbContext, 'Login2', 1),
-                    Attollo.Services.User.AddRolePermission(dbContext, 'ViewUsers', 2)
+                    Attollo.Services.User.AddRolePermission(dbContext, 'Login', 'Admin'),
+                    Attollo.Services.User.AddRolePermission(dbContext, 'Login2', 'Admin'),
+                    Attollo.Services.User.AddRolePermission(dbContext, 'ViewUsers', 'UserAdmin')
                 ])
                 .then(() => {
                     callback();

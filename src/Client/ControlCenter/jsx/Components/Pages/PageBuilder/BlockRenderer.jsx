@@ -71,6 +71,12 @@ export default DropTarget("BlockDef", BlockRendererTarget, dropCollect)(
                     }
                 }
 
+                setEditingStyleBlock() {
+                    if(this.props.SetEditingStyleBlock) {
+                        this.props.SetEditingStyleBlock(this.props.Block);
+                    }
+                }
+
                 render() {
                     var self = this;
                     const { connectDropTarget, isOver, connectBlockDropTarget, isBlockOver, connectDragSource, isDragging } = this.props;
@@ -96,6 +102,9 @@ export default DropTarget("BlockDef", BlockRendererTarget, dropCollect)(
                                         </MenuItem>
                                         <MenuItem eventKey="1" onClick={() => { self.setEditingSettingsBlock(); }}>
                                             <Glyphicon glyph="cog" /> Update Settings
+                                        </MenuItem>
+                                        <MenuItem eventKey="1" onClick={() => { self.setEditingStyleBlock(); }}>
+                                            <Glyphicon glyph="text-background" /> Update Style
                                         </MenuItem>
                                         <MenuItem eventKey="1" onClick={() => {  }}>
                                             <Glyphicon glyph="trash" /> Delete

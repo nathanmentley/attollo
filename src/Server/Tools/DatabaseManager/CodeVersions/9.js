@@ -18,6 +18,7 @@
                 Promise.all([
                     Attollo.Services.User.AddRolePermission(dbContext, 'Login', 'Admin'),
                     Attollo.Services.User.AddRolePermission(dbContext, 'Login2', 'Admin'),
+                    Attollo.Services.User.AddRolePermission(dbContext, 'ViewUsers', 'Admin'),
                     Attollo.Services.User.AddRolePermission(dbContext, 'ViewUsers', 'UserAdmin')
                 ])
                 .then(() => {

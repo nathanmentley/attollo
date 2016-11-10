@@ -6,6 +6,10 @@ import BaseComponent from '../BaseComponent.jsx';
 
 export default class Footer extends BaseComponent {
     render() {
-        return <footer>Attollo Build: {Config.Environment} - {Config.Environment}</footer>;
+        return (
+            <footer>
+                Attollo Build: {Config.Environment} - {Config.Version}
+            </footer>
+        );
     }
 }

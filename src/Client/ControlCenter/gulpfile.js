@@ -1,9 +1,14 @@
 (function() {
+    //load package.json
+    var fs = require('fs');
+    var json = JSON.parse(fs.readFileSync('./package.json'));
+
     // Load plugins
     var gulp = require('gulp');
     var watch = require('gulp-watch');
 
     var gutil = require('gulp-util');
+    var replace = require('gulp-replace');
     var rename = require('gulp-rename');
     var less = require('gulp-less');
     var sourcemaps = require('gulp-sourcemaps');
@@ -17,10 +22,17 @@
     };
 
     gulp.task('ControlCenter:config', function() {
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth();
+        var day = date.getDay();
+        var version = json.version + '.' + year + '.' + month + '.' + day;
+
         gulp.src([
                 './Client/ControlCenter/Config/config.json',
                 './Client/ControlCenter/Config/config.' + Attollo.Env + '.json'
         ]).pipe(merge('config.json'))
+            .pipe(replace('{current-version}', version))
             .pipe(gulp.dest('./Client/ControlCenter/jsx/'));
     });
  

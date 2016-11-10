@@ -4,22 +4,31 @@
     
     var SchemaIdFields = [
         'ID'.toLowerCase(),
-        'ClientID'.toLowerCase(),
-        'SiteID'.toLowerCase(),
-        'SiteVersionStatusID'.toLowerCase(),
-        'PageDefID'.toLowerCase(),
-        'SiteVersionID'.toLowerCase(),
+
+        'AdminPermissionID'.toLowerCase(),
+
+        'BlockContainerID'.toLowerCase(),
         'BlockContainerDefID'.toLowerCase(),
         'BlockContainerAreaID'.toLowerCase(),
-        'PageID'.toLowerCase(),
-        'BlockContainerID'.toLowerCase(),
         'BlockContainerAreaDefID'.toLowerCase(),
-        'BlockDefID'.toLowerCase(),
-        'BlockTemplateDefID'.toLowerCase(),
-        'SettingTypeID'.toLowerCase(),
         'BlockID'.toLowerCase(),
+        'BlockDefID'.toLowerCase(),
+        'BlockSettingID'.toLowerCase(),
         'BlockSettingDefID'.toLowerCase(),
-        'RoleID'.toLowerCase()
+        'BlockTemplateDefID'.toLowerCase(),
+
+        'ClientID'.toLowerCase(),
+
+        'PageID'.toLowerCase(),
+        'PageDefID'.toLowerCase(),
+        "PermissionDefID".toLowerCase(),
+
+        'RoleID'.toLowerCase(),
+
+        'SiteID'.toLowerCase(),
+        'SiteVersionStatusID'.toLowerCase(),
+        'SiteVersionID'.toLowerCase(),
+        'SettingTypeID'.toLowerCase()
     ];
 
 	module.exports = {

@@ -14,10 +14,31 @@
 				var user = users.first();
 
 				if(user) {
-					var role = user.relations['Role'];
-
-					var tokenData = { clientid: user.get('clientid'), name: user.get('name'), role: role, env: Attollo.Utils.Config.Environment };
+					var permissions = [];
 					
+					var rolePermissions = user.relations['Role'].relations['RolePermisions'].toJSON();
+					for(var i = 0; i < rolePermissions.length; i++) {
+						permissions.push(rolePermissions[i].PermissionDef.code);
+					}
+					
+					var userPermissions = user.relations['UserPermissions'].toJSON();
+					Attollo.Utils.Log.Info(JSON.stringify(userPermissions));
+					for(var i = 0; i < userPermissions.length; i++) {
+						var hasPermission = userPermissions[i].haspermission;
+						var code = userPermissions[i].PermissionDef.code;
+
+						if(hasPermission != "0") {
+							permissions.push(code);
+						} else {
+							for(var j = 0; j < permissions.length; j++) {
+								if(permissions[j] == code) {
+									permissions.splice(j, 1);
+								}
+							}
+						}
+					}
+					
+					var tokenData = { clientid: user.get('clientid'), name: user.get('name'), permissions: permissions, env: Attollo.Utils.Config.Environment };
 					response.json({
 						error: false,
 						data: {

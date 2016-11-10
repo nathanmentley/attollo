@@ -15,6 +15,7 @@
 	var DatabaseCodeVersion = require("../Models/DatabaseCodeVersion");
 	var Page = require("../Models/Page");
 	var PageDef = require("../Models/PageDef");
+	var PermissionDef = require("../Models/PermissionDef");
 	var Role = require("../Models/Role");
 	var RolePermission = require("../Models/RolePermission");
 	var SettingType = require("../Models/SettingType");
@@ -22,6 +23,7 @@
 	var SiteVersion = require("../Models/SiteVersion");
 	var SiteVersionStatus = require("../Models/SiteVersionStatus");
 	var User = require("../Models/User");
+	var UserPermission = require("../Models/UserPermission");
 
 	classDef.prototype.Blocks = Block.Collection;
 	classDef.prototype.Block = Block.Model;
@@ -65,6 +67,9 @@
 	classDef.prototype.PageDefs = PageDef.Collection;
 	classDef.prototype.PageDef = PageDef.Model;
 
+	classDef.prototype.PermissionDefs = PermissionDef.Collection;
+	classDef.prototype.PermissionDef = PermissionDef.Model;
+
 	classDef.prototype.Roles = Role.Collection;
 	classDef.prototype.Role = Role.Model;
 
@@ -85,6 +90,9 @@
 
 	classDef.prototype.Users = User.Collection;
 	classDef.prototype.User = User.Model;
+
+	classDef.prototype.UserPermissions = UserPermission.Collection;
+	classDef.prototype.UserPermission = UserPermission.Model;
 
 	module.exports = new classDef();
 })();

@@ -14,11 +14,11 @@
 					if(permission) {
 						var authorized = false;
 
-						decoded.role.RolePermisions.forEach((userPermission) => {
-							if(userPermission.code === permission) {
+						for(var i = 0; i < decoded.permissions.length; i++) {
+							if(decoded.permissions[i] == permission) {
 								authorized = true;
 							}
-						});
+						}
 
 						if(authorized) {
 							next();

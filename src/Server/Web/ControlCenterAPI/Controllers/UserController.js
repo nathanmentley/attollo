@@ -4,7 +4,7 @@
 	var urlendpoint = '/Users';
 
 	classDef.prototype.Setup = function (app, express, auth) {
-		app.get(urlendpoint, auth('login'), function(request, response) {
+		app.get(urlendpoint, auth('Login'), function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.User.GetUsers(request.AuthContext)
@@ -24,7 +24,7 @@
 			});
 		});
 
-		app.post(urlendpoint, auth('login2'), function(request, response) {
+		app.post(urlendpoint, auth('Login2'), function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
 			Attollo.Services.User.AddUser(request.AuthContext, request.body.username, request.body.password)

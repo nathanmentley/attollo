@@ -86,9 +86,39 @@
 		return Context.Handlers.User.AddRole(authContext, name, code);
 	}
 
-	classDef.prototype.AddRolePermission = function (authContext, name, code, description, roleid) {
-		return Context.Handlers.User.AddRolePermission(authContext, name, code, description, roleid);
+	classDef.prototype.AddRolePermission = function (authContext, code, roleid) {
+		var self = this;
+
+		return new Promise((resolve, reject) => {
+			self.GetPermissionDef(authContext, code)
+			.then((permissionDef) => {
+				Context.Handlers.User.AddRolePermission(authContext, permissionDef.first().get('id'), roleid)
+				.then(() => {
+					resolve();
+				})
+				.catch((err) => {
+					reject(err);
+				});
+			})
+			.catch((err) => {
+				reject(err);
+			});
+		});
 	}
+
+	//PermissionDefs
+
+	classDef.prototype.AddPermissionDef = function (authContext, name, code, description) {
+		return Context.Handlers.User.AddPermissionDef(authContext, name, code, description);
+	};
+
+	classDef.prototype.GetPermissionDefs = function (authContext) {
+		return Context.Handlers.User.GetPermissionDefs(authContext);
+	};
+
+	classDef.prototype.GetPermissionDef = function (authContext, code) {
+		return Context.Handlers.User.GetPermissionDef(authContext, code);
+	};
 	
 	module.exports = classDef;
 })();

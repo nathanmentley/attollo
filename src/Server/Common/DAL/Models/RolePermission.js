@@ -2,6 +2,8 @@
 	var Auid = require("../Core/Auid");
 	var Database = require("../Core/Database");
 
+	var PermissionDef = require("./PermissionDef");
+
 	var filter = function(authContext, query) {
 	};
 
@@ -14,6 +16,9 @@
 				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
 				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
 				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
+			},
+			PermissionDef: function() {
+				return this.belongsTo(PermissionDef.Model(authContext, skipFilter), 'permissiondefid');
 			}
 		});
 	};

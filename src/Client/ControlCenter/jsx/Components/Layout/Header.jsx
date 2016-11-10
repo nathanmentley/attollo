@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router';
 
 import BaseComponent from '../BaseComponent.jsx';
 
+import AjaxService from '../../Services/AjaxService.jsx';
 import SiteService from '../../Services/SiteService.jsx';
 
 export default class Header extends BaseComponent {
@@ -37,6 +38,8 @@ export default class Header extends BaseComponent {
         var self = this;
 
         if (this.props.IsAuthenticated) {
+            var permissions = AjaxService.GetPermissions();
+
             return (
                 <Navbar inverse>
                     <Navbar.Header>
@@ -49,7 +52,7 @@ export default class Header extends BaseComponent {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav>
-                            <NavItem eventKey={1} onClick={function() { self.changePage('/Users')} }>
+                            <NavItem style={{ display: (AjaxService.HasPermission("ViewUsers") ? 'inherit' : 'none') }} eventKey={1} onClick={function() { self.changePage('/Users')} }>
                                 <Glyphicon glyph="user" /> Users
                             </NavItem>
                             <NavDropdown eventKey={2} title={<span><Glyphicon glyph="globe" /> Sites</span>} id="basic-nav-dropdown">

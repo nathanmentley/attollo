@@ -42,7 +42,8 @@
 					response.json({
 						error: false,
 						data: {
-							token: jwt.encode(tokenData, Attollo.Utils.Config.JwtSecret)
+							token: jwt.encode(tokenData, Attollo.Utils.Config.JwtSecret),
+							permissions: permissions
 						}
 					});
 				}else{

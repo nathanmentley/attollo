@@ -64,7 +64,7 @@ export default class AboutPage extends BasePage {
             if(resp.data.error) {
                 self.setState({ message: resp.data.data.message });
             }else{
-                AjaxService.SetAuth(resp.data.data.token);
+                AjaxService.SetAuth(resp.data.data.token, resp.data.data.permissions);
 
                 if (self.props.location && self.props.location.state && self.props.location.state.nextPathname) {
                     browserHistory.push(self.props.location.state.nextPathname);

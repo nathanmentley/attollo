@@ -5,6 +5,18 @@ import { Line, Doughnut, Bar } from 'react-chartjs-2';
 import BasePage from '../BasePage.jsx';
 
 export default class ReportsPage extends BasePage {
+    componentDidMount() {
+        var self = this;    
+        self.setPageTitle("Reports", () => {
+            self.setBreadCrumbs([
+                {
+                    title: "Dashboard",
+                    url: "/"
+                }
+            ]);
+        }); 
+    }
+
     _render() {
         var data = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],

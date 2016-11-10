@@ -5,19 +5,37 @@ import Config from '!json!../config.json';
 //Private vars
 var $ajax = axios.create();
 var authenticated = false;
+var permissions = [];
 
 export default class AjaxService {
     //Interface Methods
-    static SetAuth(token) {
+    static SetAuth(token, perms) {
         $ajax = axios.create();
         $ajax.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+        permissions = perms;
 
         authenticated = true;
     }
 
     static ClearAuth() {
         $ajax = axios.create();
+        permissions = [];
+
         authenticated = false;
+    }
+
+    static HasPermission(permission) {
+        for(var i = 0; i < permissions.length; i++) {
+            if(permissions[i] == permission) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    static GetPermissions() {
+        return permissions;
     }
 
     static IsAuthenticated() {

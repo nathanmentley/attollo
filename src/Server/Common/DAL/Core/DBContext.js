@@ -7,26 +7,33 @@
 	var BlockContainerDef = require("../Models/BlockContainerDef");
 	var BlockContainerArea = require("../Models/BlockContainerArea");
 	var BlockContainerAreaDef = require("../Models/BlockContainerAreaDef");
+	var BlockCssRule = require("../Models/BlockCssRule");
 	var BlockSetting = require("../Models/BlockSetting");
 	var BlockSettingDef = require("../Models/BlockSettingDef");
 	var BlockTemplateDef = require("../Models/BlockTemplateDef");
+
 	var Client = require("../Models/Client");
 	var CssRule = require("../Models/CssRule");
 	var CssRuleDef = require("../Models/CssRuleDef");
 	var CssRuleDefType = require("../Models/CssRuleDefType");
+
 	var DatabaseVersion = require("../Models/DatabaseVersion");
 	var DatabaseCodeVersion = require("../Models/DatabaseCodeVersion");
+
 	var Page = require("../Models/Page");
 	var PageDef = require("../Models/PageDef");
 	var PermissionDef = require("../Models/PermissionDef");
 	var Role = require("../Models/Role");
 	var RolePermission = require("../Models/RolePermission");
 	var SettingType = require("../Models/SettingType");
+	
 	var Site = require("../Models/Site");
 	var SiteVersion = require("../Models/SiteVersion");
 	var SiteVersionStatus = require("../Models/SiteVersionStatus");
+
 	var Theme = require("../Models/Theme");
 	var ThemeCssRule = require("../Models/ThemeCssRule");
+
 	var User = require("../Models/User");
 	var UserPermission = require("../Models/UserPermission");
 
@@ -47,6 +54,9 @@
 
 	classDef.prototype.BlockContainerAreaDefs = BlockContainerAreaDef.Collection;
 	classDef.prototype.BlockContainerAreaDef = BlockContainerAreaDef.Model;
+
+	classDef.prototype.BlockCssRules = BlockCssRule.Collection;
+	classDef.prototype.BlockCssRule = BlockCssRule.Model;
 
 	classDef.prototype.BlockSettings = BlockSetting.Collection;
 	classDef.prototype.BlockSetting = BlockSetting.Model;

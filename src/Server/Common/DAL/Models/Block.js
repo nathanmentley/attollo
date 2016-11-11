@@ -7,6 +7,7 @@
 	var SiteVersion = require("./SiteVersion");
 	var Site = require("./Site");
 	var Client = require("./Client");
+	var BlockCssRules = require("./BlockCssRules");
 	var BlockContainer = require("./BlockContainer");
 	var BlockContainerArea = require("./BlockContainerArea");
 	var BlockContainerAreaDef = require("./BlockContainerAreaDef");
@@ -99,6 +100,9 @@
 			BlockSettings: function() {
 				var BlockSetting = require("./BlockSetting");
 				return this.hasMany(BlockSetting.Model(authContext, skipFilter), "blockid");
+			},
+			BlockCssRules: function() {
+				return this.hasMany(BlockCssRules.Model(authContext, skipFilter), 'blockcssruleid');
 			}
 		});
 	};

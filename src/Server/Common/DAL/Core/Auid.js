@@ -12,12 +12,17 @@
         'BlockContainerAreaID'.toLowerCase(),
         'BlockContainerAreaDefID'.toLowerCase(),
         'BlockID'.toLowerCase(),
+        "BlockCssRuleID".toLowerCase(),
         'BlockDefID'.toLowerCase(),
         'BlockSettingID'.toLowerCase(),
         'BlockSettingDefID'.toLowerCase(),
         'BlockTemplateDefID'.toLowerCase(),
 
         'ClientID'.toLowerCase(),
+
+        "CssRuleID".toLowerCase(),
+        "CssRuleDefID".toLowerCase(),
+        "CssRuleDefTypeID".toLowerCase(),
 
         'PageID'.toLowerCase(),
         'PageDefID'.toLowerCase(),
@@ -28,7 +33,10 @@
         'SiteID'.toLowerCase(),
         'SiteVersionStatusID'.toLowerCase(),
         'SiteVersionID'.toLowerCase(),
-        'SettingTypeID'.toLowerCase()
+        'SettingTypeID'.toLowerCase(),
+
+        "ThemeID".toLowerCase(),
+        "ThemeCssRuleID".toLowerCase()
     ];
 
 	module.exports = {

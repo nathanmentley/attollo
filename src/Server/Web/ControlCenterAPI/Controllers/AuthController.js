@@ -22,7 +22,6 @@
 					}
 					
 					var userPermissions = user.relations['UserPermissions'].toJSON();
-					Attollo.Utils.Log.Info(JSON.stringify(userPermissions));
 					for(var i = 0; i < userPermissions.length; i++) {
 						var hasPermission = userPermissions[i].haspermission;
 						var code = userPermissions[i].PermissionDef.code;
@@ -59,7 +58,8 @@
 				response.status(500).json({
 					error: true,
 					data: {
-						message: err.message
+						message: err.message,
+						stack: err.stack
 					}
 				});
 			});

@@ -18,7 +18,8 @@
 				response.status(500).json({
 					error: true,
 					data: {
-						message: err.message
+						message: err.message,
+						stack: err.stack
 					}
 				});
 			});

@@ -1,7 +1,7 @@
 (function () {
 	var classDef = function () {};
 
-	var urlendpoint = '/Theme';
+	var urlendpoint = '/Themes';
 
 	classDef.prototype.Setup = function (app, express, auth) {
 		app.get(urlendpoint, auth(null), function(request, response) {
@@ -18,7 +18,8 @@
 				response.status(500).json({
 					error: true,
 					data: {
-						message: err.message
+						message: err.message,
+						stack: err.stack
 					}
 				});
 			});

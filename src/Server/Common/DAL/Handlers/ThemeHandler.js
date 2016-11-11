@@ -15,7 +15,9 @@
 	classDef.prototype.GetTheme = function (authContext, code){
 		return this.Context.DatabaseContext.Themes(authContext)
 				.query({
-					code: code
+					where: {
+						code: code
+					}
 				})
 				.fetch();
 	};

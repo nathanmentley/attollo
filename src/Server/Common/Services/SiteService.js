@@ -28,7 +28,7 @@
 		var self = this;
 
 		return new Promise(function(resolve, reject) {
-			Attollo.Services.Theme.GetTheme(themeCode)
+			Attollo.Services.Theme.GetTheme(authContext, themeCode)
 			.then((theme) => {
 				self.GetSiteVersionStatus(authContext, "Published")
 				.then((status) => {

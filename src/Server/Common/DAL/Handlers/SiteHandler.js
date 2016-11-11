@@ -32,12 +32,13 @@
 		return this.Context.DatabaseContext.Sites(authContext).fetch();
 	};
 	
-	classDef.prototype.AddSite = function (authContext){
+	classDef.prototype.AddSite = function (authContext, themeId){
 		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site({
 			clientid: authContext.ClientID,
 			domain: 'example.com',
-			name: 'new site'
+			name: 'new site',
+			themeid: themeId
 		});
 
 		return site.save();

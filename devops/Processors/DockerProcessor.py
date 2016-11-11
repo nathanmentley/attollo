@@ -11,7 +11,8 @@ class DockerProcessor:
         self.options = options
         self.path = os.getcwd()
         self.dockerfiles = [
-            DockerDef(self.path + '/docker/dockerfiles/infrastructure/Dockerfile.psql', 'attollo/psql', 'attollo-psql', [PortMapDef(5432, 5432)], [], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src'), VolumnDef('/storage/database', '/var/run/postgresql')], False),
+            #, VolumnDef('/storage/database', '/var/run/postgresql')
+            DockerDef(self.path + '/docker/dockerfiles/infrastructure/Dockerfile.psql', 'attollo/psql', 'attollo-psql', [PortMapDef(5432, 5432)], [], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], False),
             #DockerDef(self.path + '/docker/dockerfiles/infrastructure/Dockerfile.mongo', 'attollo/mongo', 'attollo-mongo', [], [], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], False),
             DockerDef(self.path + '/docker/dockerfiles/infrastructure/Dockerfile.rabbitmq', 'attollo/rabbitmq', 'attollo-rabbitmq', [], [], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], False),
             DockerDef(self.path + '/docker/dockerfiles/dev/Dockerfile.build', 'attollo/build', 'attollo-build', [], [LinkDef('attollo-psql', 'database')], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], True),

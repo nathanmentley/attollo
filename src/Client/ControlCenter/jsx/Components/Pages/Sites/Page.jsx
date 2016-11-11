@@ -6,6 +6,7 @@ import ObjectUtils from '../../../Utils/ObjectUtils.jsx';
 import BasePage from '../BasePage.jsx';
 
 import SiteService from '../../../Services/SiteService.jsx';
+import ThemeService from '../../../Services/ThemeService.jsx';
 
 import SiteList from './SiteList.jsx';
 import SiteEditor from './SiteEditor.jsx';
@@ -16,6 +17,7 @@ export default class SitesPage extends BasePage {
 
         this.state = {
             EditingSite: null,
+            Themes: [],
             Sites: []
         };
 
@@ -40,7 +42,10 @@ export default class SitesPage extends BasePage {
                             url: "/"
                         }
                     ]);
-                }); 
+                });
+            });
+            ThemeService.GetThemes().then((res) => {
+                self.setState({ Themes: res.data.data });
             });
         });
     }
@@ -90,7 +95,7 @@ export default class SitesPage extends BasePage {
     addNewSite() {
         var self = this;
 
-        SiteService.AddSite().then((addRes) => {
+        SiteService.AddSite(this.state.Themes[0].code).then((addRes) => {
             SiteService.GetSites().then((res) => {
                 self.setState({ Sites: res.data.data }); 
             });

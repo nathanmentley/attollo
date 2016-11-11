@@ -24,19 +24,24 @@
 		return Context.Handlers.Site.GetSites(authContext);
 	};
 	
-	classDef.prototype.AddSite = function (authContext){
+	classDef.prototype.AddSite = function (authContext, themeCode){
 		var self = this;
 
 		return new Promise(function(resolve, reject) {
-			self.GetSiteVersionStatus(authContext, "Published")
-			.then((status) => {
-				Context.Handlers.Site.AddSite(authContext)
-				.then((site) => {
-					Context.Handlers.Site.AddSiteVersion(authContext, site.get('id'), status.first().get('id'))
-					.then((version) => {
-						resolve(site);
+			Attollo.Services.Theme.GetTheme(themeCode)
+			.then((theme) => {
+				self.GetSiteVersionStatus(authContext, "Published")
+				.then((status) => {
+					Context.Handlers.Site.AddSite(authContext, theme.first().get('id'))
+					.then((site) => {
+						Context.Handlers.Site.AddSiteVersion(authContext, site.get('id'), status.first().get('id'))
+						.then((version) => {
+							resolve(site);
+						}).catch((err) => {
+							reject({ message: site.get('id') + " " + err.message });
+						});
 					}).catch((err) => {
-						reject({ message: site.get('id') + " " + err.message });
+						reject({ message: err.message });
 					});
 				}).catch((err) => {
 					reject({ message: err.message });

@@ -4,24 +4,11 @@
     var classDef = function () {};
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
-        dbContext.SetClientID(1);
         Promise.all([
-            Attollo.Services.Client.AddClient(dbContext, { name: 'Attollo' })
+            Attollo.Services.Theme.AddTheme(dbContext, "default", "default")
         ])
         .then(() => {
-            dbContext.SetClientID(1);
-
-            Attollo.Services.User.AddUser(dbContext, 'username', 'password', 'Admin')
-            .then(() => {
-                dbContext.ClearClientID();
-
-                callback();
-            })
-            .catch((err) => {
-                dbContext.ClearClientID();
-
-                errorCallback(err);
-            });
+            callback();
         })
         .catch((err) => {
             errorCallback(err);

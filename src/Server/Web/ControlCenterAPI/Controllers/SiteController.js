@@ -27,7 +27,7 @@
 		app.post(urlendpoint, auth(null), function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 			
-			Attollo.Services.Site.AddSite(request.AuthContext)
+			Attollo.Services.Site.AddSite(request.AuthContext, request.body.themeCode)
 			.then(function() {
 				response.json({
 					error: false

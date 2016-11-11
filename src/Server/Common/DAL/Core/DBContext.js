@@ -11,6 +11,9 @@
 	var BlockSettingDef = require("../Models/BlockSettingDef");
 	var BlockTemplateDef = require("../Models/BlockTemplateDef");
 	var Client = require("../Models/Client");
+	var CssRule = require("../Models/CssRule");
+	var CssRuleDef = require("../Models/CssRuleDef");
+	var CssRuleDefType = require("../Models/CssRuleDefType");
 	var DatabaseVersion = require("../Models/DatabaseVersion");
 	var DatabaseCodeVersion = require("../Models/DatabaseCodeVersion");
 	var Page = require("../Models/Page");
@@ -22,6 +25,8 @@
 	var Site = require("../Models/Site");
 	var SiteVersion = require("../Models/SiteVersion");
 	var SiteVersionStatus = require("../Models/SiteVersionStatus");
+	var Theme = require("../Models/Theme");
+	var ThemeCssRule = require("../Models/ThemeCssRule");
 	var User = require("../Models/User");
 	var UserPermission = require("../Models/UserPermission");
 
@@ -55,6 +60,15 @@
 	classDef.prototype.Clients = Client.Collection;
 	classDef.prototype.Client = Client.Model;
 
+	classDef.prototype.CssRules = CssRule.Collection;
+	classDef.prototype.CssRule = CssRule.Model;
+
+	classDef.prototype.CssRuleDefs = CssRuleDef.Collection;
+	classDef.prototype.CssRuleDef = CssRuleDef.Model;
+
+	classDef.prototype.CssRuleDefTypes = CssRuleDefType.Collection;
+	classDef.prototype.CssRuleDefType = CssRuleDefType.Model;
+
 	classDef.prototype.DatabaseVersions = DatabaseVersion.Collection;
 	classDef.prototype.DatabaseVersion = DatabaseVersion.Model;
 
@@ -87,6 +101,12 @@
 
 	classDef.prototype.SiteVersionStatuses = SiteVersionStatus.Collection;
 	classDef.prototype.SiteVersionStatus = SiteVersionStatus.Model;
+
+	classDef.prototype.Themes = Theme.Collection;
+	classDef.prototype.Theme = Theme.Model;
+
+	classDef.prototype.ThemeCssRules = ThemeCssRule.Collection;
+	classDef.prototype.ThemeCssRule = ThemeCssRule.Model;
 
 	classDef.prototype.Users = User.Collection;
 	classDef.prototype.User = User.Model;

@@ -7,8 +7,8 @@ export default class SiteService {
         return AjaxService.Get(endpoint, {}, {});
     }
 
-    static AddSite() {
-        return AjaxService.Post(endpoint, {}, {});
+    static AddSite(code) {
+        return AjaxService.Post(endpoint, { themeCode: code }, {});
     }
 
     static SaveSite(site) {

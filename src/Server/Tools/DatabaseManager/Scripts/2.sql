@@ -3,6 +3,44 @@ CREATE TABLE IF NOT EXISTS Client (
     Name VARCHAR(255) NOT NULL
 );
 
+--CSS
+
+CREATE TABLE IF NOT EXISTS CssRuleDefType (
+    ID SERIAL PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Code VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS CssRuleDef (
+    ID SERIAL PRIMARY KEY,
+    Code VARCHAR(255) NOT NULL,
+    Name VARCHAR(255) NOT NULL,
+    Description Text NOT NULL,
+    CssRuleDefTypeID integer REFERENCES CssRuleDefType NOT NULL,
+    Options TEXT NULL
+);
+
+CREATE TABLE IF NOT EXISTS CssRule (
+    ID SERIAL PRIMARY KEY,
+    CssRuleDefID integer REFERENCES CssRuleDef NOT NULL,
+    Selector TEXT NOT NULL,
+    Value TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Theme (
+    ID SERIAL PRIMARY KEY,
+    Code VARCHAR(255) NOT NULL,
+    Name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS ThemeCssRule (
+    ID SERIAL PRIMARY KEY,
+    ThemeID integer REFERENCES Theme NOT NULL,
+    CssRuleID integer REFERENCES CssRule NOT NULL
+);
+
+-- Users / Permissions
+
 CREATE TABLE IF NOT EXISTS PermissionDef (
     ID SERIAL PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
@@ -37,9 +75,12 @@ CREATE TABLE IF NOT EXISTS AdminPermission (
     PermissionDefID integer REFERENCES PermissionDef NOT NULL
 );
 
+-- Site
+
 CREATE TABLE IF NOT EXISTS Site (
     ID SERIAL PRIMARY KEY,
     ClientID integer REFERENCES Client NOT NULL,
+    ThemeID integer REFERENCES Theme NOT NULL,
     Domain VARCHAR(255) NOT NULL,
     Name VARCHAR(255) NOT NULL
 );
@@ -57,6 +98,8 @@ CREATE TABLE IF NOT EXISTS SiteVersion (
     Current boolean NOT NULL
 );
 
+-- Pages
+
 CREATE TABLE IF NOT EXISTS PageDef (
     ID SERIAL PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
@@ -70,6 +113,8 @@ CREATE TABLE IF NOT EXISTS Page (
     Url VARCHAR(255) NOT NULL,
     Title VARCHAR(255) NOT NULL
 );
+
+-- Blocks
 
 CREATE TABLE IF NOT EXISTS BlockContainerDef (
     ID SERIAL PRIMARY KEY,

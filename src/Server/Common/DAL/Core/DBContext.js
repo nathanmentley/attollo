@@ -4,6 +4,7 @@
 	var Block = require("../Models/Block");
 	var BlockDef = require("../Models/BlockDef");
 	var BlockContainer = require("../Models/BlockContainer");
+	var BlockContainerCssRule = require("../Models/BlockContainerCssRule");
 	var BlockContainerDef = require("../Models/BlockContainerDef");
 	var BlockContainerArea = require("../Models/BlockContainerArea");
 	var BlockContainerAreaDef = require("../Models/BlockContainerAreaDef");
@@ -45,6 +46,9 @@
 
 	classDef.prototype.BlockContainers = BlockContainer.Collection;
 	classDef.prototype.BlockContainer = BlockContainer.Model;
+	
+	classDef.prototype.BlockContainerCssRules = BlockContainerCssRule.Collection;
+	classDef.prototype.BlockContainerCssRule = BlockContainerCssRule.Model;
 
 	classDef.prototype.BlockContainerDefs = BlockContainerDef.Collection;
 	classDef.prototype.BlockContainerDef = BlockContainerDef.Model;

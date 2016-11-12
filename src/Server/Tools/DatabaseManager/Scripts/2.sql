@@ -136,6 +136,12 @@ CREATE TABLE IF NOT EXISTS BlockContainer (
     DisplayOrder integer NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS BlockContainerCssRule (
+    ID SERIAL PRIMARY KEY,
+    BlockContainerID integer REFERENCES BlockContainer NOT NULL,
+    CssRuleID integer REFERENCES CssRule NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS BlockContainerArea (
     ID SERIAL PRIMARY KEY,
     BlockContainerID integer REFERENCES BlockContainer NOT NULL,

@@ -95,7 +95,7 @@ export default DropTarget("BlockDef", BlockRendererTarget, dropCollect)(
                                 <div className="pull-right">
                                     <DropdownButton
                                         title={<Glyphicon glyph="cog" />}
-                                        id={this.props.Block.id + '-action-button'}
+                                        id={this.props.Block.id + '-block-action-button'}
                                     >
                                         <MenuItem eventKey="1" onClick={() => { self.setEditingBlock(); }}>
                                             <Glyphicon glyph="pencil" /> Edit Block

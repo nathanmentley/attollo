@@ -1,6 +1,6 @@
 import React from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
-import { Glyphicon } from 'react-bootstrap';
+import { Glyphicon, DropdownButton, MenuItem } from 'react-bootstrap';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
@@ -68,9 +68,27 @@ export default DropTarget("BlockContainerEditor", BlockContainerEditorTarget, dr
                                 backgroundColor: isOver ? 'yellow' : '#f0f0f0' 
                             }
                         }>
-                            <h6>
+                            <h5 className="block-container-node-header">
                                 {this.props.BlockContainer.BlockContainerDef.title}
-                            </h6>
+
+
+                                <div className="pull-right">
+                                    <DropdownButton
+                                        title={<Glyphicon glyph="cog" />}
+                                        id={this.props.BlockContainer.id + '-container-action-button'}
+                                    >
+                                        <MenuItem eventKey="1" onClick={() => {  }}>
+                                            <Glyphicon glyph="pencil" /> Edit Block Container
+                                        </MenuItem>
+                                        <MenuItem eventKey="1" onClick={() => {  }}>
+                                            <Glyphicon glyph="text-background" /> Update Style
+                                        </MenuItem>
+                                        <MenuItem eventKey="1" onClick={() => {  }}>
+                                            <Glyphicon glyph="trash" /> Delete
+                                        </MenuItem>
+                                    </DropdownButton>
+                                </div>
+                            </h5>
                             <BlockContainerRenderer
                                 BlockContainer={this.props.BlockContainer}
                                 BlockRenderer={BlockRenderer}

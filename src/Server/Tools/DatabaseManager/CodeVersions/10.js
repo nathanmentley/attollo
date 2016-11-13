@@ -8,7 +8,8 @@
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
-            Attollo.Services.Css.AddCssRuleDefType(dbContext, "color", CssRuleDefTypeCodes.Color)
+            Attollo.Services.Css.AddCssRuleDefType(dbContext, "color", CssRuleDefTypeCodes.Color),
+            Attollo.Services.Css.AddCssRuleDefType(dbContext, "distance", CssRuleDefTypeCodes.Distance)
         ])
         .then(() => {
             Promise.all([
@@ -18,6 +19,27 @@
                     "color of background",
                     "",
                     CssRuleDefTypeCodes.Color
+                ),
+                Attollo.Services.Css.AddCssRuleDef(dbContext,
+                    "color",
+                    CssRuleDefCodes.Color,
+                    "color of font",
+                    "",
+                    CssRuleDefTypeCodes.Color
+                ),
+                Attollo.Services.Css.AddCssRuleDef(dbContext,
+                    "height",
+                    CssRuleDefCodes.Height,
+                    "height of element",
+                    "",
+                    CssRuleDefTypeCodes.Distance
+                ),
+                Attollo.Services.Css.AddCssRuleDef(dbContext,
+                    "width",
+                    CssRuleDefCodes.Width,
+                    "width of element",
+                    "",
+                    CssRuleDefTypeCodes.Distance
                 )
              ])
              .then(() => {

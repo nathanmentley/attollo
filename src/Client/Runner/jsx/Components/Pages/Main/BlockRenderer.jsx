@@ -44,7 +44,7 @@ export default class BlockRenderer extends BaseComponent {
         }
 
         return ( 
-            <div id={this.props.Block.id}>
+            <div data-block-id={this.props.Block.id}>
                 {blockContent}
             </div>
         );

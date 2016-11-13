@@ -78,6 +78,10 @@ export default class BlockContainerRenderer extends BaseComponent {
                 break;
         }
 
-        return blockContainerContent;
+        return ( 
+            <div data-block-container-id={this.props.BlockContainer.id}>
+                {blockContainerContent}
+            </div>
+        );
     }
 }

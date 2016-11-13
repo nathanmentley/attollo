@@ -104,6 +104,16 @@
 		return block.destroy();
 	};
 
+	classDef.prototype.GetBlockCssRules = function (authContext) {
+		return this.Context.DatabaseContext.BlockCssRules(authContext)
+			.fetch({
+				withRelated: [
+					"CssRule",
+					"CssRule.CssRuleDef"
+				]
+			});
+	};
+
 	//BlockContainerDef
 
 	classDef.prototype.GetBlockContainerDefs = function (authContext){
@@ -172,6 +182,16 @@
 					pageid: blockContainer.id
 				}
 			}).fetch({ withRelated: ['BlockContainerDef'] });
+	};
+
+	classDef.prototype.GetBlockContainerCssRules = function (authContext) {
+		return this.Context.DatabaseContext.BlockContainerCssRules(authContext)
+			.fetch({
+				withRelated: [
+					"CssRule",
+					"CssRule.CssRuleDef"
+				]
+			});
 	};
 
 	//BlockContainerAreaDef

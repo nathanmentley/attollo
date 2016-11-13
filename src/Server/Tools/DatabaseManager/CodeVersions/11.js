@@ -12,7 +12,9 @@
         ])
         .then(() => {
             Promise.all([
-                Attollo.Services.Theme.AddThemeCssRule(dbContext, ThemeCodes.Default, CssRuleDefCodes.BackgroundColor, "body", "#336699")
+                Attollo.Services.Theme.AddThemeCssRule(dbContext, ThemeCodes.Default, CssRuleDefCodes.BackgroundColor, "body", "#336699"),
+                Attollo.Services.Theme.AddThemeCssRule(dbContext, ThemeCodes.Default, CssRuleDefCodes.Color, "body", "#FFFFFF"),
+                Attollo.Services.Theme.AddThemeCssRule(dbContext, ThemeCodes.Default, CssRuleDefCodes.Width, "img", "100%")
              ])
              .then(() => {
                  callback();

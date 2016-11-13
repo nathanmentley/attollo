@@ -12,6 +12,7 @@ require("../../Common/Attollo");
     var express = require('express');
     var path = require('path');
 	var less = require("less");
+	var fs = require('fs');
 
 	var auth = require("./AuthConfig");
 
@@ -40,15 +41,26 @@ require("../../Common/Attollo");
     });
 
 	//Render Dynamic Css
-	app.get("*.css", auth(null), function(req, res) {
-		Attollo.Services.Css.GetSiteLess(req.AuthContext)
+	app.get("/app.css", auth(null), function(req, res) {
+		Attollo.Services.Css.GetSiteLess(req.AuthContext, req.AuthContext.SiteID)
 		.then((siteLess) => {
 			Attollo.Utils.Log.Info(siteLess);
+			Attollo.Utils.Log.Info(__dirname + '/less/app.less');
 
-			less.render(siteLess, function(err, result) {
-				if (err) throw err;
-				res.header("Content-type", "text/css");
-				res.send(result.css);
+			fs.readFile(__dirname + '/less/app.less', "utf8", function(err, data) {
+				if (err) {
+					throw err;
+				}
+
+				data = data.replace("{template}", siteLess);
+
+				less.render(data, function(lessErr, result) {
+					if (lessErr) {
+						throw lessErr;
+					}
+					res.header("Content-type", "text/css");
+					res.send(result.css);
+				});
 			});
 		})
 		.catch((err) => {

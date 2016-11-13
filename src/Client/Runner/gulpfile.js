@@ -5,8 +5,6 @@
 
     var gutil = require('gulp-util');
     var rename = require('gulp-rename');
-    var less = require('gulp-less');
-    var sourcemaps = require('gulp-sourcemaps');
     var gwebpack = require('gulp-webpack');
     var webpack = require('webpack');
     var merge = require('gulp-merge-json');
@@ -27,14 +25,6 @@
     // Clean
     gulp.task('Runner:clean', function() {
         
-    });
-
-    gulp.task('Runner:less', ['Runner:clean'], function() {
-        return gulp.src('./Client/Runner/less/app.less')
-            .pipe(sourcemaps.init())
-            .pipe(less())
-            .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest('../dist/Client/Runner/'));
     });
 
     gulp.task('Runner:jsx', ['Runner:config', 'Runner:clean'], function () {
@@ -85,20 +75,14 @@
         });
     });
  
-    gulp.task('Runner:watch:less', function () {
-        return watch('./Client/Runner/less/**/*.less', function () {
-            return gulp.run(['Runner:less']);
-        });
-    });
- 
     // Watch
     gulp.task('Runner:watch',
-        ['Runner:watch:jsx', 'Runner:watch:html', 'Runner:watch:less']
+        ['Runner:watch:jsx', 'Runner:watch:html']
     );
 
 
     // Build
     gulp.task('Runner:build',
-        ['Runner:jsx', 'Runner:less', 'Runner:html']
+        ['Runner:jsx', 'Runner:html']
     );
 })();

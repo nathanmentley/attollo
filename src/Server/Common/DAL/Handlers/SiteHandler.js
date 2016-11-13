@@ -27,6 +27,23 @@
 			}).fetch();
 	};
 
+	//Site
+
+	classDef.prototype.GetSiteById = function (authContext, siteId){
+		return this.Context.DatabaseContext.Site(authContext)
+			.query({
+				where: {
+					id: siteId
+				}
+			}).fetch({ 
+				withRelated: [ 
+					'Theme',
+					'Theme.ThemeCssRules',
+					'Theme.ThemeCssRules.CssRule',
+					'Theme.ThemeCssRules.CssRule.CssRuleDef'
+				]
+			});
+	};
 
 	classDef.prototype.GetSites = function (authContext){
 		return this.Context.DatabaseContext.Sites(authContext).fetch();

@@ -59,9 +59,30 @@
         });
 	};
 
-    classDef.prototype.GetSiteLess = function(authContext) {
+    classDef.prototype.GetSiteLess = function(authContext, siteId) {
         return new Promise((resolve, reject) => {
-            resolve("@base_color: #952262; body { background-color: darken(@base_color, 11%); }");
+            Context.Handlers.Site.GetSiteById(authContext, siteId)
+            .then((site) => {
+                var rules = site.relations['Theme'].relations['ThemeCssRules'];
+
+                var less = '';
+
+                rules.forEach((rule) => {
+                    var cssRule = rule.relations['CssRule'];
+                    var cssRuleDef = cssRule.relations['CssRuleDef'];
+
+                    var selector = cssRule.get('selector');
+                    var property = cssRuleDef.get('name');
+                    var value = cssRule.get('value');
+
+                    less += selector + '{ ' + property + ': ' + value + ' } ';
+                });
+
+                resolve(less);
+            })
+            .catch((err) => {
+                reject(err);
+            });
         });
     };
 	

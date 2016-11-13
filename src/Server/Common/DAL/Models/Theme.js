@@ -18,7 +18,7 @@
 				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
 			},
 			ThemeCssRules: function() {
-				return this.hasMany(ThemeCssRule.Model(authContext, skipFilter), 'themecssruleid');
+				return this.hasMany(ThemeCssRule.Model(authContext, skipFilter), 'themeid');
 			}
 		});
 	};

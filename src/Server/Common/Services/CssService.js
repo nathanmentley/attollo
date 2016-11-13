@@ -126,7 +126,9 @@
                             less += "div[data-block-container-id='" + blockContainerId + "'] {";
                             for (var selector in css[blockContainerId]){
                                 if (css[blockContainerId].hasOwnProperty(selector)) {
-                                    less += selector + ' {';
+                                    if(selector != "") {
+                                        less += selector + ' {';
+                                    }
                                     
                                     for (var property in css[blockContainerId][selector]) {
                                         var value = css[blockContainerId][selector][property];
@@ -134,7 +136,9 @@
                                         less += property + ': ' + value + ';';
                                     }
 
-                                    less += '} ';
+                                    if(selector != "") {
+                                        less += '} ';
+                                    }
                                 }
                             }
                             less += '} ';
@@ -170,15 +174,20 @@
                                 less += "div[data-block-id='" + blockId + "'] {";
                                 for (var selector in css[blockId]){
                                     if (css[blockId].hasOwnProperty(selector)) {
-                                        less += selector + ' {';
-                                        
+
+                                        if(selector != "") {
+                                            less += selector + ' {';
+                                        }
+
                                         for (var property in css[blockId][selector]) {
                                             var value = css[blockId][selector][property];
                                             
                                             less += property + ': ' + value + ';';
                                         }
 
-                                        less += '} ';
+                                        if(selector != "") {
+                                            less += '} ';
+                                        }
                                     }
                                 }
                                 less += '} ';

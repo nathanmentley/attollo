@@ -13,7 +13,7 @@
 	};
 	
 	classDef.prototype.GetTheme = function (authContext, code){
-		return this.Context.DatabaseContext.Themes(authContext)
+		return this.Context.DatabaseContext.Theme(authContext)
 				.query({
 					where: {
 						code: code
@@ -30,6 +30,16 @@
 		});
 
 		return theme.save();
+	};
+	
+	classDef.prototype.AddThemeCssRule = function (authContext, themeId, cssRuleId){
+		var ThemeCssRule = this.Context.DatabaseContext.ThemeCssRule(authContext);
+		var themeCssRule = new ThemeCssRule({
+			themeid: themeId,
+			cssruleid: cssRuleId
+		});
+
+		return themeCssRule.save();
 	};
 
 	module.exports = classDef;

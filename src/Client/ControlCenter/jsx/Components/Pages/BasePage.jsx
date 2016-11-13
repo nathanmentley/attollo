@@ -65,6 +65,29 @@ export default class BasePage extends BaseComponent {
                     <Row className="page-row">
                         <Col xs={12} md={12} className="page-content">
                             {
+                                (this.state && this.state.BreadCrumbs && this.state.BreadCrumbs.length) ? 
+                                    <Row>
+                                        <Col xs={12} md={12} className="page-bread-crumbs">
+                                            <Breadcrumb>
+                                                {
+                                                    this.state.BreadCrumbs.map((x) => {
+                                                        return (
+                                                            <Breadcrumb.Item
+                                                                key={x.url}
+                                                                onClick={() => { self.goToPage(x.url); } }
+                                                            >
+                                                                {x.title}
+                                                            </Breadcrumb.Item>
+                                                        );
+                                                    })
+                                                }
+                                            </Breadcrumb>
+                                        </Col>
+                                    </Row> :
+                                    ""
+                            }
+
+                            {
                                 (this.state && this.state.Alerts) ?
                                     this.state.Alerts.map((x) => {
                                         return (
@@ -91,29 +114,6 @@ export default class BasePage extends BaseComponent {
                                     </Col>
                                 </Row> :
                                 ""
-                            }
-
-                            {
-                                (this.state && this.state.BreadCrumbs && this.state.BreadCrumbs.length) ? 
-                                    <Row>
-                                        <Col xs={12} md={12} className="page-bread-crumbs">
-                                            <Breadcrumb>
-                                                {
-                                                    this.state.BreadCrumbs.map((x) => {
-                                                        return (
-                                                            <Breadcrumb.Item
-                                                                key={x.url}
-                                                                onClick={() => { self.goToPage(x.url); } }
-                                                            >
-                                                                {x.title}
-                                                            </Breadcrumb.Item>
-                                                        );
-                                                    })
-                                                }
-                                            </Breadcrumb>
-                                        </Col>
-                                    </Row> :
-                                    ""
                             }
 
                             {

@@ -1,14 +1,31 @@
-//Seed PageDefs
+//Seed CssRuleDeftypes and CssRuleDefs
 
 (function () {
+	var CssRuleDefTypeCodes = require('../../../../Platform/Constants/CssRuleDefTypeCodes');
+	var CssRuleDefCodes = require('../../../../Platform/Constants/CssRuleDefCodes');
+
     var classDef = function () {};
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
-            Attollo.Services.Theme.AddTheme(dbContext, "default", "default")
+            Attollo.Services.Css.AddCssRuleDefType(dbContext, "color", CssRuleDefTypeCodes.Color)
         ])
         .then(() => {
-            callback();
+            Promise.all([
+                Attollo.Services.Css.AddCssRuleDef(dbContext,
+                    "background-color",
+                    CssRuleDefCodes.BackgroundColor,
+                    "color of background",
+                    "",
+                    CssRuleDefTypeCodes.Color
+                )
+             ])
+             .then(() => {
+                 callback();
+             })
+             .catch((err) => {
+                 errorCallback(err);
+             });
         })
         .catch((err) => {
             errorCallback(err);

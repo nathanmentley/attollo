@@ -32,7 +32,7 @@
 			.then((theme) => {
 				self.GetSiteVersionStatus(authContext, "Published")
 				.then((status) => {
-					Context.Handlers.Site.AddSite(authContext, theme.first().get('id'))
+					Context.Handlers.Site.AddSite(authContext, theme.get('id'))
 					.then((site) => {
 						Context.Handlers.Site.AddSiteVersion(authContext, site.get('id'), status.first().get('id'))
 						.then((version) => {

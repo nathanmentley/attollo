@@ -1,0 +1,9 @@
+{
+	"Environment": "Local",
+    
+    "DbHost": "database",
+    "DbUser": "attollo",
+    "DbPass": "@tt0ll0P@55w0rD!",
+    "DbPort": 5432,
+    "DbName": "attollo"
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Tabs, Tab } from 'react-bootstrap';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
@@ -31,7 +31,9 @@ export default DragDropContext(HTML5Backend)(
                 BlockContainers: [],
                 BlockDefs: [],
                 BlockContainerDefs: [],
-                BlockTemplateDefs: []
+                BlockTemplateDefs: [],
+
+                tabKey: 1
             };
 
             this.swapBlockContainers = this.swapBlockContainers.bind(this);
@@ -90,6 +92,11 @@ export default DragDropContext(HTML5Backend)(
             BlockTemplateDefService.GetBlockTemplateDef().then((res) => {
                 self.setState({ BlockTemplateDefs: res.data.data }); 
             });
+        }
+
+        handleTabChange(key) {
+            alert(key);
+            this.setState({ tabKey: key });
         }
 
         swapBlockContainers(containerId1, containerId2) {
@@ -251,48 +258,58 @@ export default DragDropContext(HTML5Backend)(
 
             return (
                 <Grid className="page-builder-page-root">
-                    <Row>
-                        <Col xs={12} md={6}>
-                            <h5>Layouts</h5>
-                        </Col>
-                        <Col xs={12} md={6}>
-                            <h5>Widgets</h5>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={6} md={6}>
-                            <BlockContainerDefList
-                                BlockContainerDefs={this.state.BlockContainerDefs}
-                                AddBlockContainer={this.addBlockContainer}
-                            />
-                        </Col>
-                        <Col xs={6} md={6}>
-                            <BlockDefList
-                                BlockDefs={this.state.BlockDefs}
-                                AddBlock={this.addBlock}
-                            />
-                        </Col>
-                    </Row>
+                    <Tabs activeKey={this.state.tabKey} onSelect={this.handleTabChange} id="controlled-tab-example">
+                        <Tab eventKey={1} title="Page Editor">
+                            <Row>
+                                <Col xs={12} md={6}>
+                                    <h5>Layouts</h5>
+                                </Col>
+                                <Col xs={12} md={6}>
+                                    <h5>Widgets</h5>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={6} md={6}>
+                                    <BlockContainerDefList
+                                        BlockContainerDefs={this.state.BlockContainerDefs}
+                                        AddBlockContainer={this.addBlockContainer}
+                                    />
+                                </Col>
+                                <Col xs={6} md={6}>
+                                    <BlockDefList
+                                        BlockDefs={this.state.BlockDefs}
+                                        AddBlock={this.addBlock}
+                                    />
+                                </Col>
+                            </Row>
 
-                    <Row>
-                        <Col xs={12} md={12}>
-                            <h5>Page:</h5>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={12} md={12}>
-                            <BlockContainerList
-                                BlockContainers={this.state.BlockContainers}
-                                SwapBlockContainers={this.swapBlockContainers}
-                                SetEditingBlock={this.setEditingBlock}
-                                SetEditingSettingsBlock={this.setEditingSettingsBlock}
-                                MoveBlock={this.moveBlock}
-                            />
-                        </Col>
-                    </Row>
+                            <Row>
+                                <Col xs={12} md={12}>
+                                    <h5>Page:</h5>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={12} md={12}>
+                                    <BlockContainerList
+                                        BlockContainers={this.state.BlockContainers}
+                                        SwapBlockContainers={this.swapBlockContainers}
+                                        SetEditingBlock={this.setEditingBlock}
+                                        SetEditingSettingsBlock={this.setEditingSettingsBlock}
+                                        MoveBlock={this.moveBlock}
+                                    />
+                                </Col>
+                            </Row>
 
-                    {editingBlock}
-                    {editingBlockSettings}
+                            {editingBlock}
+                            {editingBlockSettings}
+                        </Tab>
+                        <Tab eventKey={2} title="Page Settings">
+                            <p>Page Settings</p>
+                        </Tab>
+                        <Tab eventKey={3} title="Page Preview">
+                            <p>Page Preview</p>
+                        </Tab>
+                    </Tabs>
                 </Grid>
             );
         }

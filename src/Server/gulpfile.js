@@ -6,7 +6,9 @@
     var docker = (new require('dockerode'))({socketPath: '/var/run/docker.sock'});
     var serverSideContainerNames = [
         'attollo-controlcenterapi',
-        'attollo-runnerapi'
+        'attollo-runnerapi',
+        'attollo-controlcenter',
+        'attollo-runner'
     ];
 
     var util = require('gulp-util');
@@ -29,6 +31,7 @@
             'Web/ControlCenterAPI',
             'Web/RunnerAPI',
             'Web/StaticWebServer',
+            'Web/RunnerClientWebServer',
             'Tasks/TestTask',
             'Processors/Email'
         ];

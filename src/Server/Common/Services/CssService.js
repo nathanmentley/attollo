@@ -14,13 +14,13 @@
 	};
 	
 	//CssRuleDef
-	classDef.prototype.AddCssRuleDef = function (authContext, name, code, description, options, cssRuleDefTypeCode){
+	classDef.prototype.AddCssRuleDef = function (authContext, name, code, property, description, options, cssRuleDefTypeCode){
         var self = this;
 
 		return new Promise((resolve, reject) => {
             self.GetCssRuleDefType(authContext, cssRuleDefTypeCode)
             .then((cssRuleDefType) => {
-                Context.Handlers.Css.AddCssRuleDef(authContext, name, code, description, options, cssRuleDefType.get('id'))
+                Context.Handlers.Css.AddCssRuleDef(authContext, name, code, property, description, options, cssRuleDefType.get('id'))
                 .then((result) => {
                     resolve(result);
                 })
@@ -36,6 +36,10 @@
 	
 	classDef.prototype.GetCssRuleDef = function (authContext, code){
 		return Context.Handlers.Css.GetCssRuleDef(authContext, code);
+	};
+	
+	classDef.prototype.GetCssRuleDefs = function (authContext){
+		return Context.Handlers.Css.GetCssRuleDefs(authContext);
 	};
 	
 	//CssRule
@@ -73,7 +77,7 @@
                     var cssRuleDef = cssRule.relations['CssRuleDef'];
 
                     var selector = cssRule.get('selector');
-                    var property = cssRuleDef.get('name');
+                    var property = cssRuleDef.get('property');
                     var value = cssRule.get('value');
 
                     if(!(selector in css)) {
@@ -107,7 +111,7 @@
                         var cssRuleDef = cssRule.relations['CssRuleDef'];
 
                         var selector = cssRule.get('selector');
-                        var property = cssRuleDef.get('name');
+                        var property = cssRuleDef.get('property');
                         var value = cssRule.get('value');
 
                         if(!(blockContainerId in css)) {
@@ -155,7 +159,7 @@
                             var cssRuleDef = cssRule.relations['CssRuleDef'];
 
                             var selector = cssRule.get('selector');
-                            var property = cssRuleDef.get('name');
+                            var property = cssRuleDef.get('property');
                             var value = cssRule.get('value');
 
                             if(!(blockId in css)) {

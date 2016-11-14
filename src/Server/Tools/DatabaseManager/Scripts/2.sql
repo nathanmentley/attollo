@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS CssRuleDef (
     ID SERIAL PRIMARY KEY,
     Code VARCHAR(255) NOT NULL,
     Name VARCHAR(255) NOT NULL,
+    Property VARCHAR(255) NOT NULL,
     Description Text NOT NULL,
     CssRuleDefTypeID integer REFERENCES CssRuleDefType NOT NULL,
     Options TEXT NULL

@@ -32,11 +32,12 @@
 	
 	//CssRuleDef
 
-	classDef.prototype.AddCssRuleDef = function (authContext, name, code, description, options, cssRuleDefTypeId){
+	classDef.prototype.AddCssRuleDef = function (authContext, name, code, property, description, options, cssRuleDefTypeId){
 		var CssRuleDef = this.Context.DatabaseContext.CssRuleDef(authContext);
 		var cssRuleDef = new CssRuleDef({
             name: name,
             code: code,
+			property: property,
             description: description,
             options: options,
             cssruledeftypeid: cssRuleDefTypeId
@@ -52,7 +53,12 @@
 						code: code
 					}
 				})
-				.fetch();
+				.fetch({ withRelated: [ "CssRuleDefType" ] });
+	};
+	
+	classDef.prototype.GetCssRuleDefs = function (authContext){
+		return this.Context.DatabaseContext.CssRuleDefs(authContext)
+				.fetch({ withRelated: [ "CssRuleDefType" ] });
 	};
 
 	//CssRuleDef

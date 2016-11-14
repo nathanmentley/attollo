@@ -14,29 +14,33 @@
         .then(() => {
             Promise.all([
                 Attollo.Services.Css.AddCssRuleDef(dbContext,
-                    "background-color",
+                    "Background Color",
                     CssRuleDefCodes.BackgroundColor,
+                    "background-color",
                     "color of background",
                     "",
                     CssRuleDefTypeCodes.Color
                 ),
                 Attollo.Services.Css.AddCssRuleDef(dbContext,
-                    "color",
+                    "Font Color",
                     CssRuleDefCodes.Color,
+                    "color",
                     "color of font",
                     "",
                     CssRuleDefTypeCodes.Color
                 ),
                 Attollo.Services.Css.AddCssRuleDef(dbContext,
-                    "height",
+                    "Widget Height",
                     CssRuleDefCodes.Height,
+                    "height",
                     "height of element",
                     "",
                     CssRuleDefTypeCodes.Distance
                 ),
                 Attollo.Services.Css.AddCssRuleDef(dbContext,
-                    "width",
+                    "Widget Width",
                     CssRuleDefCodes.Width,
+                    "width",
                     "width of element",
                     "",
                     CssRuleDefTypeCodes.Distance

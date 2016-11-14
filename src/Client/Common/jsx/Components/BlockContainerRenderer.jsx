@@ -34,6 +34,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
+                        SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                     />
                 );
                 break;
@@ -47,6 +48,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
+                        SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                     />
                 );
                 break;
@@ -60,6 +62,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
+                        SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                     />
                 );
                 break;
@@ -73,6 +76,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
+                        SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                     />
                 );
                 break;

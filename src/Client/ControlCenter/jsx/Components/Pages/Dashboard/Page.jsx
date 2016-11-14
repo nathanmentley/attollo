@@ -32,6 +32,8 @@ export default class DashboardPage extends BasePage {
     }
 
     _render() {
+        var self = this;
+
         var data = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [{
@@ -84,7 +86,7 @@ export default class DashboardPage extends BasePage {
                             {
                                 this.state.Activities.map((x) => {
                                     return (
-                                        <Col xs={12} md={6}>
+                                        <Col xs={12} md={6} key={self.state.Activities.indexOf(x)}>
                                             <p>Someone did something.</p>
                                         </Col>
                                     );

@@ -11,8 +11,7 @@ class DockerProcessor:
         self.options = options
         self.path = os.getcwd()
         self.dockerfiles = [
-            #, VolumnDef('/storage/database', '/var/run/postgresql')
-            DockerDef(self.path + '/docker/dockerfiles/infrastructure/Dockerfile.psql', 'attollo/psql', 'attollo-psql', [PortMapDef(5432, 5432)], [], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], False),
+            self.getPsqlDockerDef(),
             #DockerDef(self.path + '/docker/dockerfiles/infrastructure/Dockerfile.mongo', 'attollo/mongo', 'attollo-mongo', [], [], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], False),
             DockerDef(self.path + '/docker/dockerfiles/infrastructure/Dockerfile.rabbitmq', 'attollo/rabbitmq', 'attollo-rabbitmq', [], [], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], False),
             DockerDef(self.path + '/docker/dockerfiles/dev/Dockerfile.build', 'attollo/build', 'attollo-build', [], [LinkDef('attollo-psql', 'database')], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], True),
@@ -25,6 +24,21 @@ class DockerProcessor:
         ]
         if options.env == 'local':
             self.dockerfiles.append(DockerDef(self.path + '/docker/dockerfiles/dev/Dockerfile.dev', 'attollo/dev', 'attollo-dev', [], [], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], True));
+
+    def getPsqlDockerDef(self):
+        dockerFile = self.path + '/docker/dockerfiles/infrastructure/Dockerfile.psql';
+        imageName = 'attollo/psql';
+        containerName = 'attollo-psql';
+        ports = [PortMapDef(5432, 5432)];
+        links = [];
+        volumes = [
+            #VolumnDef('/storage/database', '/var/lib/postgresql/9.5/main'),
+            VolumnDef('/dist', '/home/web/dist'),
+            VolumnDef('/logs', '/home/web/logs'),
+            VolumnDef('/src', '/home/web/src')
+        ];
+        foreground = False;
+        return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
 
     def stop(self):
         for dockerfile in self.dockerfiles:

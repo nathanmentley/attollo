@@ -13,8 +13,10 @@ import BlockContainerDefService from '../../../Services/BlockContainerDefService
 import BlockContainerService from '../../../Services/BlockContainerService.jsx';
 import BlockContainerAreaService from '../../../Services/BlockContainerAreaService.jsx';
 import BlockTemplateDefService from '../../../Services/BlockTemplateDefService.jsx';
+import CssRuleDefService from '../../../Services/CssRuleDefService.jsx';
 
 import BlockSettingsEditor from './BlockSettingsEditor.jsx';
+import BlockStyleEditor from './BlockStyleEditor.jsx';
 import BlockEditor from './BlockEditor.jsx';
 import BlockDefList from './BlockDefList.jsx';
 import BlockContainerDefList from './BlockContainerDefList.jsx';
@@ -27,11 +29,14 @@ export default DragDropContext(HTML5Backend)(
 
             this.state = {
                 EditingSettingsBlock: null,
+                EditingStyleBlock: null,
                 EditingBlock: null,
                 BlockContainers: [],
+
                 BlockDefs: [],
                 BlockContainerDefs: [],
                 BlockTemplateDefs: [],
+                CssRuleDefs: [],
 
                 tabKey: 1
             };
@@ -41,8 +46,13 @@ export default DragDropContext(HTML5Backend)(
 
             this.setEditingBlock = this.setEditingBlock.bind(this);
             this.setEditingSettingsBlock = this.setEditingSettingsBlock.bind(this);
+            this.setEditingStyleBlock = this.setEditingStyleBlock.bind(this);
+            
             this.updateEditingBlockTitle = this.updateEditingBlockTitle.bind(this);
             this.updateEditingBlockTemplate = this.updateEditingBlockTemplate.bind(this);
+            
+            this.updateBlockStyle = this.updateBlockStyle.bind(this);
+            this.saveBlockStyle = this.saveBlockStyle.bind(this);
 
             this.updateBlockSetting = this.updateBlockSetting.bind(this);
             this.saveBlockSettings = this.saveBlockSettings.bind(this);
@@ -91,6 +101,10 @@ export default DragDropContext(HTML5Backend)(
 
             BlockTemplateDefService.GetBlockTemplateDef().then((res) => {
                 self.setState({ BlockTemplateDefs: res.data.data }); 
+            });
+
+            CssRuleDefService.GetCssRuleDefs().then((res) => {
+                self.setState({ CssRuleDefs: res.data.data }); 
             });
         }
 
@@ -155,6 +169,47 @@ export default DragDropContext(HTML5Backend)(
             var newBlock = ObjectUtils.Clone(this.state.EditingBlock);
             newBlock.blocktemplatedefid = blockTemplateId;
             this.setState({ EditingBlock: newBlock });
+        }
+
+        saveBlockStyle() {
+            /*
+            var self = this;
+
+            BlockService.SaveBlock(this.state.EditingSettingsBlock).then((saveResult) => {
+                BlockContainerService.GetBlockContainers(self.props.params.PageID).then((res) => {
+                    self.setState({ BlockContainers: res.data.data, EditingSettingsBlock: null });
+                });
+            });
+            */
+
+            self.setState({ EditingStyleBlock: null });
+        }
+
+        updateBlockStyle(blockSettingDefId, value) {
+            /*
+            var newBlock = ObjectUtils.Clone(this.state.EditingSettingsBlock);
+
+            var setting = newBlock.BlockSettings.find((x) => { return x.blocksettingdefid == blockSettingDefId; });
+
+            if(setting) {
+                setting.value = value;
+            } else {
+                newBlock.BlockSettings.push({
+                    blocksettingdefid: blockSettingDefId,
+                    blockid: this.state.EditingSettingsBlock.id,
+                    value: value
+                });
+            }
+            this.setState({ EditingSettingsBlock: newBlock });
+            */
+        }
+
+        setEditingStyleBlock(block) {
+            if(block) {
+                this.setState({ EditingStyleBlock: ObjectUtils.Clone(block) });
+            } else {
+                this.setState({ EditingStyleBlock: null });
+            }
         }
 
         updateBlockSetting(blockSettingDefId, value) {
@@ -256,6 +311,17 @@ export default DragDropContext(HTML5Backend)(
                 />;
             }
 
+            var editingBlockStyle = <div />;
+            if(this.state.EditingStyleBlock != null){
+                editingBlockStyle = <BlockStyleEditor
+                    CssRuleDefs={this.state.CssRuleDefs}
+                    Block={this.state.EditingStyleBlock}
+                    SaveBlockStyle={this.saveBlockStyle}
+                    UpdateBlockStyle={this.updateBlockStyle}
+                    SetEditingStyleBlock={this.setEditingStyleBlock}
+                />;
+            }
+
             return (
                 <Grid className="page-builder-page-root">
                     <Tabs activeKey={this.state.tabKey} onSelect={this.handleTabChange} id="controlled-tab-example">
@@ -295,6 +361,7 @@ export default DragDropContext(HTML5Backend)(
                                         SwapBlockContainers={this.swapBlockContainers}
                                         SetEditingBlock={this.setEditingBlock}
                                         SetEditingSettingsBlock={this.setEditingSettingsBlock}
+                                        SetEditingStyleBlock={this.setEditingStyleBlock}
                                         MoveBlock={this.moveBlock}
                                     />
                                 </Col>
@@ -302,6 +369,7 @@ export default DragDropContext(HTML5Backend)(
 
                             {editingBlock}
                             {editingBlockSettings}
+                            {editingBlockStyle}
                         </Tab>
                         <Tab eventKey={2} title="Page Settings">
                             <p>Page Settings</p>

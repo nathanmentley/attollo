@@ -22,6 +22,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
+                        SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                     />
                 </Col>
                 <Col xs={12} md={6} lg={3}>
@@ -33,6 +34,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
+                        SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                     />
                 </Col>
                 <Col xs={12} md={6} lg={3}>
@@ -44,6 +46,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
+                        SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                     />
                 </Col>
                 <Col xs={12} md={6} lg={3}>
@@ -55,6 +58,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
+                        SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                     />
                 </Col>
             </Row>

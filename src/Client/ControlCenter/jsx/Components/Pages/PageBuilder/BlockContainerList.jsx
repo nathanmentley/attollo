@@ -23,6 +23,7 @@ export default class BlockContainerList extends BaseComponent {
                                 MoveBlock={self.props.MoveBlock}
                                 SetEditingBlock={self.props.SetEditingBlock}
                                 SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
+                                SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                             />
                         );
                     })

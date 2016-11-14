@@ -22,6 +22,7 @@ export default class ThreeCol extends BaseBlockContainerComponent {
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
+                        SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                     />
                 </Col>
                 <Col  xs={12} md={4}>
@@ -33,6 +34,7 @@ export default class ThreeCol extends BaseBlockContainerComponent {
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
+                        SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                     />
                 </Col>
                 <Col xs={12} md={4}>
@@ -44,6 +46,7 @@ export default class ThreeCol extends BaseBlockContainerComponent {
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
+                        SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                     />
                 </Col>
             </Row>

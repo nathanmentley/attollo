@@ -72,18 +72,15 @@ export default DropTarget("BlockContainerEditor", BlockContainerEditorTarget, dr
                                 {this.props.BlockContainer.BlockContainerDef.title}
 
 
-                                <div className="pull-right">
+                                <div className="pull-right block-container-controls">
                                     <DropdownButton
                                         title={<Glyphicon glyph="cog" />}
                                         id={this.props.BlockContainer.id + '-container-action-button'}
                                     >
                                         <MenuItem eventKey="1" onClick={() => {  }}>
-                                            <Glyphicon glyph="pencil" /> Edit Block Container
-                                        </MenuItem>
-                                        <MenuItem eventKey="1" onClick={() => {  }}>
                                             <Glyphicon glyph="text-background" /> Update Style
                                         </MenuItem>
-                                        <MenuItem eventKey="1" onClick={() => {  }}>
+                                        <MenuItem eventKey="1" onClick={() => { alert('TODO: support container deleting.'); }}>
                                             <Glyphicon glyph="trash" /> Delete
                                         </MenuItem>
                                     </DropdownButton>
@@ -97,6 +94,7 @@ export default DropTarget("BlockContainerEditor", BlockContainerEditorTarget, dr
                                 MoveBlock={self.props.MoveBlock}
                                 SetEditingBlock={self.props.SetEditingBlock}
                                 SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
+                                SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                             />
                         </div>
                     )

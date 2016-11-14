@@ -22,6 +22,7 @@ export default class TwoCol extends BaseBlockContainerComponent {
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
+                        SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                     />
                 </Col>
                 <Col xs={12} md={6}>
@@ -33,6 +34,7 @@ export default class TwoCol extends BaseBlockContainerComponent {
                         MoveBlock={self.props.MoveBlock}
                         SetEditingBlock={self.props.SetEditingBlock}
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
+                        SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                     />
                 </Col>
             </Row>

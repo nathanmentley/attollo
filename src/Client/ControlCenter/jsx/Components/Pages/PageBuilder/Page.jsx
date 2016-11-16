@@ -14,6 +14,7 @@ import BlockContainerService from '../../../Services/BlockContainerService.jsx';
 import BlockContainerAreaService from '../../../Services/BlockContainerAreaService.jsx';
 import BlockTemplateDefService from '../../../Services/BlockTemplateDefService.jsx';
 import CssRuleDefService from '../../../Services/CssRuleDefService.jsx';
+import SiteService from '../../../Services/SiteService.jsx';
 
 import BlockSettingsEditor from './BlockSettingsEditor.jsx';
 import BlockStyleEditor from './BlockStyleEditor.jsx';
@@ -38,6 +39,7 @@ export default DragDropContext(HTML5Backend)(
                 BlockTemplateDefs: [],
                 CssRuleDefs: [],
 
+                siteUrl: null,
                 tabKey: 1
             };
 
@@ -56,6 +58,8 @@ export default DragDropContext(HTML5Backend)(
 
             this.updateBlockSetting = this.updateBlockSetting.bind(this);
             this.saveBlockSettings = this.saveBlockSettings.bind(this);
+
+            this.handleTabChange = this.handleTabChange.bind(this);
 
             this.moveBlock = this.moveBlock.bind(this);
             this.addBlock = this.addBlock.bind(this);
@@ -106,11 +110,19 @@ export default DragDropContext(HTML5Backend)(
             CssRuleDefService.GetCssRuleDefs().then((res) => {
                 self.setState({ CssRuleDefs: res.data.data }); 
             });
+
+            SiteService.GetSites().then((res) => {
+                var site = res.data.data.find((x) => { return x.id == self.props.params.SiteID; });
+
+                self.setState({ siteUrl: 'http://' + site.domain });
+            });
         }
 
         handleTabChange(key) {
-            alert(key);
-            this.setState({ tabKey: key });
+            this.setState({ tabKey: key }, () => {
+                var frame = document.getElementsByClassName("page-builder-preview-frame");
+                frame[0].src = frame[0].src;
+            });
         }
 
         swapBlockContainers(containerId1, containerId2) {
@@ -288,6 +300,8 @@ export default DragDropContext(HTML5Backend)(
         }
 
         _render() {
+            var self = this;
+            
             var editingBlock = <div />;
             if(this.state.EditingBlock != null){
                 editingBlock = <BlockEditor
@@ -375,7 +389,7 @@ export default DragDropContext(HTML5Backend)(
                             <p>Page Settings</p>
                         </Tab>
                         <Tab eventKey={3} title="Page Preview">
-                            <p>Page Preview</p>
+                            <iframe className="page-builder-preview-frame" src={self.state.siteUrl} />
                         </Tab>
                     </Tabs>
                 </Grid>

@@ -18,34 +18,35 @@ export default class BlockStyleEditor extends BaseComponent {
     }
 
     close() {
-        this.props.SetEditingStyleBlock();
+        if (this.props.SetEditingStyleBlock) {
+            this.props.SetEditingStyleBlock();
+        }
     }
 
     getValueFromCode(code) {
-        /*
-        var blockSettingDefId = this.props.Block.BlockDef.BlockSettingDefs.find((x) => { return x.code == code; }).id;
-        var setting = this.props.Block.BlockSettings.find((x) => { return x.blocksettingdefid == blockSettingDefId; });
+        if (this.props.BlockStyles != null) {
+            for(var i = 0; i < this.props.BlockStyles.length; i++) {
+                var blockStyle = this.props.BlockStyles[i];
 
-        if(setting) {
-            return setting.value;
-        } else {
-            return '';
+                if(blockStyle.CssRule.CssRuleDef.code == code) {
+                    return blockStyle.CssRule.value;
+                }
+            }
         }
-        */
+        
         return '';
     }
 
     setValueForCode(code, value) {
-        /*
-        this.props.UpdateBlockStyle(
-            this.props.Block.BlockDef.BlockSettingDefs.find((x) => { return x.code == code; }).id,
-            value
-        );
-        */
+        if (this.props.UpdateBlockStyle) {
+            this.props.UpdateBlockStyle(code, value);
+        }
     }
 
     saveBlockStyle() {
-        this.props.SaveBlockStyle();
+        if(this.props.SaveBlockStyle) {
+            this.props.SaveBlockStyle();
+        }
     }
 
     render() {

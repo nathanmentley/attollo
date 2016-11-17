@@ -12,6 +12,7 @@ import BlockDefService from '../../../Services/BlockDefService.jsx';
 import BlockContainerDefService from '../../../Services/BlockContainerDefService.jsx';
 import BlockContainerService from '../../../Services/BlockContainerService.jsx';
 import BlockContainerAreaService from '../../../Services/BlockContainerAreaService.jsx';
+import BlockCssRuleService from '../../../Services/BlockCssRuleService.jsx';
 import BlockTemplateDefService from '../../../Services/BlockTemplateDefService.jsx';
 import CssRuleDefService from '../../../Services/CssRuleDefService.jsx';
 import SiteService from '../../../Services/SiteService.jsx';
@@ -31,6 +32,7 @@ export default DragDropContext(HTML5Backend)(
             this.state = {
                 EditingSettingsBlock: null,
                 EditingStyleBlock: null,
+                EditingStyleBlockStyles: null,
                 EditingBlock: null,
                 BlockContainers: [],
 
@@ -184,44 +186,60 @@ export default DragDropContext(HTML5Backend)(
         }
 
         saveBlockStyle() {
-            /*
             var self = this;
 
-            BlockService.SaveBlock(this.state.EditingSettingsBlock).then((saveResult) => {
-                BlockContainerService.GetBlockContainers(self.props.params.PageID).then((res) => {
-                    self.setState({ BlockContainers: res.data.data, EditingSettingsBlock: null });
-                });
+            BlockCssRuleService.UpdateBlockCssRules(this.state.EditingStyleBlockStyles)
+            .then((res) => {
+                self.setState({ EditingStyleBlock: null,  EditingStyleBlockStyles: null });
             });
-            */
-
-            self.setState({ EditingStyleBlock: null });
         }
 
-        updateBlockStyle(blockSettingDefId, value) {
-            /*
-            var newBlock = ObjectUtils.Clone(this.state.EditingSettingsBlock);
+        updateBlockStyle(code, value) {
+            var self = this;
+            var newBlockStyles = ObjectUtils.Clone(this.state.EditingStyleBlockStyles);
 
-            var setting = newBlock.BlockSettings.find((x) => { return x.blocksettingdefid == blockSettingDefId; });
+            if (newBlockStyles.some((x) => { return x.CssRule.CssRuleDef.code == code; })) {
+                for(var i = 0; i < newBlockStyles.length; i++) {
+                    var newBlockStyle = newBlockStyles[i];
 
-            if(setting) {
-                setting.value = value;
+                    if(newBlockStyle.CssRule.CssRuleDef.code == code) {
+                        newBlockStyle.CssRule.value = value;
+                    }
+                }
             } else {
-                newBlock.BlockSettings.push({
-                    blocksettingdefid: blockSettingDefId,
-                    blockid: this.state.EditingSettingsBlock.id,
-                    value: value
+                newBlockStyles.push({
+                    CssRule: {
+                        CssRuleDef: {
+                            code: code
+                        },
+                        value: value,
+                        selector: '#' + self.state.EditingStyleBlock.id
+                    },
+                    blockid: self.state.EditingStyleBlock.id
                 });
             }
-            this.setState({ EditingSettingsBlock: newBlock });
-            */
+
+            this.setState({ EditingStyleBlockStyles: newBlockStyles });
         }
 
         setEditingStyleBlock(block) {
+            var self = this;
+
             if(block) {
-                this.setState({ EditingStyleBlock: ObjectUtils.Clone(block) });
+                BlockCssRuleService.GetBlockCssRules(block.id)
+                .then((res) => {
+                    self.setState({
+                        EditingStyleBlock: ObjectUtils.Clone(block),
+                        EditingStyleBlockStyles: ObjectUtils.Clone(res.data.data)
+                    });
+                })
+                .catch((err) => {
+                    alert(JSON.stringify(err));
+                });
             } else {
-                this.setState({ EditingStyleBlock: null });
+                this.setState({ EditingStyleBlock: null,  EditingStyleBlockStyles: null });
             }
+            
         }
 
         updateBlockSetting(blockSettingDefId, value) {
@@ -330,6 +348,7 @@ export default DragDropContext(HTML5Backend)(
                 editingBlockStyle = <BlockStyleEditor
                     CssRuleDefs={this.state.CssRuleDefs}
                     Block={this.state.EditingStyleBlock}
+                    BlockStyles={this.state.EditingStyleBlockStyles}
                     SaveBlockStyle={this.saveBlockStyle}
                     UpdateBlockStyle={this.updateBlockStyle}
                     SetEditingStyleBlock={this.setEditingStyleBlock}

@@ -57,7 +57,7 @@
 				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
 				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
 				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
-				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea', 'BlockTemplateDef', 'BlockSettings']));
+				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea', 'BlockTemplateDef', 'BlockSettings', 'BlockCssRules']));
 				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
 			},
 			BlockContainerArea: function() {
@@ -102,7 +102,7 @@
 				return this.hasMany(BlockSetting.Model(authContext, skipFilter), "blockid");
 			},
 			BlockCssRules: function() {
-				return this.hasMany(BlockCssRule.Model(authContext, skipFilter), 'blockcssruleid');
+				return this.hasMany(BlockCssRule.Model(authContext, skipFilter), 'blockid');
 			}
 		});
 	};
@@ -114,7 +114,7 @@
 		.on("fetching", Auid.Fetching(authContext, filter, skipFilter))
 		.on("fetched", Auid.Fetched(authContext, filter, skipFilter))
 		.on("saving", Auid.Saving(authContext, filter, skipFilter))
-		.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea', 'BlockTemplateDef', 'BlockSettings']))
+		.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea', 'BlockTemplateDef', 'BlockSettings', 'BlockCssRules']))
 		.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
 	};
 	

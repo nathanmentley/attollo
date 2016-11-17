@@ -114,6 +114,18 @@
 			});
 	};
 
+	classDef.prototype.GetBlockCssRulesForBlock = function (authContext, blockId) {
+		return this.Context.DatabaseContext.BlockCssRules(authContext)
+			.query((qb) => {
+				qb.where('blockid', '=', blockId);
+			}).fetch({
+				withRelated: [
+					"CssRule",
+					"CssRule.CssRuleDef"
+				]
+			});
+	};
+
 	//BlockContainerDef
 
 	classDef.prototype.GetBlockContainerDefs = function (authContext){
@@ -153,6 +165,9 @@
 				'BlockContainerAreas.Blocks.BlockDef.BlockSettingDefs',
 				'BlockContainerAreas.Blocks.BlockDef.BlockSettingDefs.SettingType',
 				'BlockContainerAreas.Blocks.BlockTemplateDef',
+				'BlockContainerAreas.Blocks.BlockCssRules',
+				'BlockContainerAreas.Blocks.BlockCssRules.CssRule',
+				'BlockContainerAreas.Blocks.BlockCssRules.CssRule.CssRuleDef',
 				'BlockContainerAreas.BlockContainerAreaDef'
 			] });
 	};

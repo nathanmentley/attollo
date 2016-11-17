@@ -42,6 +42,63 @@
 		return Context.Handlers.Css.GetCssRuleDefs(authContext);
 	};
 	
+    //BlockCssRules
+    classDef.prototype.GetBlockCssRules = function (authContext, blockId) {
+        return Context.Handlers.Block.GetBlockCssRulesForBlock(authContext, blockId);
+    };
+
+    classDef.prototype.AddBlockCssRules = function (authContext, model) {
+        var self = this;
+
+        return new Promise((resolve, reject) => {
+            self.AddCssRule(authContext, '#' + model.blockid, model.CssRule.value, model.CssRule.CssRuleDef.code)
+            .then((cssRule) => {
+                Context.Handlers.Css.AddBlockCssRule(authContext, model.blockid, cssRule.get('id'))
+                .then((blockCssRule) => {
+                    resolve(blockCssRule);
+                })
+               .catch((err) => {
+                    reject(err);
+                });
+            })
+            .catch((err) => {
+                reject(err);
+            });
+        });
+    };
+
+    classDef.prototype.UpdateBlockCssRules = function (authContext, rules) {
+        var self = this;
+
+        return new Promise((resolve, reject) => {
+            var promises = [];
+
+            rules.forEach((rule) => {
+                if(rule.id) {
+                    promises.push(
+                        Context.Handlers.Css.UpdateCssRule(authContext, rule.CssRule)
+                    );
+                } else {
+                    promises.push(
+                        self.AddBlockCssRules(authContext, rule)
+                    );
+                }
+            });
+
+            if (promises.length) {
+                Promise.all(promises)
+                .then((res) => {
+                    resolve(res);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+            } else {
+                resolve([]);
+            }
+        });
+    };
+
 	//CssRule
 	classDef.prototype.AddCssRule = function (authContext, selector, value, cssRuleDefCode){
         var self = this;
@@ -178,19 +235,10 @@
                                 less += "div[data-block-id='" + blockId + "'] {";
                                 for (var selector in css[blockId]){
                                     if (css[blockId].hasOwnProperty(selector)) {
-
-                                        if(selector != "") {
-                                            less += selector + ' {';
-                                        }
-
                                         for (var property in css[blockId][selector]) {
                                             var value = css[blockId][selector][property];
                                             
                                             less += property + ': ' + value + ';';
-                                        }
-
-                                        if(selector != "") {
-                                            less += '} ';
                                         }
                                     }
                                 }

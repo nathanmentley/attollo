@@ -74,5 +74,22 @@
 		return cssRule.save();
 	};
 
+	classDef.prototype.AddBlockCssRule = function (authContext, blockId, cssRuleId){
+		var BlockCssRule = this.Context.DatabaseContext.BlockCssRule(authContext);
+		var blockCssRule = new BlockCssRule({
+            blockid: blockId,
+            cssruleid: cssRuleId
+        });
+
+		return blockCssRule.save();
+	};
+
+	classDef.prototype.UpdateCssRule = function(authContext, model) {
+		var CssRule = this.Context.DatabaseContext.CssRule(authContext);
+		var cssRule = new CssRule(model);
+
+		return cssRule.save();
+	};
+
 	module.exports = classDef;
 })();

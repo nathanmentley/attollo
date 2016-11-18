@@ -31,6 +31,7 @@ export default class SiteList extends BaseComponent {
                     <tr>
                         <th>Name</th>
                         <th>Domain</th>
+                        <th>Theme</th>
                         <th className="action-col">Action</th>
                     </tr>
                 </thead>
@@ -41,6 +42,7 @@ export default class SiteList extends BaseComponent {
                                 <tr key={x.id}>
                                     <td onClick={() => { self.goToSiteVersionBin(x.id); }}>{x.name}</td>
                                     <td onClick={() => { self.goToSiteVersionBin(x.id); }}>{x.domain}</td>
+                                    <td onClick={() => { self.goToSiteVersionBin(x.id); }}>{x.Theme.name}</td>
                                     <td>
                                         <DropdownButton title={<Glyphicon glyph="cog" />} id={x.id + '-action-button'}>
                                             <MenuItem eventKey="1" onClick={() => { self.setEditingSite(x); }}>

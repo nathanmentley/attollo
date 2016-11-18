@@ -46,7 +46,12 @@
 	};
 
 	classDef.prototype.GetSites = function (authContext){
-		return this.Context.DatabaseContext.Sites(authContext).fetch();
+		return this.Context.DatabaseContext.Sites(authContext)
+				.fetch({
+					withRelated: [
+						"Theme"
+					]
+				});
 	};
 	
 	classDef.prototype.AddSite = function (authContext, themeId){

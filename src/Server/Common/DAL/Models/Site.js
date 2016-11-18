@@ -1,6 +1,7 @@
 (function () {
 	var Auid = require("../Core/Auid");
 	var Database = require("../Core/Database");
+	var ModelEvents = require("../Core/ModelEvents");
 
 	var Client = require("./Client");
 	var Theme = require("./Theme");
@@ -26,6 +27,7 @@
 				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
 				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
 				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
+				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['Theme']));
 				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
 			},
 			Client: function() {
@@ -44,6 +46,7 @@
 		.on("fetching", Auid.Fetching(authContext, filter, skipFilter))
 		.on("fetched", Auid.Fetched(authContext, filter, skipFilter))
 		.on("saving", Auid.Saving(authContext, filter, skipFilter))
+		.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['Theme']))
 		.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
 	};
 	

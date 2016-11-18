@@ -9,7 +9,9 @@
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
             Attollo.Services.Css.AddCssRuleDefType(dbContext, "color", CssRuleDefTypeCodes.Color),
-            Attollo.Services.Css.AddCssRuleDefType(dbContext, "distance", CssRuleDefTypeCodes.Distance)
+            Attollo.Services.Css.AddCssRuleDefType(dbContext, "distance", CssRuleDefTypeCodes.Distance),
+            Attollo.Services.Css.AddCssRuleDefType(dbContext, "image", CssRuleDefTypeCodes.Image),
+            Attollo.Services.Css.AddCssRuleDefType(dbContext, "singleSelectList", CssRuleDefTypeCodes.SingleSelectList)
         ])
         .then(() => {
             Promise.all([
@@ -44,6 +46,22 @@
                     "width of element",
                     "",
                     CssRuleDefTypeCodes.Distance
+                ),
+                Attollo.Services.Css.AddCssRuleDef(dbContext,
+                    "Background Image",
+                    CssRuleDefCodes.BackgroundImage,
+                    "background-image",
+                    "Image to use as a background.",
+                    "",
+                    CssRuleDefTypeCodes.Image
+                ),
+                Attollo.Services.Css.AddCssRuleDef(dbContext,
+                    "Text Align",
+                    CssRuleDefCodes.TextAlign,
+                    "text-align",
+                    "Text Align.",
+                    "Left=left|Center=center|Right=right",
+                    CssRuleDefTypeCodes.SingleSelectList
                 )
              ])
              .then(() => {

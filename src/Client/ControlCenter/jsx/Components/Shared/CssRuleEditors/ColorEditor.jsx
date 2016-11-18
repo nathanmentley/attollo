@@ -16,7 +16,15 @@ export default class ColorEditor extends BaseComponent {
         this.updateColor = this.updateColor.bind(this);
     }
 
-    currentColor() {
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.CssRuleDef.code != this.props.CssRuleDef.code) {
+            this.setState({ color: this.currentColor(nextProps.CssRuleDef.code) });
+        }
+    }
+
+    currentColor(code) {
+        code = code || this.props.CssRuleDef.code;
+
         var hex = this.props.GetValueFromCode(this.props.CssRuleDef.code);
 
         if(hex && hex != '') {

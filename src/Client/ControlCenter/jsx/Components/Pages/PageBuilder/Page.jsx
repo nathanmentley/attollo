@@ -72,30 +72,35 @@ export default DragDropContext(HTML5Backend)(
         componentDidMount() {
             var self = this;
 
-            self.setPageTitle("Page Builder", () => {
-                BlockContainerService.GetBlockContainers(this.props.params.PageID).then((res) => {
-                    self.setState({ BlockContainers: res.data.data }, () => {
-                        self.setBreadCrumbs([
-                            {
-                                title: "Dashboard",
-                                url: "/"
-                            },
-                            {
-                                title: "Sites",
-                                url: "/Sites"
-                            },
-                            {
-                                title: "Site Versions",
-                                url: "/Sites/" + this.props.params.SiteVersionID
-                            },
-                            {
-                                title: "Pages",
-                                url: "/Sites/" + this.props.params.SiteVersionID + "/" + this.props.params.SiteID
-                            }
-                        ]);
-                    }); 
-                });
-            });
+            self.setPageTitle(
+                <span>
+                    Page builder
+                </span>, 
+                () => {
+                    BlockContainerService.GetBlockContainers(this.props.params.PageID).then((res) => {
+                        self.setState({ BlockContainers: res.data.data }, () => {
+                            self.setBreadCrumbs([
+                                {
+                                    title: "Dashboard",
+                                    url: "/"
+                                },
+                                {
+                                    title: "Sites",
+                                    url: "/Sites"
+                                },
+                                {
+                                    title: "Site Versions",
+                                    url: "/Sites/" + this.props.params.SiteVersionID
+                                },
+                                {
+                                    title: "Pages",
+                                    url: "/Sites/" + this.props.params.SiteVersionID + "/" + this.props.params.SiteID
+                                }
+                            ]);
+                        }); 
+                    });
+                }
+            );
 
             BlockDefService.GetBlockDefs(this.props.params.PageDefID).then((res) => {
                 self.setState({ BlockDefs: res.data.data }); 

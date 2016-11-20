@@ -32,15 +32,23 @@
 			.then((theme) => {
 				self.GetSiteVersionStatus(authContext, "Published")
 				.then((status) => {
-					Context.Handlers.Site.AddSite(authContext, theme.get('id'))
-					.then((site) => {
-						Context.Handlers.Site.AddSiteVersion(authContext, site.get('id'), status.first().get('id'))
-						.then((version) => {
-							resolve(site);
+					Context.DBTransaction((transaction) => {
+						Context.Handlers.Site.AddSite(authContext, transaction, theme.get('id'))
+						.then((site) => {
+							Context.Handlers.Site.AddSiteVersion(authContext, transaction, site.get('id'), status.first().get('id'))
+							.then((version) => {
+								transaction.commit(site);
+							}).catch((err) => {
+								transaction.rollback(err);
+							});
 						}).catch((err) => {
-							reject({ message: site.get('id') + " " + err.message });
+							transaction.rollback(err);
 						});
-					}).catch((err) => {
+					})
+					.then((site) => {
+						resolve(site);
+					})
+					.catch((err) => {
 						reject({ message: err.message });
 					});
 				}).catch((err) => {

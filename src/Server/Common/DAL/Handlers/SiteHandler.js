@@ -54,7 +54,7 @@
 				});
 	};
 	
-	classDef.prototype.AddSite = function (authContext, themeId){
+	classDef.prototype.AddSite = function (authContext, transaction, themeId){
 		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site({
 			clientid: authContext.ClientID,
@@ -63,7 +63,7 @@
 			themeid: themeId
 		});
 
-		return site.save();
+		return site.save(null, null, null, { transacting: transaction });
 	};
 	
 	classDef.prototype.UpdateSite = function (authContext, model){
@@ -90,7 +90,7 @@
 			}).fetch();
 	};
 
-	classDef.prototype.AddSiteVersion = function (authContext, siteId, siteVersionStatusId){
+	classDef.prototype.AddSiteVersion = function (authContext, transaction, siteId, siteVersionStatusId){
 		var SiteVersion = this.Context.DatabaseContext.SiteVersion(authContext);
 		var siteVersion = new SiteVersion({
 			siteversionstatusid: siteVersionStatusId,
@@ -98,7 +98,7 @@
 			current: true
 		});
 
-		return siteVersion.save();
+		return siteVersion.save(null, null, null, { transacting: transaction });
 	};
 
 

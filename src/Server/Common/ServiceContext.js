@@ -1,6 +1,11 @@
 (function () {
 	var classDef = function () {};
+	var db = require('./DAL/Core/Database');
 	var fs = require('fs');
+
+	classDef.prototype.DBTransaction = function(logic) {
+		return db.Bookshelf.transaction(logic);
+	};
 
 	classDef.prototype.Handlers = {};
 	

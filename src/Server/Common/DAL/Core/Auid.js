@@ -23,6 +23,7 @@
         "CssRuleID".toLowerCase(),
         "CssRuleDefID".toLowerCase(),
         "CssRuleDefTypeID".toLowerCase(),
+        "CssRuleDefGroupID".toLowerCase(),
 
         'PageID'.toLowerCase(),
         'PageDefID'.toLowerCase(),

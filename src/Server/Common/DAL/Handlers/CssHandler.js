@@ -30,9 +30,32 @@
 				.fetch();
 	};
 	
+	//CssRuleDefGroup
+
+	classDef.prototype.AddCssRuleDefGroup = function (authContext, name, code, description){
+		var CssRuleDefGroup = this.Context.DatabaseContext.CssRuleDefGroup(authContext);
+		var cssRuleDefGroup = new CssRuleDefGroup({
+            name: name,
+            code: code,
+			description: description
+        });
+
+		return cssRuleDefGroup.save();
+	};
+	
+	classDef.prototype.GetCssRuleDefGroup = function (authContext, code){
+		return this.Context.DatabaseContext.CssRuleDefGroup(authContext)
+				.query({
+					where: {
+						code: code
+					}
+				})
+				.fetch();
+	};
+	
 	//CssRuleDef
 
-	classDef.prototype.AddCssRuleDef = function (authContext, name, code, property, description, options, cssRuleDefTypeId){
+	classDef.prototype.AddCssRuleDef = function (authContext, name, code, property, description, options, cssRuleDefTypeId, cssRuleDefGroupId){
 		var CssRuleDef = this.Context.DatabaseContext.CssRuleDef(authContext);
 		var cssRuleDef = new CssRuleDef({
             name: name,
@@ -40,7 +63,8 @@
 			property: property,
             description: description,
             options: options,
-            cssruledeftypeid: cssRuleDefTypeId
+            cssruledeftypeid: cssRuleDefTypeId,
+			cssruledefgroupid: cssRuleDefGroupId
         });
 
 		return cssRuleDef.save();
@@ -53,12 +77,12 @@
 						code: code
 					}
 				})
-				.fetch({ withRelated: [ "CssRuleDefType" ] });
+				.fetch({ withRelated: [ "CssRuleDefType", "CssRuleDefGroup" ] });
 	};
 	
 	classDef.prototype.GetCssRuleDefs = function (authContext){
 		return this.Context.DatabaseContext.CssRuleDefs(authContext)
-				.fetch({ withRelated: [ "CssRuleDefType" ] });
+				.fetch({ withRelated: [ "CssRuleDefType", "CssRuleDefGroup" ] });
 	};
 
 	//CssRuleDef

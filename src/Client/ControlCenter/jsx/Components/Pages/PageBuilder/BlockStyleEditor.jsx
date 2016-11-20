@@ -1,19 +1,23 @@
 import React from 'react';
-import { Grid, Row, Col, Modal, Button } from 'react-bootstrap';
+import { Grid, Row, Col, Modal, Button, PanelGroup, Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
+
+import CssRuleEditor from '../../Shared/CssRuleEditor.jsx';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
-import CssRuleEditor from '../../Shared/CssRuleEditor.jsx';
+import ArrayUtils from '../../../Utils/ArrayUtils.jsx';
 
 export default class BlockStyleEditor extends BaseComponent {
     constructor(props) {
         super(props);
 
         this.state = {
-            currentDefCode: null
+            currentDefCode: null,
+            activePanelKey: null
         };
 
         this.setCurrentDefCode = this.setCurrentDefCode.bind(this);
+        this.updateCurrentPanel = this.updateCurrentPanel.bind(this);
 
         this.close = this.close.bind(this);
 
@@ -25,6 +29,10 @@ export default class BlockStyleEditor extends BaseComponent {
 
     setCurrentDefCode(code) {
         this.setState({ currentDefCode: code });
+    }
+
+    updateCurrentPanel(activeKey) {
+        this.setState({ activePanelKey: activeKey });
     }
 
     close() {
@@ -61,6 +69,7 @@ export default class BlockStyleEditor extends BaseComponent {
 
     render() {
         var self = this;
+        var cssRuleGroups = ArrayUtils.GetUnique(this.props.CssRuleDefs, (x) => x.CssRuleDefGroup.code);
 
         var styleEditor = <div />;
 
@@ -82,16 +91,34 @@ export default class BlockStyleEditor extends BaseComponent {
                 <Modal.Body>
                     <Grid>
                         <Row>
-                            <Col md={3}>
-                                {
-                                    this.props.CssRuleDefs.map((x) => {
-                                        return (
-                                            <div className="css-rule-def-selector" key={x.id} onClick={() => { self.setCurrentDefCode(x.code); }}>{x.name} - {x.description}</div>
-                                        );
-                                    })
-                                }
+                            <Col md={6}>
+                                <PanelGroup activeKey={this.state.activePanelKey} onSelect={this.updateCurrentPanel} accordion>
+                                    {
+                                        cssRuleGroups.map((group) => {
+                                            return (
+                                                <Panel key={group} header={group} eventKey={group}>
+                                                    <ListGroup fill>
+                                                        {
+                                                            self.props.CssRuleDefs.filter((def) => { return def.CssRuleDefGroup.code == group; }).map((def) => {
+                                                                return (
+                                                                    <ListGroupItem
+                                                                        className="css-rule-def-selector"
+                                                                        key={def.id}
+                                                                        onClick={() => { self.setCurrentDefCode(def.code); }}
+                                                                    >
+                                                                        {def.name} - {def.description}
+                                                                    </ListGroupItem>
+                                                                );
+                                                            })
+                                                        }
+                                                    </ListGroup>
+                                                </Panel>
+                                            );
+                                        })
+                                    }
+                                </PanelGroup>
                             </Col>
-                            <Col md={9}>
+                            <Col md={6}>
                                 {styleEditor}
                             </Col>
                         </Row>

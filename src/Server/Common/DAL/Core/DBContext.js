@@ -16,6 +16,7 @@
 	var Client = require("../Models/Client");
 	var CssRule = require("../Models/CssRule");
 	var CssRuleDef = require("../Models/CssRuleDef");
+	var CssRuleDefGroup = require("../Models/CssRuleDefGroup");
 	var CssRuleDefType = require("../Models/CssRuleDefType");
 
 	var DatabaseVersion = require("../Models/DatabaseVersion");
@@ -79,6 +80,9 @@
 
 	classDef.prototype.CssRuleDefs = CssRuleDef.Collection;
 	classDef.prototype.CssRuleDef = CssRuleDef.Model;
+
+	classDef.prototype.CssRuleDefGroups = CssRuleDefGroup.Collection;
+	classDef.prototype.CssRuleDefGroup = CssRuleDefGroup.Model;
 
 	classDef.prototype.CssRuleDefTypes = CssRuleDefType.Collection;
 	classDef.prototype.CssRuleDefType = CssRuleDefType.Model;

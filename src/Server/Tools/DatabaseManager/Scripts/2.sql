@@ -5,6 +5,13 @@ CREATE TABLE IF NOT EXISTS Client (
 
 --CSS
 
+CREATE TABLE IF NOT EXISTS CssRuleDefGroup (
+    ID SERIAL PRIMARY KEY,
+    Code VARCHAR(255) NOT NULL,
+    Name VARCHAR(255) NOT NULL,
+    Description Text NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS CssRuleDefType (
     ID SERIAL PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
@@ -18,6 +25,7 @@ CREATE TABLE IF NOT EXISTS CssRuleDef (
     Property VARCHAR(255) NOT NULL,
     Description Text NOT NULL,
     CssRuleDefTypeID integer REFERENCES CssRuleDefType NOT NULL,
+    CssRuleDefGroupID integer REFERENCES CssRuleDefGroup NOT NULL,
     Options TEXT NULL
 );
 

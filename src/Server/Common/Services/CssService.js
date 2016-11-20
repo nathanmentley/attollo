@@ -13,16 +13,31 @@
 		return Context.Handlers.Css.GetCssRuleDefType(authContext, code);
 	};
 	
+	//CssRuleDefGroup
+	classDef.prototype.AddCssRuleDefGroup = function (authContext, name, code, description){
+		return Context.Handlers.Css.AddCssRuleDefGroup(authContext, name, code, description);
+	};
+	
+	classDef.prototype.GetCssRuleDefGroup = function (authContext, code){
+		return Context.Handlers.Css.GetCssRuleDefGroup(authContext, code);
+	};
+	
 	//CssRuleDef
-	classDef.prototype.AddCssRuleDef = function (authContext, name, code, property, description, options, cssRuleDefTypeCode){
+	classDef.prototype.AddCssRuleDef = function (authContext, name, code, property, description, options, cssRuleDefTypeCode, cssRuleDefGroupCodes){
         var self = this;
 
 		return new Promise((resolve, reject) => {
             self.GetCssRuleDefType(authContext, cssRuleDefTypeCode)
             .then((cssRuleDefType) => {
-                Context.Handlers.Css.AddCssRuleDef(authContext, name, code, property, description, options, cssRuleDefType.get('id'))
-                .then((result) => {
-                    resolve(result);
+                self.GetCssRuleDefGroup(authContext, cssRuleDefGroupCodes)
+                .then((cssRuleDefGroup) => {
+                    Context.Handlers.Css.AddCssRuleDef(authContext, name, code, property, description, options, cssRuleDefType.get('id'), cssRuleDefGroup.get('id'))
+                    .then((result) => {
+                        resolve(result);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
                 })
                 .catch((err) => {
                     reject(err);

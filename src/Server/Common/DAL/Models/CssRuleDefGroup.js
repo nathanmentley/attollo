@@ -2,27 +2,18 @@
 	var Auid = require("../Core/Auid");
 	var Database = require("../Core/Database");
 
-	var CssRuleDefType = require("./CssRuleDefType");
-	var CssRuleDefGroup = require("./CssRuleDefGroup");
-
 	var filter = function(authContext, query) {
 	};
 
 	var model = function(authContext, skipFilter) {
 		return Database.Model.extend({
-			tableName: 'cssruledef',
+			tableName: 'cssruledefgroup',
 			constructor: function() {
 				Database.Model.apply(this, arguments);
 				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
 				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
 				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
 				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
-			},
-			CssRuleDefType: function() {
-				return this.belongsTo(CssRuleDefType.Model(authContext, skipFilter), 'cssruledeftypeid');
-			},
-			CssRuleDefGroup: function() {
-				return this.belongsTo(CssRuleDefGroup.Model(authContext, skipFilter), 'cssruledefgroupid');
 			}
 		});
 	};

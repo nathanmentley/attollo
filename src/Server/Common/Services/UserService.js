@@ -48,7 +48,14 @@
 			.then((roles) => {
 				bcrypt.genSalt(10, (err, salt) => {
 					bcrypt.hash(password, salt, (err, hash) => {
-						Context.Handlers.User.AddUser(authContext, name, hash, roles.first())
+						Context.DBTransaction((transaction) => {
+							Context.Handlers.User.AddUser(authContext, transaction, name, hash, roles.first())
+							.then((result) => {
+								transaction.commit(result);
+							}).catch((err) => {
+								transaction.rollback(err);
+							});
+						})
 						.then((result) => {
 							resolve(result);
 						})
@@ -65,11 +72,25 @@
 	};
 	
 	classDef.prototype.UpdateUser = function (authContext, user){
-		return Context.Handlers.User.UpdateUser(authContext, user);
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.User.UpdateUser(authContext, transaction, user)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 	
 	classDef.prototype.DeleteUser = function (authContext, userId){
-		return Context.Handlers.User.DeleteUser(authContext, userId);
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.User.DeleteUser(authContext, transaction, userId)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 
 	//Roles
@@ -83,7 +104,14 @@
 	}
 
 	classDef.prototype.AddRole = function (authContext, name, code) {
-		return Context.Handlers.User.AddRole(authContext, name, code);
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.User.AddRole(authContext, transaction, name, code)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	}
 
 	classDef.prototype.AddRolePermission = function (authContext, permissionDefCode, roleCode) {
@@ -94,11 +122,20 @@
 			.then((role) => {
 				self.GetPermissionDef(authContext, permissionDefCode)
 				.then((permissionDef) => {
-					Context.Handlers.User.AddRolePermission(
-						authContext,
-						permissionDef.first().get('id'),
-						role.first().get('id')
-					).then(() => {
+					Context.DBTransaction((transaction) => {
+						Context.Handlers.User.AddRolePermission(
+							authContext,
+							transaction,
+							permissionDef.first().get('id'),
+							role.first().get('id')
+						)
+						.then((result) => {
+							transaction.commit(result);
+						}).catch((err) => {
+							transaction.rollback(err);
+						});
+					})
+					.then(() => {
 						resolve();
 					}).catch((err) => {
 						reject(err);
@@ -116,7 +153,14 @@
 	//PermissionDefs
 
 	classDef.prototype.AddPermissionDef = function (authContext, name, code, description) {
-		return Context.Handlers.User.AddPermissionDef(authContext, name, code, description);
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.User.AddPermissionDef(authContext, transaction, name, code, description)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 
 	classDef.prototype.GetPermissionDefs = function (authContext) {

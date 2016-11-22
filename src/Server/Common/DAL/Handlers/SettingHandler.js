@@ -21,11 +21,11 @@
 			}).fetch();
 	};
 	
-	classDef.prototype.AddSettingType = function (authContext, model){
+	classDef.prototype.AddSettingType = function (authContext, transaction, model){
 		var SettingType = this.Context.DatabaseContext.SettingType(authContext);
 		var settingType = new SettingType(model);
 
-		return settingType.save();
+		return settingType.save(null, null, null, { transacting: transaction });
 	};
 
 	module.exports = classDef;

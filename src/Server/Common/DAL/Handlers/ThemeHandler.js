@@ -22,24 +22,24 @@
 				.fetch();
 	};
 	
-	classDef.prototype.AddTheme = function (authContext, code, name){
+	classDef.prototype.AddTheme = function (authContext, transaction, code, name){
 		var Theme = this.Context.DatabaseContext.Theme(authContext);
 		var theme = new Theme({
 			code: code,
 			name: name
 		});
 
-		return theme.save();
+		return theme.save(null, null, null, { transacting: transaction });
 	};
 	
-	classDef.prototype.AddThemeCssRule = function (authContext, themeId, cssRuleId){
+	classDef.prototype.AddThemeCssRule = function (authContext, transaction, themeId, cssRuleId){
 		var ThemeCssRule = this.Context.DatabaseContext.ThemeCssRule(authContext);
 		var themeCssRule = new ThemeCssRule({
 			themeid: themeId,
 			cssruleid: cssRuleId
 		});
 
-		return themeCssRule.save();
+		return themeCssRule.save(null, null, null, { transacting: transaction });
 	};
 
 	module.exports = classDef;

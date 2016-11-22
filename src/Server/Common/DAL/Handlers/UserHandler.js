@@ -28,7 +28,7 @@
 				]});
 	};
 	
-	classDef.prototype.AddUser = function (authContext, name, password, role){
+	classDef.prototype.AddUser = function (authContext, transaction, name, password, role){
 		var User = this.Context.DatabaseContext.User(authContext);
 		var user = new User({
 			clientid: authContext.ClientID,
@@ -37,21 +37,21 @@
 			roleid: role.get('id')
 		});
 
-		return user.save();
+		return user.save(null, null, null, { transacting: transaction });
 	};
 	
-	classDef.prototype.UpdateUser = function (authContext, model){
+	classDef.prototype.UpdateUser = function (authContext, transaction, model){
 		var User = this.Context.DatabaseContext.User(authContext);
 		var user = new User(model);
 
-		return user.save();
+		return user.save(null, null, null, { transacting: transaction });
 	};
 	
-	classDef.prototype.DeleteUser = function (authContext, userId){
+	classDef.prototype.DeleteUser = function (authContext, transaction, userId){
 		var User = this.Context.DatabaseContext.User(authContext);
 		var user = new User({ id: userId });
 
-		return user.destroy();
+		return user.destroy({ transacting: transaction });
 	};
 
 	//Roles
@@ -70,29 +70,29 @@
 		return this.Context.DatabaseContext.Roles(authContext).fetch();
 	};
 
-	classDef.prototype.AddRole = function (authContext, name, code) {
+	classDef.prototype.AddRole = function (authContext, transaction, name, code) {
 		var Role = this.Context.DatabaseContext.Role(authContext);
 		var role = new Role({
 			name: name,
 			code: code
 		});
 
-		return role.save();
+		return role.save(null, null, null, { transacting: transaction });
 	};
 
-	classDef.prototype.AddRolePermission = function (authContext, permissionDefId, roleId) {
+	classDef.prototype.AddRolePermission = function (authContext, transaction, permissionDefId, roleId) {
 		var RolePermission = this.Context.DatabaseContext.RolePermission(authContext);
 		var rolePermission = new RolePermission({
 			permissiondefid: permissionDefId,
 			roleid: roleId
 		});
 
-		return rolePermission.save();
+		return rolePermission.save(null, null, null, { transacting: transaction });
 	};
 
 	//PermissionDefs
 
-	classDef.prototype.AddPermissionDef = function (authContext, name, code, description) {
+	classDef.prototype.AddPermissionDef = function (authContext, transaction, name, code, description) {
 		var PermissionDef = this.Context.DatabaseContext.PermissionDef(authContext);
 		var permissionDef = new PermissionDef({
 			name: name,
@@ -100,7 +100,7 @@
 			description: description
 		});
 
-		return permissionDef.save();
+		return permissionDef.save(null, null, null, { transacting: transaction });
 	};
 
 	classDef.prototype.GetPermissionDefs = function (authContext) {

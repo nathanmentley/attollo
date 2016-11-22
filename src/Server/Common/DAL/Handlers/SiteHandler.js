@@ -66,18 +66,18 @@
 		return site.save(null, null, null, { transacting: transaction });
 	};
 	
-	classDef.prototype.UpdateSite = function (authContext, model){
+	classDef.prototype.UpdateSite = function (authContext, transaction, model){
 		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site(model);
 
-		return site.save();
+		return site.save(null, null, null, { transacting: transaction });
 	};
 	
-	classDef.prototype.DeleteSite = function (authContext, model){
+	classDef.prototype.DeleteSite = function (authContext, transaction, model){
 		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site(model);
 
-		return site.destroy();
+		return site.destroy({ transacting: transaction });
 	};
 
 
@@ -115,14 +115,14 @@
 		return this.Context.DatabaseContext.SiteVersionStatuses(authContext).fetch();
 	};
 
-	classDef.prototype.AddSiteVersionStatus = function (authContext, name, code){
+	classDef.prototype.AddSiteVersionStatus = function (authContext, transaction, name, code){
 		var SiteVersionStatus = this.Context.DatabaseContext.SiteVersionStatus(authContext);
 		var siteVersionStatus = new SiteVersionStatus({
 			name: name,
 			code: code
 		});
 
-		return siteVersionStatus.save();
+		return siteVersionStatus.save(null, null, null, { transacting: transaction });
 	};
 	
 	module.exports = classDef;

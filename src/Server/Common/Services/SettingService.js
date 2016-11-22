@@ -13,7 +13,14 @@
 	};
 	
 	classDef.prototype.AddSettingType = function (authContext, settingType){
-		return Context.Handlers.Setting.AddSettingType(authContext, settingType);
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.Setting.AddSettingType(authContext, transaction, settingType)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 
 	module.exports = classDef;

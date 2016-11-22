@@ -61,11 +61,25 @@
 	};
 
 	classDef.prototype.UpdateSite = function (authContext, model){
-		return Context.Handlers.Site.UpdateSite(authContext, model);
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.Site.UpdateSite(authContext, transaction, model)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 
 	classDef.prototype.DeleteSite = function (authContext, model){
-		return Context.Handlers.Site.DeleteSite(authContext, model);
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.Site.DeleteSite(authContext, transaction, model)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 
 	//SiteVersionStatus
@@ -79,7 +93,14 @@
 	};
 
 	classDef.prototype.AddSiteVersionStatus = function (authContext, name, code){
-		return Context.Handlers.Site.AddSiteVersionStatus(authContext, name, code);
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.Site.AddSiteVersionStatus(authContext, transaction, name, code)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 	
 	module.exports = classDef;

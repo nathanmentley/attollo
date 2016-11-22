@@ -32,12 +32,12 @@
 				Context.DBTransaction((transaction) => {
 					Attollo.Services.Css.AddCssRule(authContext, selector, value, cssRuleDefCode)
 					.then((cssRule) => {
-							Context.Handlers.Theme.AddThemeCssRule(authContext, transaction, theme.get('id'), cssRule.get('id'))
-							.then((result) => {
-								transaction.commit(result);
-							}).catch((err) => {
-								transaction.rollback(err);
-							});
+						Context.Handlers.Theme.AddThemeCssRule(authContext, transaction, theme.get('id'), cssRule.get('id'))
+						.then((result) => {
+							transaction.commit(result);
+						}).catch((err) => {
+							transaction.rollback(err);
+						});
 					})
 					.catch((err) => {
 						transaction.rollback(err);

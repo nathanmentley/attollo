@@ -8,7 +8,8 @@
 
 				if(decoded) {
 					req.AuthContext = {
-						ClientID: decoded.clientid
+						ClientID: decoded.clientid,
+						UserName: decoded.clientid + '|' + decoded.name,
 					};
 
 					if(permission) {

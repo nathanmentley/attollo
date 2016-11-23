@@ -15,6 +15,7 @@
 					if(site && siteVersion) {
 						req.AuthContext = {
 							ClientID: site.get('clientid'),
+							UserName: '*SYSTEM|RunnerClientWebServer',
 							SiteID: site.get('id'),
 							SiteVersionID: siteVersion.get('id')
 						};

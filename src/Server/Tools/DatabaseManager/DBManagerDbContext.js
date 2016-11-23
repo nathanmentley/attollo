@@ -2,6 +2,7 @@
     var classDef = function () {};
     
     classDef.prototype.ClientID = null;
+    classDef.prototype.UserName = "*SYSTEM|DatabaseManager";
     classDef.prototype.Permissions = [];
 
     classDef.prototype.SetClientID = function (clientId) {

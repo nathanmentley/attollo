@@ -17,7 +17,7 @@
             code: code
         });
 
-		return cssRuleDefType.save(null, null, null, { transacting: transaction });
+		return cssRuleDefType.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.GetCssRuleDefType = function (authContext, code){
@@ -40,7 +40,7 @@
 			description: description
         });
 
-		return cssRuleDefGroup.save(null, null, null, { transacting: transaction });
+		return cssRuleDefGroup.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.GetCssRuleDefGroup = function (authContext, code){
@@ -67,7 +67,7 @@
 			cssruledefgroupid: cssRuleDefGroupId
         });
 
-		return cssRuleDef.save(null, null, null, { transacting: transaction });
+		return cssRuleDef.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.GetCssRuleDef = function (authContext, code){
@@ -95,7 +95,7 @@
             cssruledefid: cssRuleDefId
         });
 
-		return cssRule.save(null, null, null, { transacting: transaction });
+		return cssRule.save(null, { transacting: transaction });
 	};
 
 	classDef.prototype.AddBlockCssRule = function (authContext, transaction, blockId, cssRuleId){
@@ -105,14 +105,14 @@
             cssruleid: cssRuleId
         });
 
-		return blockCssRule.save(null, null, null, { transacting: transaction });
+		return blockCssRule.save(null, { transacting: transaction });
 	};
 
 	classDef.prototype.UpdateCssRule = function(authContext, transaction, model) {
 		var CssRule = this.Context.DatabaseContext.CssRule(authContext);
 		var cssRule = new CssRule(model);
 
-		return cssRule.save(null, null, null, { transacting: transaction });
+		return cssRule.save(null, { transacting: transaction });
 	};
 
 	module.exports = classDef;

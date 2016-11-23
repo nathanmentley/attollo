@@ -25,7 +25,7 @@
 		var PageDef = this.Context.DatabaseContext.PageDef(authContext);
 		var pageDef = new PageDef(model);
 
-		return pageDef.save(null, null, null, { transacting: transaction });
+		return pageDef.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.GetPages = function (authContext, siteVersionId){
@@ -41,14 +41,14 @@
 		var Page = this.Context.DatabaseContext.Page(authContext);
 		var page = new Page(model);
 
-		return page.save(null, null, null, { transacting: transaction });
+		return page.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.UpdatePage = function (authContext, transaction, model){
 		var Page = this.Context.DatabaseContext.Page(authContext);
 		var page = new Page(model);
 
-		return page.save(null, null, null, { transacting: transaction });
+		return page.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.DeletePage = function (authContext, transaction, model){

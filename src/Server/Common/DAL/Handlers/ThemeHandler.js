@@ -29,7 +29,7 @@
 			name: name
 		});
 
-		return theme.save(null, null, null, { transacting: transaction });
+		return theme.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.AddThemeCssRule = function (authContext, transaction, themeId, cssRuleId){
@@ -39,7 +39,7 @@
 			cssruleid: cssRuleId
 		});
 
-		return themeCssRule.save(null, null, null, { transacting: transaction });
+		return themeCssRule.save(null, { transacting: transaction });
 	};
 
 	module.exports = classDef;

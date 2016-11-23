@@ -36,7 +36,7 @@
 			name: name
 		});
 
-		return blockDef.save(null, null, null, { transacting: transaction });
+		return blockDef.save(null, { transacting: transaction });
 	};
 
 	//blockTemplateDef
@@ -67,7 +67,7 @@
 			compiledtemplate: compiledTemplate
 		});
 
-		return blockTemplateDef.save(null, null, null, { transacting: transaction });
+		return blockTemplateDef.save(null, { transacting: transaction });
 	};
 
 	//Block
@@ -87,14 +87,14 @@
 			blocktemplatedefid: blockTemplateDef.get('id')
 		});
 
-		return block.save(null, null, null, { transacting: transaction });
+		return block.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.UpdateBlock = function (authContext, transaction, model){
 		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block(model);
 
-		return block.save(null, null, null, { transacting: transaction });
+		return block.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.DeleteBlock = function (authContext, transaction, model){
@@ -146,7 +146,7 @@
 			title: title
 		});
 
-		return blockContainerDef.save(null, null, null, { transacting: transaction });
+		return blockContainerDef.save(null, { transacting: transaction });
 	};
 
 	//BlockContainer
@@ -180,14 +180,14 @@
 			displayorder: displayOrder
 		});
 
-		return blockContainer.save(null, null, null, { transacting: transaction });
+		return blockContainer.save(null, { transacting: transaction });
 	};
 
 	classDef.prototype.UpdateBlockContainer = function (authContext, transaction, model){
 		var BlockContainer = this.Context.DatabaseContext.BlockContainer(authContext);
 		var blockContainer = new BlockContainer(model);
 
-		return blockContainer.save(null, null, null, { transacting: transaction });
+		return blockContainer.save(null, { transacting: transaction });
 	};
 
 	classDef.prototype.GetBlockContainerCssRules = function (authContext) {
@@ -218,7 +218,7 @@
 			title: title
 		});
 
-		return blockContainerAreaDef.save(null, null, null, { transacting: transaction });
+		return blockContainerAreaDef.save(null, { transacting: transaction });
 	};
 
 	//BlockContainerArea
@@ -239,7 +239,7 @@
 			blockcontainerareadefid: areaDefId
 		});
 
-		return blockContainerArea.save(null, null, null, { transacting: transaction });
+		return blockContainerArea.save(null, { transacting: transaction });
 	};
 
 	//BlockSettingDef
@@ -263,7 +263,7 @@
 			defaultvalue: defaultValue
 		});
 
-		return blockSettingDef.save(null, null, null, { transacting: transaction });
+		return blockSettingDef.save(null, { transacting: transaction });
 	};
 
 	//BlockSettings
@@ -285,14 +285,14 @@
 			value: value
 		});
 
-		return blockSetting.save(null, null, null, { transacting: transaction });
+		return blockSetting.save(null, { transacting: transaction });
 	};
 
 	classDef.prototype.UpdateBlockSetting = function(authContext, transaction, model) {
 		var BlockSetting = this.Context.DatabaseContext.BlockSetting(authContext);
 		var blockSetting = new BlockSetting(model);
 
-		return blockSetting.save(null, null, null, { transacting: transaction });
+		return blockSetting.save(null, { transacting: transaction });
 	};
 	
 	module.exports = classDef;

@@ -16,7 +16,7 @@
 		var DatabaseVersion = this.Context.DatabaseContext.DatabaseVersion(authContext);
 		var databaseVersion = new DatabaseVersion(model);
 
-		return databaseVersion.save(null, null, null, { transacting: transaction });
+		return databaseVersion.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.GetDatabaseCodeVersions = function (authContext){
@@ -27,7 +27,7 @@
 		var DatabaseCodeVersion = this.Context.DatabaseContext.DatabaseCodeVersion(authContext);
 		var databaseCodeVersion = new DatabaseCodeVersion(model);
 
-		return databaseCodeVersion.save(null, null, null, { transacting: transaction });
+		return databaseCodeVersion.save(null, { transacting: transaction });
 	};
 	
 	module.exports = classDef;

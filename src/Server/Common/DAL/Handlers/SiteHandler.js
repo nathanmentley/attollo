@@ -63,14 +63,14 @@
 			themeid: themeId
 		});
 
-		return site.save(null, null, null, { transacting: transaction });
+		return site.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.UpdateSite = function (authContext, transaction, model){
 		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site(model);
 
-		return site.save(null, null, null, { transacting: transaction });
+		return site.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.DeleteSite = function (authContext, transaction, model){
@@ -98,7 +98,7 @@
 			current: true
 		});
 
-		return siteVersion.save(null, null, null, { transacting: transaction });
+		return siteVersion.save(null, { transacting: transaction });
 	};
 
 
@@ -122,7 +122,7 @@
 			code: code
 		});
 
-		return siteVersionStatus.save(null, null, null, { transacting: transaction });
+		return siteVersionStatus.save(null, { transacting: transaction });
 	};
 	
 	module.exports = classDef;

@@ -16,7 +16,7 @@
 		var Client = this.Context.DatabaseContext.Client(authContext);
 		var client = new Client({ name: name });
 
-		return client.save(null, null, null, { transacting: transaction });
+		return client.save(null, { transacting: transaction });
 	};
 	
 	module.exports = classDef;

@@ -25,7 +25,7 @@
 		var SettingType = this.Context.DatabaseContext.SettingType(authContext);
 		var settingType = new SettingType(model);
 
-		return settingType.save(null, null, null, { transacting: transaction });
+		return settingType.save(null, { transacting: transaction });
 	};
 
 	module.exports = classDef;

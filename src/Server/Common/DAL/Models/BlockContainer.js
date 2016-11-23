@@ -49,6 +49,9 @@
 				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
 				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockContainerDef', 'BlockContainerAreas']));
 				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
+				this.on("creating", ModelEvents.AuditCreating(authContext));
+				this.on("updating", ModelEvents.AuditUpdating(authContext));
+				this.on("destroying", ModelEvents.AuditDestroying(authContext));
 			},
 			Page: function() {
 				return this.belongsTo(Page.Model(authContext, skipFilter), 'pageid');
@@ -93,7 +96,10 @@
 		.on("fetched", Auid.Fetched(authContext, filter, skipFilter))
 		.on("saving", Auid.Saving(authContext, filter, skipFilter))
 		.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockContainerDef', 'BlockContainerAreas']))
-		.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
+		.on("destroying", Auid.Destroying(authContext, filter, skipFilter))
+		.on("creating", ModelEvents.AuditCreating(authContext))
+		.on("updating", ModelEvents.AuditUpdating(authContext))
+		.on("destroying", ModelEvents.AuditDestroying(authContext));
 	};
 	
 	module.exports = { Model: model, Collection: collection };

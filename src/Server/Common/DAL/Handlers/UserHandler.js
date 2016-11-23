@@ -37,14 +37,14 @@
 			roleid: role.get('id')
 		});
 
-		return user.save(null, null, null, { transacting: transaction });
+		return user.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.UpdateUser = function (authContext, transaction, model){
 		var User = this.Context.DatabaseContext.User(authContext);
 		var user = new User(model);
 
-		return user.save(null, null, null, { transacting: transaction });
+		return user.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.DeleteUser = function (authContext, transaction, userId){
@@ -77,7 +77,7 @@
 			code: code
 		});
 
-		return role.save(null, null, null, { transacting: transaction });
+		return role.save(null, { transacting: transaction });
 	};
 
 	classDef.prototype.AddRolePermission = function (authContext, transaction, permissionDefId, roleId) {
@@ -87,7 +87,7 @@
 			roleid: roleId
 		});
 
-		return rolePermission.save(null, null, null, { transacting: transaction });
+		return rolePermission.save(null, { transacting: transaction });
 	};
 
 	//PermissionDefs
@@ -100,7 +100,7 @@
 			description: description
 		});
 
-		return permissionDef.save(null, null, null, { transacting: transaction });
+		return permissionDef.save(null, { transacting: transaction });
 	};
 
 	classDef.prototype.GetPermissionDefs = function (authContext) {

@@ -1,6 +1,7 @@
 (function () {
 	var Auid = require("../Core/Auid");
 	var Database = require("../Core/Database");
+	var ModelEvents = require("../Core/ModelEvents");
     
 	var BlockDef = require("./BlockDef");
 
@@ -16,6 +17,9 @@
 				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
 				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
 				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
+				this.on("creating", ModelEvents.AuditCreating(authContext));
+				this.on("updating", ModelEvents.AuditUpdating(authContext));
+				this.on("destroying", ModelEvents.AuditDestroying(authContext));
 			},
 			BlockDef: function() {
 				return this.belongsTo(BlockDef.Model(authContext, skipFilter), 'blockdefid');
@@ -30,7 +34,10 @@
 		.on("fetching", Auid.Fetching(authContext, filter, skipFilter))
 		.on("fetched", Auid.Fetched(authContext, filter, skipFilter))
 		.on("saving", Auid.Saving(authContext, filter, skipFilter))
-		.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
+		.on("destroying", Auid.Destroying(authContext, filter, skipFilter))
+		.on("creating", ModelEvents.AuditCreating(authContext))
+		.on("updating", ModelEvents.AuditUpdating(authContext))
+		.on("destroying", ModelEvents.AuditDestroying(authContext));
 	};
 	
 	module.exports = { Model: model, Collection: collection };

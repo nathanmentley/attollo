@@ -59,6 +59,9 @@
 				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
 				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea', 'BlockTemplateDef', 'BlockSettings', 'BlockCssRules']));
 				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
+				this.on("creating", ModelEvents.AuditCreating(authContext));
+				this.on("updating", ModelEvents.AuditUpdating(authContext));
+				this.on("destroying", ModelEvents.AuditDestroying(authContext));
 			},
 			BlockContainerArea: function() {
 				return this.belongsTo(BlockContainerArea.Model(authContext, skipFilter), 'blockcontainerareaid');
@@ -115,7 +118,10 @@
 		.on("fetched", Auid.Fetched(authContext, filter, skipFilter))
 		.on("saving", Auid.Saving(authContext, filter, skipFilter))
 		.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea', 'BlockTemplateDef', 'BlockSettings', 'BlockCssRules']))
-		.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
+		.on("destroying", Auid.Destroying(authContext, filter, skipFilter))
+		.on("creating", ModelEvents.AuditCreating(authContext))
+		.on("updating", ModelEvents.AuditUpdating(authContext))
+		.on("destroying", ModelEvents.AuditDestroying(authContext));
 	};
 	
 	module.exports = { Model: model, Collection: collection };

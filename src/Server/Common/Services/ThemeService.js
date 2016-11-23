@@ -26,25 +26,33 @@
 	classDef.prototype.AddThemeCssRule = function (authContext, themeCode, cssRuleDefCode, selector, value){
         var self = this;
 
+		//cssRuleDefCode
+		//Attollo.Services.Css.
 		return new Promise((resolve, reject) => {
             self.GetTheme(authContext, themeCode)
             .then((theme) => {
-				Context.DBTransaction((transaction) => {
-					Attollo.Services.Css.AddCssRule(authContext, selector, value, cssRuleDefCode)
-					.then((cssRule) => {
-						Context.Handlers.Theme.AddThemeCssRule(authContext, transaction, theme.get('id'), cssRule.get('id'))
-						.then((result) => {
-							transaction.commit(result);
-						}).catch((err) => {
+				Attollo.Services.Css.GetCssRuleDef(authContext, cssRuleDefCode)
+				.then((cssRuleDef) => {
+					Context.DBTransaction((transaction) => {
+						Context.Handlers.Css.AddCssRule(authContext, transaction, selector, value, cssRuleDef.get('id'))
+						.then((cssRule) => {
+							Context.Handlers.Theme.AddThemeCssRule(authContext, transaction, theme.get('id'), cssRule.get('id'))
+							.then((result) => {
+								transaction.commit(result);
+							}).catch((err) => {
+								transaction.rollback(err);
+							});
+						})
+						.catch((err) => {
 							transaction.rollback(err);
 						});
 					})
+					.then((result) => {
+						resolve(result);
+					})
 					.catch((err) => {
-						transaction.rollback(err);
+						reject(err);
 					});
-				})
-				.then((result) => {
-					resolve(result);
 				})
 				.catch((err) => {
 					reject(err);

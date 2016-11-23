@@ -6,7 +6,14 @@
 	
 	//CssRuleDefType
 	classDef.prototype.AddCssRuleDefType = function (authContext, name, code){
-		return Context.Handlers.Css.AddCssRuleDefType(authContext, name, code);
+        return Context.DBTransaction((transaction) => {
+			Context.Handlers.Css.AddCssRuleDefType(authContext, transaction, name, code)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 	
 	classDef.prototype.GetCssRuleDefType = function (authContext, code){
@@ -15,7 +22,14 @@
 	
 	//CssRuleDefGroup
 	classDef.prototype.AddCssRuleDefGroup = function (authContext, name, code, description){
-		return Context.Handlers.Css.AddCssRuleDefGroup(authContext, name, code, description);
+        return Context.DBTransaction((transaction) => {
+            Context.Handlers.Css.AddCssRuleDefGroup(authContext, transaction, name, code, description)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 	
 	classDef.prototype.GetCssRuleDefGroup = function (authContext, code){
@@ -31,7 +45,14 @@
             .then((cssRuleDefType) => {
                 self.GetCssRuleDefGroup(authContext, cssRuleDefGroupCodes)
                 .then((cssRuleDefGroup) => {
-                    Context.Handlers.Css.AddCssRuleDef(authContext, name, code, property, description, options, cssRuleDefType.get('id'), cssRuleDefGroup.get('id'))
+                    Context.DBTransaction((transaction) => {
+                        Context.Handlers.Css.AddCssRuleDef(authContext, transaction, name, code, property, description, options, cssRuleDefType.get('id'), cssRuleDefGroup.get('id'))
+                        .then((result) => {
+                            transaction.commit(result);
+                        }).catch((err) => {
+                            transaction.rollback(err);
+                        });
+                    })
                     .then((result) => {
                         resolve(result);
                     })
@@ -66,19 +87,32 @@
         var self = this;
 
         return new Promise((resolve, reject) => {
-            self.AddCssRule(authContext, '#' + model.blockid, model.CssRule.value, model.CssRule.CssRuleDef.code)
-            .then((cssRule) => {
-                Context.Handlers.Css.AddBlockCssRule(authContext, model.blockid, cssRule.get('id'))
-                .then((blockCssRule) => {
-                    resolve(blockCssRule);
+            self.GetCssRuleDef(authContext, model.CssRule.CssRuleDef.code)
+            .then((cssRuleDef) => {
+                Context.DBTransaction((transaction) => {
+                    Context.Handlers.Css.AddCssRule(authContext, transaction, '#' + model.blockid, model.CssRule.value, cssRuleDef.get('id'))
+                    .then((cssRule) => {
+                        Context.Handlers.Css.AddBlockCssRule(authContext, transaction, model.blockid, cssRule.get('id'))
+                        .then((result) => {
+                            transaction.commit(result);
+                        }).catch((err) => {
+                            transaction.rollback(err);
+                        });
+                    }).catch((err) => {
+                        transaction.rollback(err);
+                    });
                 })
-               .catch((err) => {
+                .then((result) => {
+                    resolve(result);
+                })
+                .catch((err) => {
                     reject(err);
                 });
             })
             .catch((err) => {
                 reject(err);
             });
+            
         });
     };
 
@@ -86,31 +120,58 @@
         var self = this;
 
         return new Promise((resolve, reject) => {
-            var promises = [];
+            Context.DBTransaction((transaction) => {
+                var promises = [];
 
-            rules.forEach((rule) => {
-                if(rule.id) {
-                    promises.push(
-                        Context.Handlers.Css.UpdateCssRule(authContext, rule.CssRule)
-                    );
-                } else {
-                    promises.push(
-                        self.AddBlockCssRules(authContext, rule)
-                    );
-                }
-            });
-
-            if (promises.length) {
-                Promise.all(promises)
-                .then((res) => {
-                    resolve(res);
-                })
-                .catch((err) => {
-                    reject(err);
+                rules.forEach((rule) => {
+                    if(rule.id) {
+                        promises.push(
+                            Context.Handlers.Css.UpdateCssRule(authContext, transaction, rule.CssRule)
+                        );
+                    } else {
+                        promises.push(
+                            new Promise((subResolve, subReject) => {
+                                self.GetCssRuleDef(authContext, rule.CssRule.CssRuleDef.code)
+                                .then((cssRuleDef) => {
+                                    Context.Handlers.Css.AddCssRule(authContext, transaction, '#' + rule.blockid, rule.CssRule.value, cssRuleDef.get('id'))
+                                    .then((cssRule) => {
+                                        Context.Handlers.Css.AddBlockCssRule(authContext, transaction, rule.blockid, cssRule.get('id'))
+                                        .then((result) => {
+                                            subResolve(result);
+                                        }).catch((err) => {
+                                            subReject(err);
+                                        });
+                                    }).catch((err) => {
+                                        subReject(err);
+                                    });
+                                })
+                                .catch((err) => {
+                                    subReject(err);
+                                });
+                                
+                            })
+                        );
+                    }
                 });
-            } else {
-                resolve([]);
-            }
+
+                if (promises.length) {
+                    Promise.all(promises)
+                    .then((res) => {
+                        transaction.commit(res);
+                    })
+                    .catch((err) => {
+                        transaction.rollback(err);
+                    });
+                } else {
+                    transaction.commit([]);
+                }
+            })
+            .then((result) => {
+                resolve(result);
+            })
+            .catch((err) => {
+                reject(err);
+            });
         });
     };
 
@@ -121,7 +182,14 @@
 		return new Promise((resolve, reject) => {
             self.GetCssRuleDef(authContext, cssRuleDefCode)
             .then((cssRuleDef) => {
-                Context.Handlers.Css.AddCssRule(authContext, selector, value, cssRuleDef.get('id'))
+                Context.DBTransaction((transaction) => {
+                    Context.Handlers.Css.AddCssRule(authContext, transaction, selector, value, cssRuleDef.get('id'))
+                    .then((result) => {
+                        transaction.commit(result);
+                    }).catch((err) => {
+                        transaction.rollback(err);
+                    });
+                })
                 .then((result) => {
                     resolve(result);
                 })

@@ -9,7 +9,14 @@
 	};
 	
 	classDef.prototype.AddDatabaseVersion = function (authContext, databaseVersion){
-		return Context.Handlers.DatabaseVersion.AddDatabaseVersion(authContext, databaseVersion);
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.DatabaseVersion.AddDatabaseVersion(authContext, transaction, databaseVersion)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 	
 	classDef.prototype.GetDatabaseCodeVersions = function (authContext){
@@ -17,7 +24,14 @@
 	};
 	
 	classDef.prototype.AddDatabaseCodeVersion = function (authContext, databaseCodeVersion){
-		return Context.Handlers.DatabaseVersion.AddDatabaseCodeVersion(authContext, databaseCodeVersion);
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.DatabaseVersion.AddDatabaseCodeVersion(authContext, transaction, databaseCodeVersion)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 	
 	module.exports = classDef;

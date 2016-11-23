@@ -9,7 +9,14 @@
 	};
 	
 	classDef.prototype.AddClient = function (authContext, name){
-		return Context.Handlers.Client.AddClient(authContext, name);
+		return Context.DBTransaction((transaction) => {
+            Context.Handlers.Client.AddClient(authContext, transaction, name)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 	
 	module.exports = classDef;

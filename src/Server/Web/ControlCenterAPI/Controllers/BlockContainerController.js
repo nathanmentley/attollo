@@ -67,26 +67,6 @@
 				});
 			});
 		});
-
-		app.delete(urlendpoint, auth(null), function(request, response) {
-			response.setHeader('Content-Type', 'application/json');
-			
-			Attollo.Services.Block.DeleteBlockContainer(request.AuthContext, { id: request.query.blockContainerId })
-			.then(function() {
-				response.json({
-					error: false
-				});
-			})
-			.catch(function (err) {
-				response.status(500).json({
-					error: true,
-					data: {
-						message: err.message,
-						stack: err.stack
-					}
-				});
-			});
-		});
 	};
 	
 	module.exports = new classDef();

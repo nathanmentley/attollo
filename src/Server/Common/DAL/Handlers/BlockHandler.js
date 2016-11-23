@@ -28,7 +28,7 @@
 				.fetch();
 	};
 
-	classDef.prototype.AddBlockDef = function (authContext, pageDefId, code, name){
+	classDef.prototype.AddBlockDef = function (authContext, transaction, pageDefId, code, name){
 		var BlockDef = this.Context.DatabaseContext.BlockDef(authContext);
 		var blockDef = new BlockDef({
 			pagedefid: pageDefId,
@@ -36,7 +36,7 @@
 			name: name
 		});
 
-		return blockDef.save();
+		return blockDef.save(null, null, null, { transacting: transaction });
 	};
 
 	//blockTemplateDef
@@ -57,7 +57,7 @@
 				.fetch();
 	};
 
-	classDef.prototype.AddBlockTemplateDef = function (authContext, blockDefId, code, name, template, compiledTemplate) {
+	classDef.prototype.AddBlockTemplateDef = function (authContext, transaction, blockDefId, code, name, template, compiledTemplate) {
 		var BlockTemplateDef = this.Context.DatabaseContext.BlockTemplateDef(authContext);
 		var blockTemplateDef = new BlockTemplateDef({
 			blockdefid: blockDefId,
@@ -67,7 +67,7 @@
 			compiledtemplate: compiledTemplate
 		});
 
-		return blockTemplateDef.save();
+		return blockTemplateDef.save(null, null, null, { transacting: transaction });
 	};
 
 	//Block
@@ -78,7 +78,7 @@
 			}).fetch({ withRelated: ['BlockDef', 'BlockContainerArea.BlockContainerAreaDef'] });
 	};
 	
-	classDef.prototype.AddBlock = function (authContext, blockContainerArea, blockDef, blockTemplateDef){
+	classDef.prototype.AddBlock = function (authContext, transaction, blockContainerArea, blockDef, blockTemplateDef){
 		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block({
 			blockdefid: blockDef.id,
@@ -87,21 +87,21 @@
 			blocktemplatedefid: blockTemplateDef.get('id')
 		});
 
-		return block.save();
+		return block.save(null, null, null, { transacting: transaction });
 	};
 	
-	classDef.prototype.UpdateBlock = function (authContext, model){
+	classDef.prototype.UpdateBlock = function (authContext, transaction, model){
 		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block(model);
 
-		return block.save();
+		return block.save(null, null, null, { transacting: transaction });
 	};
 	
-	classDef.prototype.DeleteBlock = function (authContext, model){
+	classDef.prototype.DeleteBlock = function (authContext, transaction, model){
 		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block(model);
 
-		return block.destroy();
+		return block.destroy({ transacting: transaction });
 	};
 
 	classDef.prototype.GetBlockCssRules = function (authContext) {
@@ -139,14 +139,14 @@
 			}).fetch();
 	};
 
-	classDef.prototype.AddBlockContainerDef = function (authContext, code, title){
+	classDef.prototype.AddBlockContainerDef = function (authContext, transaction, code, title){
 		var BlockContainerDef = this.Context.DatabaseContext.BlockContainerDef(authContext);
 		var blockContainerDef = new BlockContainerDef({
 			code: code,
 			title: title
 		});
 
-		return blockContainerDef.save();
+		return blockContainerDef.save(null, null, null, { transacting: transaction });
 	};
 
 	//BlockContainer
@@ -172,7 +172,7 @@
 			] });
 	};
 
-	classDef.prototype.AddBlockContainers = function (authContext, pageId, blockContainerDefId, displayOrder){
+	classDef.prototype.AddBlockContainers = function (authContext, transaction, pageId, blockContainerDefId, displayOrder){
 		var BlockContainer = this.Context.DatabaseContext.BlockContainer(authContext);
 		var blockContainer = new BlockContainer({
 			pageid: pageId,
@@ -180,23 +180,14 @@
 			displayorder: displayOrder
 		});
 
-		return blockContainer.save();
+		return blockContainer.save(null, null, null, { transacting: transaction });
 	};
 
-	classDef.prototype.UpdateBlockContainer = function (authContext, model){
+	classDef.prototype.UpdateBlockContainer = function (authContext, transaction, model){
 		var BlockContainer = this.Context.DatabaseContext.BlockContainer(authContext);
 		var blockContainer = new BlockContainer(model);
 
-		return blockContainer.save();
-	};
-
-	classDef.prototype.DeleteBlockContainer = function (authContext, blockContainer){
-		return this.Context.DatabaseContext.BlockContainers(authContext)
-			.query({
-				where: {
-					pageid: blockContainer.id
-				}
-			}).fetch({ withRelated: ['BlockContainerDef'] });
+		return blockContainer.save(null, null, null, { transacting: transaction });
 	};
 
 	classDef.prototype.GetBlockContainerCssRules = function (authContext) {
@@ -219,7 +210,7 @@
 			}).fetch();
 	};
 
-	classDef.prototype.AddBlockContainerAreaDef = function (authContext, blockContainerDefID, code, title) {
+	classDef.prototype.AddBlockContainerAreaDef = function (authContext, transaction, blockContainerDefID, code, title) {
 		var BlockContainerAreaDef = this.Context.DatabaseContext.BlockContainerAreaDef(authContext);
 		var blockContainerAreaDef = new BlockContainerAreaDef({
 			blockcontainerdefid: blockContainerDefID,
@@ -227,7 +218,7 @@
 			title: title
 		});
 
-		return blockContainerAreaDef.save();
+		return blockContainerAreaDef.save(null, null, null, { transacting: transaction });
 	};
 
 	//BlockContainerArea
@@ -241,14 +232,14 @@
 			}).fetch();
 	};
 
-	classDef.prototype.AddBlockContainerArea = function (authContext, blockContainerId, areaDefId) {
+	classDef.prototype.AddBlockContainerArea = function (authContext, transaction, blockContainerId, areaDefId) {
 		var BlockContainerArea = this.Context.DatabaseContext.BlockContainerArea(authContext);
 		var blockContainerArea = new BlockContainerArea({
 			blockcontainerid: blockContainerId,
 			blockcontainerareadefid: areaDefId
 		});
 
-		return blockContainerArea.save();
+		return blockContainerArea.save(null, null, null, { transacting: transaction });
 	};
 
 	//BlockSettingDef
@@ -262,7 +253,7 @@
 			}).fetch();
 	};
 
-	classDef.prototype.AddBlockSettingDefs = function (authContext, blockDefId, code, title, settingTypeId, defaultValue){
+	classDef.prototype.AddBlockSettingDefs = function (authContext, transaction, blockDefId, code, title, settingTypeId, defaultValue){
 		var BlockSettingDef = this.Context.DatabaseContext.BlockSettingDef(authContext);
 		var blockSettingDef = new BlockSettingDef({
 			blockdefid: blockDefId,
@@ -272,7 +263,7 @@
 			defaultvalue: defaultValue
 		});
 
-		return blockSettingDef.save();
+		return blockSettingDef.save(null, null, null, { transacting: transaction });
 	};
 
 	//BlockSettings
@@ -286,7 +277,7 @@
 			}).fetch();
 	};
 
-	classDef.prototype.AddBlockSetting = function (authContext, blockId, blockSettingDefId, value) {
+	classDef.prototype.AddBlockSetting = function (authContext, transaction, blockId, blockSettingDefId, value) {
 		var BlockSetting = this.Context.DatabaseContext.BlockSetting(authContext);
 		var blockSetting = new BlockSetting({
 			blockid: blockId,
@@ -294,14 +285,14 @@
 			value: value
 		});
 
-		return blockSetting.save();
+		return blockSetting.save(null, null, null, { transacting: transaction });
 	};
 
-	classDef.prototype.UpdateBlockSetting = function(authContext, model) {
+	classDef.prototype.UpdateBlockSetting = function(authContext, transaction, model) {
 		var BlockSetting = this.Context.DatabaseContext.BlockSetting(authContext);
 		var blockSetting = new BlockSetting(model);
 
-		return blockSetting.save();
+		return blockSetting.save(null, null, null, { transacting: transaction });
 	};
 	
 	module.exports = classDef;

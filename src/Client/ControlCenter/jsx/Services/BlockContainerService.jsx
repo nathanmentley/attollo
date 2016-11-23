@@ -14,8 +14,4 @@ export default class BlockContainerService {
     static SaveBlockContainer(blockContainer) {
         return AjaxService.Put(endpoint, { blockContainer: blockContainer }, {});
     }
-    
-    static DeleteBlockContainer(blockContainerId) {
-        return AjaxService.Delete(endpoint + "?blockContainerId=" + blockContainerId, {}, {});
-    }
 }

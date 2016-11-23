@@ -21,11 +21,11 @@
 			}).fetch();
 	};
 	
-	classDef.prototype.AddPageDef = function (authContext, model){
+	classDef.prototype.AddPageDef = function (authContext, transaction, model){
 		var PageDef = this.Context.DatabaseContext.PageDef(authContext);
 		var pageDef = new PageDef(model);
 
-		return pageDef.save();
+		return pageDef.save(null, null, null, { transacting: transaction });
 	};
 	
 	classDef.prototype.GetPages = function (authContext, siteVersionId){
@@ -37,25 +37,25 @@
 			}).fetch();
 	};
 	
-	classDef.prototype.AddPage = function (authContext, model){
+	classDef.prototype.AddPage = function (authContext, transaction, model){
 		var Page = this.Context.DatabaseContext.Page(authContext);
 		var page = new Page(model);
 
-		return page.save();
+		return page.save(null, null, null, { transacting: transaction });
 	};
 	
-	classDef.prototype.UpdatePage = function (authContext, model){
+	classDef.prototype.UpdatePage = function (authContext, transaction, model){
 		var Page = this.Context.DatabaseContext.Page(authContext);
 		var page = new Page(model);
 
-		return page.save();
+		return page.save(null, null, null, { transacting: transaction });
 	};
 	
-	classDef.prototype.DeletePage = function (authContext, model){
+	classDef.prototype.DeletePage = function (authContext, transaction, model){
 		var Page = this.Context.DatabaseContext.Page(authContext);
 		var page = new Page(model);
 
-		return page.destroy();
+		return page.destroy({ transacting: transaction });
 	};
 
 	module.exports = classDef;

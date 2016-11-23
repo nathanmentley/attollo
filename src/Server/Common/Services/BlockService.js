@@ -17,7 +17,14 @@
 	};
 
 	classDef.prototype.AddBlockContainerDef = function (authContext, code, title){
-		return Context.Handlers.Block.AddBlockContainerDef(authContext, code, title);
+		return Context.DBTransaction((transaction) => {
+            Context.Handlers.Block.AddBlockContainerDef(authContext, transaction, code, title)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 
 	//blockContainer
@@ -28,7 +35,7 @@
 
 	classDef.prototype.AddBlockContainers = function (authContext, pageId, code){
 		var self = this;
-		return new Promise(function(resolve, reject) {
+		return new Promise((resolve, reject) => {
 			try{
 				self.GetBlockContainers(authContext, pageId)
 				.then((containers) => {
@@ -39,30 +46,43 @@
 					}
 
 					self.GetBlockContainerDef(authContext, code)
-					.then(function(blockContainerDef) {
-						Context.Handlers.Block.AddBlockContainers(authContext, pageId, blockContainerDef.first().get('id'), maxDisplayOrder)
-						.then(function(blockContainer) {
-							self.GetBlockContainerAreaDefs(authContext, code)
-							.then((blockContainerAreaDefs) => {
-								var areaDefs = blockContainerAreaDefs.toJSON();
+					.then((blockContainerDef) => {
+						Context.DBTransaction((transaction) => {
+							Context.Handlers.Block.AddBlockContainers(authContext, transaction, pageId, blockContainerDef.first().get('id'), maxDisplayOrder)
+							.then((blockContainer) => {
+								self.GetBlockContainerAreaDefs(authContext, code)
+								.then((blockContainerAreaDefs) => {
+									var areaDefs = blockContainerAreaDefs.toJSON();
+									var promises = [];
 
-								for(var i = 0; i < areaDefs.length; i++) {
-									self.AddBlockContainerArea(authContext, blockContainer.get('id'), areaDefs[i]['id'])
-									.then(() => {
-										resolve();
+									for(var i = 0; i < areaDefs.length; i++) {
+										promises.push(
+											Context.Handlers.Block.AddBlockContainerArea(authContext, transaction, blockContainer.get('id'), areaDefs[i]['id'])
+										);
+									}
+
+									Promise.all(promises)
+									.then((result) => {
+										transaction.commit(result);
 									})
 									.catch((err) => {
-										reject({ message: err.message });
+										transaction.rollback(err);
 									});
-								}
-							})
-							.catch((err) => {
-								reject({ message: err.message });
+								})
+								.catch((err) => {
+									transaction.rollback(err);
+								});
+							}).catch((err) => {
+								transaction.rollback(err);
 							});
-						}).catch(function(err) {
-							reject({ message: site.get('id') + " " + err.message });
+						})
+						.then((result) => {
+							resolve(result);
+						})
+						.catch((err) => {
+							reject({ message: err.message });
 						});
-					}).catch(function(err) {
+					}).catch((err) => {
 						reject({ message: err.message });
 					});
 				}).catch((err) => {
@@ -75,11 +95,14 @@
 	};
 
 	classDef.prototype.UpdateBlockContainer = function (authContext, blockContainer){
-		return Context.Handlers.Block.UpdateBlockContainer(authContext, blockContainer);
-	};
-
-	classDef.prototype.DeleteBlockContainer = function (authContext, blockContainer){
-		return Context.Handlers.Block.DeleteBlockContainer(authContext, blockContainer);
+		return Context.DBTransaction((transaction) => {
+            Context.Handlers.Block.UpdateBlockContainer(authContext, transaction, blockContainer)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 	
 	//blockContainerAreaDef
@@ -94,13 +117,20 @@
 		return new Promise((resolve, reject) => {
 			self.GetBlockContainerDef(authContext, blockContainerDefCode)
 			.then((blockContainerDef) => {
-				Context.Handlers.Block.AddBlockContainerAreaDef(authContext, blockContainerDef.first().get('id'), code, title)
-				.then((result) => {
-					resolve(result);
-				})
-				.catch((err) => {
-					reject(err);
-				});
+				Context.DBTransaction((transaction) => {
+                    Context.Handlers.Block.AddBlockContainerAreaDef(authContext, transaction, blockContainerDef.first().get('id'), code, title)
+                    .then((result) => {
+                        transaction.commit(result);
+                    }).catch((err) => {
+                        transaction.rollback(err);
+                    });
+                })
+                .then((result) => {
+                    resolve(result);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
 			})
 			.catch((err) => {
 				reject(err);
@@ -112,10 +142,6 @@
 
 	classDef.prototype.GetBlockContainerArea = function (authContext, blockContainerId, areaCode) {
 		return Context.Handlers.Block.GetBlockContainerArea(authContext, blockContainerId, areaCode);
-	};
-
-	classDef.prototype.AddBlockContainerArea = function (authContext, blockContainerId, areaCode) {
-		return Context.Handlers.Block.AddBlockContainerArea(authContext, blockContainerId, areaCode);
 	};
 
 	//blockDef
@@ -136,7 +162,14 @@
 			if(pageDefCode) {
 				Attollo.Services.Page.GetPageDef(authContext, pageDefCode)
 				.then((pageDef) => {
-					Context.Handlers.Block.AddBlockDef(authContext, pageDef.first().get('id'), code, name)
+					Context.DBTransaction((transaction) => {
+						Context.Handlers.Block.AddBlockDef(authContext, transaction, pageDef.first().get('id'), code, name)
+						.then((result) => {
+							transaction.commit(result);
+						}).catch((err) => {
+							transaction.rollback(err);
+						});
+					})
 					.then((result) => {
 						resolve(result);
 					})
@@ -148,13 +181,20 @@
 					reject(err);
 				});
 			} else {
-				Context.Handlers.Block.AddBlockDef(authContext, null, code, name)
-				.then((result) => {
-					resolve(result);
-				})
-				.catch((err) => {
-					reject(err);
-				});
+				Context.DBTransaction((transaction) => {
+                    Context.Handlers.Block.AddBlockDef(authContext, transaction, null, code, name)
+                    .then((result) => {
+                        transaction.commit(result);
+                    }).catch((err) => {
+                        transaction.rollback(err);
+                    });
+                })
+                .then((result) => {
+                    resolve(result);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
 			}
 		});
 	};
@@ -171,9 +211,17 @@
 		return new Promise((resolve, reject) => {
 			self.GetBlockDef(authContext, blockDefCode)
 			.then((blockDef) => {
-				Context.Handlers.Block.AddBlockTemplateDef(
-					authContext, blockDef.first().get('id'), code, name, template, _renderTemplate(template)
-				).then((result) => {
+				Context.DBTransaction((transaction) => {
+					Context.Handlers.Block.AddBlockTemplateDef(
+						authContext, transaction, blockDef.first().get('id'), code, name, template, _renderTemplate(template)
+					)
+					.then((result) => {
+						transaction.commit(result);
+					}).catch((err) => {
+						transaction.rollback(err);
+					});
+				})
+				.then((result) => {
 					resolve(result);
 				})
 				.catch((err) => {
@@ -207,7 +255,14 @@
 					.then((blockDef) => {
 						self.GetBlockTemplateDef(authContext, blockDef.first().get('id'), blockTemplateCode)
 						.then((blockTemplateDef) => {
-							Context.Handlers.Block.AddBlock(authContext, area.first(), blockDef.first(), blockTemplateDef.first())
+							Context.DBTransaction((transaction) => {
+								Context.Handlers.Block.AddBlock(authContext, transaction, area.first(), blockDef.first(), blockTemplateDef.first())
+								.then((result) => {
+									transaction.commit(result);
+								}).catch((err) => {
+									transaction.rollback(err);
+								});
+							})
 							.then(() => {
 								resolve();
 							})
@@ -230,28 +285,36 @@
 		});
 	};
 
-	classDef.prototype.UpdateBlockSetting = function(authContext, blockSetting) {
-		return Context.Handlers.Block.UpdateBlockSetting(authContext, blockSetting);
-	};
-
 	classDef.prototype.UpdateBlock = function (authContext, block) {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
-			Context.Handlers.Block.UpdateBlock(authContext, block)
-			.then(() => {
-				if(block.BlockSettings.length > 0) {
-					block.BlockSettings.map((x) => {
-						self.UpdateBlockSetting(authContext, x)
-						.then(() => {
-							resolve();
-						}).catch((err) => {
-							reject({ message: err.message });
+			Context.DBTransaction((transaction) => {
+				Context.Handlers.Block.UpdateBlock(authContext, transaction, block)
+				.then((result) => {
+					if(block.BlockSettings.length > 0) {
+						var promises = [];
+
+						block.BlockSettings.map((x) => {
+							promises.push(Context.Handlers.Block.UpdateBlockSetting(authContext, transaction, x));
 						});
-					});
-				} else {
-					resolve();
-				}
+
+						Promise.all(promises)
+						.then(() => {
+							transaction.commit(result);
+						})
+						.catch((err) => {
+							transaction.rollback(err);
+						});
+					} else {
+						transaction.commit(result);
+					}
+				}).catch((err) => {
+					transaction.rollback(err);
+				});
+			})
+			.then((result) => {
+				resolve(result);
 			}).catch((err) => {
 				reject({ message: err.message });
 			});
@@ -259,7 +322,14 @@
 	};
 
 	classDef.prototype.DeleteBlock = function (authContext, block) {
-		return Context.Handlers.Block.DeleteBlock(authContext, block);
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.Block.DeleteBlock(authContext, transaction, block)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 	
 	//privateMethods
@@ -284,7 +354,14 @@
 			.then((settingType) => {
 				self.GetBlockDef(authContext, blockDefCode)
 				.then((blockDefs) => {
-					Context.Handlers.Block.AddBlockSettingDefs(authContext, blockDefs.first().get('id'), code, title, settingType.first().get('id'), defaultValue)
+					Context.DBTransaction((transaction) => {
+						Context.Handlers.Block.AddBlockSettingDefs(authContext, transaction, blockDefs.first().get('id'), code, title, settingType.first().get('id'), defaultValue)
+						.then((result) => {
+							transaction.commit(result);
+						}).catch((err) => {
+							transaction.rollback(err);
+						});
+					})
 					.then((result) => {
 						resolve(result);
 					})
@@ -309,7 +386,14 @@
 	};
 
 	classDef.prototype.AddBlockSetting = function (authContext, blockId, blockSettingDefId, value){
-		return Context.Handlers.Block.AddBlockSetting(authContext, blockId, blockSettingDefId, value);
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.Block.AddBlockSetting(authContext, transaction, blockId, blockSettingDefId, value)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
 	};
 
 	module.exports = classDef;

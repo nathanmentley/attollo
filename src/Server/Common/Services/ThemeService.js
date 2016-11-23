@@ -14,7 +14,7 @@
 	
 	classDef.prototype.AddTheme = function (authContext, code, name){
 		return Context.DBTransaction((transaction) => {
-			Context.Handlers.Theme.AddTheme(authContext, transaction, name, code)
+			Context.Handlers.Theme.AddTheme(authContext, transaction, code, name)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {

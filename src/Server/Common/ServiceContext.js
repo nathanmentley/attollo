@@ -13,6 +13,7 @@
 	(function() {
 		classDef.prototype.Clients = {
 			Email: require("./Clients/SendGrid"),
+			Redis: require("./Clients/Redis"),
 			WorkQueue: require("./Clients/Amqplib")
 		};
 	})();

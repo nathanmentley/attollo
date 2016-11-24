@@ -49,9 +49,10 @@
 		}
 	};
 
+	var tableName = 'block';
 	var model = function(authContext, skipFilter) {
 		return Database.Model.extend({
-			tableName: 'block',
+			tableName: tableName,
 			constructor: function() {
 				Database.Model.apply(this, arguments);
 				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
@@ -59,9 +60,9 @@
 				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
 				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea', 'BlockTemplateDef', 'BlockSettings', 'BlockCssRules']));
 				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
-				this.on("creating", ModelEvents.AuditCreating(authContext));
-				this.on("updating", ModelEvents.AuditUpdating(authContext));
-				this.on("destroying", ModelEvents.AuditDestroying(authContext));
+				this.on("creating", ModelEvents.AuditCreating(authContext, tableName));
+				this.on("updating", ModelEvents.AuditUpdating(authContext, tableName));
+				this.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
 			},
 			BlockContainerArea: function() {
 				return this.belongsTo(BlockContainerArea.Model(authContext, skipFilter), 'blockcontainerareaid');
@@ -119,9 +120,9 @@
 		.on("saving", Auid.Saving(authContext, filter, skipFilter))
 		.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockDef', 'BlockContainerArea', 'BlockTemplateDef', 'BlockSettings', 'BlockCssRules']))
 		.on("destroying", Auid.Destroying(authContext, filter, skipFilter))
-		.on("creating", ModelEvents.AuditCreating(authContext))
-		.on("updating", ModelEvents.AuditUpdating(authContext))
-		.on("destroying", ModelEvents.AuditDestroying(authContext));
+		.on("creating", ModelEvents.AuditCreating(authContext, tableName))
+		.on("updating", ModelEvents.AuditUpdating(authContext, tableName))
+		.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
 	};
 	
 	module.exports = { Model: model, Collection: collection };

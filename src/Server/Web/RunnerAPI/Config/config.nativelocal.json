@@ -6,5 +6,8 @@
     "DbUser": "hchrmywz",
     "DbPass": "2FORYgOiUgxoX9QzLu2SBMaxkaW6tvGM",
     "DbPort": 5432,
-    "DbName": "hchrmywz"
+    "DbName": "hchrmywz",
+
+    "RedisHost": "redis",
+    "RedisPort": 6379
 }

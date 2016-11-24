@@ -1,0 +1,14 @@
+# base ubuntu 16.04
+FROM ubuntu:xenial
+
+RUN apt-get update
+RUN apt-get install -y redis-server
+
+COPY ./docker /home/web/docker
+
+ARG attolloenv=local
+ENV attolloenv ${attolloenv}
+
+EXPOSE 6379
+
+CMD sh /home/web/docker/scripts/infrastructure/redis.sh

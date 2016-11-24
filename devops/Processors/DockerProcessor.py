@@ -12,18 +12,32 @@ class DockerProcessor:
         self.path = os.getcwd()
         self.dockerfiles = [
             self.getPsqlDockerDef(),
-            #DockerDef(self.path + '/docker/dockerfiles/infrastructure/Dockerfile.mongo', 'attollo/mongo', 'attollo-mongo', [], [], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], False),
-            DockerDef(self.path + '/docker/dockerfiles/infrastructure/Dockerfile.rabbitmq', 'attollo/rabbitmq', 'attollo-rabbitmq', [], [], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], False),
-            DockerDef(self.path + '/docker/dockerfiles/dev/Dockerfile.build', 'attollo/build', 'attollo-build', [], [LinkDef('attollo-psql', 'database')], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], True),
-            DockerDef(self.path + '/docker/dockerfiles/web/Dockerfile.runner', 'attollo/runner', 'attollo-runner', [PortMapDef(80, 8080)], [LinkDef('attollo-psql', 'database')], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], False),
-            DockerDef(self.path + '/docker/dockerfiles/web/Dockerfile.runnerapi', 'attollo/runnerapi', 'attollo-runnerapi', [PortMapDef(80, 8081)], [LinkDef('attollo-psql', 'database')], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], False),
-            DockerDef(self.path + '/docker/dockerfiles/web/Dockerfile.controlcenter', 'attollo/controlcenter', 'attollo-controlcenter', [PortMapDef(80, 8082)], [], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], False),
-            DockerDef(self.path + '/docker/dockerfiles/web/Dockerfile.controlcenterapi', 'attollo/controlcenterapi', 'attollo-controlcenterapi', [PortMapDef(80, 8083)], [LinkDef('attollo-psql', 'database')], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], False),
-            #DockerDef(self.path + '/docker/dockerfiles/processor/Dockerfile.email', 'attollo/emailprocessor', 'attollo-emailprocessor', [], [LinkDef('attollo-psql', 'database')], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], False),
-            DockerDef(self.path + '/docker/dockerfiles/task/Dockerfile.test', 'attollo/testtask', 'attollo-testtask', [], [LinkDef('attollo-psql', 'database')], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], False)
+            self.getRedisDockerDef(),
+            self.getRabbitMQDockerDef(),
+
+            self.getBuildDockerDef(),
+            
+            self.getRunnerDockerDef(),
+            self.getRunnerApiDockerDef(),
+            self.getControlCenterDockerDef(),
+            self.getControlCenterApiDockerDef()
         ]
         if options.env == 'local':
-            self.dockerfiles.append(DockerDef(self.path + '/docker/dockerfiles/dev/Dockerfile.dev', 'attollo/dev', 'attollo-dev', [], [], [VolumnDef('/dist', '/home/web/dist'), VolumnDef('/logs', '/home/web/logs'), VolumnDef('/src', '/home/web/src')], True));
+            self.dockerfiles.append(self.getDevDockerDef());
+
+    def getRedisDockerDef(self):
+        dockerFile = self.path + '/docker/dockerfiles/infrastructure/Dockerfile.redis';
+        imageName = 'attollo/redis';
+        containerName = 'attollo-redis';
+        ports = [PortMapDef(6379, 6379)];
+        links = [];
+        volumes = [
+            VolumnDef('/dist', '/home/web/dist'),
+            VolumnDef('/logs', '/home/web/logs'),
+            VolumnDef('/src', '/home/web/src')
+        ];
+        foreground = False;
+        return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
 
     def getPsqlDockerDef(self):
         dockerFile = self.path + '/docker/dockerfiles/infrastructure/Dockerfile.psql';
@@ -32,7 +46,122 @@ class DockerProcessor:
         ports = [PortMapDef(5432, 5432)];
         links = [];
         volumes = [
-            #VolumnDef('/storage/database', '/var/lib/postgresql/9.5/main'),
+            VolumnDef('/dist', '/home/web/dist'),
+            VolumnDef('/logs', '/home/web/logs'),
+            VolumnDef('/src', '/home/web/src')
+        ];
+        foreground = False;
+        return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
+
+    def getRabbitMQDockerDef(self):
+        dockerFile = self.path + '/docker/dockerfiles/infrastructure/Dockerfile.rabbitmq';
+        imageName = 'attollo/rabbitmq';
+        containerName = 'attollo-rabbitmq';
+        ports = [];
+        links = [];
+        volumes = [
+            VolumnDef('/dist', '/home/web/dist'),
+            VolumnDef('/logs', '/home/web/logs'),
+            VolumnDef('/src', '/home/web/src')
+        ];
+        foreground = False;
+        return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
+
+    def getBuildDockerDef(self):
+        dockerFile = self.path + '/docker/dockerfiles/dev/Dockerfile.build';
+        imageName = 'attollo/build';
+        containerName = 'attollo-build';
+        ports = [];
+        links = [
+            LinkDef('attollo-psql', 'database'),
+            LinkDef('attollo-redis', 'redis')
+        ];
+        volumes = [
+            VolumnDef('/dist', '/home/web/dist'),
+            VolumnDef('/logs', '/home/web/logs'),
+            VolumnDef('/src', '/home/web/src')
+        ];
+        foreground = True;
+        return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
+        
+    def getDevDockerDef(self):
+        dockerFile = self.path + '/docker/dockerfiles/dev/Dockerfile.dev';
+        imageName = 'attollo/dev';
+        containerName = 'attollo-dev';
+        ports = [];
+        links = [
+            LinkDef('attollo-psql', 'database'),
+            LinkDef('attollo-redis', 'redis')
+        ];
+        volumes = [
+            VolumnDef('/dist', '/home/web/dist'),
+            VolumnDef('/logs', '/home/web/logs'),
+            VolumnDef('/src', '/home/web/src')
+        ];
+        foreground = True;
+        return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
+        
+    def getRunnerDockerDef(self):
+        dockerFile = self.path + '/docker/dockerfiles/web/Dockerfile.runner';
+        imageName = 'attollo/runner';
+        containerName = 'attollo-runner';
+        ports = [PortMapDef(80, 8080)];
+        links = [
+            LinkDef('attollo-psql', 'database'),
+            LinkDef('attollo-redis', 'redis')
+        ];
+        volumes = [
+            VolumnDef('/dist', '/home/web/dist'),
+            VolumnDef('/logs', '/home/web/logs'),
+            VolumnDef('/src', '/home/web/src')
+        ];
+        foreground = False;
+        return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
+
+    def getRunnerApiDockerDef(self):
+        dockerFile = self.path + '/docker/dockerfiles/web/Dockerfile.runnerapi';
+        imageName = 'attollo/runnerapi';
+        containerName = 'attollo-runnerapi';
+        ports = [PortMapDef(80, 8081)];
+        links = [
+            LinkDef('attollo-psql', 'database'),
+            LinkDef('attollo-redis', 'redis')
+        ];
+        volumes = [
+            VolumnDef('/dist', '/home/web/dist'),
+            VolumnDef('/logs', '/home/web/logs'),
+            VolumnDef('/src', '/home/web/src')
+        ];
+        foreground = False;
+        return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
+
+    def getControlCenterDockerDef(self):
+        dockerFile = self.path + '/docker/dockerfiles/web/Dockerfile.controlcenter';
+        imageName = 'attollo/controlcenter';
+        containerName = 'attollo-controlcenter';
+        ports = [PortMapDef(80, 8082)];
+        links = [
+            LinkDef('attollo-psql', 'database'),
+            LinkDef('attollo-redis', 'redis')
+        ];
+        volumes = [
+            VolumnDef('/dist', '/home/web/dist'),
+            VolumnDef('/logs', '/home/web/logs'),
+            VolumnDef('/src', '/home/web/src')
+        ];
+        foreground = False;
+        return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
+
+    def getControlCenterApiDockerDef(self):
+        dockerFile = self.path + '/docker/dockerfiles/web/Dockerfile.controlcenterapi';
+        imageName = 'attollo/controlcenterapi';
+        containerName = 'attollo-controlcenterapi';
+        ports = [PortMapDef(80, 8083)];
+        links = [
+            LinkDef('attollo-psql', 'database'),
+            LinkDef('attollo-redis', 'redis')
+        ];
+        volumes = [
             VolumnDef('/dist', '/home/web/dist'),
             VolumnDef('/logs', '/home/web/logs'),
             VolumnDef('/src', '/home/web/src')

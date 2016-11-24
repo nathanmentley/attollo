@@ -1,3 +1,6 @@
 {
-	"Environment": "NativeLocal"
+	"Environment": "NativeLocal",
+
+    "RedisHost": "redis",
+    "RedisPort": 6379
 }

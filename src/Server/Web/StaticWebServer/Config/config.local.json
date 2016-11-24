@@ -1,3 +1,6 @@
 {
-	"Environment": "Local"
+	"Environment": "Local",
+
+    "RedisHost": "redis",
+    "RedisPort": 6379
 }

@@ -13,6 +13,6 @@ CREATE TABLE IF NOT EXISTS Audit (
     UserName TEXT NOT NULL,
     Action TEXT NOT NULL,
     ModelType TEXT NOT NULL,
-    --ModelID TEXT NOT NULL,
+    ModelID TEXT NULL,
     Data TEXT NOT NULL
 );

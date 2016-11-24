@@ -39,12 +39,15 @@ Attollo = {
             Attollo.Utils.Log.Init(appName);
 
             Attollo.Utils.Log.Info("App Start");
+
+            require("./Clients/Redis").Connect();
             
             if(start != null)
                 start();
         };
         Attollo.App.Stop = function (){
             require("./DAL/Core/Database").Close();
+            require("./Clients/Redis").Close();
             
             Attollo.Utils.Log.Info("App Stop");
         };

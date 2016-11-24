@@ -22,7 +22,7 @@
                 });
             };
         },
-        AuditCreating: function(authContext) {
+        AuditCreating: function(authContext, table) {
             return function (model, attrs, options) {
                 return new Promise((resolve, reject) => {
                     Database.Knex.transacting(options.transacting).insert(
@@ -30,8 +30,8 @@
                             {
                                 username: authContext.UserName,
                                 action: 'add',
-                                modeltype: 'type',
-                                //modelid: model.get('id'),
+                                modeltype: table,
+                                modelid: "n/a",
                                 data: JSON.stringify(model)
                             }
                         ]
@@ -46,7 +46,7 @@
                 });
             };
         },
-        AuditUpdating: function(authContext) {
+        AuditUpdating: function(authContext, table) {
             return function (model, attrs, options) {
                 return new Promise((resolve, reject) => {
                     Database.Knex.transacting(options.transacting).insert(
@@ -54,8 +54,8 @@
                             {
                                 username: authContext.UserName,
                                 action: 'update',
-                                modeltype: 'type',
-                                //modelid: model.get('id'),
+                                modeltype: table,
+                                modelid: model.get('id'),
                                 data: JSON.stringify(model)
                             }
                         ]
@@ -70,7 +70,7 @@
                 });
             };
         },
-        AuditDestroying: function(authContext) {
+        AuditDestroying: function(authContext, table) {
             return function (model, options) {
                 return new Promise((resolve, reject) => {
                     Database.Knex.transacting(options.transacting).insert(
@@ -78,8 +78,8 @@
                             {
                                 username: authContext.UserName,
                                 action: 'delete',
-                                modeltype: 'type',
-                                //modelid: model.get('id'),
+                                modeltype: table,
+                                modelid: model.get('id'),
                                 data: JSON.stringify(model)
                             }
                         ]

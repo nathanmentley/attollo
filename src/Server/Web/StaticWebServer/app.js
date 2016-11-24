@@ -3,7 +3,6 @@ require("../../Common/Attollo");
 
 (function() {
 	Attollo.App.Start('StaticWebServer', function () {
-		//Attollo.Services.MessageQueue.Start();
 	});
 
     var webroot = process.argv[2];

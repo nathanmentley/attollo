@@ -8,5 +8,7 @@
     "DbName": "attollo",
 
     "RedisHost": "redis",
-    "RedisPort": 6379
+    "RedisPort": 6379,
+    
+    "RabbitMQUrl": "amqp://guest:guest@rabbitmq"
 }

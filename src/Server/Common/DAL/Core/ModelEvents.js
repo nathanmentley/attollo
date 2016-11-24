@@ -22,7 +22,7 @@
                 });
             };
         },
-        AuditCreating: function(authContext, table) {
+        AuditCreated: function(authContext, table) {
             return function (model, attrs, options) {
                 return new Promise((resolve, reject) => {
                     Database.Knex.transacting(options.transacting).insert(
@@ -31,7 +31,7 @@
                                 username: authContext.UserName,
                                 action: 'add',
                                 modeltype: table,
-                                modelid: "n/a",
+                                modelid: model.get('id'),
                                 data: JSON.stringify(model)
                             }
                         ]

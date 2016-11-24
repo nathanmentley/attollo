@@ -3,7 +3,6 @@ require("../../Common/Attollo");
 
 (function () {
 	Attollo.App.Start('RunnerAPI', function () {
-		//Attollo.Services.MessageQueue.Start();
 	});
 
 	//load deps

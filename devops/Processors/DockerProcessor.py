@@ -57,7 +57,7 @@ class DockerProcessor:
         dockerFile = self.path + '/docker/dockerfiles/infrastructure/Dockerfile.rabbitmq';
         imageName = 'attollo/rabbitmq';
         containerName = 'attollo-rabbitmq';
-        ports = [];
+        ports = [PortMapDef(5672, 5672)];
         links = [];
         volumes = [
             VolumnDef('/dist', '/home/web/dist'),
@@ -74,7 +74,8 @@ class DockerProcessor:
         ports = [];
         links = [
             LinkDef('attollo-psql', 'database'),
-            LinkDef('attollo-redis', 'redis')
+            LinkDef('attollo-redis', 'redis'),
+            LinkDef('attollo-rabbitmq', 'rabbitmq')
         ];
         volumes = [
             VolumnDef('/dist', '/home/web/dist'),
@@ -91,7 +92,8 @@ class DockerProcessor:
         ports = [];
         links = [
             LinkDef('attollo-psql', 'database'),
-            LinkDef('attollo-redis', 'redis')
+            LinkDef('attollo-redis', 'redis'),
+            LinkDef('attollo-rabbitmq', 'rabbitmq')
         ];
         volumes = [
             VolumnDef('/dist', '/home/web/dist'),
@@ -108,7 +110,8 @@ class DockerProcessor:
         ports = [PortMapDef(80, 8080)];
         links = [
             LinkDef('attollo-psql', 'database'),
-            LinkDef('attollo-redis', 'redis')
+            LinkDef('attollo-redis', 'redis'),
+            LinkDef('attollo-rabbitmq', 'rabbitmq')
         ];
         volumes = [
             VolumnDef('/dist', '/home/web/dist'),
@@ -125,7 +128,8 @@ class DockerProcessor:
         ports = [PortMapDef(80, 8081)];
         links = [
             LinkDef('attollo-psql', 'database'),
-            LinkDef('attollo-redis', 'redis')
+            LinkDef('attollo-redis', 'redis'),
+            LinkDef('attollo-rabbitmq', 'rabbitmq')
         ];
         volumes = [
             VolumnDef('/dist', '/home/web/dist'),
@@ -142,7 +146,8 @@ class DockerProcessor:
         ports = [PortMapDef(80, 8082)];
         links = [
             LinkDef('attollo-psql', 'database'),
-            LinkDef('attollo-redis', 'redis')
+            LinkDef('attollo-redis', 'redis'),
+            LinkDef('attollo-rabbitmq', 'rabbitmq')
         ];
         volumes = [
             VolumnDef('/dist', '/home/web/dist'),
@@ -159,7 +164,8 @@ class DockerProcessor:
         ports = [PortMapDef(80, 8083)];
         links = [
             LinkDef('attollo-psql', 'database'),
-            LinkDef('attollo-redis', 'redis')
+            LinkDef('attollo-redis', 'redis'),
+            LinkDef('attollo-rabbitmq', 'rabbitmq')
         ];
         volumes = [
             VolumnDef('/dist', '/home/web/dist'),

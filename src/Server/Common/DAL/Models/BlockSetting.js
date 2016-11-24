@@ -53,7 +53,7 @@
 	var tableName = 'blocksetting';
 	var model = function(authContext, skipFilter) {
 		return Database.Model.extend({
-			tableName: 'blocksetting',
+			tableName: tableName,
 			constructor: function() {
 				Database.Model.apply(this, arguments);
 				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
@@ -61,7 +61,7 @@
 				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
 				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockSettingDef']));
 				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
-				this.on("creating", ModelEvents.AuditCreating(authContext, tableName));
+				this.on("created", ModelEvents.AuditCreated(authContext, tableName));
 				this.on("updating", ModelEvents.AuditUpdating(authContext, tableName));
 				this.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
 			},
@@ -115,7 +115,7 @@
 		.on("saving", Auid.Saving(authContext, filter, skipFilter))
 		.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockSettingDef']))
 		.on("destroying", Auid.Destroying(authContext, filter, skipFilter))
-		.on("creating", ModelEvents.AuditCreating(authContext, tableName))
+		.on("created", ModelEvents.AuditCreated(authContext, tableName))
 		.on("updating", ModelEvents.AuditUpdating(authContext, tableName))
 		.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
 	};

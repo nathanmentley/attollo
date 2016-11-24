@@ -5,7 +5,6 @@ require("../../Common/Attollo");
 
 (function () {
 	Attollo.App.Start('ControlCenterAPI', function () {
-		//Attollo.Services.MessageQueue.Start();
 	});
 
 	//load deps

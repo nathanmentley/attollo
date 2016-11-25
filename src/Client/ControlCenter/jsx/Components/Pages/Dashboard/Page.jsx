@@ -48,7 +48,7 @@ export default class DashboardPage extends BasePage {
         };
 
         return (
-            <Grid>
+            <div>
                 <Row>
                     <Col xs={12} md={6}>
                         <Row>
@@ -95,7 +95,7 @@ export default class DashboardPage extends BasePage {
                         </Row>
                     </Col>
                 </Row>
-            </Grid>
+            </div>
         );
     }
 }

@@ -41,13 +41,13 @@ export default class SiteVersionsPage extends BasePage {
 
     _render() {
         return (
-            <Grid>
+            <div>
                 <Row>
                     <Col xs={12} md={12}>
                         <SiteVersionList SiteVersions={this.state.SiteVersions} SiteID={this.props.params.SiteID} />
                     </Col>
                 </Row>
-            </Grid>
+            </div>
         );
     }
 }

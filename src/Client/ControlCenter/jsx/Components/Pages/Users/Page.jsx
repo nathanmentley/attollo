@@ -135,7 +135,7 @@ export default class UsersPage extends BasePage {
         }
 
         return (
-            <Grid>
+            <div>
                 <Row>
                     <Col xs={12} md={12}>
                         <UserList Users={this.state.Users} SetEditingUser={this.setEditingUser} />
@@ -152,7 +152,7 @@ export default class UsersPage extends BasePage {
                         </div>
                     </Col>
                 </Row>
-            </Grid>
+            </div>
         );
     }
 }

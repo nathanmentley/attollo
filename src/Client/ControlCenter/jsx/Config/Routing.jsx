@@ -10,11 +10,14 @@ import SiteVersions from '../Components/Pages/SiteVersions/Page.jsx';
 import Pages from '../Components/Pages/Pages/Page.jsx';
 import PageBuilder from '../Components/Pages/PageBuilder/Page.jsx';
 
+import DataTypes from '../Components/Pages/DataTypes/Page.jsx';
+import DataTypeBuilder from '../Components/Pages/DataTypeBuilder/Page.jsx';
+
 import Users from '../Components/Pages/Users/Page.jsx';
 import Account from '../Components/Pages/Account/Page.jsx';
 
 import Dashboard from '../Components/Pages/Dashboard/Page.jsx';
-import Reports from '../Components/Pages/Reports/Page.jsx';
+import Plugins from '../Components/Pages/Plugins/Page.jsx';
 
 import Error404 from '../Components/Pages/Error404/Page.jsx';
 
@@ -29,11 +32,14 @@ export default class Routing extends React.Component {
                 <Route path="/Sites/:SiteID/:SiteVersionID" component={Pages} onEnter={Auth.AuthRequired} />
                 <Route path="/Sites/:SiteID/:SiteVersionID/:PageID/:PageDefID" component={PageBuilder} onEnter={Auth.AuthRequired} />
 
+                <Route path="/DataTypes" component={DataTypes} onEnter={Auth.AuthRequired} />
+                <Route path="/DataTypes/:DataTypeDefID" component={DataTypeBuilder} onEnter={Auth.AuthRequired} />
+                
                 <Route path="/Users" component={Users} onEnter={Auth.AuthRequired} />
                 <Route path="/Account" component={Account} onEnter={Auth.AuthRequired} />
 
                 <Route path="/Dashboard" component={Dashboard} onEnter={Auth.AuthRequired} />
-                <Route path="/Reports" component={Reports} onEnter={Auth.AuthRequired} />
+                <Route path="/Plugins" component={Plugins} onEnter={Auth.AuthRequired} />
 
                 <Route path="/" component={Dashboard} onEnter={Auth.AuthRequired} />
 

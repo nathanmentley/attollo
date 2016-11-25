@@ -181,7 +181,7 @@ export default class PagesPage extends BasePage {
         }
 
         return (
-            <Grid>
+            <div>
                 <Row>
                     <Col xs={12} md={12}>
                         <PageList
@@ -203,7 +203,7 @@ export default class PagesPage extends BasePage {
                         </div>
                     </Col>
                 </Row>
-            </Grid>
+            </div>
         );
     }
 }

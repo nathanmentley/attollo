@@ -4,10 +4,10 @@ import { Line, Doughnut, Bar } from 'react-chartjs-2';
 
 import BasePage from '../BasePage.jsx';
 
-export default class ReportsPage extends BasePage {
+export default class PluginsPage extends BasePage {
     componentDidMount() {
         var self = this;    
-        self.setPageTitle("Reports", () => {
+        self.setPageTitle("Plugins", () => {
             self.setBreadCrumbs([
                 {
                     title: "Dashboard",
@@ -32,7 +32,7 @@ export default class ReportsPage extends BasePage {
         };
 
         return (
-            <Grid>
+            <div>
                 <Row>
                     <Col xs={12} md={6}>
                         <Line data={data} />
@@ -51,7 +51,7 @@ export default class ReportsPage extends BasePage {
                         <Bar data={data} />
                     </Col>
                 </Row>
-            </Grid>
+            </div>
         );
     }
 }

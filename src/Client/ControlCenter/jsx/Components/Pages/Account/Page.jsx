@@ -64,7 +64,7 @@ export default class AccountPage extends BasePage {
 
     _render() {
         return (
-            <Grid className="account-page-root">
+            <div className="account-page-root">
                 <Row>
                     <Col xs={12} md={12}>
                         <Row>
@@ -125,7 +125,7 @@ export default class AccountPage extends BasePage {
                         </Row>
                     </Col>
                 </Row>
-            </Grid>
+            </div>
         );
     }
 }

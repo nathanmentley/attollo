@@ -116,7 +116,7 @@ export default class SitesPage extends BasePage {
         }
 
         return (
-            <Grid>
+            <div>
                 <Row>
                     <Col xs={12} md={12}>
                         <SiteList Sites={this.state.Sites} SetEditingSite={this.setEditingSite} />
@@ -132,7 +132,7 @@ export default class SitesPage extends BasePage {
                         </div>
                     </Col>
                 </Row>
-            </Grid>
+            </div>
         );
     }
 }

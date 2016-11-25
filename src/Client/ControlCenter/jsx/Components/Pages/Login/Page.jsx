@@ -79,7 +79,7 @@ export default class AboutPage extends BasePage {
 
     _render() {
         return (
-            <Grid className="login-page-root">
+            <div className="login-page-root">
                 <Row>
                     <Col xs={12} md={6}>
                         <Row>
@@ -135,12 +135,12 @@ export default class AboutPage extends BasePage {
                         </Row>
                         <Row>
                             <Col xs={12} md={12}>
-                                <Button bsStyle="primary" onClick={this.login}>Login</Button>
+                                <Button bsStyle="primary" className="pull-right" onClick={this.login}>Login</Button>
                             </Col>
                         </Row>
                     </Col>
                 </Row>
-            </Grid>
+            </div>
         );
     }
 }

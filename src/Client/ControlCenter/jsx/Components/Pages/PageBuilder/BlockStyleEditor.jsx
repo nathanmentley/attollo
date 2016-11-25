@@ -89,7 +89,7 @@ export default class BlockStyleEditor extends BaseComponent {
                     <Modal.Title>{this.props.Block.BlockDef.name} - {this.props.Block.title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Grid>
+                    <div>
                         <Row>
                             <Col md={6}>
                                 <PanelGroup activeKey={this.state.activePanelKey} onSelect={this.updateCurrentPanel} accordion>
@@ -122,7 +122,7 @@ export default class BlockStyleEditor extends BaseComponent {
                                 {styleEditor}
                             </Col>
                         </Row>
-                    </Grid>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button bsStyle="primary" onClick={this.saveBlockStyle}>Save</Button>

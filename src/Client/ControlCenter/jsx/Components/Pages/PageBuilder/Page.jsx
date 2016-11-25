@@ -16,6 +16,7 @@ import BlockCssRuleService from '../../../Services/BlockCssRuleService.jsx';
 import BlockTemplateDefService from '../../../Services/BlockTemplateDefService.jsx';
 import CssRuleDefService from '../../../Services/CssRuleDefService.jsx';
 import SiteService from '../../../Services/SiteService.jsx';
+import PageService from '../../../Services/PageService.jsx';
 
 import BlockSettingsEditor from './BlockSettingsEditor.jsx';
 import BlockStyleEditor from './BlockStyleEditor.jsx';
@@ -119,9 +120,12 @@ export default DragDropContext(HTML5Backend)(
             });
 
             SiteService.GetSites().then((res) => {
-                var site = res.data.data.find((x) => { return x.id == self.props.params.SiteID; });
+                PageService.GetPages(this.props.params.SiteVersionID).then((res2) => {
+                    var site = res.data.data.find((x) => { return x.id == self.props.params.SiteID; });
+                    var page = res2.data.data.find((x) => { return x.id == self.props.params.PageID; });
 
-                self.setState({ siteUrl: 'http://' + site.domain });
+                    self.setState({ siteUrl: 'http://' + site.domain + page.url });
+                });
             });
         }
 
@@ -361,7 +365,7 @@ export default DragDropContext(HTML5Backend)(
             }
 
             return (
-                <Grid className="page-builder-page-root">
+                <div className="page-builder-page-root">
                     <Tabs activeKey={this.state.tabKey} onSelect={this.handleTabChange} id="controlled-tab-example">
                         <Tab eventKey={1} title="Page Editor">
                             <Row>
@@ -416,7 +420,7 @@ export default DragDropContext(HTML5Backend)(
                             <iframe className="page-builder-preview-frame" src={self.state.siteUrl} />
                         </Tab>
                     </Tabs>
-                </Grid>
+                </div>
             );
         }
     }

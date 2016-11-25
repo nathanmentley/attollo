@@ -8,13 +8,15 @@ import BaseComponent from '../BaseComponent.jsx';
 
 import AjaxService from '../../Services/AjaxService.jsx';
 import SiteService from '../../Services/SiteService.jsx';
+import DataTypeDefService from '../../Services/DataTypeDefService.jsx';
 
 export default class Header extends BaseComponent {
     constructor(props) {
         super(props);
 
         this.state = {
-            Sites: []
+            Sites: [],
+            DataTypeDefs: []
         };
 
         this.changePage = this.changePage.bind(this);
@@ -27,8 +29,11 @@ export default class Header extends BaseComponent {
             SiteService.GetSites().then((res) => {
                 self.setState({ Sites: res.data.data });
             });
+            DataTypeDefService.GetDataTypeDefs().then((res) => {
+                self.setState({ DataTypeDefs: res.data.data });
+            });
         }else{
-            self.setState({ Sites: [] });
+            self.setState({ Sites: [], DataTypeDefs: [] });
         }
     }
 
@@ -76,9 +81,30 @@ export default class Header extends BaseComponent {
                                 })}
                                 
                             </NavDropdown>
-                            <NavItem eventKey={3} onClick={() => { self.changePage('/Reports')} }>
-                                <Glyphicon glyph="signal" /> Reports
+                            <NavItem eventKey={3} onClick={() => { self.changePage('/Plugins')} }>
+                                <Glyphicon glyph="link" /> Plugins
                             </NavItem>
+                            <NavDropdown eventKey={4} title={<span><Glyphicon glyph="briefcase" /> Data Types</span>} id="basic-nav-dropdown">
+                                <MenuItem eventKey={4.1} onClick={() => { self.changePage('/DataTypes')} }>Show All</MenuItem>
+                                
+                                <MenuItem divider />
+                                
+                                {self.state.DataTypeDefs.map((dataTypeDef) => {
+                                    var eventKey = 4;
+                                    eventKey += (0.1 * (2 + self.state.DataTypeDefs.indexOf(dataTypeDef)));
+
+                                    return (
+                                        <MenuItem
+                                            key={dataTypeDef.id}
+                                            eventKey={eventKey}
+                                            onClick={() => { self.changePage('/DataTypes/' + dataTypeDef.id )} }
+                                        >
+                                            {dataTypeDef.name}
+                                        </MenuItem>
+                                    );
+                                })}
+                                
+                            </NavDropdown>
                         </Nav>
                         <Nav pullRight>
                             <NavItem eventKey={1} onClick={() => { self.changePage('/Account')} }>

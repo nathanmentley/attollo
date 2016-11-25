@@ -208,3 +208,36 @@ CREATE TABLE IF NOT EXISTS BlockSetting (
     BlockSettingDefID integer REFERENCES BlockSettingDef NOT NULL,
     Value TEXT NOT NULL
 );
+
+-- Data Structs
+
+CREATE TABLE IF NOT EXISTS DataTypeDef (
+    ID SERIAL PRIMARY KEY,
+    ClientID integer REFERENCES Client NOT NULL,
+    Name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS DataTypeFieldType (
+    ID SERIAL PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Code VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS DataTypeFieldDef (
+    ID SERIAL PRIMARY KEY,
+    DataTypeDefID integer REFERENCES DataTypeDef NOT NULL,
+    DataTypeFieldTypeID integer REFERENCES DataTypeFieldType NOT NULL,
+    Name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS DataType (
+    ID SERIAL PRIMARY KEY,
+    DataTypeDefID integer REFERENCES DataTypeDef NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS DataTypeField (
+    ID SERIAL PRIMARY KEY,
+    DataTypeID integer REFERENCES DataType NOT NULL,
+    DataTypeFieldDefID integer REFERENCES DataTypeFieldDef NOT NULL,
+    Value TEXT NOT NULL
+);

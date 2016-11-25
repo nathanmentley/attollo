@@ -22,11 +22,19 @@
 	var DatabaseVersion = require("../Models/DatabaseVersion");
 	var DatabaseCodeVersion = require("../Models/DatabaseCodeVersion");
 
+	var DataType = require("../Models/DataType");
+	var DataTypeDef = require("../Models/DataTypeDef");
+	var DataTypeField = require("../Models/DataTypeField");
+	var DataTypeFieldDef = require("../Models/DataTypeFieldDef");
+	var DataTypeFieldType = require("../Models/DataTypeFieldType");
+
 	var Page = require("../Models/Page");
 	var PageDef = require("../Models/PageDef");
+
 	var PermissionDef = require("../Models/PermissionDef");
 	var Role = require("../Models/Role");
 	var RolePermission = require("../Models/RolePermission");
+
 	var SettingType = require("../Models/SettingType");
 	
 	var Site = require("../Models/Site");
@@ -92,6 +100,21 @@
 
 	classDef.prototype.DatabaseCodeVersions = DatabaseCodeVersion.Collection;
 	classDef.prototype.DatabaseCodeVersion = DatabaseCodeVersion.Model;
+
+	classDef.prototype.DataTypes = DataType.Collection;
+	classDef.prototype.DataType = DataType.Model;
+
+	classDef.prototype.DataTypeDefs = DataTypeDef.Collection;
+	classDef.prototype.DataTypeDef = DataTypeDef.Model;
+	
+	classDef.prototype.DataTypeFields = DataTypeField.Collection;
+	classDef.prototype.DataTypeField = DataTypeField.Model;
+
+	classDef.prototype.DataTypeFieldDefs = DataTypeFieldDef.Collection;
+	classDef.prototype.DataTypeFieldDef = DataTypeFieldDef.Model;
+
+	classDef.prototype.DataTypeFieldTypes = DataTypeFieldType.Collection;
+	classDef.prototype.DataTypeFieldType = DataTypeFieldType.Model;
 
 	classDef.prototype.Pages = Page.Collection;
 	classDef.prototype.Page = Page.Model;

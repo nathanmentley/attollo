@@ -15,6 +15,8 @@ export default class DataTypeFieldDefEditor extends BaseComponent {
 
         this.saveDataType = this.saveDataType.bind(this);
         this.deleteDataType = this.deleteDataType.bind(this);
+
+        this.updateDataTypeFieldType = this.updateDataTypeFieldType.bind(this);
     }
 
     close() {
@@ -26,7 +28,7 @@ export default class DataTypeFieldDefEditor extends BaseComponent {
     }
 
     getNameValidation() {
-        const length = this.props.DataTypeDef.name.length;
+        const length = this.props.DataTypeFieldDef.name.length;
         if (length > 0) {
             return 'success';
         } else {
@@ -35,20 +37,55 @@ export default class DataTypeFieldDefEditor extends BaseComponent {
     }
 
     saveDataType() {
-        this.props.SaveDataType();
+        this.props.CreateDataTypeFieldDef();
     }
 
     deleteDataType() {
-        this.props.DeleteDataType();
+        this.props.DeleteDataTypeFieldDef();
+    }
+
+    updateDataTypeFieldType(event) {
+        this.props.UpdateDataTypeFieldType(event.target.value);
     }
 
     render() {
+        var self = this;
+
         return (
             <Modal show={true} onHide={this.close}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{this.props.DataTypeDef.name}</Modal.Title>
+                    <Modal.Title>{this.props.DataTypeFieldDef.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <FormGroup
+                        controlId="dataTypeFieldType"
+                    >
+                        <ControlLabel>Data Type Field Type</ControlLabel>
+                        
+                        <FormControl
+                            componentClass="select"
+                            placeholder="Enter Data Type Field Type"
+                            value={this.props.DataTypeFieldDef.datatypefieldtypeid}
+                            onChange={this.updateDataTypeFieldType}
+                        >
+                            {
+                                self.props.DataTypeFieldTypes.map((dataTypeFieldTypes) => {
+                                    return (
+                                        <option
+                                            key={dataTypeFieldTypes.id}
+                                            value={dataTypeFieldTypes.id}
+                                        >
+                                            {dataTypeFieldTypes.name}
+                                        </option>
+                                    );
+                                })
+                            }
+                        </FormControl>
+
+                        <FormControl.Feedback />
+                        <HelpBlock />
+                    </FormGroup>
+
                     <FormGroup
                         controlId="dataTypeName"
                         validationState={this.getNameValidation()}
@@ -56,7 +93,7 @@ export default class DataTypeFieldDefEditor extends BaseComponent {
                         <ControlLabel>Data Type Name</ControlLabel>
                         <FormControl
                             type="text"
-                            value={this.props.DataTypeDef.name}
+                            value={this.props.DataTypeFieldDef.name}
                             placeholder="Enter Data Type Name"
                             onChange={this.updateName}
                         />

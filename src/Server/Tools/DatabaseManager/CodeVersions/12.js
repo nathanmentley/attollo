@@ -1,27 +1,17 @@
 //Seed PageDefs
 
 (function () {
+	var DataTypeFieldTypeCodes = require('../../../../Platform/Constants/DataTypeFieldTypeCodes');
+
     var classDef = function () {};
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
-        dbContext.SetClientID(1);
         Promise.all([
-            Attollo.Services.Client.AddClient(dbContext, { name: 'Attollo' })
+            Attollo.Services.DataType.AddDataTypeFieldType(dbContext, { name: 'Text', code: DataTypeFieldTypeCodes.Text }),
+            Attollo.Services.DataType.AddDataTypeFieldType(dbContext, { name: 'HTML', code: DataTypeFieldTypeCodes.HTML })
         ])
-        .then(() => {
-            dbContext.SetClientID(1);
-
-            Attollo.Services.User.AddUser(dbContext, 'username', 'password', 'Admin')
-            .then(() => {
-                dbContext.ClearClientID();
-
-                callback();
-            })
-            .catch((err) => {
-                dbContext.ClearClientID();
-
-                errorCallback(err);
-            });
+        .then((result) => {
+            callback(result);
         })
         .catch((err) => {
             errorCallback(err);

@@ -25,6 +25,12 @@
         "CssRuleDefTypeID".toLowerCase(),
         "CssRuleDefGroupID".toLowerCase(),
 
+        "DataTypeID".toLowerCase(),
+        "DataTypeDefID".toLowerCase(),
+        "DataTypeFieldID".toLowerCase(),
+        "DataTypeFieldDefID".toLowerCase(),
+        "DataTypeFieldTypeID".toLowerCase(),
+
         'PageID'.toLowerCase(),
         'PageDefID'.toLowerCase(),
         "PermissionDefID".toLowerCase(),

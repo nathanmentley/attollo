@@ -14,6 +14,8 @@ export default class DataTypeFieldDefCreator extends BaseComponent {
         this.getNameValidation = this.getNameValidation.bind(this);
 
         this.createDataTypeFieldDef = this.createDataTypeFieldDef.bind(this);
+
+        this.updateDataTypeFieldType = this.updateDataTypeFieldType.bind(this);
     }
 
 
@@ -38,6 +40,10 @@ export default class DataTypeFieldDefCreator extends BaseComponent {
         this.props.CreateDataTypeFieldDef();
     }
 
+    updateDataTypeFieldType(event) {
+        this.props.UpdateDataTypeFieldType(event.target.value);
+    }
+
     render() {
         var self = this;
         
@@ -47,6 +53,35 @@ export default class DataTypeFieldDefCreator extends BaseComponent {
                     <Modal.Title>{this.props.DataTypeFieldDef.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <FormGroup
+                        controlId="dataTypeFieldType"
+                    >
+                        <ControlLabel>Data Type Field Type</ControlLabel>
+                        
+                        <FormControl
+                            componentClass="select"
+                            placeholder="Enter Data Type Field Type"
+                            value={this.props.DataTypeFieldDef.datatypefieldtypeid}
+                            onChange={this.updateDataTypeFieldType}
+                        >
+                            {
+                                self.props.DataTypeFieldTypes.map((dataTypeFieldTypes) => {
+                                    return (
+                                        <option
+                                            key={dataTypeFieldTypes.id}
+                                            value={dataTypeFieldTypes.id}
+                                        >
+                                            {dataTypeFieldTypes.name}
+                                        </option>
+                                    );
+                                })
+                            }
+                        </FormControl>
+
+                        <FormControl.Feedback />
+                        <HelpBlock />
+                    </FormGroup>
+
                     <FormGroup
                         controlId="dataTypeName"
                         validationState={this.getNameValidation()}

@@ -2,7 +2,7 @@ import AjaxService from './AjaxService.jsx';
 
 var endpoint = "/DataTypeFieldTypes";
 
-export default class DataTypeFieldDefService {
+export default class DataTypeFieldTypeService {
     static GetDataTypeFieldTypes(dataTypeDefId) {
         return AjaxService.Get(endpoint, {}, {});
     }

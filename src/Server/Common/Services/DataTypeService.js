@@ -87,6 +87,49 @@
 			});
 		});
 	};
+
+	//DataTypeFieldTypes
+
+	classDef.prototype.GetDataTypeFieldTypes = function (authContext){
+		return Context.Handlers.DataType.GetDataTypeFieldTypes(authContext);
+	};
+
+	classDef.prototype.GetDataTypeFieldType = function (authContext, code){
+		return Context.Handlers.DataType.GetDataTypeFieldType(authContext, code);
+	};
+
+	classDef.prototype.AddDataTypeFieldType = function (authContext, model){
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.DataType.AddDataTypeFieldType(authContext, transaction, model)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
+	};
+
+	classDef.prototype.UpdateDataTypeFieldType = function (authContext, model){
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.DataType.UpdateDataTypeFieldType(authContext, transaction, model)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
+	};
+
+	classDef.prototype.DeleteDataTypeFieldType = function (authContext, model){
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.DataType.DeleteDataTypeFieldType(authContext, transaction, model)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
+	};
 	
 	module.exports = classDef;
 })();

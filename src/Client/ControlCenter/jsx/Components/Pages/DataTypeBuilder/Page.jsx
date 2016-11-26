@@ -39,8 +39,13 @@ export default class DataTypeBuilderPage extends BasePage {
         this.closeDataTypeFieldDefCreator = this.closeDataTypeFieldDefCreator.bind(this);
         this.closeDataTypeFieldDefEditor = this.closeDataTypeFieldDefEditor.bind(this);
 
+        this.updateCreatingDataTypeFieldType = this.updateCreatingDataTypeFieldType.bind(this);
+        this.updateEditingDataTypeFieldType = this.updateEditingDataTypeFieldType.bind(this);
+
         this.createDataTypeFieldDef = this.createDataTypeFieldDef.bind(this);
         this.saveDataTypeFieldDef = this.saveDataTypeFieldDef.bind(this);
+
+        this.deleteEditingDataTypeField = this.deleteEditingDataTypeField.bind(this);
     }
     
     componentDidMount() {
@@ -71,7 +76,8 @@ export default class DataTypeBuilderPage extends BasePage {
         this.setState({
             CreatingDataTypeFieldDef: {
                 datatypedefid: this.props.params.DataTypeDefID,
-                name: ''
+                name: '',
+                datatypefieldtypeid: this.state.DataTypeFieldTypes[0].id
             }
         });
     }
@@ -104,6 +110,18 @@ export default class DataTypeBuilderPage extends BasePage {
         this.setState({ EditingDataTypeFieldDef: newDataTypeField });
     }
 
+    updateCreatingDataTypeFieldType(dataTypeFieldTypeID) {
+        var newDataTypeField = ObjectUtils.Clone(this.state.CreatingDataTypeFieldDef);
+        newDataTypeField.datatypefieldtypeid = dataTypeFieldTypeID;
+        this.setState({ CreatingDataTypeFieldDef: newDataTypeField });
+    }
+
+    updateEditingDataTypeFieldType(dataTypeFieldTypeID) {
+        var newDataTypeField = ObjectUtils.Clone(this.state.EditingDataTypeFieldDef);
+        newDataTypeField.datatypefieldtypeid = dataTypeFieldTypeID;
+        this.setState({ EditingDataTypeFieldDef: newDataTypeField });
+    }
+
     closeDataTypeFieldDefCreator() {
         this.setState({ CreatingDataTypeFieldDef: null });
     }
@@ -115,7 +133,7 @@ export default class DataTypeBuilderPage extends BasePage {
     createDataTypeFieldDef() {
         var self = this;
 
-        DataTypeFieldDefService.AddDataTypeDef(this.state.CreatingDataTypeFieldDef).then((addRes) => {
+        DataTypeFieldDefService.AddDataTypeFieldDef(this.state.CreatingDataTypeFieldDef).then((addRes) => {
             DataTypeFieldDefService.GetDataTypeFieldDefs(self.props.params.DataTypeDefID).then((res) => {
                 self.setState({ DataTypeFields: res.data.data, CreatingDataTypeFieldDef: null });
             });
@@ -132,15 +150,28 @@ export default class DataTypeBuilderPage extends BasePage {
         });
     }
 
+    deleteEditingDataTypeField() {
+        var self = this;
+
+        DataTypeFieldDefService.DeleteDataTypeFieldDef(this.state.EditingDataTypeFieldDef.id).then((addRes) => {
+            DataTypeFieldDefService.GetDataTypeFieldDefs(self.props.params.DataTypeDefID).then((res) => {
+                self.setState({ DataTypeFields: res.data.data, EditingDataTypeFieldDef: null });
+            });
+        });
+    }
+
     _render() {
         var editingDataTypeFieldDef = <div />;
         if(this.state.EditingDataTypeFieldDef != null){
             editingDataTypeFieldDef = <DataTypeFieldDefEditor
-                DataTypeFieldDef={this.state.editingDataTypeFieldDef}
+                DataTypeFieldDef={this.state.EditingDataTypeFieldDef}
+                DataTypeFieldTypes={this.state.DataTypeFieldTypes}
+                UpdateDataTypeFieldType={this.updateEditingDataTypeFieldType}
                 UpdateName={this.updateEditingDataTypeFieldName}
                 CloseDataTypeFieldDefCreator={this.closeDataTypeFieldDefEditor}
                 CreateDataTypeFieldDef={this.saveDataTypeFieldDef}
                 SetEditingDataTypeField={this.setEditingDataTypeField}
+                DeleteDataTypeFieldDef={this.deleteEditingDataTypeField}
             />;
         }
 
@@ -148,6 +179,8 @@ export default class DataTypeBuilderPage extends BasePage {
         if(this.state.CreatingDataTypeFieldDef != null){
             creatingDataTypeFieldDef = <DataTypeFieldDefCreator
                 DataTypeFieldDef={this.state.CreatingDataTypeFieldDef}
+                DataTypeFieldTypes={this.state.DataTypeFieldTypes}
+                UpdateDataTypeFieldType={this.updateCreatingDataTypeFieldType}
                 UpdateName={this.updateCreatingDataTypeFieldName}
                 CloseDataTypeFieldDefCreator={this.closeDataTypeFieldDefCreator}
                 CreateDataTypeFieldDef={this.createDataTypeFieldDef}

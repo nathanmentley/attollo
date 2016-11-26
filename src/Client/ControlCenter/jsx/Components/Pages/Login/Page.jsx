@@ -78,6 +78,8 @@ export default class AboutPage extends BasePage {
     }
 
     _render() {
+        var self = this;
+
         return (
             <div className="login-page-root">
                 <Row>
@@ -105,6 +107,7 @@ export default class AboutPage extends BasePage {
                                         value={this.state.username}
                                         placeholder="Username"
                                         onChange={this.updateUsername}
+                                        onKeyPress={(e) => self.onEnterKeyPress(e, self.login)}
                                     />
                                     <FormControl.Feedback />
                                     <HelpBlock />
@@ -122,6 +125,7 @@ export default class AboutPage extends BasePage {
                                         value={this.state.password}
                                         placeholder="Password"
                                         onChange={this.updatePassword}
+                                        onKeyPress={(e) => self.onEnterKeyPress(e, self.login)}
                                     />
                                     <FormControl.Feedback />
                                     <HelpBlock />

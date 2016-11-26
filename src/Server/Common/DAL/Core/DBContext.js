@@ -12,6 +12,8 @@
 	var BlockSetting = require("../Models/BlockSetting");
 	var BlockSettingDef = require("../Models/BlockSettingDef");
 	var BlockTemplateDef = require("../Models/BlockTemplateDef");
+	var BlockDefDataRequest = require("../Models/BlockDefDataRequest");
+	var BlockDefFunction = require("../Models/BlockDefFunction");
 
 	var Client = require("../Models/Client");
 	var CssRule = require("../Models/CssRule");
@@ -82,6 +84,12 @@
 
 	classDef.prototype.BlockTemplateDefs = BlockTemplateDef.Collection;
 	classDef.prototype.BlockTemplateDef = BlockTemplateDef.Model;
+
+	classDef.prototype.BlockDefDataRequests = BlockDefDataRequest.Collection;
+	classDef.prototype.BlockDefDataRequest = BlockDefDataRequest.Model;
+
+	classDef.prototype.BlockDefFunctions = BlockDefFunction.Collection;
+	classDef.prototype.BlockDefFunction = BlockDefFunction.Model;
 
 	classDef.prototype.Clients = Client.Collection;
 	classDef.prototype.Client = Client.Model;

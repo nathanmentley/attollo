@@ -3,16 +3,11 @@ import { Grid, Row, Col } from 'react-bootstrap';
 
 import BaseComponent from '../../../../../Common/jsx/Components/BaseComponent.jsx';
 
-import HtmlBlock from '../../Blocks/Html.jsx';
-import ImageBlock from '../../Blocks/Image.jsx';
-import OtherBlock from '../../Blocks/Other.jsx';
-import SitePagesBlock from '../../Blocks/SitePages.jsx';
+import BlockComponent from './BlockComponent.jsx';
 
 export default class BlockRenderer extends BaseComponent {
     constructor(props) {
         super(props);
-
-        this.state = {};
 
         this.updatePage = this.updatePage.bind(this);
     }
@@ -22,30 +17,9 @@ export default class BlockRenderer extends BaseComponent {
     }
 
     render() {
-        var blockContent = (<div />);
-
-        if(this.props.Block) {
-            switch(this.props.Block.BlockDef.code) {
-                case 'Html':
-                    blockContent = (<HtmlBlock Block={this.props.Block} UpdatePage={this.updatePage} />);
-                    break;
-                case 'Image':
-                    blockContent = (<ImageBlock Block={this.props.Block} UpdatePage={this.updatePage} />);
-                    break;
-                case 'Other':
-                    blockContent = (<OtherBlock Block={this.props.Block} UpdatePage={this.updatePage} />);
-                    break;
-                case 'SitePages':
-                    blockContent = (<SitePagesBlock Block={this.props.Block} UpdatePage={this.updatePage} />);
-                    break;
-            }
-        } else {
-            return (<div />);
-        }
-
         return ( 
             <div data-block-id={this.props.Block.id}>
-                {blockContent}
+                <BlockComponent Block={this.props.Block} UpdatePage={this.updatePage} />
             </div>
         );
     }

@@ -102,6 +102,39 @@ CREATE TABLE IF NOT EXISTS AdminPermission (
     PermissionDefID integer REFERENCES PermissionDef NOT NULL
 );
 
+-- Data Structs
+
+CREATE TABLE IF NOT EXISTS DataTypeDef (
+    ID SERIAL PRIMARY KEY,
+    ClientID integer REFERENCES Client NOT NULL,
+    Name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS DataTypeFieldType (
+    ID SERIAL PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Code VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS DataTypeFieldDef (
+    ID SERIAL PRIMARY KEY,
+    DataTypeDefID integer REFERENCES DataTypeDef NOT NULL,
+    DataTypeFieldTypeID integer REFERENCES DataTypeFieldType NOT NULL,
+    Name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS DataType (
+    ID SERIAL PRIMARY KEY,
+    DataTypeDefID integer REFERENCES DataTypeDef NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS DataTypeField (
+    ID SERIAL PRIMARY KEY,
+    DataTypeID integer REFERENCES DataType NOT NULL,
+    DataTypeFieldDefID integer REFERENCES DataTypeFieldDef NOT NULL,
+    Value TEXT NOT NULL
+);
+
 -- Site
 
 CREATE TABLE IF NOT EXISTS Site (
@@ -193,6 +226,22 @@ CREATE TABLE IF NOT EXISTS BlockTemplateDef (
     CompiledTemplate TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS BlockDefFunction (
+    ID SERIAL PRIMARY KEY,
+    BlockDefID integer REFERENCES BlockDef,
+    Name VARCHAR(255) NOT NULL,
+    Content TEXT NOT NULL,
+    CompiledContent TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS BlockDefDataRequest (
+    ID SERIAL PRIMARY KEY,
+    BlockDefID integer REFERENCES BlockDef,
+    DataTypeDefID integer REFERENCES DataTypeDef NOT NULL,
+    ResultName VARCHAR(255) NOT NULL,
+    FilterName VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS Block (
     ID SERIAL PRIMARY KEY,
     BlockDefID integer REFERENCES BlockDef,
@@ -226,38 +275,5 @@ CREATE TABLE IF NOT EXISTS BlockSetting (
     ID SERIAL PRIMARY KEY,
     BlockID integer REFERENCES Block,
     BlockSettingDefID integer REFERENCES BlockSettingDef NOT NULL,
-    Value TEXT NOT NULL
-);
-
--- Data Structs
-
-CREATE TABLE IF NOT EXISTS DataTypeDef (
-    ID SERIAL PRIMARY KEY,
-    ClientID integer REFERENCES Client NOT NULL,
-    Name VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS DataTypeFieldType (
-    ID SERIAL PRIMARY KEY,
-    Name VARCHAR(255) NOT NULL,
-    Code VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS DataTypeFieldDef (
-    ID SERIAL PRIMARY KEY,
-    DataTypeDefID integer REFERENCES DataTypeDef NOT NULL,
-    DataTypeFieldTypeID integer REFERENCES DataTypeFieldType NOT NULL,
-    Name VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS DataType (
-    ID SERIAL PRIMARY KEY,
-    DataTypeDefID integer REFERENCES DataTypeDef NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS DataTypeField (
-    ID SERIAL PRIMARY KEY,
-    DataTypeID integer REFERENCES DataType NOT NULL,
-    DataTypeFieldDefID integer REFERENCES DataTypeFieldDef NOT NULL,
     Value TEXT NOT NULL
 );

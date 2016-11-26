@@ -165,6 +165,8 @@
 				'BlockContainerAreas.Blocks.BlockDef',
 				'BlockContainerAreas.Blocks.BlockDef.BlockSettingDefs',
 				'BlockContainerAreas.Blocks.BlockDef.BlockSettingDefs.SettingType',
+				'BlockContainerAreas.Blocks.BlockDef.BlockDefDataRequests',
+				'BlockContainerAreas.Blocks.BlockDef.BlockDefFunctions',
 				'BlockContainerAreas.Blocks.BlockTemplateDef',
 				'BlockContainerAreas.Blocks.BlockCssRules',
 				'BlockContainerAreas.Blocks.BlockCssRules.CssRule',

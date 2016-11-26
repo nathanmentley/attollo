@@ -1,4 +1,6 @@
 (function() {
+	var Auid = require('../../Common/DAL/Core/Auid');
+
 	var jwt = require('jwt-simple');
 
 	module.exports = function(permission) {
@@ -10,28 +12,44 @@
 					req.AuthContext = {
 						ClientID: decoded.clientid,
 						UserName: decoded.clientid + '|' + decoded.name,
+						PluginDefIds: []
 					};
 
-					if(permission) {
-						var authorized = false;
+					Attollo.Services.Plugin.GetPlugins(req.AuthContext)
+					.then((plugins) => {
+						plugins.forEach((x) => {
+							req.AuthContext.PluginDefIds.push(
+								Auid.Decode(
+									x.relations['PluginDef'].get('id')
+								)
+							);
+						});
 
-						for(var i = 0; i < decoded.permissions.length; i++) {
-							if(decoded.permissions[i] == permission) {
-								authorized = true;
+						if(permission) {
+							var authorized = false;
+
+							for(var i = 0; i < decoded.permissions.length; i++) {
+								if(decoded.permissions[i] == permission) {
+									authorized = true;
+								}
 							}
-						}
 
-						if(authorized) {
+							if(authorized) {
+								next();
+							} else {
+								res.statusCode = 403;
+								res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
+								res.end('Forbidden');
+							}
+						}else {
 							next();
-						} else {
-							res.statusCode = 403;
-							res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
-							res.end('Forbidden');
 						}
-					}else {
-						next();
-					}
-
+					})
+					.catch(() => {
+						res.statusCode = 403;
+						res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
+						res.end('Forbidden');
+					});
 				}else{
 					res.statusCode = 403;
 					res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');

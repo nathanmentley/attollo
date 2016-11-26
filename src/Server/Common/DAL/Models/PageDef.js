@@ -4,6 +4,9 @@
 	var ModelEvents = require("../Core/ModelEvents");
 
 	var filter = function(authContext, query) {
+		if(authContext.PluginDefIds) {
+			query.where('plugindefid', 'in', authContext.PluginDefIds);
+		}
 	};
 
 	var tableName = 'pagedef';

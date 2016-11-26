@@ -6,6 +6,9 @@
 	var ThemeCssRule = require("./ThemeCssRule");
 
 	var filter = function(authContext, query) {
+		if(authContext.PluginDefIds) {
+			query.where('plugindefid', 'in', authContext.PluginDefIds);
+		}
 	};
 
 	var tableName = 'theme';

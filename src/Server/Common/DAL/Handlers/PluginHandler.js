@@ -30,11 +30,9 @@
 	
 	classDef.prototype.GetPlugins = function (authContext){
 		return this.Context.DatabaseContext.Plugins(authContext)
-			.query({
-				where: {
-					siteversionid: siteVersionId
-				}
-			}).fetch();
+		.fetch({
+			withRelated: ['PluginDef']
+		});
 	};
 	
 	classDef.prototype.AddPlugin = function (authContext, transaction, model){

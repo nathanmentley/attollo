@@ -28,9 +28,10 @@
 				.fetch();
 	};
 
-	classDef.prototype.AddBlockDef = function (authContext, transaction, pageDefId, code, name){
+	classDef.prototype.AddBlockDef = function (authContext, transaction, pluginDefId, pageDefId, code, name){
 		var BlockDef = this.Context.DatabaseContext.BlockDef(authContext);
 		var blockDef = new BlockDef({
+			plugindefid: pluginDefId,
 			pagedefid: pageDefId,
 			code: code,
 			name: name

@@ -31,6 +31,9 @@
 	var Page = require("../Models/Page");
 	var PageDef = require("../Models/PageDef");
 
+	var Plugin = require("../Models/Plugin");
+	var PluginDef = require("../Models/PluginDef");
+
 	var PermissionDef = require("../Models/PermissionDef");
 	var Role = require("../Models/Role");
 	var RolePermission = require("../Models/RolePermission");
@@ -124,6 +127,12 @@
 
 	classDef.prototype.PermissionDefs = PermissionDef.Collection;
 	classDef.prototype.PermissionDef = PermissionDef.Model;
+
+	classDef.prototype.Plugins = Plugin.Collection;
+	classDef.prototype.Plugin = Plugin.Model;
+
+	classDef.prototype.PluginDefs = PluginDef.Collection;
+	classDef.prototype.PluginDef = PluginDef.Model;
 
 	classDef.prototype.Roles = Role.Collection;
 	classDef.prototype.Role = Role.Model;

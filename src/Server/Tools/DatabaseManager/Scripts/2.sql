@@ -36,8 +36,26 @@ CREATE TABLE IF NOT EXISTS CssRule (
     Value TEXT NOT NULL
 );
 
+-- Plugins
+
+CREATE TABLE IF NOT EXISTS PluginDef (
+    ID SERIAL PRIMARY KEY,
+    Code VARCHAR(255) NOT NULL,
+    Name VARCHAR(255) NOT NULL,
+    Description TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Plugin (
+    ID SERIAL PRIMARY KEY,
+    ClientID integer REFERENCES Client NOT NULL,
+    PluginDefID integer REFERENCES PluginDef NOT NULL
+);
+
+-- Theme
+
 CREATE TABLE IF NOT EXISTS Theme (
     ID SERIAL PRIMARY KEY,
+    PluginDefID integer REFERENCES PluginDef NOT NULL,
     Code VARCHAR(255) NOT NULL,
     Name VARCHAR(255) NOT NULL
 );
@@ -111,6 +129,7 @@ CREATE TABLE IF NOT EXISTS SiteVersion (
 
 CREATE TABLE IF NOT EXISTS PageDef (
     ID SERIAL PRIMARY KEY,
+    PluginDefID integer REFERENCES PluginDef NOT NULL,
     Name VARCHAR(255) NOT NULL,
     Code VARCHAR(255) NOT NULL
 );
@@ -160,6 +179,7 @@ CREATE TABLE IF NOT EXISTS BlockContainerArea (
 CREATE TABLE IF NOT EXISTS BlockDef (
     ID SERIAL PRIMARY KEY,
     PageDefID integer REFERENCES PageDef,
+    PluginDefID integer REFERENCES PluginDef NOT NULL,
     Code VARCHAR(32) NOT NULL,
     Name VARCHAR(255) NOT NULL
 );

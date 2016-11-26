@@ -22,9 +22,10 @@
 				.fetch();
 	};
 	
-	classDef.prototype.AddTheme = function (authContext, transaction, code, name){
+	classDef.prototype.AddTheme = function (authContext, transaction, pluginDefId, code, name){
 		var Theme = this.Context.DatabaseContext.Theme(authContext);
 		var theme = new Theme({
+			plugindefid: pluginDefId,
 			code: code,
 			name: name
 		});

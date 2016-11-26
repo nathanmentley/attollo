@@ -1,19 +1,23 @@
-//Seed BlockContainerDefs
+//Seed PageDefs
 
 (function () {
+	var PluginDefCodes = require('../../../../Platform/Constants/PluginDefCodes');
+
     var classDef = function () {};
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
-            Attollo.Services.Block.AddBlockContainerDef(dbContext, 'OneCol', 'One Column'),
-            Attollo.Services.Block.AddBlockContainerDef(dbContext, 'TwoCol', 'Two Column'),
-            Attollo.Services.Block.AddBlockContainerDef(dbContext, 'ThreeCol', 'Three Column'),
-            Attollo.Services.Block.AddBlockContainerDef(dbContext, 'FourCol', 'Four Column')
+            Attollo.Services.Page.AddPageDef(dbContext, PluginDefCodes.Core, { name: 'Custom', code: 'generic' }),
+            Attollo.Services.Page.AddPageDef(dbContext, PluginDefCodes.Blog, { name: 'Blog', code: 'blog' }),
+            Attollo.Services.Page.AddPageDef(dbContext, PluginDefCodes.Core, { name: '404 Page', code: '404' }),
+            Attollo.Services.Page.AddPageDef(dbContext, PluginDefCodes.Blog, { name: 'Blog Post', code: 'Blog Post' })
         ])
         .then(() => {
             callback();
         })
-        .catch((err) => { errorCallback(err); });
+        .catch((err) => {
+            errorCallback(err);
+        });
     };
 
     module.exports = new classDef();

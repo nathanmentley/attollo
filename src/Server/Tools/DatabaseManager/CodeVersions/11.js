@@ -1,6 +1,7 @@
 //Seed Themes
 
 (function () {
+	var PluginDefCodes = require('../../../../Platform/Constants/PluginDefCodes');
 	var ThemeCodes = require('../../../../Platform/Constants/ThemeCodes');
 	var CssRuleDefCodes = require('../../../../Platform/Constants/CssRuleDefCodes');
 
@@ -8,7 +9,7 @@
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
-            Attollo.Services.Theme.AddTheme(dbContext, ThemeCodes.Default, "default")
+            Attollo.Services.Theme.AddTheme(dbContext, PluginDefCodes.Core, ThemeCodes.Default, "default")
         ])
         .then(() => {
             Promise.all([

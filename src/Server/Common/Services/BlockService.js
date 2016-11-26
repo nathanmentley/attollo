@@ -155,15 +155,36 @@
 	};
 
 
-	classDef.prototype.AddBlockDef = function (authContext, pageDefCode, code, name){
+	classDef.prototype.AddBlockDef = function (authContext, pluginDefCode, pageDefCode, code, name){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
-			if(pageDefCode) {
-				Attollo.Services.Page.GetPageDef(authContext, pageDefCode)
-				.then((pageDef) => {
+			Attollo.Services.Plugin.GetPluginDef(authContext, pluginDefCode)
+			.then((pluginDef) => {
+				if(pageDefCode) {
+					Attollo.Services.Page.GetPageDef(authContext, pageDefCode)
+					.then((pageDef) => {
+						Context.DBTransaction((transaction) => {
+							Context.Handlers.Block.AddBlockDef(authContext, transaction, pluginDef.first().get('id'), pageDef.first().get('id'), code, name)
+							.then((result) => {
+								transaction.commit(result);
+							}).catch((err) => {
+								transaction.rollback(err);
+							});
+						})
+						.then((result) => {
+							resolve(result);
+						})
+						.catch((err) => {
+							reject(err);
+						});
+					})
+					.catch((err) => {
+						reject(err);
+					});
+				} else {
 					Context.DBTransaction((transaction) => {
-						Context.Handlers.Block.AddBlockDef(authContext, transaction, pageDef.first().get('id'), code, name)
+						Context.Handlers.Block.AddBlockDef(authContext, transaction, pluginDef.first().get('id'), null, code, name)
 						.then((result) => {
 							transaction.commit(result);
 						}).catch((err) => {
@@ -176,26 +197,11 @@
 					.catch((err) => {
 						reject(err);
 					});
-				})
-				.catch((err) => {
-					reject(err);
-				});
-			} else {
-				Context.DBTransaction((transaction) => {
-                    Context.Handlers.Block.AddBlockDef(authContext, transaction, null, code, name)
-                    .then((result) => {
-                        transaction.commit(result);
-                    }).catch((err) => {
-                        transaction.rollback(err);
-                    });
-                })
-                .then((result) => {
-                    resolve(result);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-			}
+				}
+			})
+			.catch((err) => {
+				reject(err);
+			});
 		});
 	};
 

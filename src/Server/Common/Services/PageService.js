@@ -12,13 +12,29 @@
 		return Context.Handlers.Page.GetPageDef(authContext, code);
 	};
 	
-	classDef.prototype.AddPageDef = function (authContext, pageDef){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.Page.AddPageDef(authContext, transaction, pageDef)
-			.then((result) => {
-				transaction.commit(result);
-			}).catch((err) => {
-				transaction.rollback(err);
+	classDef.prototype.AddPageDef = function (authContext, pluginDefCode, pageDef){
+		return new Promise((resolve, reject) => {
+			Attollo.Services.Plugin.GetPluginDef(authContext, pluginDefCode)
+			.then((pluginDef) => {
+				Context.DBTransaction((transaction) => {
+					pageDef.plugindefid = pluginDef.first().get('id');
+
+					Context.Handlers.Page.AddPageDef(authContext, transaction, pageDef)
+					.then((result) => {
+						transaction.commit(result);
+					}).catch((err) => {
+						transaction.rollback(err);
+					});
+				})
+				.then((result) => {
+					resolve(result);
+				})
+				.catch((err) => {
+					reject(err);
+				});
+			})
+			.catch((err) => {
+				reject(err);
 			});
 		});
 	};

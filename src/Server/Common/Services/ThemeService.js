@@ -12,13 +12,29 @@
 		return Context.Handlers.Theme.GetTheme(authContext, code);
 	};
 	
-	classDef.prototype.AddTheme = function (authContext, code, name){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.Theme.AddTheme(authContext, transaction, code, name)
-			.then((result) => {
-				transaction.commit(result);
-			}).catch((err) => {
-				transaction.rollback(err);
+	classDef.prototype.AddTheme = function (authContext, pluginDefCode, code, name){
+		var self = this;
+
+		return new Promise((resolve, reject) => {
+			Attollo.Services.Plugin.GetPluginDef(authContext, pluginDefCode)
+			.then((pluginDef) => {
+				Context.DBTransaction((transaction) => {
+					Context.Handlers.Theme.AddTheme(authContext, transaction, pluginDef.first().get('id'), code, name)
+					.then((result) => {
+						transaction.commit(result);
+					}).catch((err) => {
+						transaction.rollback(err);
+					});
+				})
+				.then((result) => {
+					resolve(result);
+				})
+				.catch((err) => {
+					reject(err);
+				});
+			})
+			.catch((err) => {
+				reject(err);
 			});
 		});
 	};

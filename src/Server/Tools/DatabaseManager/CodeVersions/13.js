@@ -1,6 +1,8 @@
 //Seed PageDefs
 
 (function () {
+	var PluginDefCodes = require('../../../../Platform/Constants/PluginDefCodes');
+
     var classDef = function () {};
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
@@ -9,13 +11,21 @@
             Attollo.Services.Client.AddClient(dbContext, { name: 'Attollo' })
         ])
         .then(() => {
-            dbContext.SetClientID(1);
-
-            Attollo.Services.User.AddUser(dbContext, 'username', 'password', 'Admin')
+            Promise.all([
+                Attollo.Services.Plugin.AddPlugin(dbContext, PluginDefCodes.Core)
+            ])
             .then(() => {
-                dbContext.ClearClientID();
+                Attollo.Services.User.AddUser(dbContext, 'username', 'password', 'Admin')
+                .then(() => {
+                    dbContext.ClearClientID();
 
-                callback();
+                    callback();
+                })
+                .catch((err) => {
+                    dbContext.ClearClientID();
+
+                    errorCallback(err);
+                });
             })
             .catch((err) => {
                 dbContext.ClearClientID();
@@ -24,6 +34,8 @@
             });
         })
         .catch((err) => {
+            dbContext.ClearClientID();
+
             errorCallback(err);
         });
     };

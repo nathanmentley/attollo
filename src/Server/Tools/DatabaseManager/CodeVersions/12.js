@@ -1,4 +1,4 @@
-//Seed PageDefs
+//Seed DataTypeFieldType
 
 (function () {
 	var DataTypeFieldTypeCodes = require('../../../../Platform/Constants/DataTypeFieldTypeCodes');

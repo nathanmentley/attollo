@@ -35,6 +35,9 @@
         'PageDefID'.toLowerCase(),
         "PermissionDefID".toLowerCase(),
 
+        'PluginID'.toLowerCase(),
+        "PluginDefID".toLowerCase(),
+
         'RoleID'.toLowerCase(),
 
         'SiteID'.toLowerCase(),

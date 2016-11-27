@@ -205,6 +205,69 @@
 		});
 	};
 
+	//BlockDefFunctions
+
+	classDef.prototype.AddBlockDefFunction = function (authContext, blockDefCode, model){
+		var self = this;
+
+		return new Promise((resolve, reject) => {
+			self.GetBlockDef(authContext, blockDefCode)
+			.then((blockDef) => {
+				model.compiledcontent = model.content;
+				model.blockdefid = blockDef.first().get('id');
+
+				Context.DBTransaction((transaction) => {
+					Context.Handlers.Block.AddBlockDefFunction(authContext, transaction, model)
+					.then((result) => {
+						transaction.commit(result);
+					}).catch((err) => {
+						transaction.rollback(err);
+					});
+				})
+				.then((result) => { 
+					resolve(result); 
+				})
+				.catch((err) => { 
+					reject(err); 
+				});
+			})
+			.catch((err) => {
+				reject(err);
+			});
+		});
+	};
+
+	//BlockDefDataRequest
+
+	classDef.prototype.AddBlockDefDataRequest = function (authContext, blockDefCode, model){
+		var self = this;
+
+		return new Promise((resolve, reject) => {
+			self.GetBlockDef(authContext, blockDefCode)
+			.then((blockDef) => {
+				model.blockdefid = blockDef.first().get('id');
+
+				Context.DBTransaction((transaction) => {
+					Context.Handlers.Block.AddBlockDefDataRequest(authContext, transaction, model)
+					.then((result) => {
+						transaction.commit(result);
+					}).catch((err) => {
+						transaction.rollback(err);
+					});
+				})
+				.then((result) => { 
+					resolve(result); 
+				})
+				.catch((err) => { 
+					reject(err); 
+				});
+			})
+			.cathc((err) => {
+				reject(err);
+			});
+		});
+	};
+
 	//blockTemplateDef
 
 	classDef.prototype.GetBlockTemplateDef = function (authContext, blockDefId, templateCode) {

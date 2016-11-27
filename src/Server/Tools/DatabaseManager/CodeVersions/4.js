@@ -8,9 +8,7 @@
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
             Attollo.Services.Block.AddBlockDef(dbContext, PluginDefCodes.Core, null, 'Html', 'Raw Html'),
-            Attollo.Services.Block.AddBlockDef(dbContext, PluginDefCodes.Core, null, 'Image', 'Image'),
-            Attollo.Services.Block.AddBlockDef(dbContext, PluginDefCodes.Blog, 'blog', 'Blog', 'Blog'),
-            Attollo.Services.Block.AddBlockDef(dbContext, PluginDefCodes.Core, '404', '404', '404')
+            Attollo.Services.Block.AddBlockDef(dbContext, PluginDefCodes.Core, null, 'Image', 'Image')
         ])
         .then(() => {
             callback();

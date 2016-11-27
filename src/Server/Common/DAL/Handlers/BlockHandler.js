@@ -40,6 +40,24 @@
 		return blockDef.save(null, { transacting: transaction });
 	};
 
+	//BlockDefFunctions
+
+	classDef.prototype.AddBlockDefFunction = function (authContext, transaction, model){
+		var BlockDefFunction = this.Context.DatabaseContext.BlockDefFunction(authContext);
+		var blockDefFunction = new BlockDefFunction(model);
+
+		return blockDefFunction.save(null, { transacting: transaction });
+	};
+
+	//BlockDefDataRequest
+
+	classDef.prototype.AddBlockDefDataRequest = function (authContext, transaction, model){
+		var BlockDefDataRequest = this.Context.DatabaseContext.BlockDefDataRequest(authContext);
+		var blockDefDataRequest = new BlockDefDataRequest(model);
+
+		return blockDefDataRequest.save(null, { transacting: transaction });
+	};
+
 	//blockTemplateDef
 
 	classDef.prototype.GetBlockTemplateDef = function (authContext, blockDefId, templateCode) {

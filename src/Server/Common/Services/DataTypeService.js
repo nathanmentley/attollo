@@ -6,8 +6,8 @@
 
 	//DataType
 
-	classDef.prototype.GetDataTypes = function (authContext){
-		return Context.Handlers.DataType.GetDataTypes(authContext);
+	classDef.prototype.GetDataTypes = function (authContext, dataTypeDefId, filters){
+		return Context.Handlers.DataType.GetDataTypes(authContext, dataTypeDefId, filters);
 	};
 
 	//DataTypeDef

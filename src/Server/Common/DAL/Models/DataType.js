@@ -37,6 +37,10 @@
 			},
 			DataTypeDef: function() {
 				return this.belongsTo(DataTypeDef.Model(authContext, skipFilter), 'datatypedefid');
+			},
+			DataTypeFields: function () {
+				var DataTypeField = require("./DataTypeField");
+				return this.hasMany(DataTypeField.Model(authContext, skipFilter), 'datatypeid');
 			}
 		});
 	};

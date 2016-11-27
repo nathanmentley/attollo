@@ -10,8 +10,20 @@
 	
 	//DataTypes
 
-	classDef.prototype.GetDataTypes = function (authContext){
-		return this.Context.DatabaseContext.DataTypes(authContext).fetch();
+	classDef.prototype.GetDataTypes = function (authContext, dataTypeDefId, filters){
+		return this.Context.DatabaseContext.DataTypes(authContext)
+				.query({
+					where: {
+						datatypedefid: dataTypeDefId
+					}
+				})
+				.fetch(
+					{
+						withRelated: [
+							'DataTypeFields'
+						] 
+					}
+				);
 	};
 
 	//DataTypeDefs

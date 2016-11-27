@@ -20,7 +20,9 @@
 				.fetch(
 					{
 						withRelated: [
-							'DataTypeFields'
+							'DataTypeDef',
+							'DataTypeFields',
+							'DataTypeFields.DataTypeFieldDef'
 						] 
 					}
 				);
@@ -33,8 +35,6 @@
 	};
 
 	classDef.prototype.AddDataTypeDef = function (authContext, transaction, model){
-		model.clientid = authContext.ClientID;
-		
 		var DataTypeDef = this.Context.DatabaseContext.DataTypeDef(authContext);
 		var dataTypeDef = new DataTypeDef(model);
 

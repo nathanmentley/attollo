@@ -7,19 +7,6 @@
 	var DataTypeFieldType = require("./DataTypeFieldType");
 
 	var filter = function(authContext, query) {
-		if(authContext.ClientID) {
-			var subQuery = Database.Knex.select('clientid').from('datatypedef');
-
-			query.whereRaw(
-				'(' + subQuery + ' where datatypedef.id = datatypefielddef.datatypedefid) = ' + Auid.Decode(authContext.ClientID)
-			);
-		}
-
-		if(authContext.SiteID) {
-		}
-		
-		if(authContext.SiteVersionID) {
-		}
 	};
 
 	var tableName = 'datatypefielddef';

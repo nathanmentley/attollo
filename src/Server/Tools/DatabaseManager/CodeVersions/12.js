@@ -1,19 +1,41 @@
-//Seed DataTypeFieldType
+//Seed PageDefs
 
 (function () {
-	var DataTypeFieldTypeCodes = require('../../../../Platform/Constants/DataTypeFieldTypeCodes');
+	var PluginDefCodes = require('../../../../Platform/Constants/PluginDefCodes');
 
     var classDef = function () {};
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
+        dbContext.SetClientID(1);
         Promise.all([
-            Attollo.Services.DataType.AddDataTypeFieldType(dbContext, { name: 'Text', code: DataTypeFieldTypeCodes.Text }),
-            Attollo.Services.DataType.AddDataTypeFieldType(dbContext, { name: 'HTML', code: DataTypeFieldTypeCodes.HTML })
+            Attollo.Services.Client.AddClient(dbContext, { name: 'Attollo' })
         ])
-        .then((result) => {
-            callback(result);
+        .then(() => {
+            Promise.all([
+                Attollo.Services.Plugin.AddPlugin(dbContext, PluginDefCodes.Core)
+            ])
+            .then(() => {
+                Attollo.Services.User.AddUser(dbContext, 'username', 'password', 'Admin')
+                .then(() => {
+                    dbContext.ClearClientID();
+
+                    callback();
+                })
+                .catch((err) => {
+                    dbContext.ClearClientID();
+
+                    errorCallback(err);
+                });
+            })
+            .catch((err) => {
+                dbContext.ClearClientID();
+
+                errorCallback(err);
+            });
         })
         .catch((err) => {
+            dbContext.ClearClientID();
+
             errorCallback(err);
         });
     };

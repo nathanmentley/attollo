@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS CssRule (
 
 CREATE TABLE IF NOT EXISTS PluginDef (
     ID SERIAL PRIMARY KEY,
+    ClientID integer REFERENCES Client NULL,
     Code VARCHAR(255) NOT NULL,
     Name VARCHAR(255) NOT NULL,
     Description TEXT NOT NULL
@@ -106,7 +107,7 @@ CREATE TABLE IF NOT EXISTS AdminPermission (
 
 CREATE TABLE IF NOT EXISTS DataTypeDef (
     ID SERIAL PRIMARY KEY,
-    ClientID integer REFERENCES Client NOT NULL,
+    PluginDefID integer REFERENCES PluginDef NOT NULL,
     Name VARCHAR(255) NOT NULL
 );
 
@@ -125,6 +126,7 @@ CREATE TABLE IF NOT EXISTS DataTypeFieldDef (
 
 CREATE TABLE IF NOT EXISTS DataType (
     ID SERIAL PRIMARY KEY,
+    ClientID integer REFERENCES Client NOT NULL,
     DataTypeDefID integer REFERENCES DataTypeDef NOT NULL
 );
 

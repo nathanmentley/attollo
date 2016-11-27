@@ -7,11 +7,7 @@
 
 	var filter = function(authContext, query) {
 		if(authContext.ClientID) {
-			var subQuery = Database.Knex.select('clientid').from('datatypedef');
-
-			query.whereRaw(
-				'(' + subQuery + ' where datatypedef.id = datatype.datatypedefid) = ' + Auid.Decode(authContext.ClientID)
-			);
+			query.where('clientid', '=', authContext.ClientID);
 		}
 
 		if(authContext.SiteID) {

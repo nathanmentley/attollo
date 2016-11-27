@@ -4,6 +4,16 @@
 	var ModelEvents = require("../Core/ModelEvents");
 
 	var filter = function(authContext, query) {
+		if(authContext.ClientID) {
+			query.whereNull('clientid')
+				.orWhere('clientid', '=', authContext.ClientID);
+		}
+
+		if(authContext.SiteID) {
+		}
+		
+		if(authContext.SiteVersionID) {
+		}
 	};
 
 	var tableName = 'plugindef';

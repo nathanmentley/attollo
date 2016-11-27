@@ -262,7 +262,7 @@
 					reject(err); 
 				});
 			})
-			.cathc((err) => {
+			.catch((err) => {
 				reject(err);
 			});
 		});

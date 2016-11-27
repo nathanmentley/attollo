@@ -16,13 +16,31 @@
 		return Context.Handlers.DataType.GetDataTypeDefs(authContext);
 	};
 
-	classDef.prototype.AddDataTypeDef = function (authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.DataType.AddDataTypeDef(authContext, transaction, model)
-			.then((result) => {
-				transaction.commit(result);
-			}).catch((err) => {
-				transaction.rollback(err);
+	classDef.prototype.AddDataTypeDef = function (authContext, pluginDefCode, model){
+		var self = this;
+
+		return new Promise((resolve, reject) => {
+			Attollo.Services.Plugin.GetPluginDef(authContext, pluginDefCode)
+			.then((pluginDef) => {
+				Context.DBTransaction((transaction) => {
+					model.plugindefid = pluginDef.first().get('id');
+
+					Context.Handlers.DataType.AddDataTypeDef(authContext, transaction, model)
+					.then((result) => {
+						transaction.commit(result);
+					}).catch((err) => {
+						transaction.rollback(err);
+					});
+				})
+				.then((result) => {
+					resolve(result);
+				})
+				.catch((err) => {
+					reject(err);
+				});
+			})
+			.catch((err) => { 
+				reject(err);
 			});
 		});
 	};
@@ -55,13 +73,31 @@
 		return Context.Handlers.DataType.GetDataTypeFieldDefs(authContext, dataTypeDefId);
 	};
 
-	classDef.prototype.AddDataTypeFieldDef = function (authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.DataType.AddDataTypeFieldDef(authContext, transaction, model)
-			.then((result) => {
-				transaction.commit(result);
-			}).catch((err) => {
-				transaction.rollback(err);
+	classDef.prototype.AddDataTypeFieldDef = function (authContext, dataTypeFieldTypeCode, model){
+		var self = this;
+
+		return new Promise((resolve, reject) => {
+			self.GetDataTypeFieldType(authContext, dataTypeFieldTypeCode)
+			.then((fieldType) => {
+				Context.DBTransaction((transaction) => {
+					model.datatypefieldtypeid = fieldType.get('id');
+
+					Context.Handlers.DataType.AddDataTypeFieldDef(authContext, transaction, model)
+					.then((result) => {
+						transaction.commit(result);
+					}).catch((err) => {
+						transaction.rollback(err);
+					});
+				})
+				.then((result) => {
+					resolve(result);
+				})
+				.catch((err) => {
+					reject(err);
+				});
+			})
+			.catch((err) => {
+				reject(err);
 			});
 		});
 	};

@@ -6,14 +6,8 @@
 	var Client = require("./Client");
 
 	var filter = function(authContext, query) {
-		if(authContext.ClientID) {
-			query.where('clientid', '=', authContext.ClientID);
-		}
-
-		if(authContext.SiteID) {
-		}
-		
-		if(authContext.SiteVersionID) {
+		if(authContext.PluginDefIds) {
+			query.where('plugindefid', 'in', authContext.PluginDefIds);
 		}
 	};
 

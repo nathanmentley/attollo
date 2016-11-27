@@ -7,7 +7,7 @@
 		app.get(urlendpoint, auth(null), function(request, response) {
 			response.setHeader('Content-Type', 'application/json');
 
-			Attollo.Services.Block.GetDataTypes(request.AuthContext, request.query.dataTypeDefId, request.query.filter)
+			Attollo.Services.DataType.GetDataTypes(request.AuthContext, request.query.dataTypeDefId, request.query.filter)
 			.then(function (collection) {
 				response.json({
 					error: false,

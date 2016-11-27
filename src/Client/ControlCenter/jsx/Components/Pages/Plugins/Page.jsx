@@ -4,7 +4,21 @@ import { Line, Doughnut, Bar } from 'react-chartjs-2';
 
 import BasePage from '../BasePage.jsx';
 
+import PluginDefService from '../../../Services/PluginDefService.jsx';
+import PluginService from '../../../Services/PluginService.jsx';
+
+import PluginDefList from './PluginDefList.jsx';
+
 export default class PluginsPage extends BasePage {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            PluginDefs: [],
+            Plugins: []
+        };
+    }
+
     componentDidMount() {
         var self = this;    
         self.setPageTitle("Plugins", () => {
@@ -14,41 +28,33 @@ export default class PluginsPage extends BasePage {
                     url: "/"
                 }
             ]);
-        }); 
+        });
+
+        PluginDefService.GetPluginDefs()
+        .then((result) => {
+            self.setState({ PluginDefs: result.data.data });
+        })
+        .catch((err) => {
+            
+        });
+
+        PluginService.GetPlugins()
+        .then((result) => {
+            self.setState({ Plugins: result.data.data });
+        })
+        .catch((err) => {
+            
+        });
     }
 
     _render() {
-        var data = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'My First dataset',
-                backgroundColor: 'rgba(255,99,132,0.2)',
-                borderColor: 'rgba(255,99,132,1)',
-                borderWidth: 1,
-                hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-                hoverBorderColor: 'rgba(255,99,132,1)',
-                data: [65, 59, 80, 81, 56, 55, 40]
-            }]
-        };
+        var self = this;
 
         return (
             <div>
                 <Row>
-                    <Col xs={12} md={6}>
-                        <Line data={data} />
-                    </Col>
-
-                    <Col xs={12} md={6}>
-                        <Line data={data} />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs={12} md={6}>
-                        <Doughnut data={data} />
-                    </Col>
-
-                    <Col xs={12} md={6}>
-                        <Bar data={data} />
+                    <Col xs={12} md={12}>
+                        <PluginDefList PluginDefs={this.state.PluginDefs} Plugins={this.state.Plugins} />
                     </Col>
                 </Row>
             </div>

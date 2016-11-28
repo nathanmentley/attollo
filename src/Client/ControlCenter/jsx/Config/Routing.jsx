@@ -5,6 +5,10 @@ import Auth from './Auth.jsx';
 
 import Login from '../Components/Pages/Login/Page.jsx';
 
+import Plugins from '../Components/Pages/Plugins/Page.jsx';
+import DataTypeDefs from '../Components/Pages/DataTypeDefs/Page.jsx';
+import DataTypeDefBuilder from '../Components/Pages/DataTypeDefBuilder/Page.jsx';
+
 import Sites from '../Components/Pages/Sites/Page.jsx';
 import SiteVersions from '../Components/Pages/SiteVersions/Page.jsx';
 import Pages from '../Components/Pages/Pages/Page.jsx';
@@ -14,10 +18,10 @@ import DataTypes from '../Components/Pages/DataTypes/Page.jsx';
 import DataTypeBuilder from '../Components/Pages/DataTypeBuilder/Page.jsx';
 
 import Users from '../Components/Pages/Users/Page.jsx';
+
 import Account from '../Components/Pages/Account/Page.jsx';
 
 import Dashboard from '../Components/Pages/Dashboard/Page.jsx';
-import Plugins from '../Components/Pages/Plugins/Page.jsx';
 
 import Error404 from '../Components/Pages/Error404/Page.jsx';
 
@@ -26,6 +30,10 @@ export default class Routing extends React.Component {
         return (
             <Router history={browserHistory}>
                 <Route path="/Login" component={Login} />
+
+                <Route path="/Plugins" component={Plugins} onEnter={Auth.AuthRequired} />
+                <Route path="/DataTypeDefs/:PluginDefID" component={DataTypeDefs} onEnter={Auth.AuthRequired} />
+                <Route path="/DataTypeDefs/:PluginDefID/:DataTypeDefID" component={DataTypeDefBuilder} onEnter={Auth.AuthRequired} />
 
                 <Route path="/Sites" component={Sites} onEnter={Auth.AuthRequired} />
                 <Route path="/Sites/:SiteID" component={SiteVersions} onEnter={Auth.AuthRequired} />
@@ -36,11 +44,10 @@ export default class Routing extends React.Component {
                 <Route path="/DataTypes/:DataTypeDefID" component={DataTypeBuilder} onEnter={Auth.AuthRequired} />
                 
                 <Route path="/Users" component={Users} onEnter={Auth.AuthRequired} />
+
                 <Route path="/Account" component={Account} onEnter={Auth.AuthRequired} />
 
                 <Route path="/Dashboard" component={Dashboard} onEnter={Auth.AuthRequired} />
-                <Route path="/Plugins" component={Plugins} onEnter={Auth.AuthRequired} />
-
                 <Route path="/" component={Dashboard} onEnter={Auth.AuthRequired} />
 
                 <Route path="*" component={Error404}/>

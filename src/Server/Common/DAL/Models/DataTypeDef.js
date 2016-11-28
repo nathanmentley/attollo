@@ -4,6 +4,7 @@
 	var ModelEvents = require("../Core/ModelEvents");
 
 	var Client = require("./Client");
+	var PluginDef = require("./PluginDef");
 
 	var filter = function(authContext, query) {
 		if(authContext.PluginDefIds) {
@@ -27,6 +28,9 @@
 			},
 			Client: function() {
 				return this.belongsTo(Client.Model(authContext, skipFilter), 'clientid');
+			},
+			PluginDef: function() {
+				return this.belongsTo(PluginDef.Model(authContext, skipFilter), 'plugindefid');
 			}
 		});
 	};

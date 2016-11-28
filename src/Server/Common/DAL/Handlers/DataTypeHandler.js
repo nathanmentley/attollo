@@ -31,7 +31,10 @@
 	//DataTypeDefs
 
 	classDef.prototype.GetDataTypeDefs = function (authContext){
-		return this.Context.DatabaseContext.DataTypeDefs(authContext).fetch();
+		return this.Context.DatabaseContext.DataTypeDefs(authContext)
+		.fetch({
+			withRelated: ['PluginDef']
+		});
 	};
 
 	classDef.prototype.AddDataTypeDef = function (authContext, transaction, model){

@@ -11,6 +11,11 @@ export default class PluginDefList extends BaseComponent {
         this.isPluginEnabled = this.isPluginEnabled.bind(this);
         this.enablePlugin = this.enablePlugin.bind(this);
         this.disablePlugin = this.disablePlugin.bind(this);
+        this.goToDataTypeDefs = this.goToDataTypeDefs.bind(this);
+    }
+
+    goToDataTypeDefs(pluginDef) {
+        this.goToPage("/DataTypeDefs/" + pluginDef.id);
     }
 
     isPluginEnabled(pluginDef) {
@@ -60,20 +65,42 @@ export default class PluginDefList extends BaseComponent {
                                             {
                                                 x.clientid != null ?
                                                 <MenuItem eventKey="1">
-                                                    <Glyphicon glyph="pencil" /> Edit
+                                                    <Glyphicon glyph="blackboard" /> Edit Themes
                                                 </MenuItem> :
                                                 ""
                                             }
                                             {
+                                                x.clientid != null ?
+                                                <MenuItem eventKey="2">
+                                                    <Glyphicon glyph="scale" /> Edit BlockDefs
+                                                </MenuItem> :
+                                                ""
+                                            }
+                                            {
+                                                x.clientid != null ?
+                                                <MenuItem eventKey="3" onClick={() => { self.goToDataTypeDefs(x); }}>
+                                                    <Glyphicon glyph="briefcase" /> Edit DataTypes
+                                                </MenuItem> :
+                                                ""
+                                            }
+                                            {
+                                                x.clientid != null ?
+                                                <MenuItem eventKey="4">
+                                                    <Glyphicon glyph="tasks" /> Edit Logic Overrides
+                                                </MenuItem> :
+                                                ""
+                                            }
+
+                                            {
                                                 self.isPluginEnabled(x) ?
-                                                <MenuItem eventKey="2" onClick={() => { self.disablePlugin(x.code); }}>
+                                                <MenuItem eventKey="5" onClick={() => { self.disablePlugin(x.code); }}>
                                                     <Glyphicon glyph="wrench" /> Disable
                                                 </MenuItem> :
                                                 ""
                                             }
                                             {
                                                 !self.isPluginEnabled(x) ?
-                                                <MenuItem eventKey="2" onClick={() => { self.enablePlugin(x.code); }}>
+                                                <MenuItem eventKey="5" onClick={() => { self.enablePlugin(x.code); }}>
                                                     <Glyphicon glyph="wrench" /> Enable
                                                 </MenuItem> :
                                                 ""

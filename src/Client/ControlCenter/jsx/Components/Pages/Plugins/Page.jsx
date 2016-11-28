@@ -17,6 +17,9 @@ export default class PluginsPage extends BasePage {
             PluginDefs: [],
             Plugins: []
         };
+
+        this.enablePlugin = this.enablePlugin.bind(this);
+        this.disablePlugin = this.disablePlugin.bind(this);
     }
 
     componentDidMount() {
@@ -47,6 +50,34 @@ export default class PluginsPage extends BasePage {
         });
     }
 
+    enablePlugin(pluginDefCode) {
+        var self = this;  
+        PluginService.AddPlugin(pluginDefCode)
+        .then(() => {
+            PluginService.GetPlugins()
+            .then((result) => {
+                self.setState({ Plugins: result.data.data });
+            })
+            .catch((err) => {
+                
+            });
+        });
+    }
+
+    disablePlugin(pluginId) {
+        var self = this;  
+        PluginService.DeletePlugin(pluginId)
+        .then(() => {
+            PluginService.GetPlugins()
+            .then((result) => {
+                self.setState({ Plugins: result.data.data });
+            })
+            .catch((err) => {
+                
+            });
+        });
+    }
+
     _render() {
         var self = this;
 
@@ -54,7 +85,12 @@ export default class PluginsPage extends BasePage {
             <div>
                 <Row>
                     <Col xs={12} md={12}>
-                        <PluginDefList PluginDefs={this.state.PluginDefs} Plugins={this.state.Plugins} />
+                        <PluginDefList
+                            PluginDefs={this.state.PluginDefs}
+                            Plugins={this.state.Plugins}
+                            EnablePlugin={this.enablePlugin}
+                            DisablePlugin={this.disablePlugin}
+                        />
                     </Col>
                 </Row>
             </div>

@@ -34,7 +34,7 @@
 			self.GetPluginDef(authContext, code)
 			.then((pluginDef) => {
 				Context.DBTransaction((transaction) => {
-					Context.Handlers.Plugin.AddPlugin(authContext, transaction, { plugindefid: pluginDef.first().get('id') })
+					Context.Handlers.Plugin.AddPlugin(authContext, transaction, { plugindefid: pluginDef.first().get('id'), clientid: authContext.ClientID })
 					.then((result) => {
 						transaction.commit(result);
 					})

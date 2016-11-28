@@ -265,6 +265,22 @@
                         model.set(data)
                     }
 
+                    if(options.query._statements){
+                        for(var i = 0; i < options.query._statements.length; i++) {
+                            if(options.query._statements[i].column) {
+                                var column = options.query._statements[i].column.split('.').pop();
+
+                                if(SchemaIdFields.indexOf(column) > -1) {
+                                    if(options.query._statements[i].value) {
+                                        var id = self.Decode(options.query._statements[i].value);
+
+                                        options.query._statements[i].value = id;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     resolve();
                 });
             };

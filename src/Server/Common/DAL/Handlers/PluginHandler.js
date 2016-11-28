@@ -36,8 +36,6 @@
 	};
 	
 	classDef.prototype.AddPlugin = function (authContext, transaction, model){
-		model.clientid = authContext.ClientID;
-		
 		var Plugin = this.Context.DatabaseContext.Plugin(authContext);
 		var Plugin = new Plugin(model);
 

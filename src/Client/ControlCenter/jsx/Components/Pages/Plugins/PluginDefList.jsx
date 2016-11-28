@@ -8,11 +8,28 @@ export default class PluginDefList extends BaseComponent {
     constructor(props) {
         super(props);
 
-        this.IsPluginEnabled = this.IsPluginEnabled.bind(this);
+        this.isPluginEnabled = this.isPluginEnabled.bind(this);
+        this.enablePlugin = this.enablePlugin.bind(this);
+        this.disablePlugin = this.disablePlugin.bind(this);
     }
 
-    IsPluginEnabled(pluginDef) {
+    isPluginEnabled(pluginDef) {
         return this.props.Plugins.some((x) => { return x.PluginDef.code == pluginDef.code; });
+    }
+
+    enablePlugin(code) {
+        if(this.props.EnablePlugin) {
+            this.props.EnablePlugin(code);
+        }
+    }
+
+    disablePlugin(code) {
+        if(this.props.DisablePlugin) {
+            var plugin = this.props.Plugins.find((x) => { return x.PluginDef.code == code; });
+            if(plugin) {
+                this.props.DisablePlugin(plugin.id);
+            }
+        }
     }
 
     render() {
@@ -37,12 +54,30 @@ export default class PluginDefList extends BaseComponent {
                                     <td>{x.code}</td>
                                     <td>{x.name}</td>
                                     <td>{x.description}</td>
-                                    <td>{self.IsPluginEnabled(x) ? 'Yes' : 'No'}</td>
+                                    <td>{self.isPluginEnabled(x) ? 'Yes' : 'No'}</td>
                                     <td>
                                         <DropdownButton title={<Glyphicon glyph="cog" />} id={x.id + '-action-button'}>
-                                            <MenuItem eventKey="1">
-                                                <Glyphicon glyph="pencil" /> Edit
-                                            </MenuItem>
+                                            {
+                                                x.clientid != null ?
+                                                <MenuItem eventKey="1">
+                                                    <Glyphicon glyph="pencil" /> Edit
+                                                </MenuItem> :
+                                                ""
+                                            }
+                                            {
+                                                self.isPluginEnabled(x) ?
+                                                <MenuItem eventKey="2" onClick={() => { self.disablePlugin(x.code); }}>
+                                                    <Glyphicon glyph="wrench" /> Disable
+                                                </MenuItem> :
+                                                ""
+                                            }
+                                            {
+                                                !self.isPluginEnabled(x) ?
+                                                <MenuItem eventKey="2" onClick={() => { self.enablePlugin(x.code); }}>
+                                                    <Glyphicon glyph="wrench" /> Enable
+                                                </MenuItem> :
+                                                ""
+                                            }
                                         </DropdownButton>
                                     </td>
                                 </tr>

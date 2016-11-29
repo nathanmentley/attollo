@@ -1,30 +1,36 @@
 (function () {
     var classDef = function () {};
     
-	var amqp  = require('amqplib/callback_api');
+	var amqp  = require('amqplib');
     var amqpConn = null;
     
 	classDef.prototype.Connect = function (){
         var self = this;
 
-        if(amqpConn == null && Attollo.Utils.Config.RabbitMQUrl != null) {
-            amqp.connect(Attollo.Utils.Config.RabbitMQUrl + "?heartbeat=60", function(err, conn) {
-                if (err) {
+        return new Promise((resolve, reject) => {
+            if(amqpConn == null && Attollo.Utils.Config.RabbitMQUrl != null) {
+                amqp.connect(Attollo.Utils.Config.RabbitMQUrl + "?heartbeat=60")
+                .then((conn) => {
+                    conn.on("error", (err) => {
+                        if (err.message !== "Connection closing") {
+                            Attollo.Utils.Log.Error("[AMQP] conn error - " + err.message);
+                        }
+                    });
+
+                    Attollo.Utils.Log.Info("[AMQP] connected");
+                    amqpConn = conn;
+                    
+                    resolve(conn);
+                })
+                .catch((err) => {
                     Attollo.Utils.Log.Error("[AMQP] " + err.message);
-                }
-                conn.on("error", function(err) {
-                    if (err.message !== "Connection closing") {
-                        Attollo.Utils.Log.Error("[AMQP] conn error - " + err.message);
-                    }
+                        
+                    reject(err);
                 });
-            
-                Attollo.Utils.Log.Info("[AMQP] connected");
-                
-                amqpConn = conn;
-            });
-        } else {
-            Attollo.Utils.Log.Error("[AMQP] already connected.");
-        }
+            } else {
+                Attollo.Utils.Log.Error("[AMQP] already connected.");
+            }
+        });
 	};
 
 	classDef.prototype.Close = function (){

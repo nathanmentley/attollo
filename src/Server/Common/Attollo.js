@@ -40,11 +40,14 @@ Attollo = {
 
             Attollo.Utils.Log.Info("App Start");
 
-            require("./Clients/Amqplib").Connect();
-            require("./Clients/Redis").Connect();
-            
-            if(start != null)
-                start();
+            Promise.all([
+                require("./Clients/Amqplib").Connect(),
+                require("./Clients/Redis").Connect()
+            ])
+            .then(() => {
+                if(start != null)
+                    start();
+            });
         };
         Attollo.App.Stop = function (){
             require("./DAL/Core/Database").Close();

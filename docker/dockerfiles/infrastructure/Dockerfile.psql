@@ -12,6 +12,8 @@ COPY ./docker/config/infrastructure/psql/postgresql.conf /etc/postgresql/9.5/mai
 ARG attolloenv=local
 ENV attolloenv ${attolloenv}
 
+VOLUME /var/lib/postgresql/data
+
 EXPOSE 5432
 
 CMD sh /home/web/docker/scripts/infrastructure/psql.sh

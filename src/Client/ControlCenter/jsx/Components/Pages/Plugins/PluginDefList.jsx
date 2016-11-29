@@ -72,14 +72,14 @@ export default class PluginDefList extends BaseComponent {
                                             {
                                                 x.clientid != null ?
                                                 <MenuItem eventKey="2">
-                                                    <Glyphicon glyph="scale" /> Edit BlockDefs
+                                                    <Glyphicon glyph="scale" /> Edit Widget Types
                                                 </MenuItem> :
                                                 ""
                                             }
                                             {
                                                 x.clientid != null ?
                                                 <MenuItem eventKey="3" onClick={() => { self.goToDataTypeDefs(x); }}>
-                                                    <Glyphicon glyph="briefcase" /> Edit DataTypes
+                                                    <Glyphicon glyph="briefcase" /> Edit Data Types
                                                 </MenuItem> :
                                                 ""
                                             }

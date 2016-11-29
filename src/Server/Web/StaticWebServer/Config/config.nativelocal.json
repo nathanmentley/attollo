@@ -1,8 +1,0 @@
-{
-	"Environment": "NativeLocal",
-
-    "RedisHost": "redis",
-    "RedisPort": 6379,
-    
-    "RabbitMQUrl": "amqp://guest:guest@rabbitmq"
-}

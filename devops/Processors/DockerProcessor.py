@@ -46,6 +46,7 @@ class DockerProcessor:
         ports = [PortMapDef(5432, 5432)];
         links = [];
         volumes = [
+            VolumnDef('/storage/database', '/var/lib/postgresql/data'),
             VolumnDef('/dist', '/home/web/dist'),
             VolumnDef('/logs', '/home/web/logs'),
             VolumnDef('/src', '/home/web/src')

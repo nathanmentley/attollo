@@ -5,9 +5,13 @@
     var client = null;
 
     classDef.prototype.Connect = function () {
-        client = redis.createClient({
-            host: Attollo.Utils.Config.RedisHost,
-            port: Attollo.Utils.Config.RedisPort
+        return new Promise((resolve, reject) => {
+            client = redis.createClient({
+                host: Attollo.Utils.Config.RedisHost,
+                port: Attollo.Utils.Config.RedisPort
+            });
+
+            resolve(client);
         });
     };
     classDef.prototype.Close = function () {

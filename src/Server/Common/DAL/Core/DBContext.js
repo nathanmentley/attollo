@@ -35,6 +35,10 @@
 
 	var Plugin = require("../Models/Plugin");
 	var PluginDef = require("../Models/PluginDef");
+	var PluginDefLogic = require("../Models/PluginDefLogic");
+	var PluginDefLogicDef = require("../Models/PluginDefLogicDef");
+	var PluginSetting = require("../Models/PluginSetting");
+	var PluginSettingDef = require("../Models/PluginSettingDef");
 
 	var PermissionDef = require("../Models/PermissionDef");
 	var Role = require("../Models/Role");
@@ -141,6 +145,18 @@
 
 	classDef.prototype.PluginDefs = PluginDef.Collection;
 	classDef.prototype.PluginDef = PluginDef.Model;
+
+	classDef.prototype.PluginDefLogics = PluginDefLogic.Collection;
+	classDef.prototype.PluginDefLogic = PluginDefLogic.Model;
+
+	classDef.prototype.PluginDefLogicDefs = PluginDefLogicDef.Collection;
+	classDef.prototype.PluginDefLogicDef = PluginDefLogicDef.Model;
+
+	classDef.prototype.PluginSettings = PluginSetting.Collection;
+	classDef.prototype.PluginSetting = PluginSetting.Model;
+
+	classDef.prototype.PluginSettingDefs = PluginSettingDef.Collection;
+	classDef.prototype.PluginSettingDef = PluginSettingDef.Model;
 
 	classDef.prototype.Roles = Role.Collection;
 	classDef.prototype.Role = Role.Model;

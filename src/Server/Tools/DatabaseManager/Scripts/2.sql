@@ -46,10 +46,40 @@ CREATE TABLE IF NOT EXISTS PluginDef (
     Description TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS PluginDefLogicDef (
+    ID SERIAL PRIMARY KEY,
+    Code VARCHAR(255) NOT NULL,
+    Title VARCHAR(255) NOT NULL,
+    DefaultValue TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS PluginDefLogic (
+    ID SERIAL PRIMARY KEY,
+    PluginDefLogicDefID integer REFERENCES PluginDefLogicDef NOT NULL,
+    PluginDefID integer REFERENCES PluginDef NOT NULL,
+    Content VARCHAR(255) NOT NULL,
+    CompiledContent VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS PluginSettingDef (
+    ID SERIAL PRIMARY KEY,
+    PluginDefID integer REFERENCES PluginDef NOT NULL,
+    Code VARCHAR(255) NOT NULL,
+    Title VARCHAR(255) NOT NULL,
+    DefaultValue TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS Plugin (
     ID SERIAL PRIMARY KEY,
     ClientID integer REFERENCES Client NOT NULL,
     PluginDefID integer REFERENCES PluginDef NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS PluginSetting (
+    ID SERIAL PRIMARY KEY,
+    PluginID integer REFERENCES Plugin NOT NULL,
+    PluginSettingDefID integer REFERENCES PluginSettingDef NOT NULL,
+    Value TEXT NOT NULL
 );
 
 -- Theme

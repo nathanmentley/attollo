@@ -37,6 +37,10 @@
 
         'PluginID'.toLowerCase(),
         "PluginDefID".toLowerCase(),
+        'PluginDefLogicDefID'.toLowerCase(),
+        'PluginDefLogicID'.toLowerCase(),
+        'PluginSettingDefID'.toLowerCase(),
+        'PluginSettingID'.toLowerCase(),
 
         'RoleID'.toLowerCase(),
 

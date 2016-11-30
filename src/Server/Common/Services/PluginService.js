@@ -33,8 +33,6 @@
 		return new Promise((resolve, reject) => {
 			self.GetPluginDef(authContext, code)
 			.then((pluginDef) => {
-				Attollo.Utils.Log.Info(code + " = " + JSON.stringify(pluginDef));
-
 				Context.DBTransaction((transaction) => {
 					Context.Handlers.Plugin.AddPlugin(authContext, transaction, { plugindefid: pluginDef.first().get('id'), clientid: authContext.ClientID })
 					.then((result) => {

@@ -3,18 +3,7 @@
 	var Database = require("../Core/Database");
 	var ModelEvents = require("../Core/ModelEvents");
 
-	var PluginDef = require("./PluginDef");
-
-	var filter = function(authContext, query) {
-		if(authContext.ClientID) {
-		}
-
-		if(authContext.SiteID) {
-		}
-		
-		if(authContext.SiteVersionID) {
-		}
-	};
+	var filter = function(authContext, query) { };
 
 	var tableName = 'plugindeflogicdef';
 	var model = function(authContext, skipFilter) {

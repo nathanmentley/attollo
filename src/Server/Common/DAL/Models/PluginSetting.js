@@ -3,10 +3,16 @@
 	var Database = require("../Core/Database");
 	var ModelEvents = require("../Core/ModelEvents");
 
-	var PluginDef = require("./PluginDef");
+	var Plugin = require("./Plugin");
+	var PluginSettingDef = require("./PluginSettingDef");
 
 	var filter = function(authContext, query) {
 		if(authContext.ClientID) {
+			var subQuery = Database.Knex.select('clientid').from('plugin');
+
+			query.whereRaw(
+				'(' + subQuery + ' where plugin.id = pluginsetting.pluginid) = ' + Auid.Decode(authContext.ClientID)
+			);
 		}
 
 		if(authContext.SiteID) {
@@ -29,6 +35,12 @@
 				this.on("created", ModelEvents.AuditCreated(authContext, tableName));
 				this.on("updating", ModelEvents.AuditUpdating(authContext, tableName));
 				this.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
+			},
+			Plugin: function() {
+				return this.belongsTo(Plugin.Model(authContext, skipFilter), 'pluginid');
+			},
+			PluginSettingDef: function() {
+				return this.belongsTo(PluginSettingDef.Model(authContext, skipFilter), 'pluginsettingdefid');
 			}
 		});
 	};

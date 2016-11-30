@@ -4,6 +4,7 @@
 	var ModelEvents = require("../Core/ModelEvents");
 
 	var PluginDef = require("./PluginDef");
+	var PluginDefLogicDef = require("./PluginDefLogicDef");
 
 	var filter = function(authContext, query) {
 		if(authContext.ClientID) {
@@ -29,6 +30,12 @@
 				this.on("created", ModelEvents.AuditCreated(authContext, tableName));
 				this.on("updating", ModelEvents.AuditUpdating(authContext, tableName));
 				this.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
+			},
+			PluginDef: function() {
+				return this.belongsTo(PluginDef.Model(authContext, skipFilter), 'plugindefid');
+			},
+			PluginDefLogicDef: function() {
+				return this.belongsTo(PluginDefLogicDef.Model(authContext, skipFilter), 'plugindeflogicdefid');
 			}
 		});
 	};

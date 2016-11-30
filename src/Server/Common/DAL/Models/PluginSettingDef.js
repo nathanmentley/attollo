@@ -29,6 +29,9 @@
 				this.on("created", ModelEvents.AuditCreated(authContext, tableName));
 				this.on("updating", ModelEvents.AuditUpdating(authContext, tableName));
 				this.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
+			},
+			PluginDef: function() {
+				return this.belongsTo(PluginDef.Model(authContext, skipFilter), 'plugindefid');
 			}
 		});
 	};

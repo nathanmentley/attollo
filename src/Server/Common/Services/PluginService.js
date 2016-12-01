@@ -102,36 +102,6 @@
 							});											\
 						})												\
 						'
-					),
-					vm.run('											\
-						new Promise((resolve, reject) => {				\
-							Attollo.TestMethod().then(() => {			\
-								resolve(); 								\
-							}).catch((err) => {							\
-								reject(err);							\
-							});											\
-						})												\
-						'
-					),
-					vm.run('											\
-						new Promise((resolve, reject) => {				\
-							Attollo.TestMethod().then(() => {			\
-								resolve(); 								\
-							}).catch((err) => {							\
-								reject(err);							\
-							});											\
-						})												\
-						'
-					),
-					vm.run('											\
-						new Promise((resolve, reject) => {				\
-							Attollo.TestMethod().then(() => {			\
-								resolve(); 								\
-							}).catch((err) => {							\
-								reject(err);							\
-							});											\
-						})												\
-						'
 					)
 				]);
 			});
@@ -154,39 +124,6 @@
 				'																\
 					new Promise((resolve, reject) => {							\
 						Attollo.TestMethod().then(() => {						\
-							Data.forEach((x) => {								\
-								var newValue = 	(x.get("fromplugin") || 0);		\
-								newValue++;										\
-								x.set({ fromplugin: newValue });				\
-							});													\
-							resolve(Data); 										\
-						}).catch((err) => {										\
-							reject(err);										\
-						});														\
-					})															\
-				',
-				'																\
-					new Promise((resolve, reject) => {							\
-						Attollo.TestMethod().then(() => {						\
-							Data.forEach((x) => {								\
-								var newValue = 	(x.get("fromplugin") || 0);		\
-								newValue++;										\
-								x.set({ fromplugin: newValue });				\
-							});													\
-							resolve(Data); 										\
-						}).catch((err) => {										\
-							reject(err);										\
-						});														\
-					})															\
-				',
-				'																\
-					new Promise((resolve, reject) => {							\
-						Attollo.TestMethod().then(() => {						\
-							Data.forEach((x) => {								\
-								var newValue = 	(x.get("fromplugin") || 0);		\
-								newValue++;										\
-								x.set({ fromplugin: newValue });				\
-							});													\
 							resolve(Data); 										\
 						}).catch((err) => {										\
 							reject(err);										\

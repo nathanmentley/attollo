@@ -34,18 +34,17 @@
                     Attollo.Services.Plugin.GetPluginDefPostLogics(
                         request.AuthContext,
                         logicDefCode,
-                        result
+                        result != null ? (
+                            (typeof result.toJSON === 'function') ?
+                                result.toJSON() :
+                                result
+                            ) :
+                            null
                     )
                     .then((returnValue) => {
                         response.json({
                             error: false,
-                            data: result != null ?
-                                (
-                                    (typeof returnValue.toJSON === 'function') ?
-                                        returnValue.toJSON() :
-                                        returnValue
-                                ) :
-                                null
+                            data: returnValue
                         });
                     }).catch(errorHandler);
                 }).catch(errorHandler);

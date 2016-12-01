@@ -36,21 +36,17 @@
                         logicDefCode,
                         result
                     )
-                    .then((postPromises) => {
-                        Promise.all(postPromises)
-                        .then((results) => {
-                            var returnValue = results[0];
-                            response.json({
-                                error: false,
-                                data: result != null ?
-                                    (
-                                        (typeof returnValue.toJSON === 'function') ?
-                                            returnValue.toJSON() :
-                                            returnValue
-                                    ) :
-                                    null
-                            });
-                        }).catch(errorHandler);
+                    .then((returnValue) => {
+                        response.json({
+                            error: false,
+                            data: result != null ?
+                                (
+                                    (typeof returnValue.toJSON === 'function') ?
+                                        returnValue.toJSON() :
+                                        returnValue
+                                ) :
+                                null
+                        });
                     }).catch(errorHandler);
                 }).catch(errorHandler);
             }).catch(errorHandler);

@@ -102,6 +102,36 @@
 							});											\
 						})												\
 						'
+					),
+					vm.run('											\
+						new Promise((resolve, reject) => {				\
+							Attollo.TestMethod().then(() => {			\
+								resolve(); 								\
+							}).catch((err) => {							\
+								reject(err);							\
+							});											\
+						})												\
+						'
+					),
+					vm.run('											\
+						new Promise((resolve, reject) => {				\
+							Attollo.TestMethod().then(() => {			\
+								resolve(); 								\
+							}).catch((err) => {							\
+								reject(err);							\
+							});											\
+						})												\
+						'
+					),
+					vm.run('											\
+						new Promise((resolve, reject) => {				\
+							Attollo.TestMethod().then(() => {			\
+								resolve(); 								\
+							}).catch((err) => {							\
+								reject(err);							\
+							});											\
+						})												\
+						'
 					)
 				]);
 			});
@@ -120,36 +150,86 @@
 
 	classDef.prototype.GetPluginDefPostLogics = function (authContext, pluginDefLogicDefCode, data) {
 		if(authContext){
-			var vm = new VM({
-				sandbox: {
-					Attollo: Attollo.GetPluginContext(authContext),
-					Data: data
-				}
-			});
+			var logics = [
+				'																\
+					new Promise((resolve, reject) => {							\
+						Attollo.TestMethod().then(() => {						\
+							Data.forEach((x) => {								\
+								var newValue = 	(x.get("fromplugin") || 0);		\
+								newValue++;										\
+								x.set({ fromplugin: newValue });				\
+							});													\
+							resolve(Data); 										\
+						}).catch((err) => {										\
+							reject(err);										\
+						});														\
+					})															\
+				',
+				'																\
+					new Promise((resolve, reject) => {							\
+						Attollo.TestMethod().then(() => {						\
+							Data.forEach((x) => {								\
+								var newValue = 	(x.get("fromplugin") || 0);		\
+								newValue++;										\
+								x.set({ fromplugin: newValue });				\
+							});													\
+							resolve(Data); 										\
+						}).catch((err) => {										\
+							reject(err);										\
+						});														\
+					})															\
+				',
+				'																\
+					new Promise((resolve, reject) => {							\
+						Attollo.TestMethod().then(() => {						\
+							Data.forEach((x) => {								\
+								var newValue = 	(x.get("fromplugin") || 0);		\
+								newValue++;										\
+								x.set({ fromplugin: newValue });				\
+							});													\
+							resolve(Data); 										\
+						}).catch((err) => {										\
+							reject(err);										\
+						});														\
+					})															\
+				'
+			];
 
-			return new Promise((resolve, reject) => {
-				resolve([
-					vm.run('											\
-						new Promise((resolve, reject) => {				\
-							Attollo.TestMethod().then(() => {			\
-								resolve(Data); 							\
-							}).catch((err) => {							\
-								reject(err);							\
-							});											\
-						})												\
-						'
-					)
-				]);
-			});
+			if(logics.length) {
+				var pluginContext = Attollo.GetPluginContext(authContext);
+				return new Promise((resolve, reject) => {
+					var processLogic = (logicArray, currentData) => {
+						if(logicArray.length) {
+							var logic = logicArray.pop();
+							var vm = new VM({
+								sandbox: {
+									Attollo: pluginContext,
+									Data: currentData
+								}
+							});
+
+							vm.run(logic)
+							.then((newData) => {
+								processLogic(logicArray, newData);
+							})
+							.catch((err) => {
+								reject(err);
+							});
+						} else {
+							resolve(currentData);
+						}
+					};
+
+					processLogic(logics, data);
+				});
+			}else{
+				return new Promise((resolve, reject) => { 
+					resolve(data);
+				});
+			}
 		}else{
 			return new Promise((resolve, reject) => { 
-				resolve(
-					[
-						new Promise((resolve2, reject2) => {
-							resolve2(data);
-						}) 
-					]
-				);
+				resolve(data);
 			});
 		}
 	}

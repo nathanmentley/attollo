@@ -132,9 +132,6 @@
 					vm.run('											\
 						new Promise((resolve, reject) => {				\
 							Attollo.TestMethod().then(() => {			\
-								//Data.forEach((x) => {					\
-								//	x.set({ fromplugin: "2"});			\
-								//});										\
 								resolve(Data); 							\
 							}).catch((err) => {							\
 								reject(err);							\

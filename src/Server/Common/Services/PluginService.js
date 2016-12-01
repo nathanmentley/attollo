@@ -1,4 +1,6 @@
 (function () {
+	const { VM } = require('vm2');
+
 	var Context;
 	var ServiceName;
 	var classDef = function (serviceContext, name) {
@@ -81,8 +83,78 @@
 
 	//PluginDefLogic
 
-	classDef.prototype.GetPluginDefLogics = function (authContext, pluginDefLogicDefCode) {
+	classDef.prototype.GetPluginDefPreLogics = function (authContext, pluginDefLogicDefCode) {
+		if(authContext){
+			var vm = new VM({
+				sandbox: {
+					Attollo: Attollo.GetPluginContext(authContext)
+				}
+			});
 
+			return new Promise((resolve, reject) => {
+				resolve([
+					vm.run('											\
+						new Promise((resolve, reject) => {				\
+							Attollo.TestMethod().then(() => {			\
+								resolve(); 								\
+							}).catch((err) => {							\
+								reject(err);							\
+							});											\
+						})												\
+						'
+					)
+				]);
+			});
+		}else{
+			return new Promise((resolve, reject) => { 
+				resolve(
+					[
+						new Promise((resolve2, reject2) => {
+							resolve2();
+						}) 
+					]
+				);
+			});
+		}
+	}
+
+	classDef.prototype.GetPluginDefPostLogics = function (authContext, pluginDefLogicDefCode, data) {
+		if(authContext){
+			var vm = new VM({
+				sandbox: {
+					Attollo: Attollo.GetPluginContext(authContext),
+					Data: data
+				}
+			});
+
+			return new Promise((resolve, reject) => {
+				resolve([
+					vm.run('											\
+						new Promise((resolve, reject) => {				\
+							Attollo.TestMethod().then(() => {			\
+								//Data.forEach((x) => {					\
+								//	x.set({ fromplugin: "2"});			\
+								//});										\
+								resolve(Data); 							\
+							}).catch((err) => {							\
+								reject(err);							\
+							});											\
+						})												\
+						'
+					)
+				]);
+			});
+		}else{
+			return new Promise((resolve, reject) => { 
+				resolve(
+					[
+						new Promise((resolve2, reject2) => {
+							resolve2(data);
+						}) 
+					]
+				);
+			});
+		}
 	}
 
 	module.exports = classDef;

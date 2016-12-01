@@ -33,10 +33,20 @@ Attollo = {
             }
         }
     })();
+
+    //PluginContext
+    (function() {
+        var pluginContext = require("./PluginContext");
+        Attollo.GetPluginContext = function (dbContext) {
+            return pluginContext.BuildContext(Attollo, dbContext);
+        };
+    })();
     
     //AppStart and AppStop
     (function() {
         Attollo.App.Start = function (appName, start){
+            Attollo.App.Name = appName;
+            
             Attollo.Utils.Log.Init(appName);
 
             Attollo.Utils.Log.Info("App Start");

@@ -16,8 +16,8 @@ Attollo = {
     (function() {
         var serviceContext = require("./ServiceContext");
         
-        function LoadService(serviceName) {
-            var serviceDef = require("./Services/" + serviceName);
+        function LoadService(serviceFileName, serviceName) {
+            var serviceDef = require("./Services/" + serviceFileName, serviceName);
             return new serviceDef(serviceContext);
         }
 
@@ -26,9 +26,10 @@ Attollo = {
 
         for (var i = 0; i < services.length; i++) {
 			if(services[i].endsWith('Service.js')) {
+                var serviceName = services[i].replace(/\.js$/, '').replace(/Service$/, '');
                 Attollo.Services[
-                    services[i].replace(/\.js$/, '').replace(/Service$/, '')
-                ] = LoadService(services[i]);
+                    serviceName
+                ] = LoadService(services[i], serviceName);
             }
         }
     })();

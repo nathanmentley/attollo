@@ -1,7 +1,9 @@
 (function () {
 	var Context;
-	var classDef = function (serviceContext) {
+	var ServiceName;
+	var classDef = function (serviceContext, name) {
 		Context = serviceContext;
+		ServiceName = name;
 	};
 	
 	classDef.prototype.SendEmail = function (toAddr, fromAddr, subject, text, callback){

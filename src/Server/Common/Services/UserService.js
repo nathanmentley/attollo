@@ -2,8 +2,10 @@
 	var bcrypt = require('bcryptjs');
 
 	var Context;
-	var classDef = function (serviceContext) {
+	var ServiceName;
+	var classDef = function (serviceContext, name) {
 		Context = serviceContext;
+		ServiceName = name;
 	};
 	
 	classDef.prototype.GetUsers = function (authContext){

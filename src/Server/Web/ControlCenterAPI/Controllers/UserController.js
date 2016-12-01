@@ -5,87 +5,51 @@
 
 	var urlendpoint = '/Users';
 
-	classDef.prototype.Setup = function (app, express, auth) {
-		app.get(urlendpoint, auth(PermissionDefCodes.ViewUsers), function(request, response) {
-			response.setHeader('Content-Type', 'application/json');
-			
-			Attollo.Services.User.GetUsers(request.AuthContext)
-			.then(function (collection) {
-				response.json({
-					error: false,
-					data: collection.toJSON()
-				});
-			})
-			.catch(function (err) {
-				response.status(500).json({
-					error: true,
-					data: {
-						message: err.message,
-						stack: err.stack
-					}
-				});
-			});
-		});
-
-		app.post(urlendpoint, auth('Login2'), function(request, response) {
-			response.setHeader('Content-Type', 'application/json');
-			
-			Attollo.Services.User.AddUser(request.AuthContext, request.body.username, request.body.password)
-			.then(function() {
-				response.json({
-					error: false
-				});
-			})
-			.catch(function (err) {
-				response.status(500).json({
-					error: true,
-					data: {
-						message: err.message,
-						stack: err.stack
-					}
-				});
-			});
-		});
-
-		app.put(urlendpoint, auth(null), function(request, response) {
-			response.setHeader('Content-Type', 'application/json');
-			
-			Attollo.Services.User.UpdateUser(request.AuthContext, request.body.user)
-			.then(function() {
-				response.json({
-					error: false
-				});
-			})
-			.catch(function (err) {
-				response.status(500).json({
-					error: true,
-					data: {
-						message: err.message,
-						stack: err.stack
-					}
-				});
-			});
-		});
-
-		app.delete(urlendpoint, auth(null), function(request, response) {
-			response.setHeader('Content-Type', 'application/json');
-			
-			Attollo.Services.User.DeleteUser(request.AuthContext, { id: request.query.userId })
-			.then(function() {
-				response.json({
-					error: false
-				});
-			})
-			.catch(function (err) {
-				response.status(500).json({
-					error: true,
-					data: {
-						message: err.message,
-						stack: err.stack
-					}
-				});
-			});
-		});
+	classDef.prototype.Setup = (controllerContext) => {
+		controllerContext.App.get(
+			urlendpoint,
+			controllerContext.Auth(PermissionDefCodes.ViewUsers),
+			(request, response) => {
+				controllerContext.ResponseProcessor(
+					request,
+					response,
+					Attollo.Services.User.GetUsers(request.AuthContext)
+				)
+			}
+		);
+		controllerContext.App.post(
+			urlendpoint,
+			controllerContext.Auth(null),
+			(request, response) => {
+				controllerContext.ResponseProcessor(
+					request,
+					response,
+					Attollo.Services.User.AddUser(request.AuthContext, request.body.username, request.body.password)
+				)
+			}
+		);
+		controllerContext.App.put(
+			urlendpoint,
+			controllerContext.Auth(null),
+			(request, response) => {
+				controllerContext.ResponseProcessor(
+					request,
+					response,
+					Attollo.Services.User.UpdateUser(request.AuthContext, request.body.user)
+				)
+			}
+		);
+		controllerContext.App.delete(
+			urlendpoint,
+			controllerContext.Auth(null),
+			(request, response) => {
+				controllerContext.ResponseProcessor(
+					request,
+					response,
+					Attollo.Services.User.DeleteUser(request.AuthContext, { id: request.query.userId })
+				)
+			}
+		);
 	};
 	
 	module.exports = new classDef();

@@ -4,29 +4,28 @@ require("../../Common/Attollo");
 (function () {
 	Attollo.App.Start('RunnerAPI', () => {
 		//load deps
-		var express = require('express');
-		var app = express();
+		var controllerContext = require('./ControllerContext');
 		var fs = require('fs');
 		
 		//enabled cors
-		app.all('*', function(req, res, next) {
+		controllerContext.App.all('*', function(req, res, next) {
 			res.header('Access-Control-Allow-Origin', '*');
 			res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
 			res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 			next();
 		});
 
-		app.set('port', Attollo.Utils.Config.PortNumber);
+		controllerContext.App.set('port', Attollo.Utils.Config.PortNumber);
 		
 		//Setup Json Body Parser
-		app.use(require('body-parser').json());
+		controllerContext.App.use(require('body-parser').json());
 		
 		//Force HTTPS on non local
 		if (Attollo.Utils.Config.Environment != "Local" &&
 				Attollo.Utils.Config.Environment != "NativeLocal" &&
 				Attollo.Utils.Config.Environment != "Demo"
 		) {
-			app.use(function(request, response, next) {
+			controllerContext.App.use(function(request, response, next) {
 					if (request.headers['x-forwarded-proto'] != 'https') {
 							response.redirect('https://' + request.headers.host + request.path);
 					} else {
@@ -37,19 +36,17 @@ require("../../Common/Attollo");
 		
 		//Setup each controller.
 		fs.readdir(__dirname + '/Controllers', function(err, items) {
-			var auth = require("./AuthConfig");
-			
 			for (var i = 0; i < items.length; i++) {
 				if(items[i].endsWith('Controller.js')) {
 					var controller = require("./Controllers/" + items[i]);
-					controller.Setup(app, express, auth);
+					controller.Setup(controllerContext);
 				}
 			}
 		});
 
 		//begin server
-		var server = app.listen(app.get('port'), function() {
-			Attollo.Utils.Log.Info('Node app is running on port ' + app.get('port'));
+		var server = controllerContext.App.listen(controllerContext.App.get('port'), function() {
+			Attollo.Utils.Log.Info('Node app is running on port ' + controllerContext.App.get('port'));
 		});
 
 		//do something when app is closing

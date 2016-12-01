@@ -1,7 +1,9 @@
 (function () {
 	var Context;
-	var classDef = function (serviceContext) {
+	var ServiceName;
+	var classDef = function (serviceContext, name) {
 		Context = serviceContext;
+		ServiceName = name;
 	};
 	
 	classDef.prototype.GetPluginDefs = function (authContext){
@@ -76,6 +78,12 @@
 			});
 		});
 	};
+
+	//PluginDefLogic
+
+	classDef.prototype.GetPluginDefLogics = function (authContext, pluginDefLogicDefCode) {
+
+	}
 
 	module.exports = classDef;
 })();

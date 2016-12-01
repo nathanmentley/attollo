@@ -2,8 +2,10 @@
 	var jsx = require('react-jsx');
 
 	var Context;
-	var classDef = function (serviceContext) {
+	var ServiceName;
+	var classDef = function (serviceContext, name) {
 		Context = serviceContext;
+		ServiceName = name;
 	};
 
 	//blockContainerDef

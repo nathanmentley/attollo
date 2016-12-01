@@ -3,27 +3,18 @@
 
 	var urlendpoint = '/BlockContainerAreas';
 
-	classDef.prototype.Setup = function (app, express, auth) {
-		app.get(urlendpoint, auth(null), function(request, response) {
-			response.setHeader('Content-Type', 'application/json');
-			
-			Attollo.Services.Block.GetBlockContainerArea(request.AuthContext, request.query.blockContainerId, request.query.areaCode)
-			.then(function (areas) {
-				response.json({
-					error: false,
-					data: areas.first()
-				});
-			})
-			.catch(function (err) {
-				response.status(500).json({
-					error: true,
-					data: {
-						message: err.message,
-						stack: err.stack
-					}
-				});
-			});
-		});
+	classDef.prototype.Setup = (controllerContext) => {
+		controllerContext.App.get(
+			urlendpoint,
+			controllerContext.Auth(null),
+			(request, response) => {
+				controllerContext.ResponseProcessor(
+					request,
+					response,
+					Attollo.Services.Block.GetBlockContainerArea(request.AuthContext, request.query.blockContainerId, request.query.areaCode)
+				)
+			}
+		);
 	};
 	
 	module.exports = new classDef();

@@ -37,6 +37,7 @@
 	var PluginDef = require("../Models/PluginDef");
 	var PluginDefLogic = require("../Models/PluginDefLogic");
 	var PluginDefLogicDef = require("../Models/PluginDefLogicDef");
+	var PluginDefLogicTarget = require("../Models/PluginDefLogicTarget");
 	var PluginSetting = require("../Models/PluginSetting");
 	var PluginSettingDef = require("../Models/PluginSettingDef");
 
@@ -151,6 +152,9 @@
 
 	classDef.prototype.PluginDefLogicDefs = PluginDefLogicDef.Collection;
 	classDef.prototype.PluginDefLogicDef = PluginDefLogicDef.Model;
+
+	classDef.prototype.PluginDefLogicTargets = PluginDefLogicTarget.Collection;
+	classDef.prototype.PluginDefLogicTarget = PluginDefLogicTarget.Model;
 
 	classDef.prototype.PluginSettings = PluginSetting.Collection;
 	classDef.prototype.PluginSetting = PluginSetting.Model;

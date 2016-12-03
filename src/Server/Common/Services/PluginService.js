@@ -8,6 +8,34 @@
 		ServiceName = name;
 	};
 	
+	//PluginDefLogicDef
+	
+	classDef.prototype.AddPluginDefLogicDef = function (authContext, model){
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.Plugin.AddPluginDefLogicDef(authContext, transaction, model)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
+	};
+
+	//PluginDefLogicTarget
+	
+	classDef.prototype.AddPluginDefLogicTarget = function (authContext, model){
+		return Context.DBTransaction((transaction) => {
+			Context.Handlers.Plugin.AddPluginDefLogicTarget(authContext, transaction, model)
+			.then((result) => {
+				transaction.commit(result);
+			}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
+	};
+
+	//PluginDef
+	
 	classDef.prototype.GetPluginDefs = function (authContext){
 		return Context.Handlers.Plugin.GetPluginDefs(authContext);
 	};
@@ -27,6 +55,8 @@
 		});
 	};
 	
+	//Plugin
+
 	classDef.prototype.GetPlugins = function (authContext){
 		return Context.Handlers.Plugin.GetPlugins(authContext);
 	};

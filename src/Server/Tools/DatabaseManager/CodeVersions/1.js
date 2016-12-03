@@ -2,6 +2,8 @@
 
 (function () {
 	var PluginDefCodes = require('../../../../Platform/Constants/PluginDefCodes');
+	var PluginDefLogicTargetCodes = require('../../../../Platform/Constants/PluginDefLogicTargetCodes');
+	var PluginDefLogicDefCodes = require('../../../../Platform/Constants/PluginDefLogicDefCodes');
 	var DataTypeFieldTypeCodes = require('../../../../Platform/Constants/DataTypeFieldTypeCodes');
 
     var classDef = function () {};
@@ -9,7 +11,13 @@
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
             Attollo.Services.DataType.AddDataTypeFieldType(dbContext, { name: 'Text', code: DataTypeFieldTypeCodes.Text }),
-            Attollo.Services.DataType.AddDataTypeFieldType(dbContext, { name: 'HTML', code: DataTypeFieldTypeCodes.HTML })
+            Attollo.Services.DataType.AddDataTypeFieldType(dbContext, { name: 'HTML', code: DataTypeFieldTypeCodes.HTML }),
+
+            Attollo.Services.Plugin.AddPluginDefLogicTarget(dbContext, { title: 'Pre Action', code: PluginDefLogicTargetCodes.Pre }),
+            Attollo.Services.Plugin.AddPluginDefLogicTarget(dbContext, { title: 'Post Action', code: PluginDefLogicTargetCodes.Post }),
+            Attollo.Services.Plugin.AddPluginDefLogicTarget(dbContext, { title: 'Override Action', code: PluginDefLogicTargetCodes.Override }),
+            
+            Attollo.Services.Plugin.AddPluginDefLogicDef(dbContext, { title: 'Control Center -> Get -> Users', code: PluginDefLogicDefCodes.ControlCenter_Get_Users })
         ])
         .then((result) => {
             Promise.all([

@@ -38,6 +38,7 @@
         'PluginID'.toLowerCase(),
         "PluginDefID".toLowerCase(),
         'PluginDefLogicDefID'.toLowerCase(),
+        "PluginDefLogicTargetID".toLowerCase(),
         'PluginDefLogicID'.toLowerCase(),
         'PluginSettingDefID'.toLowerCase(),
         'PluginSettingID'.toLowerCase(),

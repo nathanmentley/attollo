@@ -3,22 +3,9 @@
 	var Database = require("../Core/Database");
 	var ModelEvents = require("../Core/ModelEvents");
 
-	var PluginDef = require("./PluginDef");
-	var PluginDefLogicDef = require("./PluginDefLogicDef");
-	var PluginDefLogicTarget = require("./PluginDefLogicTarget");
+	var filter = function(authContext, query) { };
 
-	var filter = function(authContext, query) {
-		if(authContext.ClientID) {
-		}
-
-		if(authContext.SiteID) {
-		}
-		
-		if(authContext.SiteVersionID) {
-		}
-	};
-
-	var tableName = 'plugindeflogic';
+	var tableName = 'plugindeflogictarget';
 	var model = function(authContext, skipFilter) {
 		return Database.Model.extend({
 			tableName: tableName,
@@ -31,15 +18,6 @@
 				this.on("created", ModelEvents.AuditCreated(authContext, tableName));
 				this.on("updating", ModelEvents.AuditUpdating(authContext, tableName));
 				this.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
-			},
-			PluginDef: function() {
-				return this.belongsTo(PluginDef.Model(authContext, skipFilter), 'plugindefid');
-			},
-			PluginDefLogicDef: function() {
-				return this.belongsTo(PluginDefLogicDef.Model(authContext, skipFilter), 'plugindeflogicdefid');
-			},
-			PluginDefLogicTarget: function() {
-				return this.belongsTo(PluginDefLogicTarget.Model(authContext, skipFilter), 'plugindeflogictargetid');
 			}
 		});
 	};

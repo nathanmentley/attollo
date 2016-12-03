@@ -49,13 +49,19 @@ CREATE TABLE IF NOT EXISTS PluginDef (
 CREATE TABLE IF NOT EXISTS PluginDefLogicDef (
     ID SERIAL PRIMARY KEY,
     Code VARCHAR(255) NOT NULL,
-    Title VARCHAR(255) NOT NULL,
-    DefaultValue TEXT NOT NULL
+    Title VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS PluginDefLogicTarget (
+    ID SERIAL PRIMARY KEY,
+    Code VARCHAR(255) NOT NULL,
+    Title VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS PluginDefLogic (
     ID SERIAL PRIMARY KEY,
     PluginDefLogicDefID integer REFERENCES PluginDefLogicDef NOT NULL,
+    PluginDefLogicTargetID integer REFERENCES PluginDefLogicTarget NOT NULL,
     PluginDefID integer REFERENCES PluginDef NOT NULL,
     Content VARCHAR(255) NOT NULL,
     CompiledContent VARCHAR(255) NOT NULL

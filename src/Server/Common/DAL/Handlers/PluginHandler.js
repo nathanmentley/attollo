@@ -8,6 +8,26 @@
 	};
 	util.inherits(classDef, baseHandler);
 	
+	//PluginDefLogicDef
+	
+	classDef.prototype.AddPluginDefLogicDef = function (authContext, transaction, model){
+		var PluginDefLogicDef = this.Context.DatabaseContext.PluginDefLogicDef(authContext);
+		var pluginDefLogicDef = new PluginDefLogicDef(model);
+
+		return pluginDefLogicDef.save(null, { transacting: transaction });
+	};
+
+	//PluginDefLogicTarget
+	
+	classDef.prototype.AddPluginDefLogicTarget = function (authContext, transaction, model){
+		var PluginDefLogicTarget = this.Context.DatabaseContext.PluginDefLogicTarget(authContext);
+		var pluginDefLogicTarget = new PluginDefLogicTarget(model);
+
+		return pluginDefLogicTarget.save(null, { transacting: transaction });
+	};
+
+	//PluginDef
+
 	classDef.prototype.GetPluginDefs = function (authContext){
 		return this.Context.DatabaseContext.PluginDefs(authContext).fetch();
 	};
@@ -23,11 +43,13 @@
 	
 	classDef.prototype.AddPluginDef = function (authContext, transaction, model){
 		var PluginDef = this.Context.DatabaseContext.PluginDef(authContext);
-		var PluginDef = new PluginDef(model);
+		var pluginDef = new PluginDef(model);
 
-		return PluginDef.save(null, { transacting: transaction });
+		return pluginDef.save(null, { transacting: transaction });
 	};
 	
+	//Plugin
+
 	classDef.prototype.GetPlugins = function (authContext){
 		return this.Context.DatabaseContext.Plugins(authContext)
 		.fetch({
@@ -37,23 +59,23 @@
 	
 	classDef.prototype.AddPlugin = function (authContext, transaction, model){
 		var Plugin = this.Context.DatabaseContext.Plugin(authContext);
-		var Plugin = new Plugin(model);
+		var plugin = new Plugin(model);
 
-		return Plugin.save(null, { transacting: transaction });
+		return plugin.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.UpdatePlugin = function (authContext, transaction, model){
 		var Plugin = this.Context.DatabaseContext.Plugin(authContext);
-		var Plugin = new Plugin(model);
+		var plugin = new Plugin(model);
 
-		return Plugin.save(null, { transacting: transaction });
+		return plugin.save(null, { transacting: transaction });
 	};
 	
 	classDef.prototype.DeletePlugin = function (authContext, transaction, model){
 		var Plugin = this.Context.DatabaseContext.Plugin(authContext);
-		var Plugin = new Plugin(model);
+		var plugin = new Plugin(model);
 
-		return Plugin.destroy({ transacting: transaction });
+		return plugin.destroy({ transacting: transaction });
 	};
 
 	module.exports = classDef;

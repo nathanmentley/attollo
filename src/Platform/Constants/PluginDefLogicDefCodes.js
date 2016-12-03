@@ -1,7 +1,7 @@
 (function () {
 	var classDef = function () {};
     
-	classDef.prototype.Users_GetUsers = 'Users_GetUsers';
+	classDef.prototype.ControlCenter_Get_Users = 'ControlCenterAPI/GET/Users';
 
 	module.exports = new classDef();
 })();

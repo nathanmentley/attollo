@@ -1,4 +1,3 @@
-(function () {
 	import Auid from "../Core/Auid";
 	import Database from "../Core/Database";
 	import ModelEvents from "../Core/ModelEvents";
@@ -41,5 +40,7 @@
 		.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
 	};
 	
-	module.exports = { Model: model, Collection: collection };
-})();
+export default class Block() {
+	static get Model() { return model; }
+	static get Collection() { return collection; }
+};

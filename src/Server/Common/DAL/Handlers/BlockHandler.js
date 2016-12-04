@@ -1,16 +1,6 @@
-(function () {
-	var baseHandler = require('../../BaseHandler')
-	var util = require('util');
-
-	var classDef = function (context) {
-		baseHandler.apply(this);
-		this.Context = context;
-	};
-	util.inherits(classDef, baseHandler);
-	
-	//BlockDef
-	
-	classDef.prototype.GetBlockDefs = function (authContext, pageDefId){
+import BaseHandler from '../BaseHandler';
+export default class BlockHandler extends BaseHandler {
+	static GetBlockDefs(authContext, pageDefId){
 		return this.Context.DatabaseContext.BlockDefs(authContext)
 			.query((qb) => {
 				qb.whereNull('pagedefid')
@@ -18,7 +8,7 @@
 			}).fetch();
 	};
 
-	classDef.prototype.GetBlockDef = function (authContext, code){
+	static GetBlockDef(authContext, code){
 		return this.Context.DatabaseContext.BlockDefs(authContext)
 				.query({
 					where: {
@@ -28,7 +18,7 @@
 				.fetch();
 	};
 
-	classDef.prototype.AddBlockDef = function (authContext, transaction, pluginDefId, pageDefId, code, name){
+	static AddBlockDef(authContext, transaction, pluginDefId, pageDefId, code, name){
 		var BlockDef = this.Context.DatabaseContext.BlockDef(authContext);
 		var blockDef = new BlockDef({
 			plugindefid: pluginDefId,
@@ -42,7 +32,7 @@
 
 	//BlockDefFunctions
 
-	classDef.prototype.AddBlockDefFunction = function (authContext, transaction, model){
+	static AddBlockDefFunction(authContext, transaction, model){
 		var BlockDefFunction = this.Context.DatabaseContext.BlockDefFunction(authContext);
 		var blockDefFunction = new BlockDefFunction(model);
 
@@ -51,7 +41,7 @@
 
 	//BlockDefDataRequest
 
-	classDef.prototype.AddBlockDefDataRequest = function (authContext, transaction, model){
+	static AddBlockDefDataRequest(authContext, transaction, model){
 		var BlockDefDataRequest = this.Context.DatabaseContext.BlockDefDataRequest(authContext);
 		var blockDefDataRequest = new BlockDefDataRequest(model);
 
@@ -60,7 +50,7 @@
 
 	//blockTemplateDef
 
-	classDef.prototype.GetBlockTemplateDef = function (authContext, blockDefId, templateCode) {
+	static GetBlockTemplateDef(authContext, blockDefId, templateCode) {
 		return this.Context.DatabaseContext.BlockTemplateDefs(authContext)
 				.query({
 					where: {
@@ -71,12 +61,12 @@
 				.fetch();
 	};
 
-	classDef.prototype.GetBlockTemplateDefs = function (authContext) {
+	static GetBlockTemplateDefs(authContext) {
 		return this.Context.DatabaseContext.BlockTemplateDefs(authContext)
 				.fetch();
 	};
 
-	classDef.prototype.AddBlockTemplateDef = function (authContext, transaction, blockDefId, code, name, template, compiledTemplate) {
+	static AddBlockTemplateDef(authContext, transaction, blockDefId, code, name, template, compiledTemplate) {
 		var BlockTemplateDef = this.Context.DatabaseContext.BlockTemplateDef(authContext);
 		var blockTemplateDef = new BlockTemplateDef({
 			blockdefid: blockDefId,
@@ -90,14 +80,14 @@
 	};
 
 	//Block
-	classDef.prototype.GetBlocks = function (authContext, blockContainerId){
+	static GetBlocks(authContext, blockContainerId){
 		return this.Context.DatabaseContext.Blocks(authContext)
 			.query((qb) => {
 				qb.where('blockcontainer.id', '=', blockContainerId);
 			}).fetch({ withRelated: ['BlockDef', 'BlockContainerArea.BlockContainerAreaDef'] });
 	};
 	
-	classDef.prototype.AddBlock = function (authContext, transaction, blockContainerArea, blockDef, blockTemplateDef){
+	static AddBlock(authContext, transaction, blockContainerArea, blockDef, blockTemplateDef){
 		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block({
 			blockdefid: blockDef.id,
@@ -109,21 +99,21 @@
 		return block.save(null, { transacting: transaction });
 	};
 	
-	classDef.prototype.UpdateBlock = function (authContext, transaction, model){
+	static UpdateBlock(authContext, transaction, model){
 		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block(model);
 
 		return block.save(null, { transacting: transaction });
 	};
 	
-	classDef.prototype.DeleteBlock = function (authContext, transaction, model){
+	static DeleteBlock(authContext, transaction, model){
 		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block(model);
 
 		return block.destroy({ transacting: transaction });
 	};
 
-	classDef.prototype.GetBlockCssRules = function (authContext) {
+	static GetBlockCssRules(authContext) {
 		return this.Context.DatabaseContext.BlockCssRules(authContext)
 			.fetch({
 				withRelated: [
@@ -133,7 +123,7 @@
 			});
 	};
 
-	classDef.prototype.GetBlockCssRulesForBlock = function (authContext, blockId) {
+	static GetBlockCssRulesForBlock(authContext, blockId) {
 		return this.Context.DatabaseContext.BlockCssRules(authContext)
 			.query((qb) => {
 				qb.where('blockid', '=', blockId);
@@ -147,18 +137,18 @@
 
 	//BlockContainerDef
 
-	classDef.prototype.GetBlockContainerDefs = function (authContext){
+	static GetBlockContainerDefs(authContext){
 		return this.Context.DatabaseContext.BlockContainerDefs(authContext).fetch();
 	};
 
-	classDef.prototype.GetBlockContainerDef = function (authContext, code){
+	static GetBlockContainerDef(authContext, code){
 		return this.Context.DatabaseContext.BlockContainerDefs(authContext)
 			.query((qb) => {
 				qb.where('code', '=', code);
 			}).fetch();
 	};
 
-	classDef.prototype.AddBlockContainerDef = function (authContext, transaction, code, title){
+	static AddBlockContainerDef(authContext, transaction, code, title){
 		var BlockContainerDef = this.Context.DatabaseContext.BlockContainerDef(authContext);
 		var blockContainerDef = new BlockContainerDef({
 			code: code,
@@ -170,7 +160,7 @@
 
 	//BlockContainer
 
-	classDef.prototype.GetBlockContainers = function (authContext, pageId){
+	static GetBlockContainers(authContext, pageId){
 		return this.Context.DatabaseContext.BlockContainers(authContext)
 			.query((qb) => {
 				qb.where('pageid', '=', pageId);
@@ -193,7 +183,7 @@
 			] });
 	};
 
-	classDef.prototype.AddBlockContainers = function (authContext, transaction, pageId, blockContainerDefId, displayOrder){
+	static AddBlockContainers(authContext, transaction, pageId, blockContainerDefId, displayOrder){
 		var BlockContainer = this.Context.DatabaseContext.BlockContainer(authContext);
 		var blockContainer = new BlockContainer({
 			pageid: pageId,
@@ -204,14 +194,14 @@
 		return blockContainer.save(null, { transacting: transaction });
 	};
 
-	classDef.prototype.UpdateBlockContainer = function (authContext, transaction, model){
+	static UpdateBlockContainer(authContext, transaction, model){
 		var BlockContainer = this.Context.DatabaseContext.BlockContainer(authContext);
 		var blockContainer = new BlockContainer(model);
 
 		return blockContainer.save(null, { transacting: transaction });
 	};
 
-	classDef.prototype.GetBlockContainerCssRules = function (authContext) {
+	static GetBlockContainerCssRules(authContext) {
 		return this.Context.DatabaseContext.BlockContainerCssRules(authContext)
 			.fetch({
 				withRelated: [
@@ -223,7 +213,7 @@
 
 	//BlockContainerAreaDef
 
-	classDef.prototype.GetBlockContainerAreaDefs = function (authContext, blockContainerCode) {
+	static GetBlockContainerAreaDefs(authContext, blockContainerCode) {
 		return this.Context.DatabaseContext.BlockContainerAreaDefs(authContext)
 			.query((qb) => {
 				qb.where('blockcontainerdef.code', '=', blockContainerCode);
@@ -231,7 +221,7 @@
 			}).fetch();
 	};
 
-	classDef.prototype.AddBlockContainerAreaDef = function (authContext, transaction, blockContainerDefID, code, title) {
+	static AddBlockContainerAreaDef(authContext, transaction, blockContainerDefID, code, title) {
 		var BlockContainerAreaDef = this.Context.DatabaseContext.BlockContainerAreaDef(authContext);
 		var blockContainerAreaDef = new BlockContainerAreaDef({
 			blockcontainerdefid: blockContainerDefID,
@@ -244,7 +234,7 @@
 
 	//BlockContainerArea
 
-	classDef.prototype.GetBlockContainerArea = function (authContext, blockContainerId, areaCode) {
+	static GetBlockContainerArea(authContext, blockContainerId, areaCode) {
 		return this.Context.DatabaseContext.BlockContainerAreas(authContext)
 			.query((qb) => {
 				qb.where('blockcontainerid', '=', blockContainerId);
@@ -253,7 +243,7 @@
 			}).fetch();
 	};
 
-	classDef.prototype.AddBlockContainerArea = function (authContext, transaction, blockContainerId, areaDefId) {
+	static AddBlockContainerArea(authContext, transaction, blockContainerId, areaDefId) {
 		var BlockContainerArea = this.Context.DatabaseContext.BlockContainerArea(authContext);
 		var blockContainerArea = new BlockContainerArea({
 			blockcontainerid: blockContainerId,
@@ -265,7 +255,7 @@
 
 	//BlockSettingDef
 
-	classDef.prototype.GetBlockSettingDefs = function (authContext, blockDefId){
+	static GetBlockSettingDefs(authContext, blockDefId){
 		return this.Context.DatabaseContext.BlockSettingDefs(authContext)
 			.query({
 				where: {
@@ -274,7 +264,7 @@
 			}).fetch();
 	};
 
-	classDef.prototype.AddBlockSettingDefs = function (authContext, transaction, blockDefId, code, title, settingTypeId, defaultValue){
+	static AddBlockSettingDefs(authContext, transaction, blockDefId, code, title, settingTypeId, defaultValue){
 		var BlockSettingDef = this.Context.DatabaseContext.BlockSettingDef(authContext);
 		var blockSettingDef = new BlockSettingDef({
 			blockdefid: blockDefId,
@@ -289,7 +279,7 @@
 
 	//BlockSettings
 
-	classDef.prototype.GetBlockSettings = function (authContext, blockId){
+	static GetBlockSettings(authContext, blockId){
 		return this.Context.DatabaseContext.BlockSettings(authContext)
 			.query({
 				where: {
@@ -298,7 +288,7 @@
 			}).fetch();
 	};
 
-	classDef.prototype.AddBlockSetting = function (authContext, transaction, blockId, blockSettingDefId, value) {
+	static AddBlockSetting(authContext, transaction, blockId, blockSettingDefId, value) {
 		var BlockSetting = this.Context.DatabaseContext.BlockSetting(authContext);
 		var blockSetting = new BlockSetting({
 			blockid: blockId,
@@ -309,12 +299,10 @@
 		return blockSetting.save(null, { transacting: transaction });
 	};
 
-	classDef.prototype.UpdateBlockSetting = function(authContext, transaction, model) {
+	static UpdateBlockSetting(authContext, transaction, model) {
 		var BlockSetting = this.Context.DatabaseContext.BlockSetting(authContext);
 		var blockSetting = new BlockSetting(model);
 
 		return blockSetting.save(null, { transacting: transaction });
 	};
-	
-	module.exports = classDef;
-})();
+}

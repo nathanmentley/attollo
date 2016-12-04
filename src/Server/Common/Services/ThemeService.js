@@ -1,20 +1,16 @@
-(function () {
-	var Context;
-	var ServiceName;
-	var classDef = function (serviceContext, name) {
-		Context = serviceContext;
-		ServiceName = name;
-	};
-	
-	classDef.prototype.GetThemes = function (authContext){
+import Attollo from "../Attollo";
+import BaseService from '../BaseService';
+
+export default class BlockService extends BaseService {
+	static GetThemes(authContext){
 		return Context.Handlers.Theme.GetThemes(authContext);
 	};
 	
-	classDef.prototype.GetTheme = function (authContext, code){
+	static GetTheme(authContext, code){
 		return Context.Handlers.Theme.GetTheme(authContext, code);
 	};
 	
-	classDef.prototype.AddTheme = function (authContext, pluginDefCode, code, name){
+	static AddTheme(authContext, pluginDefCode, code, name){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -41,7 +37,7 @@
 		});
 	};
 
-	classDef.prototype.AddThemeCssRule = function (authContext, themeCode, cssRuleDefCode, selector, value){
+	static AddThemeCssRule(authContext, themeCode, cssRuleDefCode, selector, value){
         var self = this;
 
 		//cssRuleDefCode
@@ -81,6 +77,4 @@
             });
         });
 	};
-
-	module.exports = classDef;
-})();
+}

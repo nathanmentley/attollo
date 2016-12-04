@@ -1,10 +1,10 @@
 (function () {
-	var Auid = require("../Core/Auid");
-	var Database = require("../Core/Database");
-	var ModelEvents = require("../Core/ModelEvents");
+	import Auid from "../Core/Auid";
+	import Database from "../Core/Database";
+	import ModelEvents from "../Core/ModelEvents";
 
-	var Site = require("./Site");
-	var Client = require("./Client");
+	import Site from "./Site";
+	import Client from "./Client";
 
 	var filter = function(authContext, query) {
 		if(authContext.ClientID) {

@@ -4,7 +4,15 @@
 
     require('./Client/ControlCenter/gulpfile.js')
     require('./Client/Runner/gulpfile.js');
-    require('./Server/gulpfile.js');
+
+    //require('./Server/gulpfile.js');
+    
+    require('./Server/Tools/DatabaseManager/gulpfile.js');
+
+    require('./Server/Web/ControlCenterAPI/gulpfile.js');
+    require('./Server/Web/RunnerAPI/gulpfile.js');
+    require('./Server/Web/RunnerClientWebServer/gulpfile.js');
+    require('./Server/Web/StaticWebServer/gulpfile.js');
     require('./Platform/gulpfile.js');
 
     // Build
@@ -13,7 +21,15 @@
         'Platform:package',
         'ControlCenter:build',
         'Runner:build',
-        'Server:build'
+
+        //'Server:build',
+
+        'DatabaseManager:build',
+
+        'ControlCenterAPI:build',
+        'RunnerAPI:build',
+        'RunnerClientWebServer:build',
+        'StaticWebServer:build'
     ]);
  
     // Watch
@@ -21,11 +37,15 @@
         'Platform:watch',
         'ControlCenter:watch',
         'Runner:watch',
-        'Server:watch'
-    ]);
-    gulp.task('watch-native', [
-        'ControlCenter:watch',
-        'Runner:watch'
+
+        //'Server:watch',
+
+        'DatabaseManager:watch',
+
+        'ControlCenterAPI:watch',
+        'RunnerAPI:watch',
+        'RunnerClientWebServer:watch',
+        'StaticWebServer:watch'
     ]);
 
     // Default task

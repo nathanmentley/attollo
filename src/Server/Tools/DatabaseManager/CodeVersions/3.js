@@ -1,5 +1,6 @@
 //Seed BlockContainerDefs
 //Seed AddBlockContainerAreaDef
+import Attollo from '../../../Common/Attollo';
 
 (function () {
     var classDef = function () {};

@@ -1,32 +1,46 @@
-(function () {
-	var classDef = function () {};
+import ConfigUtils from '../../Utils/ConfigUtils';
 
-	var knex = require('knex')({
-		client: 'pg',
-		connection: {
-			host: Attollo.Utils.Config.DbHost,
-			user: Attollo.Utils.Config.DbUser,
-			password: Attollo.Utils.Config.DbPass,
-			port: Attollo.Utils.Config.DbPort,
-			database: Attollo.Utils.Config.DbName,
-    		ssl: true
-		}
-	});
-	
-	var bookshelf = require('bookshelf')(knex);
-	bookshelf.plugin('visibility');
+var knex = null;
+var bookshelf = null;
 
-	classDef.prototype.Knex = knex;
-	classDef.prototype.Bookshelf = bookshelf;
-	classDef.prototype.Model = bookshelf.Model.extend({
-		constructor: function() {
-    		bookshelf.Model.apply(this, arguments);
-		}
-	});
+export default class Database {
+	static get Knex() {
+		return knex;
+	}
+	static get Bookshelf() {
+		return bookshelf;
+	}
 
-	classDef.prototype.Close = function () {
-		knex.destroy();
-	};
+	static get Model() {
+		return Database.Bookshelf.Model.extend({
+			constructor: () => {
+				Database.Bookshelf.Model.apply(this, arguments);
+			}
+		});
+	}
 
-	module.exports = new classDef();
-})();
+	static Connect() {
+		return new Promise((resolve, reject) => {
+			knex = require('knex')({
+				client: 'pg',
+				connection: {
+					host: ConfigUtils.Config.DbHost,
+					user: ConfigUtils.Config.DbUser,
+					password: ConfigUtils.Config.DbPass,
+					port: ConfigUtils.Config.DbPort,
+					database: ConfigUtils.Config.DbName,
+					ssl: true
+				}
+			});
+
+			bookshelf = require('bookshelf')(knex);
+			bookshelf.plugin('visibility');
+
+			resolve(Database.Bookshelf);
+		});
+	}
+
+	static Close() {
+		Database.Knex.destroy();
+	}
+}

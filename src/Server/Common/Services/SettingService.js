@@ -1,20 +1,16 @@
-(function () {
-	var Context;
-	var ServiceName;
-	var classDef = function (serviceContext, name) {
-		Context = serviceContext;
-		ServiceName = name;
-	};
-	
-	classDef.prototype.GetSettingTypes = function (authContext){
+import Attollo from "../Attollo";
+import BaseService from '../BaseService';
+
+export default class BlockService extends BaseService {
+	static GetSettingTypes(authContext){
 		return Context.Handlers.Setting.GetSettingTypes(authContext);
 	};
 
-	classDef.prototype.GetSettingType = function (authContext, code){
+	static GetSettingType(authContext, code){
 		return Context.Handlers.Setting.GetSettingType(authContext, code);
 	};
 	
-	classDef.prototype.AddSettingType = function (authContext, settingType){
+	static AddSettingType(authContext, settingType){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.Setting.AddSettingType(authContext, transaction, settingType)
 			.then((result) => {
@@ -24,6 +20,4 @@
 			});
 		});
 	};
-
-	module.exports = classDef;
-})();
+}

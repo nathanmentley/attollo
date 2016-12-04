@@ -1,10 +1,13 @@
-(function () {
+import ConfigUtils from '../Utils/ConfigUtils';
+import LogUtils from '../Utils/LogUtils';
 
-	var classDef = function () {};
+export default class SendGrid {
+    static Connect() {
+        return new Promise((resolve, reject) => {
+            resolve();
+        });
+    }
 
-	classDef.prototype.SendEmail = function (toAddr, fromAddr, subject, text, callback){
-		callback();
-	};
-	
-	module.exports = new classDef();
-})();
+    static Close() {
+    }
+}

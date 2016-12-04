@@ -1,9 +1,5 @@
-(function () {
-	var classDef = function (context) {
+export default class BaseService {
+	static Init(context) {
 		this.Context = context;
-	};
-	
-	classDef.prototype.Context = null;
-	
-	module.exports = classDef;
-})();
+	}
+};

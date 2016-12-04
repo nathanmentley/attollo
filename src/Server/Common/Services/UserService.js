@@ -1,18 +1,14 @@
-(function () {
-	var bcrypt = require('bcryptjs');
+import bcrypt from 'bcryptjs';
 
-	var Context;
-	var ServiceName;
-	var classDef = function (serviceContext, name) {
-		Context = serviceContext;
-		ServiceName = name;
-	};
-	
-	classDef.prototype.GetUsers = function (authContext){
+import Attollo from "../Attollo";
+import BaseService from '../BaseService';
+
+export default class BlockService extends BaseService {
+	static GetUsers(authContext){
 		return Context.Handlers.User.GetUsers(authContext);
 	};
 	
-	classDef.prototype.GetUser = function (authContext, username, password){
+	static GetUser(authContext, username, password){
 		return new Promise((resolve, reject) => {
 			Context.Handlers.User.GetUser(authContext, username)
 			.then((user) => {
@@ -42,7 +38,7 @@
 		});
 	};
 	
-	classDef.prototype.AddUser = function (authContext, name, password, roleCode){
+	static AddUser(authContext, name, password, roleCode){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -73,7 +69,7 @@
 		});
 	};
 	
-	classDef.prototype.UpdateUser = function (authContext, user){
+	static UpdateUser(authContext, user){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.User.UpdateUser(authContext, transaction, user)
 			.then((result) => {
@@ -84,7 +80,7 @@
 		});
 	};
 	
-	classDef.prototype.DeleteUser = function (authContext, userId){
+	static DeleteUser(authContext, userId){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.User.DeleteUser(authContext, transaction, userId)
 			.then((result) => {
@@ -97,15 +93,15 @@
 
 	//Roles
 
-	classDef.prototype.GetRole = function (authContext, code) {
+	static GetRole(authContext, code) {
 		return Context.Handlers.User.GetRole(authContext, code);
 	}
 
-	classDef.prototype.GetRoles = function (authContext) {
+	static GetRoles(authContext) {
 		return Context.Handlers.User.GetRoles(authContext);
 	}
 
-	classDef.prototype.AddRole = function (authContext, name, code) {
+	static AddRole(authContext, name, code) {
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.User.AddRole(authContext, transaction, name, code)
 			.then((result) => {
@@ -116,7 +112,7 @@
 		});
 	}
 
-	classDef.prototype.AddRolePermission = function (authContext, permissionDefCode, roleCode) {
+	static AddRolePermission(authContext, permissionDefCode, roleCode) {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -154,7 +150,7 @@
 
 	//PermissionDefs
 
-	classDef.prototype.AddPermissionDef = function (authContext, name, code, description) {
+	static AddPermissionDef(authContext, name, code, description) {
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.User.AddPermissionDef(authContext, transaction, name, code, description)
 			.then((result) => {
@@ -165,13 +161,11 @@
 		});
 	};
 
-	classDef.prototype.GetPermissionDefs = function (authContext) {
+	static GetPermissionDefs(authContext) {
 		return Context.Handlers.User.GetPermissionDefs(authContext);
 	};
 
-	classDef.prototype.GetPermissionDef = function (authContext, code) {
+	static GetPermissionDef(authContext, code) {
 		return Context.Handlers.User.GetPermissionDef(authContext, code);
 	};
-	
-	module.exports = classDef;
-})();
+}

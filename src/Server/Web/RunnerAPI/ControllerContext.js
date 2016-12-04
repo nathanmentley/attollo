@@ -1,7 +1,7 @@
 (function () {
-	var express = require('express');
+	import express from 'express';
 	var app = express();
-	var auth = require("./AuthConfig");
+	import auth from "./AuthConfig";
 
 	var classDef = function () {};
     
@@ -9,7 +9,7 @@
     classDef.prototype.Auth = auth;
     classDef.prototype.Express = express;
     classDef.prototype.ResponseProcessor = (request, response, logicPromise) => {
-        var logicDefCode = Attollo.App.Name + '/' + request.method + request.path;
+        var logicDefCode = Attollo.AppName + '/' + request.method + request.path;
 
 		response.setHeader('Content-Type', 'application/json');
 

@@ -1,12 +1,13 @@
 (function() {
-	var Auid = require('../../Common/DAL/Core/Auid');
+	import ConfigUtils from '../../Common/Utils/ConfigUtils';
+	import Auid from '../../Common/DAL/Core/Auid';
 
-	var jwt = require('jwt-simple');
+	import jwt from 'jwt-simple';
 
 	module.exports = function(permission) {
 		return function(req, res, next) {
 			if (req.headers.authorization) {
-				var decoded = jwt.decode(req.headers.authorization.substring(7), Attollo.Utils.Config.JwtSecret);
+				var decoded = jwt.decode(req.headers.authorization.substring(7), ConfigUtils.Config.JwtSecret);
 
 				if(decoded) {
 					req.AuthContext = {

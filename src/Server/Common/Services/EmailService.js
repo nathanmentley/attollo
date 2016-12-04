@@ -1,16 +1,12 @@
-(function () {
-	var Context;
-	var ServiceName;
-	var classDef = function (serviceContext, name) {
-		Context = serviceContext;
-		ServiceName = name;
-	};
-	
-	classDef.prototype.SendEmail = function (toAddr, fromAddr, subject, text, callback){
+import Attollo from "../Attollo";
+import BaseService from '../BaseService';
+
+export default class BlockService extends BaseService {
+	static SendEmail(toAddr, fromAddr, subject, text, callback){
 		Context.Clients.Email.SendEmail(toAddr, fromAddr, subject, text, callback);
 	};
 	
-	classDef.prototype.QueueEmail = function (toAddr, fromAddr, subject, text){
+	static QueueEmail(toAddr, fromAddr, subject, text){
 		Attollo.Services.MessageQueue.QueueMessage(
 			"",
 			"email",
@@ -22,6 +18,4 @@
 			}
 		);
 	};
-	
-	module.exports = classDef;
-})();
+}

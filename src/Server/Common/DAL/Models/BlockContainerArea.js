@@ -1,14 +1,14 @@
 (function () {
-	var Auid = require("../Core/Auid");
-	var Database = require("../Core/Database");
-	var ModelEvents = require("../Core/ModelEvents");
+	import Auid from "../Core/Auid";
+	import Database from "../Core/Database";
+	import ModelEvents from "../Core/ModelEvents";
     
-	var Page = require("./Page");
-	var SiteVersion = require("./SiteVersion");
-	var Site = require("./Site");
-	var Client = require("./Client");
-	var BlockContainer = require("./BlockContainer");
-	var BlockContainerAreaDef = require("./BlockContainerAreaDef");
+	import Page from "./Page";
+	import SiteVersion from "./SiteVersion";
+	import Site from "./Site";
+	import Client from "./Client";
+	import BlockContainer from "./BlockContainer";
+	import BlockContainerAreaDef from "./BlockContainerAreaDef";
 
 	var filter = function(authContext, query) {
 		if(authContext.ClientID) {
@@ -81,7 +81,7 @@
 				return this.belongsTo(BlockContainerAreaDef.Model(authContext, skipFilter), 'blockcontainerareadefid');
 			},
 			Blocks: function() {
-				var Block = require("./Block");
+				import Block from "./Block";
 				
 				return this.hasMany(Block.Model(authContext, skipFilter), 'blockcontainerareaid');
 			}

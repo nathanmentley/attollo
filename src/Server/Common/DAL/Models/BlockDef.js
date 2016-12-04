@@ -1,9 +1,9 @@
 (function () {
-	var Auid = require("../Core/Auid");
-	var Database = require("../Core/Database");
-	var ModelEvents = require("../Core/ModelEvents");
+	import Auid from "../Core/Auid";
+	import Database from "../Core/Database";
+	import ModelEvents from "../Core/ModelEvents";
 
-	var PageDef = require("./PageDef");
+	import PageDef from "./PageDef";
 
 	var filter = function(authContext, query) {
 		if(authContext.PluginDefIds) {
@@ -29,15 +29,15 @@
 				return this.belongsTo(PageDef.Model(authContext, skipFilter), 'pagedefid');
 			},
 			BlockSettingDefs: function() {
-				var BlockSettingDef = require("./BlockSettingDef");
+				import BlockSettingDef from "./BlockSettingDef";
 				return this.hasMany(BlockSettingDef.Model(authContext, skipFilter), "blockdefid");
 			},
 			BlockDefDataRequests: function() {
-				var BlockDefDataRequest = require("./BlockDefDataRequest");
+				import BlockDefDataRequest from "./BlockDefDataRequest";
 				return this.hasMany(BlockDefDataRequest.Model(authContext, skipFilter), 'blockdefid');
 			},
 			BlockDefFunctions: function() {
-				var BlockDefFunction = require("./BlockDefFunction");
+				import BlockDefFunction from "./BlockDefFunction";
 				return this.hasMany(BlockDefFunction.Model(authContext, skipFilter), 'blockdefid');
 			}
 		});

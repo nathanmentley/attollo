@@ -1,14 +1,14 @@
 (function () {
-	var Auid = require("../Core/Auid");
-	var Database = require("../Core/Database");
-	var ModelEvents = require("../Core/ModelEvents");
+	import Auid from "../Core/Auid";
+	import Database from "../Core/Database";
+	import ModelEvents from "../Core/ModelEvents";
     
-	var Page = require("./Page");
-	var SiteVersion = require("./SiteVersion");
-	var Site = require("./Site");
-	var Client = require("./Client");
-	var BlockContainerCssRule = require("./BlockContainerCssRule");
-	var BlockContainerDef = require("./BlockContainerDef");
+	import Page from "./Page";
+	import SiteVersion from "./SiteVersion";
+	import Site from "./Site";
+	import Client from "./Client";
+	import BlockContainerCssRule from "./BlockContainerCssRule";
+	import BlockContainerDef from "./BlockContainerDef";
 
 	var filter = function(authContext, query) {
 		if(authContext.ClientID) {
@@ -72,13 +72,13 @@
 				return this.belongsTo(BlockContainerDef.Model(authContext, skipFilter), 'blockcontainerdefid');
 			},
 			BlockContainerAreas: function() {
-				var BlockContainerArea = require("./BlockContainerArea");
+				import BlockContainerArea from "./BlockContainerArea";
 
 				return this.hasMany(BlockContainerArea.Model(authContext, skipFilter), 'blockcontainerid');
 			},
 			Blocks: function() {
-				var Block = require("./Block");
-				var BlockContainerArea = require("./BlockContainerArea");
+				import Block from "./Block";
+				import BlockContainerArea from "./BlockContainerArea";
 				
 				return this.hasMany(Block.Model(authContext, skipFilter), 'blockcontainerareaid')
 							.through(BlockContainerArea.Model(authContext, skipFilter), 'blockcontainerid');

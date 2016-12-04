@@ -1,10 +1,10 @@
 (function () {
-	var Auid = require("../Core/Auid");
-	var Database = require("../Core/Database");
-	var ModelEvents = require("../Core/ModelEvents");
+	import Auid from "../Core/Auid";
+	import Database from "../Core/Database";
+	import ModelEvents from "../Core/ModelEvents";
 
-	var DataTypeDef = require("./DataTypeDef");
-	var DataTypeFieldType = require("./DataTypeFieldType");
+	import DataTypeDef from "./DataTypeDef";
+	import DataTypeFieldType from "./DataTypeFieldType";
 
 	var filter = function(authContext, query) {
 	};

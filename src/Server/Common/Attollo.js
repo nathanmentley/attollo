@@ -1,78 +1,73 @@
-Attollo = {
-    App: {},
-    Services: {},
-    Utils: {}
-};
+import ConfigUtils from './Utils/ConfigUtils';
+import LogUtils from './Utils/LogUtils';
 
-(function () {
-	var classDef = function () {};
-	var fs = require('fs');
-	
-    //SetupUtils
-    Attollo.Utils.Config = require("./Utils/ConfigUtils").GetConfig();
-    Attollo.Utils.Log = require("./Utils/LogUtils");
-    
-    //Services
-    (function() {
-        var serviceContext = require("./ServiceContext");
+import Amqplib from './Clients/Amqplib';
+import Redis from './Clients/Redis';
+import Database from "./DAL/Core/Database";
+
+import PluginContext from "./PluginContext";
+import ServiceContext from "./ServiceContext";
+
+import BlockService from "./Services/BlockService";
+import ClientService from "./Services/ClientService";
+import CssService from "./Services/CssService";
+import DatabaseVersionService from "./Services/DatabaseVersionService";
+import DataTypeService from "./Services/DataTypeService";
+import EmailService from "./Services/EmailService";
+import MessageQueueService from "./Services/MessageQueueService";
+import PageService from "./Services/PageService";
+import PluginService from "./Services/PluginService";
+import SettingService from "./Services/SettingService";
+import SiteService from "./Services/SiteService";
+import ThemeService from "./Services/ThemeService";
+import UserService from "./Services/UserService";
+
+var _appName = '';
+export default class Attollo {
+    static get AppName() {
+        return _appName;
+    }
+
+    static get Services() {
+        return {
+            Block: new BlockService(ServiceContext),
+            Client: new ClientService(ServiceContext),
+            Css: new CssService(ServiceContext),
+            DatabaseVersion: new DatabaseVersionService(ServiceContext),
+            DataType: new DataTypeService(ServiceContext),
+            Email: new EmailService(ServiceContext),
+            MessageQueue: new MessageQueueService(ServiceContext),
+            Page: new PageService(ServiceContext),
+            Plugin: new PluginService(ServiceContext),
+            Setting: new SettingService(ServiceContext),
+            Site: new SiteService(ServiceContext),
+            Theme: new ThemeService(ServiceContext),
+            User: new UserService(ServiceContext)
+        };
+    }
+
+    static Start(appName) {
+        _appName = appName;
+
+        LogUtils.Init(appName);
+        LogUtils.Info("App Start");
+
+        return Promise.all([
+            Database.Connect(),
+            Amqplib.Connect(),
+            Redis.Connect()
+        ]);
+    }
+
+    static Stop() {
+        Database.Close();
+        Amqplib.Close();
+        Redis.Close();
         
-        function LoadService(serviceFileName, serviceName) {
-            var serviceDef = require("./Services/" + serviceFileName, serviceName);
-            return new serviceDef(serviceContext);
-        }
+        LogUtils.Info("App Stop");
+    }
 
-        //Load Services
-        var services = fs.readdirSync(__dirname + '/Services');
-
-        for (var i = 0; i < services.length; i++) {
-			if(services[i].endsWith('Service.js')) {
-                var serviceName = services[i].replace(/\.js$/, '').replace(/Service$/, '');
-                Attollo.Services[
-                    serviceName
-                ] = LoadService(services[i], serviceName);
-            }
-        }
-    })();
-
-    //PluginContext
-    (function() {
-        var pluginContext = require("./PluginContext");
-        Attollo.GetPluginContext = function (dbContext) {
-            return pluginContext.BuildContext(Attollo, dbContext);
-        };
-    })();
-    
-    //AppStart and AppStop
-    (function() {
-        Attollo.App.Start = function (appName, start){
-            Attollo.App.Name = appName;
-            
-            Attollo.Utils.Log.Init(appName);
-
-            Attollo.Utils.Log.Info("App Start");
-
-            Promise.all([
-                require("./Clients/Amqplib").Connect(),
-                require("./Clients/Redis").Connect()
-            ])
-            .then(() => {
-                if(start != null)
-                    start();
-            });
-        };
-        Attollo.App.Stop = function (){
-            require("./DAL/Core/Database").Close();
-            require("./Clients/Amqplib").Close();
-            require("./Clients/Redis").Close();
-            
-            Attollo.Utils.Log.Info("App Stop");
-        };
-
-        process.on('uncaughtException', function (err) {
-            Attollo.Utils.Log.Error(err);
-            Attollo.Utils.Log.Info(err.stack);
-        });
-    })();
-    
-	module.exports = Attollo;
-})();
+    static GetPluginContext(dbContext) {
+        return PluginContext.BuildContext(this, dbContext);
+    }
+}

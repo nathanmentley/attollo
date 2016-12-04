@@ -1,16 +1,8 @@
-(function () {
-	var baseHandler = require('../../BaseHandler')
-	var util = require('util');
-
-	var classDef = function (context) {
-		baseHandler.apply(this);
-		this.Context = context;
-	};
-	util.inherits(classDef, baseHandler);
-	
+import BaseHandler from '../BaseHandler';
+export default class BlockHandler extends BaseHandler {
 	//CssRuleDefType
 
-	classDef.prototype.AddCssRuleDefType = function (authContext, transaction, name, code){
+	static AddCssRuleDefType(authContext, transaction, name, code){
 		var CssRuleDefType = this.Context.DatabaseContext.CssRuleDefType(authContext);
 		var cssRuleDefType = new CssRuleDefType({
             name: name,
@@ -20,7 +12,7 @@
 		return cssRuleDefType.save(null, { transacting: transaction });
 	};
 	
-	classDef.prototype.GetCssRuleDefType = function (authContext, code){
+	static GetCssRuleDefType(authContext, code){
 		return this.Context.DatabaseContext.CssRuleDefType(authContext)
 				.query({
 					where: {
@@ -32,7 +24,7 @@
 	
 	//CssRuleDefGroup
 
-	classDef.prototype.AddCssRuleDefGroup = function (authContext, transaction, name, code, description){
+	static AddCssRuleDefGroup(authContext, transaction, name, code, description){
 		var CssRuleDefGroup = this.Context.DatabaseContext.CssRuleDefGroup(authContext);
 		var cssRuleDefGroup = new CssRuleDefGroup({
             name: name,
@@ -43,7 +35,7 @@
 		return cssRuleDefGroup.save(null, { transacting: transaction });
 	};
 	
-	classDef.prototype.GetCssRuleDefGroup = function (authContext, code){
+	static GetCssRuleDefGroup(authContext, code){
 		return this.Context.DatabaseContext.CssRuleDefGroup(authContext)
 				.query({
 					where: {
@@ -55,7 +47,7 @@
 	
 	//CssRuleDef
 
-	classDef.prototype.AddCssRuleDef = function (authContext, transaction, name, code, property, description, options, cssRuleDefTypeId, cssRuleDefGroupId){
+	static AddCssRuleDef(authContext, transaction, name, code, property, description, options, cssRuleDefTypeId, cssRuleDefGroupId){
 		var CssRuleDef = this.Context.DatabaseContext.CssRuleDef(authContext);
 		var cssRuleDef = new CssRuleDef({
             name: name,
@@ -70,7 +62,7 @@
 		return cssRuleDef.save(null, { transacting: transaction });
 	};
 	
-	classDef.prototype.GetCssRuleDef = function (authContext, code){
+	static GetCssRuleDef(authContext, code){
 		return this.Context.DatabaseContext.CssRuleDef(authContext)
 				.query({
 					where: {
@@ -80,14 +72,14 @@
 				.fetch({ withRelated: [ "CssRuleDefType", "CssRuleDefGroup" ] });
 	};
 	
-	classDef.prototype.GetCssRuleDefs = function (authContext){
+	static GetCssRuleDefs(authContext){
 		return this.Context.DatabaseContext.CssRuleDefs(authContext)
 				.fetch({ withRelated: [ "CssRuleDefType", "CssRuleDefGroup" ] });
 	};
 
 	//CssRuleDef
 
-	classDef.prototype.AddCssRule = function (authContext, transaction, selector, value, cssRuleDefId){
+	static AddCssRule(authContext, transaction, selector, value, cssRuleDefId){
 		var CssRule = this.Context.DatabaseContext.CssRule(authContext);
 		var cssRule = new CssRule({
             selector: selector,
@@ -98,7 +90,7 @@
 		return cssRule.save(null, { transacting: transaction });
 	};
 
-	classDef.prototype.AddBlockCssRule = function (authContext, transaction, blockId, cssRuleId){
+	static AddBlockCssRule(authContext, transaction, blockId, cssRuleId){
 		var BlockCssRule = this.Context.DatabaseContext.BlockCssRule(authContext);
 		var blockCssRule = new BlockCssRule({
             blockid: blockId,
@@ -108,12 +100,10 @@
 		return blockCssRule.save(null, { transacting: transaction });
 	};
 
-	classDef.prototype.UpdateCssRule = function(authContext, transaction, model) {
+	static UpdateCssRule(authContext, transaction, model) {
 		var CssRule = this.Context.DatabaseContext.CssRule(authContext);
 		var cssRule = new CssRule(model);
 
 		return cssRule.save(null, { transacting: transaction });
 	};
-
-	module.exports = classDef;
-})();
+}

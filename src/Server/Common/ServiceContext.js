@@ -1,43 +1,55 @@
-(function () {
-	var classDef = function () {};
-	var db = require('./DAL/Core/Database');
-	var fs = require('fs');
+import Attollo from "./Attollo";
 
-	classDef.prototype.DBTransaction = function(logic) {
-		return db.Bookshelf.transaction(logic);
-	};
+import Database from './DAL/Core/Database';
 
-	classDef.prototype.Handlers = {};
-	
-    //Setup Clients
-	(function() {
-		classDef.prototype.Clients = {
-			Email: require("./Clients/SendGrid"),
-			Redis: require("./Clients/Redis"),
-			WorkQueue: require("./Clients/Amqplib")
-		};
-	})();
-    
-	//Setup Handlers
-	(function() {
-        var handlerContext = require("./HandlerContext");
-        
-        function LoadHandler(handlerName) {
-            var handlerDef = require("./DAL/Handlers/" + handlerName);
-            return new handlerDef(handlerContext);
-        }
+import SendGrid from "./Clients/SendGrid";
+import Redis from "./Clients/Redis";
+import Amqplib from "./Clients/Amqplib";
+
+import handlerContext from "./HandlerContext";
+
+import BlockHandler from "./DAL/Handlers/BlockHandler";
+import ClientHandler from "./DAL/Handlers/ClientHandler";
+import CssHandler from "./DAL/Handlers/CssHandler";
+import DatabaseVersionHandler from "./DAL/Handlers/DatabaseVersionHandler";
+import DataTypeHandler from "./DAL/Handlers/DataTypeHandler";
+import PageHandler from "./DAL/Handlers/PageHandler";
+import PluginHandler from "./DAL/Handlers/PluginHandler";
+import SettingHandler from "./DAL/Handlers/SettingHandler";
+import SiteHandler from "./DAL/Handlers/SiteHandler";
+import ThemeHandler from "./DAL/Handlers/ThemeHandler";
+import UserHandler from "./DAL/Handlers/UserHandler";
+
+export default class ServiceContext {
+	static DBTransaction(logic) {
+		return Database.Bookshelf.transaction(logic);
+	}
+
+    static get Handlers() {
+		var handlers = {};
+
+		handlers.Block = new BlockHandler(handlerContext);
+		handlers.Client = new ClientHandler(handlerContext);
+		handlers.Css = new CssHandler(handlerContext);
+		handlers.DatabaseVersion = new DatabaseVersionHandler(handlerContext);
+		handlers.DataType = new DataTypeHandler(handlerContext);
+		handlers.Page = new PageHandler(handlerContext);
+		handlers.Plugin = new PluginHandler(handlerContext);
+		handlers.Setting = new SettingHandler(handlerContext);
+		handlers.Site = new SiteHandler(handlerContext);
+		handlers.Theme = new ThemeHandler(handlerContext);
+		handlers.User = new UserHandler(handlerContext);
 		
-        //Load Handlers
-        var handlers = fs.readdirSync(__dirname + '/DAL/Handlers');
+        return handlers;
+    }
 
-        for (var i = 0; i < handlers.length; i++) {
-			if(handlers[i].endsWith('Handler.js')) {
-				classDef.prototype.Handlers[
-					handlers[i].replace(/\.js$/, '').replace(/Handler$/, '')
-				] = LoadHandler(handlers[i]);
-			}
-        }
-	})();
-	
-	module.exports = new classDef();
-})();
+	static get Clients() {
+		var clients = {};
+
+		clients.Email = SendGrid;
+		clients.Redis = Redis;
+		clients.WorkQueue = Amqplib;
+		
+        return clients;
+    }
+}

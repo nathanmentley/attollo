@@ -1,7 +1,8 @@
 //Seed BlockDefs
+import Attollo from '../../../Common/Attollo';
 
 (function () {
-	var PluginDefCodes = require('../../../../Platform/Constants/PluginDefCodes');
+	import PluginDefCodes from '../../../../Platform/Constants/PluginDefCodes';
 
     var classDef = function () {};
 

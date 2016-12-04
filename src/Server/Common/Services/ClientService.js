@@ -1,16 +1,12 @@
-(function () {
-	var Context;
-	var ServiceName;
-	var classDef = function (serviceContext, name) {
-		Context = serviceContext;
-		ServiceName = name;
-	};
-	
-	classDef.prototype.GetClients = function (authContext){
+import Attollo from "../Attollo";
+import BaseService from '../BaseService';
+
+export default class BlockService extends BaseService {
+	static GetClients(authContext){
 		return Context.Handlers.Client.GetClients(authContext);
 	};
 	
-	classDef.prototype.AddClient = function (authContext, name){
+	static AddClient(authContext, name){
 		return Context.DBTransaction((transaction) => {
             Context.Handlers.Client.AddClient(authContext, transaction, name)
 			.then((result) => {
@@ -20,6 +16,4 @@
 			});
 		});
 	};
-	
-	module.exports = classDef;
-})();
+}

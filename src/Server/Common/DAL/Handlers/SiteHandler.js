@@ -1,14 +1,6 @@
-(function () {
-	var baseHandler = require('../../BaseHandler')
-	var util = require('util');
-
-	var classDef = function (context) {
-		baseHandler.apply(this);
-		this.Context = context;
-	};
-	util.inherits(classDef, baseHandler);
-	
-	classDef.prototype.GetSite = function (authContext, domain){
+import BaseHandler from '../BaseHandler';
+export default class BlockHandler extends BaseHandler {
+	static GetSite(authContext, domain){
 		return this.Context.DatabaseContext.Sites(authContext, true)
 			.query({
 				where: {
@@ -17,7 +9,7 @@
 			}).fetch();
 	};
 	
-	classDef.prototype.GetCurrentSiteVersion = function (authContext, site){
+	static GetCurrentSiteVersion(authContext, site){
 		return this.Context.DatabaseContext.SiteVersions(authContext, true)
 			.query({
 				where: {
@@ -29,7 +21,7 @@
 
 	//Site
 
-	classDef.prototype.GetSiteById = function (authContext, siteId){
+	static GetSiteById(authContext, siteId){
 		return this.Context.DatabaseContext.Site(authContext)
 			.query({
 				where: {
@@ -45,7 +37,7 @@
 			});
 	};
 
-	classDef.prototype.GetSites = function (authContext){
+	static GetSites(authContext){
 		return this.Context.DatabaseContext.Sites(authContext)
 				.fetch({
 					withRelated: [
@@ -54,7 +46,7 @@
 				});
 	};
 	
-	classDef.prototype.AddSite = function (authContext, transaction, themeId){
+	static AddSite(authContext, transaction, themeId){
 		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site({
 			clientid: authContext.ClientID,
@@ -66,14 +58,14 @@
 		return site.save(null, { transacting: transaction });
 	};
 	
-	classDef.prototype.UpdateSite = function (authContext, transaction, model){
+	static UpdateSite(authContext, transaction, model){
 		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site(model);
 
 		return site.save(null, { transacting: transaction });
 	};
 	
-	classDef.prototype.DeleteSite = function (authContext, transaction, model){
+	static DeleteSite(authContext, transaction, model){
 		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site(model);
 
@@ -81,7 +73,7 @@
 	};
 
 
-	classDef.prototype.GetSiteVersions = function (authContext, siteId){
+	static GetSiteVersions(authContext, siteId){
 		return this.Context.DatabaseContext.SiteVersions(authContext)
 			.query({
 				where: {
@@ -90,7 +82,7 @@
 			}).fetch();
 	};
 
-	classDef.prototype.AddSiteVersion = function (authContext, transaction, siteId, siteVersionStatusId){
+	static AddSiteVersion(authContext, transaction, siteId, siteVersionStatusId){
 		var SiteVersion = this.Context.DatabaseContext.SiteVersion(authContext);
 		var siteVersion = new SiteVersion({
 			siteversionstatusid: siteVersionStatusId,
@@ -102,7 +94,7 @@
 	};
 
 
-	classDef.prototype.GetSiteVersionStatus = function (authContext, code){
+	static GetSiteVersionStatus(authContext, code){
 		return this.Context.DatabaseContext.SiteVersionStatuses(authContext)
 			.query({
 				where: {
@@ -111,11 +103,11 @@
 			}).fetch();
 	};
 
-	classDef.prototype.GetSiteVersionStatuses = function (authContext){
+	static GetSiteVersionStatuses(authContext){
 		return this.Context.DatabaseContext.SiteVersionStatuses(authContext).fetch();
 	};
 
-	classDef.prototype.AddSiteVersionStatus = function (authContext, transaction, name, code){
+	static AddSiteVersionStatus(authContext, transaction, name, code){
 		var SiteVersionStatus = this.Context.DatabaseContext.SiteVersionStatus(authContext);
 		var siteVersionStatus = new SiteVersionStatus({
 			name: name,
@@ -124,6 +116,4 @@
 
 		return siteVersionStatus.save(null, { transacting: transaction });
 	};
-	
-	module.exports = classDef;
-})();
+}

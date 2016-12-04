@@ -1,16 +1,12 @@
-(function () {
-	const { VM } = require('vm2');
+import { VM } from 'vm2';
 
-	var Context;
-	var ServiceName;
-	var classDef = function (serviceContext, name) {
-		Context = serviceContext;
-		ServiceName = name;
-	};
-	
+import Attollo from "../Attollo";
+import BaseService from '../BaseService';
+
+export default class BlockService extends BaseService {
 	//PluginDefLogicDef
 	
-	classDef.prototype.AddPluginDefLogicDef = function (authContext, model){
+	static AddPluginDefLogicDef(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.Plugin.AddPluginDefLogicDef(authContext, transaction, model)
 			.then((result) => {
@@ -23,7 +19,7 @@
 
 	//PluginDefLogicTarget
 	
-	classDef.prototype.AddPluginDefLogicTarget = function (authContext, model){
+	static AddPluginDefLogicTarget(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.Plugin.AddPluginDefLogicTarget(authContext, transaction, model)
 			.then((result) => {
@@ -36,15 +32,15 @@
 
 	//PluginDef
 	
-	classDef.prototype.GetPluginDefs = function (authContext){
+	static GetPluginDefs(authContext){
 		return Context.Handlers.Plugin.GetPluginDefs(authContext);
 	};
 
-	classDef.prototype.GetPluginDef = function (authContext, code){
+	static GetPluginDef(authContext, code){
 		return Context.Handlers.Plugin.GetPluginDef(authContext, code);
 	};
 	
-	classDef.prototype.AddPluginDef = function (authContext, model){
+	static AddPluginDef(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.Plugin.AddPluginDef(authContext, transaction, model)
 			.then((result) => {
@@ -57,11 +53,11 @@
 	
 	//Plugin
 
-	classDef.prototype.GetPlugins = function (authContext){
+	static GetPlugins(authContext){
 		return Context.Handlers.Plugin.GetPlugins(authContext);
 	};
 	
-	classDef.prototype.AddPlugin = function (authContext, code){
+	static AddPlugin(authContext, code){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -89,7 +85,7 @@
 		});
 	};
 
-	classDef.prototype.UpdatePlugin = function (authContext, model){
+	static UpdatePlugin(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.Plugin.UpdatePlugin(authContext, transaction, model)
 			.then((result) => {
@@ -100,7 +96,7 @@
 		});
 	};
 
-	classDef.prototype.DeletePlugin = function (authContext, model){
+	static DeletePlugin(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.Plugin.DeletePlugin(authContext, transaction, model)
 			.then((result) => {
@@ -113,7 +109,7 @@
 
 	//PluginDefLogic
 
-	classDef.prototype.GetPluginDefPreLogics = function (authContext, pluginDefLogicDefCode) {
+	static GetPluginDefPreLogics(authContext, pluginDefLogicDefCode) {
 		if(authContext){
 			var vm = new VM({
 				sandbox: {
@@ -148,7 +144,7 @@
 		}
 	}
 
-	classDef.prototype.GetPluginDefPostLogics = function (authContext, pluginDefLogicDefCode, data) {
+	static GetPluginDefPostLogics(authContext, pluginDefLogicDefCode, data) {
 		if(authContext){
 			var logics = [
 				'																\
@@ -200,6 +196,4 @@
 			});
 		}
 	}
-
-	module.exports = classDef;
-})();
+}

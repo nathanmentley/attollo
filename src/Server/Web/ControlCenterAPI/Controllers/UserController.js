@@ -1,5 +1,5 @@
 (function () {
-	var PermissionDefCodes = require('../../../../Platform/Constants/PermissionDefCodes');
+	import PermissionDefCodes from '../../../../Platform/Constants/PermissionDefCodes';
 
 	var classDef = function () {};
 

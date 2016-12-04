@@ -1,5 +1,6 @@
 (function () {
-	var jwt = require('jwt-simple');
+	import ConfigUtils from '../../../Common/Utils/ConfigUtils';
+	import jwt from 'jwt-simple';
 
 	var classDef = function () {};
 
@@ -45,11 +46,11 @@
 									clientid: user.get('clientid'),
 									name: user.get('name'),
 									permissions: permissions,
-									env: Attollo.Utils.Config.Environment
+									env: ConfigUtils.Config.Environment
 								};
 
 								resolve({
-									token: jwt.encode(tokenData, Attollo.Utils.Config.JwtSecret),
+									token: jwt.encode(tokenData, ConfigUtils.Config.JwtSecret),
 									permissions: permissions
 								});
 							}else{

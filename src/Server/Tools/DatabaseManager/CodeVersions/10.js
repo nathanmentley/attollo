@@ -1,9 +1,10 @@
 //Seed CssRuleDeftypes and CssRuleDefs
+import Attollo from '../../../Common/Attollo';
 
 (function () {
-	var CssRuleDefTypeCodes = require('../../../../Platform/Constants/CssRuleDefTypeCodes');
-	var CssRuleDefGroupCodes = require('../../../../Platform/Constants/CssRuleDefGroupCodes');
-	var CssRuleDefCodes = require('../../../../Platform/Constants/CssRuleDefCodes');
+	import CssRuleDefTypeCodes from '../../../../Platform/Constants/CssRuleDefTypeCodes';
+	import CssRuleDefGroupCodes from '../../../../Platform/Constants/CssRuleDefGroupCodes';
+	import CssRuleDefCodes from '../../../../Platform/Constants/CssRuleDefCodes';
 
     var classDef = function () {};
 

@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-nodejs /home/web/dist/Server/Web/ControlCenterAPI/app.js
+cd /home/web/dist/Server/Web/ControlCenterAPI
+nodejs app.js

@@ -1,7 +1,5 @@
-(function () {
-    var classDef = function () {};
-
-    classDef.prototype.BuildContext = function (attollo, dbContext) {
+export default class PluginContext {
+    static BuildContext(attollo, dbContext) {
         var pluginContextDef = function () {};
 
         pluginContextDef.prototype.TestMethod = function() {
@@ -9,7 +7,5 @@
         };
 
         return new pluginContextDef();
-    };
-
-    module.exports = new classDef();
-})();
+    }
+}

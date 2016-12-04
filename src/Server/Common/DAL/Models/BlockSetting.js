@@ -1,16 +1,16 @@
 (function () {
-	var Auid = require("../Core/Auid");
-	var Database = require("../Core/Database");
-	var ModelEvents = require("../Core/ModelEvents");
+	import Auid from "../Core/Auid";
+	import Database from "../Core/Database";
+	import ModelEvents from "../Core/ModelEvents";
 
-	var Client = require("./Client");
-	var Site = require("./Site");
-	var SiteVersion = require("./SiteVersion");
-	var Page = require("./Page");
-	var BlockContainer = require("./BlockContainer");
-	var BlockContainerArea = require("./BlockContainerArea");
-	var Block = require("./Block");
-	var BlockSettingDef = require("./BlockSettingDef");
+	import Client from "./Client";
+	import Site from "./Site";
+	import SiteVersion from "./SiteVersion";
+	import Page from "./Page";
+	import BlockContainer from "./BlockContainer";
+	import BlockContainerArea from "./BlockContainerArea";
+	import Block from "./Block";
+	import BlockSettingDef from "./BlockSettingDef";
 
 	var filter = function(authContext, query) {
 		if(authContext.ClientID) {

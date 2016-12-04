@@ -1,18 +1,10 @@
-(function () {
-	var baseHandler = require('../../BaseHandler')
-	var util = require('util');
-
-	var classDef = function (context) {
-		baseHandler.apply(this);
-		this.Context = context;
-	};
-	util.inherits(classDef, baseHandler);
-	
-	classDef.prototype.GetThemes = function (authContext){
+import BaseHandler from '../BaseHandler';
+export default class BlockHandler extends BaseHandler {
+	static GetThemes(authContext){
 		return this.Context.DatabaseContext.Themes(authContext).fetch();
 	};
 	
-	classDef.prototype.GetTheme = function (authContext, code){
+	static GetTheme(authContext, code){
 		return this.Context.DatabaseContext.Theme(authContext)
 				.query({
 					where: {
@@ -22,7 +14,7 @@
 				.fetch();
 	};
 	
-	classDef.prototype.AddTheme = function (authContext, transaction, pluginDefId, code, name){
+	static AddTheme(authContext, transaction, pluginDefId, code, name){
 		var Theme = this.Context.DatabaseContext.Theme(authContext);
 		var theme = new Theme({
 			plugindefid: pluginDefId,
@@ -33,7 +25,7 @@
 		return theme.save(null, { transacting: transaction });
 	};
 	
-	classDef.prototype.AddThemeCssRule = function (authContext, transaction, themeId, cssRuleId){
+	static AddThemeCssRule(authContext, transaction, themeId, cssRuleId){
 		var ThemeCssRule = this.Context.DatabaseContext.ThemeCssRule(authContext);
 		var themeCssRule = new ThemeCssRule({
 			themeid: themeId,
@@ -42,6 +34,4 @@
 
 		return themeCssRule.save(null, { transacting: transaction });
 	};
-
-	module.exports = classDef;
-})();
+}

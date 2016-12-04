@@ -1,23 +1,13 @@
-(function () {
-	var baseHandler = require('../../BaseHandler')
-	var util = require('util');
-
-	var classDef = function (context) {
-		baseHandler.apply(this);
-		this.Context = context;
-	};
-	util.inherits(classDef, baseHandler);
-	
-	classDef.prototype.GetClients = function (authContext){
+import BaseHandler from '../BaseHandler';
+export default class BlockHandler extends BaseHandler {
+	static GetClients(authContext){
 		return this.Context.DatabaseContext.Clients(authContext).fetch();
 	};
 	
-	classDef.prototype.AddClient = function (authContext, transaction, name){
+	static AddClient(authContext, transaction, name){
 		var Client = this.Context.DatabaseContext.Client(authContext);
 		var client = new Client({ name: name });
 
 		return client.save(null, { transacting: transaction });
 	};
-	
-	module.exports = classDef;
-})();
+}

@@ -1,24 +1,19 @@
-(function () {
-	var jsx = require('react-jsx');
+import jsx from 'react-jsx';
 
-	var Context;
-	var ServiceName;
-	var classDef = function (serviceContext, name) {
-		Context = serviceContext;
-		ServiceName = name;
-	};
+import Attollo from "../Attollo";
+import BaseService from '../BaseService';
 
+export default class BlockService extends BaseService {
 	//blockContainerDef
-
-	classDef.prototype.GetBlockContainerDefs = function (authContext){
+	static GetBlockContainerDefs(authContext){
 		return Context.Handlers.Block.GetBlockContainerDefs(authContext);
 	};
 
-	classDef.prototype.GetBlockContainerDef = function (authContext, code){
+	static GetBlockContainerDef(authContext, code){
 		return Context.Handlers.Block.GetBlockContainerDef(authContext, code);
 	};
 
-	classDef.prototype.AddBlockContainerDef = function (authContext, code, title){
+	static AddBlockContainerDef(authContext, code, title){
 		return Context.DBTransaction((transaction) => {
             Context.Handlers.Block.AddBlockContainerDef(authContext, transaction, code, title)
 			.then((result) => {
@@ -31,11 +26,11 @@
 
 	//blockContainer
 
-	classDef.prototype.GetBlockContainers = function (authContext, pageId){
+	static GetBlockContainers(authContext, pageId){
 		return Context.Handlers.Block.GetBlockContainers(authContext, pageId);
 	};
 
-	classDef.prototype.AddBlockContainers = function (authContext, pageId, code){
+	static AddBlockContainers(authContext, pageId, code){
 		var self = this;
 		return new Promise((resolve, reject) => {
 			try{
@@ -96,7 +91,7 @@
 		});
 	};
 
-	classDef.prototype.UpdateBlockContainer = function (authContext, blockContainer){
+	static UpdateBlockContainer(authContext, blockContainer){
 		return Context.DBTransaction((transaction) => {
             Context.Handlers.Block.UpdateBlockContainer(authContext, transaction, blockContainer)
 			.then((result) => {
@@ -109,11 +104,11 @@
 	
 	//blockContainerAreaDef
 
-	classDef.prototype.GetBlockContainerAreaDefs = function (authContext, containerCode) {
+	static GetBlockContainerAreaDefs(authContext, containerCode) {
 		return Context.Handlers.Block.GetBlockContainerAreaDefs(authContext, containerCode);
 	};
 
-	classDef.prototype.AddBlockContainerAreaDef = function (authContext, blockContainerDefCode, code, title) {
+	static AddBlockContainerAreaDef(authContext, blockContainerDefCode, code, title) {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -142,22 +137,22 @@
 	
 	//blockContainerArea
 
-	classDef.prototype.GetBlockContainerArea = function (authContext, blockContainerId, areaCode) {
+	static GetBlockContainerArea(authContext, blockContainerId, areaCode) {
 		return Context.Handlers.Block.GetBlockContainerArea(authContext, blockContainerId, areaCode);
 	};
 
 	//blockDef
 
-	classDef.prototype.GetBlockDefs = function (authContext, pageDefId){
+	static GetBlockDefs(authContext, pageDefId){
 		return Context.Handlers.Block.GetBlockDefs(authContext, pageDefId);
 	};
 
-	classDef.prototype.GetBlockDef = function (authContext, code) {
+	static GetBlockDef(authContext, code) {
 		return Context.Handlers.Block.GetBlockDef(authContext, code);
 	};
 
 
-	classDef.prototype.AddBlockDef = function (authContext, pluginDefCode, pageDefCode, code, name){
+	static AddBlockDef(authContext, pluginDefCode, pageDefCode, code, name){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -209,7 +204,7 @@
 
 	//BlockDefFunctions
 
-	classDef.prototype.AddBlockDefFunction = function (authContext, blockDefCode, model){
+	static AddBlockDefFunction(authContext, blockDefCode, model){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -241,7 +236,7 @@
 
 	//BlockDefDataRequest
 
-	classDef.prototype.AddBlockDefDataRequest = function (authContext, blockDefCode, model){
+	static AddBlockDefDataRequest(authContext, blockDefCode, model){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -272,11 +267,11 @@
 
 	//blockTemplateDef
 
-	classDef.prototype.GetBlockTemplateDef = function (authContext, blockDefId, templateCode) {
+	static GetBlockTemplateDef(authContext, blockDefId, templateCode) {
 		return Context.Handlers.Block.GetBlockTemplateDef(authContext, blockDefId, templateCode);
 	};
 
-	classDef.prototype.AddBlockTemplateDef = function (authContext, blockDefCode, code, name, template) {
+	static AddBlockTemplateDef(authContext, blockDefCode, code, name, template) {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -305,17 +300,17 @@
 		});
 	};
 
-	classDef.prototype.GetBlockTemplateDefs = function (authContext) {
+	static GetBlockTemplateDefs(authContext) {
 		return Context.Handlers.Block.GetBlockTemplateDefs(authContext);
 	};
 
 	//Block
 
-	classDef.prototype.GetBlocks = function (authContext, blockContainerId){
+	static GetBlocks(authContext, blockContainerId){
 		return Context.Handlers.Block.GetBlocks(authContext, blockContainerId);
 	};
 	
-	classDef.prototype.AddBlock = function (authContext, blockContainerId, areaCode, blockDefCode, blockTemplateCode){
+	static AddBlock(authContext, blockContainerId, areaCode, blockDefCode, blockTemplateCode){
 		var self = this;
 
 		return new Promise(function(resolve, reject) {
@@ -356,7 +351,7 @@
 		});
 	};
 
-	classDef.prototype.UpdateBlock = function (authContext, block) {
+	static UpdateBlock(authContext, block) {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -392,7 +387,7 @@
 		});
 	};
 
-	classDef.prototype.DeleteBlock = function (authContext, block) {
+	static DeleteBlock(authContext, block) {
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.Block.DeleteBlock(authContext, transaction, block)
 			.then((result) => {
@@ -413,11 +408,11 @@
 
 	//BlockSettingDef
 
-	classDef.prototype.GetBlockSettingDefs = function (authContext, blockDefId){
+	static GetBlockSettingDefs(authContext, blockDefId){
 		return Context.Handlers.Block.GetBlockSettingDefs(authContext, blockDefId);
 	};
 
-	classDef.prototype.AddBlockSettingDefs = function (authContext, blockDefCode, code, title, settingTypeCode, defaultValue){
+	static AddBlockSettingDefs(authContext, blockDefCode, code, title, settingTypeCode, defaultValue){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -452,11 +447,11 @@
 
 	//BlockSetting
 
-	classDef.prototype.GetBlockSettings = function (authContext, block){
+	static GetBlockSettings(authContext, block){
 		return Context.Handlers.Block.GetBlockSettings(authContext, block);
 	};
 
-	classDef.prototype.AddBlockSetting = function (authContext, blockId, blockSettingDefId, value){
+	static AddBlockSetting(authContext, blockId, blockSettingDefId, value){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.Block.AddBlockSetting(authContext, transaction, blockId, blockSettingDefId, value)
 			.then((result) => {
@@ -466,7 +461,4 @@
 			});
 		});
 	};
-
-	module.exports = classDef;
-	
-})();
+}

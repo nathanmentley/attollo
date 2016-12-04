@@ -1,9 +1,9 @@
 (function () {
-	var Auid = require("../Core/Auid");
-	var Database = require("../Core/Database");
-	var ModelEvents = require("../Core/ModelEvents");
+	import Auid from "../Core/Auid";
+	import Database from "../Core/Database";
+	import ModelEvents from "../Core/ModelEvents";
 
-	var DataTypeDef = require("./DataTypeDef");
+	import DataTypeDef from "./DataTypeDef";
 
 	var filter = function(authContext, query) {
 		if(authContext.ClientID) {
@@ -35,7 +35,7 @@
 				return this.belongsTo(DataTypeDef.Model(authContext, skipFilter), 'datatypedefid');
 			},
 			DataTypeFields: function () {
-				var DataTypeField = require("./DataTypeField");
+				import DataTypeField from "./DataTypeField";
 				return this.hasMany(DataTypeField.Model(authContext, skipFilter), 'datatypeid');
 			}
 		});

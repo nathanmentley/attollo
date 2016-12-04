@@ -1,61 +1,71 @@
-require("../../Common/Attollo");
+import Attollo from "../../Common/Attollo";
+import LogUtils from "../../Common/Utils/LogUtils";
 
-(function () {
-	Attollo.App.Start('DatabaseManager', function () {
-		Attollo.Utils.Log.Info('database manager start');
+import DatabaseScriptUtils from "./DatabaseScriptUtils";
+import DBManagerDbContext from "./DBManagerDbContext";
+import DatabaseCodeUtils from "./DatabaseCodeUtils";
 
-		var command = process.argv[2];
+Attollo.Start('DatabaseManager')
+.then(() => {
+	LogUtils.Info('database manager start');
 
-		if(!command) {
-			command = 'ensure';
-		}
-		
-		switch(command) {
-			case 'ensure':
-				Attollo.Utils.Log.Info('database manager running ensure');
-
-				require("./DatabaseScriptUtils").RunSqlScripts(
-					require("./DBManagerDbContext"),
-					() => {
-						Attollo.Utils.Log.Info('database manager scripts finished');
-						require("./DatabaseCodeUtils").RunSqlCode(
-							require("./DBManagerDbContext"),
-							() => {
-								Attollo.Utils.Log.Info('database manager code finished');
-								Attollo.Utils.Log.Info('database manager finished');
-								
-								Attollo.App.Stop();
-							},
-							(err) => {
-								Attollo.Utils.Log.Info('database manager code error: ' + err);
-								Attollo.Utils.Log.Info(err.stack);
-							}
-						);
-					}, (err) => {
-						Attollo.Utils.Log.Info('database manager script error: ' + err);
-						Attollo.Utils.Log.Info(err.stack);
-					}
-				);
+	var command = process.argv[2];
+	if(!command) {
+		command = 'ensure';
+	}
+	
+	switch(command) {
+		case 'ensure':
+			LogUtils.Info('database manager running ensure');
+			DatabaseScriptUtils.RunSqlScripts(
+				DBManagerDbContext,
+				() => {
+					LogUtils.Info('database manager scripts finished');
+					DatabaseCodeUtils.RunSqlCode(
+						DBManagerDbContext,
+						() => {
+							LogUtils.Info('database manager code finished');
+							LogUtils.Info('database manager finished');
+							
+							Attollo.Stop();
+						},
+						(err) => {
+							LogUtils.Info('database manager code error: ' + err);
+							LogUtils.Info(err.stack);
+						}
+					);
+				}, (err) => {
+					LogUtils.Info('database manager script error: ' + err);
+					LogUtils.Info(err.stack);
+				}
+			);
+		break;
+		case 'clean':
+			LogUtils.Info('database manager running clean');
+			DatabaseScriptUtils.RunCleanSqlScripts(
+				DBManagerDbContext,
+				() => {
+					LogUtils.Info('database manager finished');
+					
+					Attollo.Stop();
+				}, (err) => {
+					LogUtils.Info('database manager script error: ' + err);
+					LogUtils.Info(err.stack);
+				}
+			);
+		break;
+		default:
+			LogUtils.Info('database manager cant run unknown command: ' + command);
+			Attollo.Stop();
 			break;
-			case 'clean':
-				Attollo.Utils.Log.Info('database manager running clean');
+	}
+})
+.catch((err) => {
+    LogUtils.Error(err);
+    LogUtils.Info(err.stack);
+});
 
-				require("./DatabaseScriptUtils").RunCleanSqlScripts(
-					require("./DBManagerDbContext"),
-					() => {
-						Attollo.Utils.Log.Info('database manager finished');
-						
-						Attollo.App.Stop();
-					}, (err) => {
-						Attollo.Utils.Log.Info('database manager script error: ' + err);
-						Attollo.Utils.Log.Info(err.stack);
-					}
-				);
-			break;
-			default:
-				Attollo.Utils.Log.Info('database manager cant run unknown command: ' + command);
-				Attollo.App.Stop();
-				break;
-		}
-	});
-})();
+process.on('uncaughtException', (err) => {
+    LogUtils.Error(err);
+    LogUtils.Info(err.stack);
+});

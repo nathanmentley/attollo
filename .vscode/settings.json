@@ -3,6 +3,7 @@
     "files.exclude": {
         "**/node_modules/": true,
         "dist/": true,
-        "**/*.pyc": true
+        "**/*.pyc": true,
+        "storage": true
     }
 }

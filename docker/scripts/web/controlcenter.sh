@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-nodejs /home/web/dist/Server/Web/StaticWebServer/app.js /home/web/dist/Client/ControlCenter
+cd /home/web/dist/Server/Web/StaticWebServer
+nodejs app.js /home/web/dist/Client/ControlCenter

@@ -1,13 +1,10 @@
-(function () {
-	var Context;
-	var ServiceName;
-	var classDef = function (serviceContext, name) {
-		Context = serviceContext;
-		ServiceName = name;
-	};
-	
+import Attollo from "../Attollo";
+
+import BaseService from '../BaseService';
+
+export default class BlockService extends BaseService {
 	//CssRuleDefType
-	classDef.prototype.AddCssRuleDefType = function (authContext, name, code){
+	static AddCssRuleDefType(authContext, name, code){
         return Context.DBTransaction((transaction) => {
 			Context.Handlers.Css.AddCssRuleDefType(authContext, transaction, name, code)
 			.then((result) => {
@@ -18,12 +15,12 @@
 		});
 	};
 	
-	classDef.prototype.GetCssRuleDefType = function (authContext, code){
+	static GetCssRuleDefType(authContext, code){
 		return Context.Handlers.Css.GetCssRuleDefType(authContext, code);
 	};
 	
 	//CssRuleDefGroup
-	classDef.prototype.AddCssRuleDefGroup = function (authContext, name, code, description){
+	static AddCssRuleDefGroup(authContext, name, code, description){
         return Context.DBTransaction((transaction) => {
             Context.Handlers.Css.AddCssRuleDefGroup(authContext, transaction, name, code, description)
 			.then((result) => {
@@ -34,12 +31,12 @@
 		});
 	};
 	
-	classDef.prototype.GetCssRuleDefGroup = function (authContext, code){
+	static GetCssRuleDefGroup(authContext, code){
 		return Context.Handlers.Css.GetCssRuleDefGroup(authContext, code);
 	};
 	
 	//CssRuleDef
-	classDef.prototype.AddCssRuleDef = function (authContext, name, code, property, description, options, cssRuleDefTypeCode, cssRuleDefGroupCodes){
+	static AddCssRuleDef(authContext, name, code, property, description, options, cssRuleDefTypeCode, cssRuleDefGroupCodes){
         var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -72,20 +69,20 @@
         });
 	};
 	
-	classDef.prototype.GetCssRuleDef = function (authContext, code){
+	static GetCssRuleDef(authContext, code){
 		return Context.Handlers.Css.GetCssRuleDef(authContext, code);
 	};
 	
-	classDef.prototype.GetCssRuleDefs = function (authContext){
+	static GetCssRuleDefs(authContext){
 		return Context.Handlers.Css.GetCssRuleDefs(authContext);
 	};
 	
     //BlockCssRules
-    classDef.prototype.GetBlockCssRules = function (authContext, blockId) {
+    static GetBlockCssRules(authContext, blockId) {
         return Context.Handlers.Block.GetBlockCssRulesForBlock(authContext, blockId);
     };
 
-    classDef.prototype.AddBlockCssRules = function (authContext, model) {
+    static AddBlockCssRules(authContext, model) {
         var self = this;
 
         return new Promise((resolve, reject) => {
@@ -118,7 +115,7 @@
         });
     };
 
-    classDef.prototype.UpdateBlockCssRules = function (authContext, rules) {
+    static UpdateBlockCssRules(authContext, rules) {
         var self = this;
 
         return new Promise((resolve, reject) => {
@@ -178,7 +175,7 @@
     };
 
 	//CssRule
-	classDef.prototype.AddCssRule = function (authContext, selector, value, cssRuleDefCode){
+	static AddCssRule(authContext, selector, value, cssRuleDefCode){
         var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -205,7 +202,7 @@
         });
 	};
 
-    classDef.prototype.GetSiteLess = function(authContext, siteId) {
+    static GetSiteLess(authContext, siteId) {
         return new Promise((resolve, reject) => {
             var less = '';
 
@@ -346,6 +343,4 @@
             });
         });
     };
-	
-	module.exports = classDef;
-})();
+}

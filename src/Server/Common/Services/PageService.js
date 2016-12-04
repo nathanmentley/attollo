@@ -1,20 +1,16 @@
-(function () {
-	var Context;
-	var ServiceName;
-	var classDef = function (serviceContext, name) {
-		Context = serviceContext;
-		ServiceName = name;
-	};
-	
-	classDef.prototype.GetPageDefs = function (authContext){
+import Attollo from "../Attollo";
+import BaseService from '../BaseService';
+
+export default class BlockService extends BaseService {
+	static GetPageDefs(authContext){
 		return Context.Handlers.Page.GetPageDefs(authContext);
 	};
 
-	classDef.prototype.GetPageDef = function (authContext, code){
+	static GetPageDef(authContext, code){
 		return Context.Handlers.Page.GetPageDef(authContext, code);
 	};
 	
-	classDef.prototype.AddPageDef = function (authContext, pluginDefCode, pageDef){
+	static AddPageDef(authContext, pluginDefCode, pageDef){
 		return new Promise((resolve, reject) => {
 			Attollo.Services.Plugin.GetPluginDef(authContext, pluginDefCode)
 			.then((pluginDef) => {
@@ -41,11 +37,11 @@
 		});
 	};
 	
-	classDef.prototype.GetPages = function (authContext, siteVersionId){
+	static GetPages(authContext, siteVersionId){
 		return Context.Handlers.Page.GetPages(authContext, siteVersionId);
 	};
 	
-	classDef.prototype.AddPage = function (authContext, page){
+	static AddPage(authContext, page){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.Page.AddPage(authContext, transaction, page)
 			.then((result) => {
@@ -56,7 +52,7 @@
 		});
 	};
 
-	classDef.prototype.UpdatePage = function (authContext, model){
+	static UpdatePage(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.Page.UpdatePage(authContext, transaction, model)
 			.then((result) => {
@@ -67,7 +63,7 @@
 		});
 	};
 
-	classDef.prototype.DeletePage = function (authContext, model){
+	static DeletePage(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.Page.DeletePage(authContext, transaction, model)
 			.then((result) => {
@@ -77,6 +73,4 @@
 			});
 		});
 	};
-
-	module.exports = classDef;
-})();
+}

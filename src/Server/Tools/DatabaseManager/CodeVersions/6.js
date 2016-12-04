@@ -1,4 +1,5 @@
 //Seed BlockTemplateDefs
+import Attollo from '../../../Common/Attollo';
 
 (function () {
     var classDef = function () {};

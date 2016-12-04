@@ -1,18 +1,18 @@
 (function () {
-	var Auid = require("../Core/Auid");
-	var Database = require("../Core/Database");
-	var ModelEvents = require("../Core/ModelEvents");
+	import Auid from "../Core/Auid";
+	import Database from "../Core/Database";
+	import ModelEvents from "../Core/ModelEvents";
 
-	var Page = require("./Page");
-	var SiteVersion = require("./SiteVersion");
-	var Site = require("./Site");
-	var Client = require("./Client");
-	var BlockCssRule = require("./BlockCssRule");
-	var BlockContainer = require("./BlockContainer");
-	var BlockContainerArea = require("./BlockContainerArea");
-	var BlockContainerAreaDef = require("./BlockContainerAreaDef");
-	var BlockDef = require("./BlockDef");
-	var BlockTemplateDef = require("./BlockTemplateDef");
+	import Page from "./Page";
+	import SiteVersion from "./SiteVersion";
+	import Site from "./Site";
+	import Client from "./Client";
+	import BlockCssRule from "./BlockCssRule";
+	import BlockContainer from "./BlockContainer";
+	import BlockContainerArea from "./BlockContainerArea";
+	import BlockContainerAreaDef from "./BlockContainerAreaDef";
+	import BlockDef from "./BlockDef";
+	import BlockTemplateDef from "./BlockTemplateDef";
 
 	var filter = function(authContext, query) {
 		if(authContext.ClientID) {
@@ -102,7 +102,7 @@
 				return this.belongsTo(BlockTemplateDef.Model(authContext, skipFilter), 'blocktemplatedefid');
 			},
 			BlockSettings: function() {
-				var BlockSetting = require("./BlockSetting");
+				import BlockSetting from "./BlockSetting";
 				return this.hasMany(BlockSetting.Model(authContext, skipFilter), "blockid");
 			},
 			BlockCssRules: function() {

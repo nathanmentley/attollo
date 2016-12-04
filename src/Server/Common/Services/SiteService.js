@@ -1,32 +1,28 @@
-(function () {
-	var Context;
-	var ServiceName;
-	var classDef = function (serviceContext, name) {
-		Context = serviceContext;
-		ServiceName = name;
-	};
+import Attollo from "../Attollo";
+import BaseService from '../BaseService';
 
+export default class BlockService extends BaseService {
 	//SiteVersion
 
-	classDef.prototype.GetCurrentSiteVersion = function (authContext, site){
+	static GetCurrentSiteVersion(authContext, site){
 		return Context.Handlers.Site.GetCurrentSiteVersion(authContext, site);
 	};
 
-	classDef.prototype.GetSiteVersions = function (authContext, siteId){
+	static GetSiteVersions(authContext, siteId){
 		return Context.Handlers.Site.GetSiteVersions(authContext, siteId);
 	};
 	
 	//Site
 
-	classDef.prototype.GetSite = function (authContext, domain){
+	static GetSite(authContext, domain){
 		return Context.Handlers.Site.GetSite(authContext, domain);
 	};
 
-	classDef.prototype.GetSites = function (authContext){
+	static GetSites(authContext){
 		return Context.Handlers.Site.GetSites(authContext);
 	};
 	
-	classDef.prototype.AddSite = function (authContext, themeCode){
+	static AddSite(authContext, themeCode){
 		var self = this;
 
 		return new Promise(function(resolve, reject) {
@@ -62,7 +58,7 @@
 		});
 	};
 
-	classDef.prototype.UpdateSite = function (authContext, model){
+	static UpdateSite(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.Site.UpdateSite(authContext, transaction, model)
 			.then((result) => {
@@ -73,7 +69,7 @@
 		});
 	};
 
-	classDef.prototype.DeleteSite = function (authContext, model){
+	static DeleteSite(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.Site.DeleteSite(authContext, transaction, model)
 			.then((result) => {
@@ -86,15 +82,15 @@
 
 	//SiteVersionStatus
 
-	classDef.prototype.GetSiteVersionStatus = function (authContext, code){
+	static GetSiteVersionStatus(authContext, code){
 		return Context.Handlers.Site.GetSiteVersionStatus(authContext, code);
 	};
 
-	classDef.prototype.GetSiteVersionStatuses = function (authContext){
+	static GetSiteVersionStatuses(authContext){
 		return Context.Handlers.Site.GetSiteVersionStatuses(authContext);
 	};
 
-	classDef.prototype.AddSiteVersionStatus = function (authContext, name, code){
+	static AddSiteVersionStatus(authContext, name, code){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.Site.AddSiteVersionStatus(authContext, transaction, name, code)
 			.then((result) => {
@@ -104,6 +100,4 @@
 			});
 		});
 	};
-	
-	module.exports = classDef;
-})();
+}

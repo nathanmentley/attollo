@@ -1,14 +1,7 @@
-(function () {
-	var fs = require('fs');
-	var path = require('path');
+import fs from 'fs';
 
-	var classDef = function () {};
-
-	var obj = JSON.parse(fs.readFileSync(path.dirname(require.main.filename) + "/config.json", 'utf8'));
-
-	classDef.prototype.GetConfig = function (){
-		return obj;
-	};
-	
-	module.exports = new classDef();
-})();
+export default class ConfigUtils {
+    static get Config() {
+        return JSON.parse(fs.readFileSync(process.cwd() + "/config.json", 'utf8'));
+    }
+}

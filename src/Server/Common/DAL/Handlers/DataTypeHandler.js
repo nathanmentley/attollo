@@ -1,16 +1,8 @@
-(function () {
-	var baseHandler = require('../../BaseHandler')
-	var util = require('util');
-
-	var classDef = function (context) {
-		baseHandler.apply(this);
-		this.Context = context;
-	};
-	util.inherits(classDef, baseHandler);
-	
+import BaseHandler from '../BaseHandler';
+export default class BlockHandler extends BaseHandler {
 	//DataTypes
 
-	classDef.prototype.GetDataTypes = function (authContext, dataTypeDefId, filters){
+	static GetDataTypes(authContext, dataTypeDefId, filters){
 		return this.Context.DatabaseContext.DataTypes(authContext)
 				.query({
 					where: {
@@ -30,28 +22,28 @@
 
 	//DataTypeDefs
 
-	classDef.prototype.GetDataTypeDefs = function (authContext){
+	static GetDataTypeDefs(authContext){
 		return this.Context.DatabaseContext.DataTypeDefs(authContext)
 		.fetch({
 			withRelated: ['PluginDef']
 		});
 	};
 
-	classDef.prototype.AddDataTypeDef = function (authContext, transaction, model){
+	static AddDataTypeDef(authContext, transaction, model){
 		var DataTypeDef = this.Context.DatabaseContext.DataTypeDef(authContext);
 		var dataTypeDef = new DataTypeDef(model);
 
 		return dataTypeDef.save(null, { transacting: transaction });
 	};
 
-	classDef.prototype.UpdateDataTypeDef = function (authContext, transaction, model){
+	static UpdateDataTypeDef(authContext, transaction, model){
 		var DataTypeDef = this.Context.DatabaseContext.DataTypeDef(authContext);
 		var dataTypeDef = new DataTypeDef(model);
 
 		return dataTypeDef.save(null, { transacting: transaction });
 	};
 
-	classDef.prototype.DeleteDataTypeDef = function (authContext, transaction, model){
+	static DeleteDataTypeDef(authContext, transaction, model){
 		var DataTypeDef = this.Context.DatabaseContext.DataTypeDef(authContext);
 		var dataTypeDef = new DataTypeDef(model);
 
@@ -60,7 +52,7 @@
 
 	//DataTypeFieldDefs
 
-	classDef.prototype.GetDataTypeFieldDefs = function (authContext, dataTypeDefId){
+	static GetDataTypeFieldDefs(authContext, dataTypeDefId){
 		return this.Context.DatabaseContext.DataTypeFieldDefs(authContext)
 				.query({
 					where: {
@@ -70,21 +62,21 @@
 				.fetch();
 	};
 
-	classDef.prototype.AddDataTypeFieldDef = function (authContext, transaction, model){
+	static AddDataTypeFieldDef(authContext, transaction, model){
 		var DataTypeFieldDef = this.Context.DatabaseContext.DataTypeFieldDef(authContext);
 		var dataTypeFieldDef = new DataTypeFieldDef(model);
 
 		return dataTypeFieldDef.save(null, { transacting: transaction });
 	};
 
-	classDef.prototype.UpdateDataTypeFieldDef = function (authContext, transaction, model){
+	static UpdateDataTypeFieldDef(authContext, transaction, model){
 		var DataTypeFieldDef = this.Context.DatabaseContext.DataTypeFieldDef(authContext);
 		var dataTypeFieldDef = new DataTypeFieldDef(model);
 
 		return dataTypeFieldDef.save(null, { transacting: transaction });
 	};
 
-	classDef.prototype.DeleteDataTypeFieldDef = function (authContext, transaction, model){
+	static DeleteDataTypeFieldDef(authContext, transaction, model){
 		var DataTypeFieldDef = this.Context.DatabaseContext.DataTypeFieldDef(authContext);
 		var dataTypeFieldDef = new DataTypeFieldDef(model);
 
@@ -93,11 +85,11 @@
 
 	//DataTypeFieldTypes
 
-	classDef.prototype.GetDataTypeFieldTypes = function (authContext){
+	static GetDataTypeFieldTypes(authContext){
 		return this.Context.DatabaseContext.DataTypeFieldTypes(authContext).fetch();
 	};
 
-	classDef.prototype.GetDataTypeFieldType = function (authContext, code){
+	static GetDataTypeFieldType(authContext, code){
 		return this.Context.DatabaseContext.DataTypeFieldType(authContext)
 				.query({
 					where: {
@@ -107,26 +99,24 @@
 				.fetch();
 	};
 
-	classDef.prototype.AddDataTypeFieldType = function (authContext, transaction, model){
+	static AddDataTypeFieldType(authContext, transaction, model){
 		var DataTypeFieldType = this.Context.DatabaseContext.DataTypeFieldType(authContext);
 		var dataTypeFieldType = new DataTypeFieldType(model);
 
 		return dataTypeFieldType.save(null, { transacting: transaction });
 	};
 
-	classDef.prototype.UpdateDataTypeFieldType = function (authContext, transaction, model){
+	static UpdateDataTypeFieldType(authContext, transaction, model){
 		var DataTypeFieldType = this.Context.DatabaseContext.DataTypeFieldType(authContext);
 		var dataTypeFieldType = new DataTypeFieldType(model);
 
 		return dataTypeFieldType.save(null, { transacting: transaction });
 	};
 
-	classDef.prototype.DeleteDataTypeFieldType = function (authContext, transaction, model){
+	static DeleteDataTypeFieldType(authContext, transaction, model){
 		var DataTypeFieldType = this.Context.DatabaseContext.DataTypeFieldType(authContext);
 		var dataTypeFieldType = new DataTypeFieldType(model);
 
 		return dataTypeFieldType.destroy({ transacting: transaction });
 	};
-	
-	module.exports = classDef;
-})();
+}

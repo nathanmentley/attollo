@@ -1,24 +1,19 @@
-(function () {
-	var Context;
-	var ServiceName;
-	var classDef = function (serviceContext, name) {
-		Context = serviceContext;
-		ServiceName = name;
-	};
+import Attollo from "../Attollo";
+import BaseService from '../BaseService';
 
+export default class BlockService extends BaseService {
 	//DataType
-
-	classDef.prototype.GetDataTypes = function (authContext, dataTypeDefId, filters){
+	static GetDataTypes(authContext, dataTypeDefId, filters){
 		return Context.Handlers.DataType.GetDataTypes(authContext, dataTypeDefId, filters);
 	};
 
 	//DataTypeDef
 
-	classDef.prototype.GetDataTypeDefs = function (authContext){
+	static GetDataTypeDefs(authContext){
 		return Context.Handlers.DataType.GetDataTypeDefs(authContext);
 	};
 
-	classDef.prototype.AddDataTypeDef = function (authContext, pluginDefCode, model){
+	static AddDataTypeDef(authContext, pluginDefCode, model){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -47,7 +42,7 @@
 		});
 	};
 
-	classDef.prototype.UpdateDataTypeDef = function (authContext, model){
+	static UpdateDataTypeDef(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.DataType.UpdateDataTypeDef(authContext, transaction, model)
 			.then((result) => {
@@ -58,7 +53,7 @@
 		});
 	};
 
-	classDef.prototype.DeleteDataTypeDef = function (authContext, model){
+	static DeleteDataTypeDef(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.DataType.DeleteDataTypeDef(authContext, transaction, model)
 			.then((result) => {
@@ -71,11 +66,11 @@
 
 	//DataTypeFieldDef
 
-	classDef.prototype.GetDataTypeFieldDefs = function (authContext, dataTypeDefId){
+	static GetDataTypeFieldDefs(authContext, dataTypeDefId){
 		return Context.Handlers.DataType.GetDataTypeFieldDefs(authContext, dataTypeDefId);
 	};
 
-	classDef.prototype.AddDataTypeFieldDef = function (authContext, dataTypeFieldTypeCode, model){
+	static AddDataTypeFieldDef(authContext, dataTypeFieldTypeCode, model){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -104,7 +99,7 @@
 		});
 	};
 
-	classDef.prototype.UpdateDataTypeFieldDef = function (authContext, model){
+	static UpdateDataTypeFieldDef(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.DataType.UpdateDataTypeFieldDef(authContext, transaction, model)
 			.then((result) => {
@@ -115,7 +110,7 @@
 		});
 	};
 
-	classDef.prototype.DeleteDataTypeFieldDef = function (authContext, model){
+	static DeleteDataTypeFieldDef(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.DataType.DeleteDataTypeFieldDef(authContext, transaction, model)
 			.then((result) => {
@@ -128,15 +123,15 @@
 
 	//DataTypeFieldTypes
 
-	classDef.prototype.GetDataTypeFieldTypes = function (authContext){
+	static GetDataTypeFieldTypes(authContext){
 		return Context.Handlers.DataType.GetDataTypeFieldTypes(authContext);
 	};
 
-	classDef.prototype.GetDataTypeFieldType = function (authContext, code){
+	static GetDataTypeFieldType(authContext, code){
 		return Context.Handlers.DataType.GetDataTypeFieldType(authContext, code);
 	};
 
-	classDef.prototype.AddDataTypeFieldType = function (authContext, model){
+	static AddDataTypeFieldType(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.DataType.AddDataTypeFieldType(authContext, transaction, model)
 			.then((result) => {
@@ -147,7 +142,7 @@
 		});
 	};
 
-	classDef.prototype.UpdateDataTypeFieldType = function (authContext, model){
+	static UpdateDataTypeFieldType(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.DataType.UpdateDataTypeFieldType(authContext, transaction, model)
 			.then((result) => {
@@ -158,7 +153,7 @@
 		});
 	};
 
-	classDef.prototype.DeleteDataTypeFieldType = function (authContext, model){
+	static DeleteDataTypeFieldType(authContext, model){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.DataType.DeleteDataTypeFieldType(authContext, transaction, model)
 			.then((result) => {
@@ -168,6 +163,4 @@
 			});
 		});
 	};
-	
-	module.exports = classDef;
-})();
+}

@@ -1,37 +1,40 @@
-(function () {
-	var fs = require('fs');
-	var os = require("os");
+import os from "os";
+import fs from 'fs';
 
-	var LOGS_DIR = Attollo.Utils.Config.LogDir;
+import ConfigUtils from './ConfigUtils';
 
-	var classDef = function () {};
-	
-	var AppName = null;
+var _appName = "";
 
-	var logIt = function(message) {
+export default class LogUtils {
+    static get AppName() {
+        return _appName;
+    }
+    static set AppName(value) {
+        _appName = value;
+    }
+
+	static Init(appName) {
+		LogUtils.AppName = appName;
+	}
+
+	static Info(message) {
+		LogUtils._LogIt(message);
+	}
+
+	static Error(message) {
+		LogUtils._LogIt("Error: " + message);
+	}
+
+	static _LogIt(message) {
 		var d = new Date();
 		var finalMessage = d.toISOString() + ": " + message;
-
 		console.log(finalMessage);
-	
-		if(AppName != null){
+
+		if(this.AppName != null){
 			var fileName = d.getFullYear() + '_' + (d.getMonth() + 1) + '_' + d.getDate() + '.log';
-			var filePath = __dirname + LOGS_DIR + AppName + '/' + fileName;
+			var filePath = process.cwd() + ConfigUtils.Config.LogDir + LogUtils.AppName + '/' + fileName;
 		
-			fs.appendFile(filePath, finalMessage + os.EOL, { flag: 'a+' }, function(err){});
+			fs.appendFile(filePath, finalMessage + os.EOL, { flag: 'a+' }, (err) => {});
 		}
-	};
-
-	classDef.prototype.Init = function (appName) {
-		AppName = appName;
-	};
-
-	classDef.prototype.Info = function (message){
-		logIt(message);
-	};
-	classDef.prototype.Error = function (message){
-		logIt("Error: " + message);
-	};
-	
-	module.exports = new classDef();
-})();
+	}
+}

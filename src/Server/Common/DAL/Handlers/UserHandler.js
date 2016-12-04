@@ -1,18 +1,10 @@
-(function () {
-	var baseHandler = require('../../BaseHandler')
-	var util = require('util');
-
-	var classDef = function (context) {
-		baseHandler.apply(this);
-		this.Context = context;
-	};
-	util.inherits(classDef, baseHandler);
-	
-	classDef.prototype.GetUsers = function (authContext){
+import BaseHandler from '../BaseHandler';
+export default class BlockHandler extends BaseHandler {
+	static GetUsers(authContext){
 		return this.Context.DatabaseContext.Users(authContext).fetch();
 	};
 
-	classDef.prototype.GetUser = function (authContext, username) {
+	static GetUser(authContext, username) {
 		return this.Context.DatabaseContext.Users(authContext, true)
 				.query({
 					where: {
@@ -28,7 +20,7 @@
 				]});
 	};
 	
-	classDef.prototype.AddUser = function (authContext, transaction, name, password, role){
+	static AddUser(authContext, transaction, name, password, role){
 		var User = this.Context.DatabaseContext.User(authContext);
 		var user = new User({
 			clientid: authContext.ClientID,
@@ -40,14 +32,14 @@
 		return user.save(null, { transacting: transaction });
 	};
 	
-	classDef.prototype.UpdateUser = function (authContext, transaction, model){
+	static UpdateUser(authContext, transaction, model){
 		var User = this.Context.DatabaseContext.User(authContext);
 		var user = new User(model);
 
 		return user.save(null, { transacting: transaction });
 	};
 	
-	classDef.prototype.DeleteUser = function (authContext, transaction, userId){
+	static DeleteUser(authContext, transaction, userId){
 		var User = this.Context.DatabaseContext.User(authContext);
 		var user = new User({ id: userId });
 
@@ -56,7 +48,7 @@
 
 	//Roles
 
-	classDef.prototype.GetRole = function (authContext, code) {
+	static GetRole(authContext, code) {
 		return this.Context.DatabaseContext.Roles(authContext)
 				.query({
 					where: {
@@ -66,11 +58,11 @@
 				.fetch();
 	};
 
-	classDef.prototype.GetRoles = function (authContext) {
+	static GetRoles(authContext) {
 		return this.Context.DatabaseContext.Roles(authContext).fetch();
 	};
 
-	classDef.prototype.AddRole = function (authContext, transaction, name, code) {
+	static AddRole(authContext, transaction, name, code) {
 		var Role = this.Context.DatabaseContext.Role(authContext);
 		var role = new Role({
 			name: name,
@@ -80,7 +72,7 @@
 		return role.save(null, { transacting: transaction });
 	};
 
-	classDef.prototype.AddRolePermission = function (authContext, transaction, permissionDefId, roleId) {
+	static AddRolePermission(authContext, transaction, permissionDefId, roleId) {
 		var RolePermission = this.Context.DatabaseContext.RolePermission(authContext);
 		var rolePermission = new RolePermission({
 			permissiondefid: permissionDefId,
@@ -92,7 +84,7 @@
 
 	//PermissionDefs
 
-	classDef.prototype.AddPermissionDef = function (authContext, transaction, name, code, description) {
+	static AddPermissionDef(authContext, transaction, name, code, description) {
 		var PermissionDef = this.Context.DatabaseContext.PermissionDef(authContext);
 		var permissionDef = new PermissionDef({
 			name: name,
@@ -103,11 +95,11 @@
 		return permissionDef.save(null, { transacting: transaction });
 	};
 
-	classDef.prototype.GetPermissionDefs = function (authContext) {
+	static GetPermissionDefs(authContext) {
 		return this.Context.DatabaseContext.PermissionDefs(authContext).fetch();
 	};
 
-	classDef.prototype.GetPermissionDef = function (authContext, code) {
+	static GetPermissionDef(authContext, code) {
 		return this.Context.DatabaseContext.PermissionDefs(authContext)
 				.query({
 					where: {
@@ -116,6 +108,4 @@
 				})
 				.fetch();
 	};
-	
-	module.exports = classDef;
-})();
+}

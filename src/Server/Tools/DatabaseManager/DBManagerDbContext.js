@@ -1,23 +1,31 @@
-(function () {
-    var classDef = function () {};
-    
-    classDef.prototype.ClientID = null;
-    classDef.prototype.UserName = "*SYSTEM|DatabaseManager";
-    classDef.prototype.Permissions = [];
+var _clientId = null;
+var _userName = "*SYSTEM|DatabaseManager";
+var _permissions = [];
 
-    classDef.prototype.SetClientID = function (clientId) {
-        this.ClientID = clientId;
-    };
-    classDef.prototype.ClearClientID = function () {
-        this.ClientID = null;
-    };
+export default class DatabaseScriptUtils {
+    static get ClientID() {
+        return _clientId;
+    }
+    static get UserName() {
+        return _userName;
+    }
+    static get Permissions() {
+        return _permissions;
+    }
 
-    classDef.prototype.SetPermissions = function (permissions) {
-        this.Permissions = permissions;
-    };
-    classDef.prototype.ClearPermissions = function () {
-        this.Permissions = [];
+    static SetClientID(clientId) {
+        _clientId = clientId;
     };
 
-	module.exports = new classDef();
-})();
+    static ClearClientID() {
+        _clientId = null;
+    };
+
+    static SetPermissions(permissions) {
+        _permissions = permissions;
+    };
+
+    static ClearPermissions() {
+        _permissions = [];
+    };
+}

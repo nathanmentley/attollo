@@ -1,10 +1,11 @@
 //Seed PluginDefs
+import Attollo from '../../../Common/Attollo';
 
 (function () {
-	var PluginDefCodes = require('../../../../Platform/Constants/PluginDefCodes');
-	var PluginDefLogicTargetCodes = require('../../../../Platform/Constants/PluginDefLogicTargetCodes');
-	var PluginDefLogicDefCodes = require('../../../../Platform/Constants/PluginDefLogicDefCodes');
-	var DataTypeFieldTypeCodes = require('../../../../Platform/Constants/DataTypeFieldTypeCodes');
+	import PluginDefCodes from '../../../../Platform/Constants/PluginDefCodes';
+	import PluginDefLogicTargetCodes from '../../../../Platform/Constants/PluginDefLogicTargetCodes';
+	import PluginDefLogicDefCodes from '../../../../Platform/Constants/PluginDefLogicDefCodes';
+	import DataTypeFieldTypeCodes from '../../../../Platform/Constants/DataTypeFieldTypeCodes';
 
     var classDef = function () {};
 

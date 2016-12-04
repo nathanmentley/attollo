@@ -1,16 +1,13 @@
-(function () {
-	var Context;
-	var ServiceName;
-	var classDef = function (serviceContext, name) {
-		Context = serviceContext;
-		ServiceName = name;
-	};
-	
-	classDef.prototype.GetDatabaseVersions = function (authContext){
+import Attollo from "../Attollo";
+
+import BaseService from '../BaseService';
+
+export default class BlockService extends BaseService {
+	static GetDatabaseVersions(authContext){
 		return Context.Handlers.DatabaseVersion.GetDatabaseVersions(authContext);
 	};
 	
-	classDef.prototype.AddDatabaseVersion = function (authContext, databaseVersion){
+	static AddDatabaseVersion(authContext, databaseVersion){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.DatabaseVersion.AddDatabaseVersion(authContext, transaction, databaseVersion)
 			.then((result) => {
@@ -21,11 +18,11 @@
 		});
 	};
 	
-	classDef.prototype.GetDatabaseCodeVersions = function (authContext){
+	static GetDatabaseCodeVersions(authContext){
 		return Context.Handlers.DatabaseVersion.GetDatabaseCodeVersions(authContext);
 	};
 	
-	classDef.prototype.AddDatabaseCodeVersion = function (authContext, databaseCodeVersion){
+	static AddDatabaseCodeVersion(authContext, databaseCodeVersion){
 		return Context.DBTransaction((transaction) => {
 			Context.Handlers.DatabaseVersion.AddDatabaseCodeVersion(authContext, transaction, databaseCodeVersion)
 			.then((result) => {
@@ -35,6 +32,4 @@
 			});
 		});
 	};
-	
-	module.exports = classDef;
-})();
+}

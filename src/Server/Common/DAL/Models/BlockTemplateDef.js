@@ -1,9 +1,9 @@
 (function () {
-	var Auid = require("../Core/Auid");
-	var Database = require("../Core/Database");
-	var ModelEvents = require("../Core/ModelEvents");
+	import Auid from "../Core/Auid";
+	import Database from "../Core/Database";
+	import ModelEvents from "../Core/ModelEvents";
     
-	var BlockDef = require("./BlockDef");
+	import BlockDef from "./BlockDef";
 
 	var filter = function(authContext, query) {
 	};

@@ -1,11 +1,11 @@
 (function () {
-	var Auid = require("../Core/Auid");
-	var Database = require("../Core/Database");
-	var ModelEvents = require("../Core/ModelEvents");
+	import Auid from "../Core/Auid";
+	import Database from "../Core/Database";
+	import ModelEvents from "../Core/ModelEvents";
 
-	var PluginDef = require("./PluginDef");
-	var PluginDefLogicDef = require("./PluginDefLogicDef");
-	var PluginDefLogicTarget = require("./PluginDefLogicTarget");
+	import PluginDef from "./PluginDef";
+	import PluginDefLogicDef from "./PluginDefLogicDef";
+	import PluginDefLogicTarget from "./PluginDefLogicTarget";
 
 	var filter = function(authContext, query) {
 		if(authContext.ClientID) {

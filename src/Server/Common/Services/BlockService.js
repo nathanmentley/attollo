@@ -279,7 +279,7 @@ export default class BlockService extends BaseService {
 			.then((blockDef) => {
 				Context.DBTransaction((transaction) => {
 					Context.Handlers.Block.AddBlockTemplateDef(
-						authContext, transaction, blockDef.first().get('id'), code, name, template, _renderTemplate(template)
+						authContext, transaction, blockDef.first().get('id'), code, name, template, BlockService._RenderTemplate(template)
 					)
 					.then((result) => {
 						transaction.commit(result);
@@ -399,7 +399,7 @@ export default class BlockService extends BaseService {
 	};
 	
 	//privateMethods
-	var _renderTemplate = function(template) {
+	static _RenderTemplate(template) {
 		//Todo: Make this shit not fucking hacky as shit.
 		return jsx.client(template).toString()
 				.replace("with (data)", "")

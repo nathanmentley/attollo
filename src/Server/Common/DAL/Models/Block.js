@@ -12,6 +12,9 @@ import BlockContainerAreaDef from "./BlockContainerAreaDef";
 import BlockDef from "./BlockDef";
 import BlockTemplateDef from "./BlockTemplateDef";
 
+
+import BlockSetting from "./BlockSetting";
+
 var filter = function(authContext, query) {
 	if(authContext.ClientID) {
 		var subQuery = Database.Knex.select('clientid').from('site')
@@ -95,7 +98,6 @@ var model = function(authContext, skipFilter) {
 			return this.belongsTo(BlockTemplateDef.Model(authContext, skipFilter), 'blocktemplatedefid');
 		},
 		BlockSettings: function() {
-			import BlockSetting from "./BlockSetting";
 			return this.hasMany(BlockSetting.Model(authContext, skipFilter), "blockid");
 		},
 		BlockCssRules: function() {
@@ -117,7 +119,7 @@ var collection = function(authContext, skipFilter) {
 	.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
 };
 	
-export default class Block() {
+export default class Block {
 	static get Model() { return model; }
 	static get Collection() { return collection; }
 };

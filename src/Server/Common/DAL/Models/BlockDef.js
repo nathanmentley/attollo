@@ -4,6 +4,12 @@
 
 	import PageDef from "./PageDef";
 
+
+
+	import BlockDefDataRequest from "./BlockDefDataRequest";
+	import BlockDefFunction from "./BlockDefFunction";
+	import BlockSettingDef from "./BlockSettingDef";
+
 	var filter = function(authContext, query) {
 		if(authContext.PluginDefIds) {
 			query.where('plugindefid', 'in', authContext.PluginDefIds);
@@ -28,15 +34,12 @@
 				return this.belongsTo(PageDef.Model(authContext, skipFilter), 'pagedefid');
 			},
 			BlockSettingDefs: function() {
-				import BlockSettingDef from "./BlockSettingDef";
 				return this.hasMany(BlockSettingDef.Model(authContext, skipFilter), "blockdefid");
 			},
 			BlockDefDataRequests: function() {
-				import BlockDefDataRequest from "./BlockDefDataRequest";
 				return this.hasMany(BlockDefDataRequest.Model(authContext, skipFilter), 'blockdefid');
 			},
 			BlockDefFunctions: function() {
-				import BlockDefFunction from "./BlockDefFunction";
 				return this.hasMany(BlockDefFunction.Model(authContext, skipFilter), 'blockdefid');
 			}
 		});
@@ -55,7 +58,7 @@
 		.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
 	};
 	
-export default class Block() {
+export default class BlockDef {
 	static get Model() { return model; }
 	static get Collection() { return collection; }
 };

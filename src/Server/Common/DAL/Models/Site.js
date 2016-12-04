@@ -56,7 +56,7 @@
 		.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
 	};
 	
-export default class Block() {
+export default class Site {
 	static get Model() { return model; }
 	static get Collection() { return collection; }
 };

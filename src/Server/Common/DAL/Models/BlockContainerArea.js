@@ -9,6 +9,10 @@
 	import BlockContainer from "./BlockContainer";
 	import BlockContainerAreaDef from "./BlockContainerAreaDef";
 
+
+	
+	import Block from "./Block";
+
 	var filter = function(authContext, query) {
 		if(authContext.ClientID) {
 			var subQuery = Database.Knex.select('clientid').from('site')
@@ -80,8 +84,6 @@
 				return this.belongsTo(BlockContainerAreaDef.Model(authContext, skipFilter), 'blockcontainerareadefid');
 			},
 			Blocks: function() {
-				import Block from "./Block";
-				
 				return this.hasMany(Block.Model(authContext, skipFilter), 'blockcontainerareaid');
 			}
 		});
@@ -101,7 +103,7 @@
 		.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
 	};
 	
-export default class Block() {
+export default class BlockContainerArea {
 	static get Model() { return model; }
 	static get Collection() { return collection; }
 };

@@ -4,6 +4,10 @@
 
 	import DataTypeDef from "./DataTypeDef";
 
+
+
+	import DataTypeField from "./DataTypeField";
+
 	var filter = function(authContext, query) {
 		if(authContext.ClientID) {
 			query.where('clientid', '=', authContext.ClientID);
@@ -34,7 +38,6 @@
 				return this.belongsTo(DataTypeDef.Model(authContext, skipFilter), 'datatypedefid');
 			},
 			DataTypeFields: function () {
-				import DataTypeField from "./DataTypeField";
 				return this.hasMany(DataTypeField.Model(authContext, skipFilter), 'datatypeid');
 			}
 		});
@@ -53,7 +56,7 @@
 		.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
 	};
 	
-export default class Block() {
+export default class DataType {
 	static get Model() { return model; }
 	static get Collection() { return collection; }
 };

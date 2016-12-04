@@ -40,7 +40,7 @@
 		.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
 	};
 	
-export default class Block() {
+export default class BlockDefDataRequest {
 	static get Model() { return model; }
 	static get Collection() { return collection; }
 };

@@ -9,6 +9,11 @@
 	import BlockContainerCssRule from "./BlockContainerCssRule";
 	import BlockContainerDef from "./BlockContainerDef";
 
+
+
+	import Block from "./Block";
+	import BlockContainerArea from "./BlockContainerArea";
+
 	var filter = function(authContext, query) {
 		if(authContext.ClientID) {
 			var subQuery = Database.Knex.select('clientid').from('site')
@@ -71,14 +76,9 @@
 				return this.belongsTo(BlockContainerDef.Model(authContext, skipFilter), 'blockcontainerdefid');
 			},
 			BlockContainerAreas: function() {
-				import BlockContainerArea from "./BlockContainerArea";
-
 				return this.hasMany(BlockContainerArea.Model(authContext, skipFilter), 'blockcontainerid');
 			},
 			Blocks: function() {
-				import Block from "./Block";
-				import BlockContainerArea from "./BlockContainerArea";
-				
 				return this.hasMany(Block.Model(authContext, skipFilter), 'blockcontainerareaid')
 							.through(BlockContainerArea.Model(authContext, skipFilter), 'blockcontainerid');
 			},
@@ -102,7 +102,7 @@
 		.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
 	};
 	
-export default class Block() {
+export default class BlockContainer {
 	static get Model() { return model; }
 	static get Collection() { return collection; }
 };

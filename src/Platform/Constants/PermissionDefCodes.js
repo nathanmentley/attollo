@@ -1,7 +1,3 @@
-(function () {
-	var classDef = function () {};
-    
-	classDef.prototype.ViewUsers = 'ViewUsers';
-
-	module.exports = new classDef();
-})();
+export default class CssRuleDefCodes {
+	static get ViewUsers() { return 'ViewUsers'; };
+}

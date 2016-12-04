@@ -1,8 +1,4 @@
-(function () {
-	var classDef = function () {};
-    
-	classDef.prototype.Text = 'Text';
-	classDef.prototype.HTML = 'HTML';
-
-	module.exports = new classDef();
-})();
+export default class CssRuleDefCodes {
+	static get Text() { return 'Text'; };
+	static get HTML() { return 'HTML'; };
+}

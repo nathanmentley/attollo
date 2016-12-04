@@ -1,7 +1,3 @@
-(function () {
-	var classDef = function () {};
-    
-	classDef.prototype.BlogSetting = 'BlogSetting';
-
-	module.exports = new classDef();
-})();
+export default class CssRuleDefCodes {
+	static get BlogSetting() { return 'BlogSetting'; };
+}

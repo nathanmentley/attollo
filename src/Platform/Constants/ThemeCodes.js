@@ -1,8 +1,4 @@
-(function () {
-	var classDef = function () {};
-    
-	classDef.prototype.Default = 'Default';
-	classDef.prototype.BlogDefault = 'BlogDefault';
-
-	module.exports = new classDef();
-})();
+export default class CssRuleDefCodes {
+	static get Default() { return 'Default'; };
+	static get BlogDefault() { return 'BlogDefault'; };
+}

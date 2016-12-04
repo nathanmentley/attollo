@@ -1,14 +1,13 @@
-(function () {
-	import express from 'express';
-	var app = express();
-	import auth from "./AuthConfig";
+import express from 'express';
 
-	var classDef = function () {};
+import AuthConfig from "./AuthConfig";
+
+export default class CssRuleDefCodes {
+    static get App() { return express(); }
+    static get Auth() { return AuthConfig; }
+    static get Express() { return express; }
     
-    classDef.prototype.App = app;
-    classDef.prototype.Auth = auth;
-    classDef.prototype.Express = express;
-    classDef.prototype.ResponseProcessor = (request, response, logicPromise) => {
+    static ResponseProcessor(request, response, logicPromise) {
         var logicDefCode = Attollo.AppName + '/' + request.method + request.path;
 
 		response.setHeader('Content-Type', 'application/json');
@@ -51,6 +50,4 @@
             }).catch(errorHandler);
         }).catch(errorHandler);
     };
-
-	module.exports = new classDef();
-})();
+}

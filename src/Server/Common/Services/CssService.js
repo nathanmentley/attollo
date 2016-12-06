@@ -5,8 +5,8 @@ import BaseService from '../BaseService';
 export default class BlockService extends BaseService {
 	//CssRuleDefType
 	static AddCssRuleDefType(authContext, name, code){
-        return Context.DBTransaction((transaction) => {
-			Context.Handlers.Css.AddCssRuleDefType(authContext, transaction, name, code)
+        return this.Context.DBTransaction((transaction) => {
+			this.Context.Handlers.Css.AddCssRuleDefType(authContext, transaction, name, code)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -16,13 +16,13 @@ export default class BlockService extends BaseService {
 	};
 	
 	static GetCssRuleDefType(authContext, code){
-		return Context.Handlers.Css.GetCssRuleDefType(authContext, code);
+		return this.Context.Handlers.Css.GetCssRuleDefType(authContext, code);
 	};
 	
 	//CssRuleDefGroup
 	static AddCssRuleDefGroup(authContext, name, code, description){
-        return Context.DBTransaction((transaction) => {
-            Context.Handlers.Css.AddCssRuleDefGroup(authContext, transaction, name, code, description)
+        return this.Context.DBTransaction((transaction) => {
+            this.Context.Handlers.Css.AddCssRuleDefGroup(authContext, transaction, name, code, description)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -32,7 +32,7 @@ export default class BlockService extends BaseService {
 	};
 	
 	static GetCssRuleDefGroup(authContext, code){
-		return Context.Handlers.Css.GetCssRuleDefGroup(authContext, code);
+		return this.Context.Handlers.Css.GetCssRuleDefGroup(authContext, code);
 	};
 	
 	//CssRuleDef
@@ -44,8 +44,8 @@ export default class BlockService extends BaseService {
             .then((cssRuleDefType) => {
                 self.GetCssRuleDefGroup(authContext, cssRuleDefGroupCodes)
                 .then((cssRuleDefGroup) => {
-                    Context.DBTransaction((transaction) => {
-                        Context.Handlers.Css.AddCssRuleDef(authContext, transaction, name, code, property, description, options, cssRuleDefType.get('id'), cssRuleDefGroup.get('id'))
+                    self.Context.DBTransaction((transaction) => {
+                        this.Context.Handlers.Css.AddCssRuleDef(authContext, transaction, name, code, property, description, options, cssRuleDefType.get('id'), cssRuleDefGroup.get('id'))
                         .then((result) => {
                             transaction.commit(result);
                         }).catch((err) => {
@@ -70,16 +70,16 @@ export default class BlockService extends BaseService {
 	};
 	
 	static GetCssRuleDef(authContext, code){
-		return Context.Handlers.Css.GetCssRuleDef(authContext, code);
+		return this.Context.Handlers.Css.GetCssRuleDef(authContext, code);
 	};
 	
 	static GetCssRuleDefs(authContext){
-		return Context.Handlers.Css.GetCssRuleDefs(authContext);
+		return this.Context.Handlers.Css.GetCssRuleDefs(authContext);
 	};
 	
     //BlockCssRules
     static GetBlockCssRules(authContext, blockId) {
-        return Context.Handlers.Block.GetBlockCssRulesForBlock(authContext, blockId);
+        return this.Context.Handlers.Block.GetBlockCssRulesForBlock(authContext, blockId);
     };
 
     static AddBlockCssRules(authContext, model) {
@@ -88,10 +88,10 @@ export default class BlockService extends BaseService {
         return new Promise((resolve, reject) => {
             self.GetCssRuleDef(authContext, model.CssRule.CssRuleDef.code)
             .then((cssRuleDef) => {
-                Context.DBTransaction((transaction) => {
-                    Context.Handlers.Css.AddCssRule(authContext, transaction, '#' + model.blockid, model.CssRule.value, cssRuleDef.get('id'))
+                self.Context.DBTransaction((transaction) => {
+                    this.Context.Handlers.Css.AddCssRule(authContext, transaction, '#' + model.blockid, model.CssRule.value, cssRuleDef.get('id'))
                     .then((cssRule) => {
-                        Context.Handlers.Css.AddBlockCssRule(authContext, transaction, model.blockid, cssRule.get('id'))
+                        this.Context.Handlers.Css.AddBlockCssRule(authContext, transaction, model.blockid, cssRule.get('id'))
                         .then((result) => {
                             transaction.commit(result);
                         }).catch((err) => {
@@ -119,22 +119,22 @@ export default class BlockService extends BaseService {
         var self = this;
 
         return new Promise((resolve, reject) => {
-            Context.DBTransaction((transaction) => {
+            self.Context.DBTransaction((transaction) => {
                 var promises = [];
 
                 rules.forEach((rule) => {
                     if(rule.id) {
                         promises.push(
-                            Context.Handlers.Css.UpdateCssRule(authContext, transaction, rule.CssRule)
+                            this.Context.Handlers.Css.UpdateCssRule(authContext, transaction, rule.CssRule)
                         );
                     } else {
                         promises.push(
                             new Promise((subResolve, subReject) => {
                                 self.GetCssRuleDef(authContext, rule.CssRule.CssRuleDef.code)
                                 .then((cssRuleDef) => {
-                                    Context.Handlers.Css.AddCssRule(authContext, transaction, '#' + rule.blockid, rule.CssRule.value, cssRuleDef.get('id'))
+                                    this.Context.Handlers.Css.AddCssRule(authContext, transaction, '#' + rule.blockid, rule.CssRule.value, cssRuleDef.get('id'))
                                     .then((cssRule) => {
-                                        Context.Handlers.Css.AddBlockCssRule(authContext, transaction, rule.blockid, cssRule.get('id'))
+                                        this.Context.Handlers.Css.AddBlockCssRule(authContext, transaction, rule.blockid, cssRule.get('id'))
                                         .then((result) => {
                                             subResolve(result);
                                         }).catch((err) => {
@@ -181,8 +181,8 @@ export default class BlockService extends BaseService {
 		return new Promise((resolve, reject) => {
             self.GetCssRuleDef(authContext, cssRuleDefCode)
             .then((cssRuleDef) => {
-                Context.DBTransaction((transaction) => {
-                    Context.Handlers.Css.AddCssRule(authContext, transaction, selector, value, cssRuleDef.get('id'))
+                self.Context.DBTransaction((transaction) => {
+                    this.Context.Handlers.Css.AddCssRule(authContext, transaction, selector, value, cssRuleDef.get('id'))
                     .then((result) => {
                         transaction.commit(result);
                     }).catch((err) => {
@@ -206,7 +206,7 @@ export default class BlockService extends BaseService {
         return new Promise((resolve, reject) => {
             var less = '';
 
-            Context.Handlers.Site.GetSiteById(authContext, siteId)
+            this.Context.Handlers.Site.GetSiteById(authContext, siteId)
             .then((site) => {
                 var rules = site.relations['Theme'].relations['ThemeCssRules'];
 
@@ -240,7 +240,7 @@ export default class BlockService extends BaseService {
                     }
                 }
 
-                Context.Handlers.Block.GetBlockContainerCssRules(authContext)
+                this.Context.Handlers.Block.GetBlockContainerCssRules(authContext)
                 .then((containerRules) => {
                     css = {};
                     containerRules.forEach((rule) => {
@@ -288,7 +288,7 @@ export default class BlockService extends BaseService {
                         }
                     }
 
-                    Context.Handlers.Block.GetBlockCssRules(authContext)
+                    this.Context.Handlers.Block.GetBlockCssRules(authContext)
                     .then((blockRules) => {
                         css = {};
                         blockRules.forEach((rule) => {

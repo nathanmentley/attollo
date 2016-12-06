@@ -1,5 +1,5 @@
+import ServiceContext from "./ServiceContext";
+
 export default class BaseService {
-	static Init(context) {
-		this.Context = context;
-	}
+	static get Context() { return ServiceContext; }
 };

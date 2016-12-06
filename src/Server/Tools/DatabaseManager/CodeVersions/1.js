@@ -1,12 +1,12 @@
 //Seed PluginDefs
 import Attollo from '../../../Common/Attollo';
 
-(function () {
-	import PluginDefCodes from '../../../../Platform/Constants/PluginDefCodes';
-	import PluginDefLogicTargetCodes from '../../../../Platform/Constants/PluginDefLogicTargetCodes';
-	import PluginDefLogicDefCodes from '../../../../Platform/Constants/PluginDefLogicDefCodes';
-	import DataTypeFieldTypeCodes from '../../../../Platform/Constants/DataTypeFieldTypeCodes';
+import PluginDefCodes from '../../../../Platform/Constants/PluginDefCodes';
+import PluginDefLogicTargetCodes from '../../../../Platform/Constants/PluginDefLogicTargetCodes';
+import PluginDefLogicDefCodes from '../../../../Platform/Constants/PluginDefLogicDefCodes';
+import DataTypeFieldTypeCodes from '../../../../Platform/Constants/DataTypeFieldTypeCodes';
 
+(function () {
     var classDef = function () {};
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {

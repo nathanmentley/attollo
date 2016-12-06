@@ -1,7 +1,7 @@
 import Database from "./Database";
 
-export default class ModelEvents {
-    static PurgeRelatedBeforeSaving(relatedTables) {
+class ModelEvents {
+    PurgeRelatedBeforeSaving(relatedTables) {
         return (model, columns, options) => {
             return new Promise((resolve, reject) => {
                 if(model) {
@@ -18,7 +18,7 @@ export default class ModelEvents {
         };
     }
 
-    static AuditCreated(authContext, table) {
+    AuditCreated(authContext, table) {
         return (model, attrs, options) => {
             return new Promise((resolve, reject) => {
                 Database.Knex.transacting(options.transacting).insert(
@@ -43,7 +43,7 @@ export default class ModelEvents {
         };
     }
 
-    static AuditUpdating(authContext, table) {
+    AuditUpdating(authContext, table) {
         return (model, attrs, options) => {
             return new Promise((resolve, reject) => {
                 Database.Knex.transacting(options.transacting).insert(
@@ -68,7 +68,7 @@ export default class ModelEvents {
         };
     }
 
-    static AuditDestroying(authContext, table) {
+    AuditDestroying(authContext, table) {
         return (model, options) => {
             return new Promise((resolve, reject) => {
                 Database.Knex.transacting(options.transacting).insert(
@@ -93,3 +93,5 @@ export default class ModelEvents {
         };
     }
 };
+
+export default new ModelEvents();

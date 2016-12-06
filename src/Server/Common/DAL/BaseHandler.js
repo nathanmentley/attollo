@@ -1,5 +1,5 @@
+import HandlerContext from "../HandlerContext";
+
 export default class BaseHandler {
-	static Init(context) {
-		this.Context = context;
-	}
+	static get Context() { return HandlerContext; }
 };

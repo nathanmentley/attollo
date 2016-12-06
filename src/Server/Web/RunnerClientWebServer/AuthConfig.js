@@ -1,6 +1,6 @@
 import Attollo from "../../Common/Attollo";
 
-module.exports = function(permission) {
+export default function(permission) {
 	return function(req, res, next) {
 		var originDomain = req.get('host').replace("http://", "");
 		LogUtils.Info(originDomain);

@@ -2,8 +2,10 @@ import express from 'express';
 
 import AuthConfig from "./AuthConfig";
 
-export default class CssRuleDefCodes {
-    static get App() { return express(); }
+var app = express();
+
+export default class ControllerContext {
+    static get App() { return app; }
     static get Auth() { return AuthConfig; }
     static get Express() { return express; }
     

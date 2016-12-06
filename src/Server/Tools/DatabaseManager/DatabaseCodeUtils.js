@@ -4,18 +4,18 @@ import Attollo from "../../Common/Attollo";
 import LogUtils from "../../Common/Utils/LogUtils";
 	
 //TODO: fix this.
-import Code1 from './CodeVersions/1.js';
-import Code2 from './CodeVersions/2.js';
-import Code3 from './CodeVersions/3.js';
-import Code4 from './CodeVersions/4.js';
-import Code5 from './CodeVersions/5.js';
-import Code6 from './CodeVersions/6.js';
-import Code7 from './CodeVersions/7.js';
-import Code8 from './CodeVersions/8.js';
-import Code9 from './CodeVersions/9.js';
-import Code10 from './CodeVersions/10.js';
-import Code11 from './CodeVersions/11.js';
-import Code12 from './CodeVersions/12.js';
+import Code1 from './CodeVersions/1';
+import Code2 from './CodeVersions/2';
+import Code3 from './CodeVersions/3';
+import Code4 from './CodeVersions/4';
+import Code5 from './CodeVersions/5';
+import Code6 from './CodeVersions/6';
+import Code7 from './CodeVersions/7';
+import Code8 from './CodeVersions/8';
+import Code9 from './CodeVersions/9';
+import Code10 from './CodeVersions/10';
+import Code11 from './CodeVersions/11';
+import Code12 from './CodeVersions/12';
 
 export default class DatabaseCodeUtils {
     static get CodeScripts() {

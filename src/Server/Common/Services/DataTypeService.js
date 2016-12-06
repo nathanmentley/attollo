@@ -4,13 +4,13 @@ import BaseService from '../BaseService';
 export default class BlockService extends BaseService {
 	//DataType
 	static GetDataTypes(authContext, dataTypeDefId, filters){
-		return Context.Handlers.DataType.GetDataTypes(authContext, dataTypeDefId, filters);
+		return this.Context.Handlers.DataType.GetDataTypes(authContext, dataTypeDefId, filters);
 	};
 
 	//DataTypeDef
 
 	static GetDataTypeDefs(authContext){
-		return Context.Handlers.DataType.GetDataTypeDefs(authContext);
+		return this.Context.Handlers.DataType.GetDataTypeDefs(authContext);
 	};
 
 	static AddDataTypeDef(authContext, pluginDefCode, model){
@@ -19,10 +19,10 @@ export default class BlockService extends BaseService {
 		return new Promise((resolve, reject) => {
 			Attollo.Services.Plugin.GetPluginDef(authContext, pluginDefCode)
 			.then((pluginDef) => {
-				Context.DBTransaction((transaction) => {
+				self.Context.DBTransaction((transaction) => {
 					model.plugindefid = pluginDef.first().get('id');
 
-					Context.Handlers.DataType.AddDataTypeDef(authContext, transaction, model)
+					self.Context.Handlers.DataType.AddDataTypeDef(authContext, transaction, model)
 					.then((result) => {
 						transaction.commit(result);
 					}).catch((err) => {
@@ -43,8 +43,10 @@ export default class BlockService extends BaseService {
 	};
 
 	static UpdateDataTypeDef(authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.DataType.UpdateDataTypeDef(authContext, transaction, model)
+		var self = this;
+		
+		return this.Context.DBTransaction((transaction) => {
+			self.Context.Handlers.DataType.UpdateDataTypeDef(authContext, transaction, model)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -54,8 +56,10 @@ export default class BlockService extends BaseService {
 	};
 
 	static DeleteDataTypeDef(authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.DataType.DeleteDataTypeDef(authContext, transaction, model)
+		var self = this;
+		
+		return this.Context.DBTransaction((transaction) => {
+			self.Context.Handlers.DataType.DeleteDataTypeDef(authContext, transaction, model)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -67,7 +71,7 @@ export default class BlockService extends BaseService {
 	//DataTypeFieldDef
 
 	static GetDataTypeFieldDefs(authContext, dataTypeDefId){
-		return Context.Handlers.DataType.GetDataTypeFieldDefs(authContext, dataTypeDefId);
+		return this.Context.Handlers.DataType.GetDataTypeFieldDefs(authContext, dataTypeDefId);
 	};
 
 	static AddDataTypeFieldDef(authContext, dataTypeFieldTypeCode, model){
@@ -76,10 +80,10 @@ export default class BlockService extends BaseService {
 		return new Promise((resolve, reject) => {
 			self.GetDataTypeFieldType(authContext, dataTypeFieldTypeCode)
 			.then((fieldType) => {
-				Context.DBTransaction((transaction) => {
+				self.Context.DBTransaction((transaction) => {
 					model.datatypefieldtypeid = fieldType.get('id');
 
-					Context.Handlers.DataType.AddDataTypeFieldDef(authContext, transaction, model)
+					self.Context.Handlers.DataType.AddDataTypeFieldDef(authContext, transaction, model)
 					.then((result) => {
 						transaction.commit(result);
 					}).catch((err) => {
@@ -100,8 +104,10 @@ export default class BlockService extends BaseService {
 	};
 
 	static UpdateDataTypeFieldDef(authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.DataType.UpdateDataTypeFieldDef(authContext, transaction, model)
+		var self = this;
+
+		return this.Context.DBTransaction((transaction) => {
+			self.Context.Handlers.DataType.UpdateDataTypeFieldDef(authContext, transaction, model)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -111,8 +117,10 @@ export default class BlockService extends BaseService {
 	};
 
 	static DeleteDataTypeFieldDef(authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.DataType.DeleteDataTypeFieldDef(authContext, transaction, model)
+		var self = this;
+		
+		return this.Context.DBTransaction((transaction) => {
+			self.Context.Handlers.DataType.DeleteDataTypeFieldDef(authContext, transaction, model)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -124,16 +132,18 @@ export default class BlockService extends BaseService {
 	//DataTypeFieldTypes
 
 	static GetDataTypeFieldTypes(authContext){
-		return Context.Handlers.DataType.GetDataTypeFieldTypes(authContext);
+		return this.Context.Handlers.DataType.GetDataTypeFieldTypes(authContext);
 	};
 
 	static GetDataTypeFieldType(authContext, code){
-		return Context.Handlers.DataType.GetDataTypeFieldType(authContext, code);
+		return this.Context.Handlers.DataType.GetDataTypeFieldType(authContext, code);
 	};
 
 	static AddDataTypeFieldType(authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.DataType.AddDataTypeFieldType(authContext, transaction, model)
+		var self = this;
+		
+		return this.Context.DBTransaction((transaction) => {
+			self.Context.Handlers.DataType.AddDataTypeFieldType(authContext, transaction, model)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -143,8 +153,10 @@ export default class BlockService extends BaseService {
 	};
 
 	static UpdateDataTypeFieldType(authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.DataType.UpdateDataTypeFieldType(authContext, transaction, model)
+		var self = this;
+		
+		return this.Context.DBTransaction((transaction) => {
+			self.Context.Handlers.DataType.UpdateDataTypeFieldType(authContext, transaction, model)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -154,8 +166,10 @@ export default class BlockService extends BaseService {
 	};
 
 	static DeleteDataTypeFieldType(authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.DataType.DeleteDataTypeFieldType(authContext, transaction, model)
+		var self = this;
+		
+		return this.Context.DBTransaction((transaction) => {
+			self.Context.Handlers.DataType.DeleteDataTypeFieldType(authContext, transaction, model)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {

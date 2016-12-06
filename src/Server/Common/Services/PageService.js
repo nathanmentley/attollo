@@ -3,21 +3,21 @@ import BaseService from '../BaseService';
 
 export default class BlockService extends BaseService {
 	static GetPageDefs(authContext){
-		return Context.Handlers.Page.GetPageDefs(authContext);
+		return this.Context.Handlers.Page.GetPageDefs(authContext);
 	};
 
 	static GetPageDef(authContext, code){
-		return Context.Handlers.Page.GetPageDef(authContext, code);
+		return this.Context.Handlers.Page.GetPageDef(authContext, code);
 	};
 	
 	static AddPageDef(authContext, pluginDefCode, pageDef){
 		return new Promise((resolve, reject) => {
 			Attollo.Services.Plugin.GetPluginDef(authContext, pluginDefCode)
 			.then((pluginDef) => {
-				Context.DBTransaction((transaction) => {
+				this.Context.DBTransaction((transaction) => {
 					pageDef.plugindefid = pluginDef.first().get('id');
 
-					Context.Handlers.Page.AddPageDef(authContext, transaction, pageDef)
+					this.Context.Handlers.Page.AddPageDef(authContext, transaction, pageDef)
 					.then((result) => {
 						transaction.commit(result);
 					}).catch((err) => {
@@ -38,12 +38,12 @@ export default class BlockService extends BaseService {
 	};
 	
 	static GetPages(authContext, siteVersionId){
-		return Context.Handlers.Page.GetPages(authContext, siteVersionId);
+		return this.Context.Handlers.Page.GetPages(authContext, siteVersionId);
 	};
 	
 	static AddPage(authContext, page){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.Page.AddPage(authContext, transaction, page)
+		return this.Context.DBTransaction((transaction) => {
+			this.Context.Handlers.Page.AddPage(authContext, transaction, page)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -53,8 +53,8 @@ export default class BlockService extends BaseService {
 	};
 
 	static UpdatePage(authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.Page.UpdatePage(authContext, transaction, model)
+		return this.Context.DBTransaction((transaction) => {
+			this.Context.Handlers.Page.UpdatePage(authContext, transaction, model)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -64,8 +64,8 @@ export default class BlockService extends BaseService {
 	};
 
 	static DeletePage(authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.Page.DeletePage(authContext, transaction, model)
+		return this.Context.DBTransaction((transaction) => {
+			this.Context.Handlers.Page.DeletePage(authContext, transaction, model)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {

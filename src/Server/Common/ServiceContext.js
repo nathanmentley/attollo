@@ -6,8 +6,6 @@ import SendGrid from "./Clients/SendGrid";
 import Redis from "./Clients/Redis";
 import Amqplib from "./Clients/Amqplib";
 
-import handlerContext from "./HandlerContext";
-
 import BlockHandler from "./DAL/Handlers/BlockHandler";
 import ClientHandler from "./DAL/Handlers/ClientHandler";
 import CssHandler from "./DAL/Handlers/CssHandler";
@@ -28,17 +26,17 @@ export default class ServiceContext {
     static get Handlers() {
 		var handlers = {};
 
-		handlers.Block = new BlockHandler(handlerContext);
-		handlers.Client = new ClientHandler(handlerContext);
-		handlers.Css = new CssHandler(handlerContext);
-		handlers.DatabaseVersion = new DatabaseVersionHandler(handlerContext);
-		handlers.DataType = new DataTypeHandler(handlerContext);
-		handlers.Page = new PageHandler(handlerContext);
-		handlers.Plugin = new PluginHandler(handlerContext);
-		handlers.Setting = new SettingHandler(handlerContext);
-		handlers.Site = new SiteHandler(handlerContext);
-		handlers.Theme = new ThemeHandler(handlerContext);
-		handlers.User = new UserHandler(handlerContext);
+		handlers.Block = BlockHandler;
+		handlers.Client = ClientHandler;
+		handlers.Css = CssHandler;
+		handlers.DatabaseVersion = DatabaseVersionHandler;
+		handlers.DataType = DataTypeHandler;
+		handlers.Page = PageHandler;
+		handlers.Plugin = PluginHandler;
+		handlers.Setting = SettingHandler;
+		handlers.Site = SiteHandler;
+		handlers.Theme = ThemeHandler;
+		handlers.User = UserHandler;
 		
         return handlers;
     }

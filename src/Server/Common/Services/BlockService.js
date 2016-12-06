@@ -6,16 +6,18 @@ import BaseService from '../BaseService';
 export default class BlockService extends BaseService {
 	//blockContainerDef
 	static GetBlockContainerDefs(authContext){
-		return Context.Handlers.Block.GetBlockContainerDefs(authContext);
+		return this.Context.Handlers.Block.GetBlockContainerDefs(authContext);
 	};
 
 	static GetBlockContainerDef(authContext, code){
-		return Context.Handlers.Block.GetBlockContainerDef(authContext, code);
+		return this.Context.Handlers.Block.GetBlockContainerDef(authContext, code);
 	};
 
 	static AddBlockContainerDef(authContext, code, title){
-		return Context.DBTransaction((transaction) => {
-            Context.Handlers.Block.AddBlockContainerDef(authContext, transaction, code, title)
+		var self = this;
+		
+		return this.Context.DBTransaction((transaction) => {
+            self.Context.Handlers.Block.AddBlockContainerDef(authContext, transaction, code, title)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -27,7 +29,7 @@ export default class BlockService extends BaseService {
 	//blockContainer
 
 	static GetBlockContainers(authContext, pageId){
-		return Context.Handlers.Block.GetBlockContainers(authContext, pageId);
+		return this.Context.Handlers.Block.GetBlockContainers(authContext, pageId);
 	};
 
 	static AddBlockContainers(authContext, pageId, code){
@@ -44,8 +46,8 @@ export default class BlockService extends BaseService {
 
 					self.GetBlockContainerDef(authContext, code)
 					.then((blockContainerDef) => {
-						Context.DBTransaction((transaction) => {
-							Context.Handlers.Block.AddBlockContainers(authContext, transaction, pageId, blockContainerDef.first().get('id'), maxDisplayOrder)
+						self.Context.DBTransaction((transaction) => {
+							self.Context.Handlers.Block.AddBlockContainers(authContext, transaction, pageId, blockContainerDef.first().get('id'), maxDisplayOrder)
 							.then((blockContainer) => {
 								self.GetBlockContainerAreaDefs(authContext, code)
 								.then((blockContainerAreaDefs) => {
@@ -54,7 +56,7 @@ export default class BlockService extends BaseService {
 
 									for(var i = 0; i < areaDefs.length; i++) {
 										promises.push(
-											Context.Handlers.Block.AddBlockContainerArea(authContext, transaction, blockContainer.get('id'), areaDefs[i]['id'])
+											self.Context.Handlers.Block.AddBlockContainerArea(authContext, transaction, blockContainer.get('id'), areaDefs[i]['id'])
 										);
 									}
 
@@ -92,8 +94,10 @@ export default class BlockService extends BaseService {
 	};
 
 	static UpdateBlockContainer(authContext, blockContainer){
-		return Context.DBTransaction((transaction) => {
-            Context.Handlers.Block.UpdateBlockContainer(authContext, transaction, blockContainer)
+		var self = this;
+		
+		return self.Context.DBTransaction((transaction) => {
+            self.Context.Handlers.Block.UpdateBlockContainer(authContext, transaction, blockContainer)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -105,7 +109,7 @@ export default class BlockService extends BaseService {
 	//blockContainerAreaDef
 
 	static GetBlockContainerAreaDefs(authContext, containerCode) {
-		return Context.Handlers.Block.GetBlockContainerAreaDefs(authContext, containerCode);
+		return this.Context.Handlers.Block.GetBlockContainerAreaDefs(authContext, containerCode);
 	};
 
 	static AddBlockContainerAreaDef(authContext, blockContainerDefCode, code, title) {
@@ -114,8 +118,8 @@ export default class BlockService extends BaseService {
 		return new Promise((resolve, reject) => {
 			self.GetBlockContainerDef(authContext, blockContainerDefCode)
 			.then((blockContainerDef) => {
-				Context.DBTransaction((transaction) => {
-                    Context.Handlers.Block.AddBlockContainerAreaDef(authContext, transaction, blockContainerDef.first().get('id'), code, title)
+				self.Context.DBTransaction((transaction) => {
+                    self.Context.Handlers.Block.AddBlockContainerAreaDef(authContext, transaction, blockContainerDef.first().get('id'), code, title)
                     .then((result) => {
                         transaction.commit(result);
                     }).catch((err) => {
@@ -138,17 +142,17 @@ export default class BlockService extends BaseService {
 	//blockContainerArea
 
 	static GetBlockContainerArea(authContext, blockContainerId, areaCode) {
-		return Context.Handlers.Block.GetBlockContainerArea(authContext, blockContainerId, areaCode);
+		return this.Context.Handlers.Block.GetBlockContainerArea(authContext, blockContainerId, areaCode);
 	};
 
 	//blockDef
 
 	static GetBlockDefs(authContext, pageDefId){
-		return Context.Handlers.Block.GetBlockDefs(authContext, pageDefId);
+		return this.Context.Handlers.Block.GetBlockDefs(authContext, pageDefId);
 	};
 
 	static GetBlockDef(authContext, code) {
-		return Context.Handlers.Block.GetBlockDef(authContext, code);
+		return this.Context.Handlers.Block.GetBlockDef(authContext, code);
 	};
 
 
@@ -161,8 +165,8 @@ export default class BlockService extends BaseService {
 				if(pageDefCode) {
 					Attollo.Services.Page.GetPageDef(authContext, pageDefCode)
 					.then((pageDef) => {
-						Context.DBTransaction((transaction) => {
-							Context.Handlers.Block.AddBlockDef(authContext, transaction, pluginDef.first().get('id'), pageDef.first().get('id'), code, name)
+						self.Context.DBTransaction((transaction) => {
+							this.Context.Handlers.Block.AddBlockDef(authContext, transaction, pluginDef.first().get('id'), pageDef.first().get('id'), code, name)
 							.then((result) => {
 								transaction.commit(result);
 							}).catch((err) => {
@@ -180,8 +184,8 @@ export default class BlockService extends BaseService {
 						reject(err);
 					});
 				} else {
-					Context.DBTransaction((transaction) => {
-						Context.Handlers.Block.AddBlockDef(authContext, transaction, pluginDef.first().get('id'), null, code, name)
+					self.Context.DBTransaction((transaction) => {
+						this.Context.Handlers.Block.AddBlockDef(authContext, transaction, pluginDef.first().get('id'), null, code, name)
 						.then((result) => {
 							transaction.commit(result);
 						}).catch((err) => {
@@ -213,8 +217,8 @@ export default class BlockService extends BaseService {
 				model.compiledcontent = model.content;
 				model.blockdefid = blockDef.first().get('id');
 
-				Context.DBTransaction((transaction) => {
-					Context.Handlers.Block.AddBlockDefFunction(authContext, transaction, model)
+				self.Context.DBTransaction((transaction) => {
+					this.Context.Handlers.Block.AddBlockDefFunction(authContext, transaction, model)
 					.then((result) => {
 						transaction.commit(result);
 					}).catch((err) => {
@@ -244,8 +248,8 @@ export default class BlockService extends BaseService {
 			.then((blockDef) => {
 				model.blockdefid = blockDef.first().get('id');
 
-				Context.DBTransaction((transaction) => {
-					Context.Handlers.Block.AddBlockDefDataRequest(authContext, transaction, model)
+				self.Context.DBTransaction((transaction) => {
+					this.Context.Handlers.Block.AddBlockDefDataRequest(authContext, transaction, model)
 					.then((result) => {
 						transaction.commit(result);
 					}).catch((err) => {
@@ -268,7 +272,7 @@ export default class BlockService extends BaseService {
 	//blockTemplateDef
 
 	static GetBlockTemplateDef(authContext, blockDefId, templateCode) {
-		return Context.Handlers.Block.GetBlockTemplateDef(authContext, blockDefId, templateCode);
+		return this.Context.Handlers.Block.GetBlockTemplateDef(authContext, blockDefId, templateCode);
 	};
 
 	static AddBlockTemplateDef(authContext, blockDefCode, code, name, template) {
@@ -277,8 +281,8 @@ export default class BlockService extends BaseService {
 		return new Promise((resolve, reject) => {
 			self.GetBlockDef(authContext, blockDefCode)
 			.then((blockDef) => {
-				Context.DBTransaction((transaction) => {
-					Context.Handlers.Block.AddBlockTemplateDef(
+				self.Context.DBTransaction((transaction) => {
+					this.Context.Handlers.Block.AddBlockTemplateDef(
 						authContext, transaction, blockDef.first().get('id'), code, name, template, BlockService._RenderTemplate(template)
 					)
 					.then((result) => {
@@ -301,13 +305,13 @@ export default class BlockService extends BaseService {
 	};
 
 	static GetBlockTemplateDefs(authContext) {
-		return Context.Handlers.Block.GetBlockTemplateDefs(authContext);
+		return this.Context.Handlers.Block.GetBlockTemplateDefs(authContext);
 	};
 
 	//Block
 
 	static GetBlocks(authContext, blockContainerId){
-		return Context.Handlers.Block.GetBlocks(authContext, blockContainerId);
+		return this.Context.Handlers.Block.GetBlocks(authContext, blockContainerId);
 	};
 	
 	static AddBlock(authContext, blockContainerId, areaCode, blockDefCode, blockTemplateCode){
@@ -321,8 +325,8 @@ export default class BlockService extends BaseService {
 					.then((blockDef) => {
 						self.GetBlockTemplateDef(authContext, blockDef.first().get('id'), blockTemplateCode)
 						.then((blockTemplateDef) => {
-							Context.DBTransaction((transaction) => {
-								Context.Handlers.Block.AddBlock(authContext, transaction, area.first(), blockDef.first(), blockTemplateDef.first())
+							self.Context.DBTransaction((transaction) => {
+								this.Context.Handlers.Block.AddBlock(authContext, transaction, area.first(), blockDef.first(), blockTemplateDef.first())
 								.then((result) => {
 									transaction.commit(result);
 								}).catch((err) => {
@@ -355,14 +359,14 @@ export default class BlockService extends BaseService {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
-			Context.DBTransaction((transaction) => {
-				Context.Handlers.Block.UpdateBlock(authContext, transaction, block)
+			self.Context.DBTransaction((transaction) => {
+				this.Context.Handlers.Block.UpdateBlock(authContext, transaction, block)
 				.then((result) => {
 					if(block.BlockSettings.length > 0) {
 						var promises = [];
 
 						block.BlockSettings.map((x) => {
-							promises.push(Context.Handlers.Block.UpdateBlockSetting(authContext, transaction, x));
+							promises.push(this.Context.Handlers.Block.UpdateBlockSetting(authContext, transaction, x));
 						});
 
 						Promise.all(promises)
@@ -388,8 +392,8 @@ export default class BlockService extends BaseService {
 	};
 
 	static DeleteBlock(authContext, block) {
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.Block.DeleteBlock(authContext, transaction, block)
+		return this.Context.DBTransaction((transaction) => {
+			this.Context.Handlers.Block.DeleteBlock(authContext, transaction, block)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -409,7 +413,7 @@ export default class BlockService extends BaseService {
 	//BlockSettingDef
 
 	static GetBlockSettingDefs(authContext, blockDefId){
-		return Context.Handlers.Block.GetBlockSettingDefs(authContext, blockDefId);
+		return this.Context.Handlers.Block.GetBlockSettingDefs(authContext, blockDefId);
 	};
 
 	static AddBlockSettingDefs(authContext, blockDefCode, code, title, settingTypeCode, defaultValue){
@@ -420,8 +424,8 @@ export default class BlockService extends BaseService {
 			.then((settingType) => {
 				self.GetBlockDef(authContext, blockDefCode)
 				.then((blockDefs) => {
-					Context.DBTransaction((transaction) => {
-						Context.Handlers.Block.AddBlockSettingDefs(authContext, transaction, blockDefs.first().get('id'), code, title, settingType.first().get('id'), defaultValue)
+					self.Context.DBTransaction((transaction) => {
+						this.Context.Handlers.Block.AddBlockSettingDefs(authContext, transaction, blockDefs.first().get('id'), code, title, settingType.first().get('id'), defaultValue)
 						.then((result) => {
 							transaction.commit(result);
 						}).catch((err) => {
@@ -448,12 +452,12 @@ export default class BlockService extends BaseService {
 	//BlockSetting
 
 	static GetBlockSettings(authContext, block){
-		return Context.Handlers.Block.GetBlockSettings(authContext, block);
+		return this.Context.Handlers.Block.GetBlockSettings(authContext, block);
 	};
 
 	static AddBlockSetting(authContext, blockId, blockSettingDefId, value){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.Block.AddBlockSetting(authContext, transaction, blockId, blockSettingDefId, value)
+		return this.Context.DBTransaction((transaction) => {
+			this.Context.Handlers.Block.AddBlockSetting(authContext, transaction, blockId, blockSettingDefId, value)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {

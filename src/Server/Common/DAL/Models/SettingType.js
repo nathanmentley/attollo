@@ -7,10 +7,10 @@
 
 	var tableName = 'settingtype';
 	var model = function(authContext, skipFilter) {
-		return Database.Model.extend({
+		return Database.Bookshelf.Model.extend({
 			tableName: tableName,
 			constructor: function() {
-				Database.Model.apply(this, arguments);
+				Database.Bookshelf.Model.apply(this, arguments);
 				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
 				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
 				this.on("saving", Auid.Saving(authContext, filter, skipFilter));

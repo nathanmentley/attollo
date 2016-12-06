@@ -1,11 +1,14 @@
 //Setup common code.
 import Attollo from "../../Common/Attollo";
+
 import ConfigUtils from '../../Common/Utils/ConfigUtils';
+import LogUtils from '../../Common/Utils/LogUtils';
+
 import ControllerContext from './ControllerContext';
 
 import BlockContainerController from "./Controllers/BlockContainerController";
 import BlockController from "./Controllers/BlockController";
-import DataTypeController from "./Controllers/DataTypeDefController";
+import DataTypeController from "./Controllers/DataTypeController";
 import PageController from "./Controllers/PageController";
 
 Attollo.Start('RunnerAPI')
@@ -45,15 +48,17 @@ Attollo.Start('RunnerAPI')
 	DataTypeController.Setup(ControllerContext);
 	PageController.Setup(ControllerContext);
 
+	LogUtils.Info("Port: " + ControllerContext.App.get('port'));
+
 	//begin server
 	var server = ControllerContext.App.listen(ControllerContext.App.get('port'), () => {
 		LogUtils.Info('Node app is running on port ' + ControllerContext.App.get('port'));
 	});
 
 	//do something when app is closing
-	process.on('exit', (options, err) => { Attollo.Stop(); server.close(); });
+	process.on('exit', (options, err) => { Attollo.Stop(); LogUtils.Info("exit: " + JSON.stringify(err)); server.close(); });
 	//catches ctrl+c event
-	process.on('SIGINT', (options, err) => { Attollo.Stop(); server.close(); });
+	process.on('SIGINT', (options, err) => { Attollo.Stop(); LogUtils.Info("SIGINT: " + JSON.stringify(err)); server.close(); });
 	//catches uncaught exceptions
-	process.on('uncaughtException', (options, err) => { Attollo.Stop(); server.close(); });
+	process.on('uncaughtException', (options, err) => { Attollo.Stop(); LogUtils.Info("uncaughtException: " + JSON.stringify(err)); server.close(); });
 });

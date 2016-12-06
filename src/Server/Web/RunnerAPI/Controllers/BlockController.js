@@ -1,21 +1,11 @@
-(function () {
-	var classDef = function () {};
+import Attollo from "../../../Common/Attollo";
 
-	var urlendpoint = '/Blocks';
+import BaseController from '../BaseController';
 
-	classDef.prototype.Setup = (controllerContext) => {
-		controllerContext.App.get(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Block.GetBlocks(request.AuthContext, request.query.blockContainerId)
-				)
-			}
-		);
-	};
-	
-	module.exports = new classDef();
-})();
+export default class BlockController extends BaseController  {
+	static get UrlEndpoint() { return '/Blocks'; }
+
+    static GetLogic(request, response) {
+		return Attollo.Services.Block.GetBlocks(request.AuthContext, request.query.blockContainerId);
+	}
+}

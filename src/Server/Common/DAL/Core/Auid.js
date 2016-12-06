@@ -43,8 +43,8 @@ var SchemaIdFields = [
     "ThemeCssRuleID".toLowerCase()
 ];
 
-export default class Auid {
-    static Encode(id) {
+class Auid {
+    Encode(id) {
         if(id) {
             var newId = id ^ key;
             newId = newId << 5;
@@ -58,7 +58,7 @@ export default class Auid {
         }
     }
     
-    static Decode(auid) {
+    Decode(auid) {
         if(auid && typeof auid === 'string') {
             var newId = auid.split('-')[0];
             var checkSumClaim = auid.split('-')[1];
@@ -77,7 +77,7 @@ export default class Auid {
         }
     }
 
-    static EncodeIdsForModel(models, model, touched) {
+    EncodeIdsForModel(models, model, touched) {
         var self = this;
         var data = {};
         if (model) {
@@ -118,7 +118,7 @@ export default class Auid {
         }
     }
 
-    static EncodeIdsForSubCollection(models, collection, touched) {
+    EncodeIdsForSubCollection(models, collection, touched) {
         var self = this;
         if(!touched) {
             touched = [];
@@ -129,7 +129,7 @@ export default class Auid {
         });
     }
 
-    static EncodeIdsForCollection(models, collection, touched) {
+    EncodeIdsForCollection(models, collection, touched) {
         var self = this;
         if(!touched) {
             touched = [];
@@ -140,7 +140,7 @@ export default class Auid {
         }
     }
 
-    static Fetching(authContext, filter, skipFilter) {
+    Fetching(authContext, filter, skipFilter) {
         var self = this;
         return function(model, columns, options) {
             return new Promise(function(resolve, reject) {
@@ -165,7 +165,7 @@ export default class Auid {
         };
     }
 
-    static Fetched(authContext, filter, skipFilter) {
+    Fetched(authContext, filter, skipFilter) {
         var self = this;
         return function(models, result, options) {
             return new Promise(function(resolve, reject) {
@@ -178,7 +178,7 @@ export default class Auid {
         };
     }
 
-    static Saving(authContext, filter, skipFilter) {
+    Saving(authContext, filter, skipFilter) {
         var self = this;
         return function(model, columns, options) {
             return new Promise(function(resolve, reject) {
@@ -213,7 +213,7 @@ export default class Auid {
         };
     }
 
-    static Destroying(authContext, filter, skipFilter) {
+    Destroying(authContext, filter, skipFilter) {
         var self = this;
         return function(model, options) {
             return new Promise(function(resolve, reject) {
@@ -248,3 +248,5 @@ export default class Auid {
         };
     }
 };
+
+export default new Auid();

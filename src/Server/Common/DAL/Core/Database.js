@@ -11,14 +11,6 @@ export default class Database {
 		return bookshelf;
 	}
 
-	static get Model() {
-		return Database.Bookshelf.Model.extend({
-			constructor: () => {
-				Database.Bookshelf.Model.apply(this, arguments);
-			}
-		});
-	}
-
 	static Connect() {
 		return new Promise((resolve, reject) => {
 			knex = require('knex')({

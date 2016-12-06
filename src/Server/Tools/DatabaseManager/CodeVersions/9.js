@@ -1,8 +1,9 @@
 //Seed PageDefs
 import Attollo from '../../../Common/Attollo';
 
+import PermissionDefCodes from '../../../../Platform/Constants/PermissionDefCodes';
+
 (function () {
-	import PermissionDefCodes from '../../../../Platform/Constants/PermissionDefCodes';
 
     var classDef = function () {};
 

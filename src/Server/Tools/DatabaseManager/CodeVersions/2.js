@@ -1,8 +1,9 @@
 //Seed PageDefs
 import Attollo from '../../../Common/Attollo';
 
+import PluginDefCodes from '../../../../Platform/Constants/PluginDefCodes';
+
 (function () {
-	import PluginDefCodes from '../../../../Platform/Constants/PluginDefCodes';
 
     var classDef = function () {};
 

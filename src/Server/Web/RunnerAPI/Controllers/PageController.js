@@ -1,21 +1,11 @@
-(function () {
-	var classDef = function () {};
+import Attollo from "../../../Common/Attollo";
 
-	var urlendpoint = '/Pages';
+import BaseController from '../BaseController';
 
-	classDef.prototype.Setup = (controllerContext) => {
-		controllerContext.App.get(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Page.GetPages(request.AuthContext, request.AuthContext.SiteVersionID)
-				)
-			}
-		);
-	};
-	
-	module.exports = new classDef();
-})();
+export default class PageController extends BaseController  {
+	static get UrlEndpoint() { return '/Pages'; }
+
+    static GetLogic(request, response) {
+		return Attollo.Services.Page.GetPages(request.AuthContext, request.AuthContext.SiteVersionID);
+	}
+}

@@ -7,8 +7,8 @@ export default class BlockService extends BaseService {
 	//PluginDefLogicDef
 	
 	static AddPluginDefLogicDef(authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.Plugin.AddPluginDefLogicDef(authContext, transaction, model)
+		return this.Context.DBTransaction((transaction) => {
+			this.Context.Handlers.Plugin.AddPluginDefLogicDef(authContext, transaction, model)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -20,8 +20,8 @@ export default class BlockService extends BaseService {
 	//PluginDefLogicTarget
 	
 	static AddPluginDefLogicTarget(authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.Plugin.AddPluginDefLogicTarget(authContext, transaction, model)
+		return this.Context.DBTransaction((transaction) => {
+			this.Context.Handlers.Plugin.AddPluginDefLogicTarget(authContext, transaction, model)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -33,16 +33,16 @@ export default class BlockService extends BaseService {
 	//PluginDef
 	
 	static GetPluginDefs(authContext){
-		return Context.Handlers.Plugin.GetPluginDefs(authContext);
+		return this.Context.Handlers.Plugin.GetPluginDefs(authContext);
 	};
 
 	static GetPluginDef(authContext, code){
-		return Context.Handlers.Plugin.GetPluginDef(authContext, code);
+		return this.Context.Handlers.Plugin.GetPluginDef(authContext, code);
 	};
 	
 	static AddPluginDef(authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.Plugin.AddPluginDef(authContext, transaction, model)
+		return this.Context.DBTransaction((transaction) => {
+			this.Context.Handlers.Plugin.AddPluginDef(authContext, transaction, model)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -54,7 +54,7 @@ export default class BlockService extends BaseService {
 	//Plugin
 
 	static GetPlugins(authContext){
-		return Context.Handlers.Plugin.GetPlugins(authContext);
+		return this.Context.Handlers.Plugin.GetPlugins(authContext);
 	};
 	
 	static AddPlugin(authContext, code){
@@ -63,8 +63,8 @@ export default class BlockService extends BaseService {
 		return new Promise((resolve, reject) => {
 			self.GetPluginDef(authContext, code)
 			.then((pluginDef) => {
-				Context.DBTransaction((transaction) => {
-					Context.Handlers.Plugin.AddPlugin(authContext, transaction, { plugindefid: pluginDef.first().get('id'), clientid: authContext.ClientID })
+				self.Context.DBTransaction((transaction) => {
+					this.Context.Handlers.Plugin.AddPlugin(authContext, transaction, { plugindefid: pluginDef.first().get('id'), clientid: authContext.ClientID })
 					.then((result) => {
 						transaction.commit(result);
 					})
@@ -86,8 +86,8 @@ export default class BlockService extends BaseService {
 	};
 
 	static UpdatePlugin(authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.Plugin.UpdatePlugin(authContext, transaction, model)
+		return this.Context.DBTransaction((transaction) => {
+			this.Context.Handlers.Plugin.UpdatePlugin(authContext, transaction, model)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -97,8 +97,8 @@ export default class BlockService extends BaseService {
 	};
 
 	static DeletePlugin(authContext, model){
-		return Context.DBTransaction((transaction) => {
-			Context.Handlers.Plugin.DeletePlugin(authContext, transaction, model)
+		return this.Context.DBTransaction((transaction) => {
+			this.Context.Handlers.Plugin.DeletePlugin(authContext, transaction, model)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {

@@ -1,10 +1,11 @@
 //Seed Themes
 import Attollo from '../../../Common/Attollo';
 
+import PluginDefCodes from '../../../../Platform/Constants/PluginDefCodes';
+import ThemeCodes from '../../../../Platform/Constants/ThemeCodes';
+import CssRuleDefCodes from '../../../../Platform/Constants/CssRuleDefCodes';
+
 (function () {
-	import PluginDefCodes from '../../../../Platform/Constants/PluginDefCodes';
-	import ThemeCodes from '../../../../Platform/Constants/ThemeCodes';
-	import CssRuleDefCodes from '../../../../Platform/Constants/CssRuleDefCodes';
 
     var classDef = function () {};
 

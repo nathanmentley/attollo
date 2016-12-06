@@ -6,7 +6,6 @@ import Redis from './Clients/Redis';
 import Database from "./DAL/Core/Database";
 
 import PluginContext from "./PluginContext";
-import ServiceContext from "./ServiceContext";
 
 import BlockService from "./Services/BlockService";
 import ClientService from "./Services/ClientService";
@@ -30,19 +29,19 @@ export default class Attollo {
 
     static get Services() {
         return {
-            Block: new BlockService(ServiceContext),
-            Client: new ClientService(ServiceContext),
-            Css: new CssService(ServiceContext),
-            DatabaseVersion: new DatabaseVersionService(ServiceContext),
-            DataType: new DataTypeService(ServiceContext),
-            Email: new EmailService(ServiceContext),
-            MessageQueue: new MessageQueueService(ServiceContext),
-            Page: new PageService(ServiceContext),
-            Plugin: new PluginService(ServiceContext),
-            Setting: new SettingService(ServiceContext),
-            Site: new SiteService(ServiceContext),
-            Theme: new ThemeService(ServiceContext),
-            User: new UserService(ServiceContext)
+            Block: BlockService,
+            Client: ClientService,
+            Css: CssService,
+            DatabaseVersion: DatabaseVersionService,
+            DataType: DataTypeService,
+            Email: EmailService,
+            MessageQueue: MessageQueueService,
+            Page: PageService,
+            Plugin: PluginService,
+            Setting: SettingService,
+            Site: SiteService,
+            Theme: ThemeService,
+            User: UserService
         };
     }
 

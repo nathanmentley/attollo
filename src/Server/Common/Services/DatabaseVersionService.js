@@ -1,8 +1,6 @@
-import Attollo from "../Attollo";
-
 import BaseService from '../BaseService';
 
-export default class BlockService extends BaseService {
+export default class DatabaseVersionService extends BaseService {
 	static GetDatabaseVersions(authContext){
 		return this.Context.Handlers.DatabaseVersion.GetDatabaseVersions(authContext);
 	}

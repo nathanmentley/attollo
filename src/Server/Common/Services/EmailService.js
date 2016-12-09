@@ -1,7 +1,7 @@
 import Attollo from "../Attollo";
 import BaseService from '../BaseService';
 
-export default class BlockService extends BaseService {
+export default class EmailService extends BaseService {
 	static SendEmail(toAddr, fromAddr, subject, text, callback){
 		this.Context.Clients.Email.SendEmail(toAddr, fromAddr, subject, text, callback);
 	};

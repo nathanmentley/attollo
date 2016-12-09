@@ -1,5 +1,7 @@
 import express from 'express';
 
+import Attollo from "../../Common/Attollo";
+
 import AuthConfig from "./AuthConfig";
 
 var app = express();

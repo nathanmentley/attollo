@@ -1,7 +1,6 @@
-import Attollo from "../Attollo";
 import BaseService from '../BaseService';
 
-export default class BlockService extends BaseService {
+export default class MessageQueueService extends BaseService {
     static RegisterProcessor(key, processor) {
         this.Context.Clients.WorkQueue.RegisterProcessor(key, processor);
     };

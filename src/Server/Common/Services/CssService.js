@@ -1,8 +1,6 @@
-import Attollo from "../Attollo";
-
 import BaseService from '../BaseService';
 
-export default class BlockService extends BaseService {
+export default class CssService extends BaseService {
 	//CssRuleDefType
 	static AddCssRuleDefType(authContext, name, code){
         return this.Context.DBTransaction((transaction) => {

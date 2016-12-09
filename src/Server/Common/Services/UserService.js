@@ -1,9 +1,8 @@
 import bcrypt from 'bcryptjs';
 
-import Attollo from "../Attollo";
 import BaseService from '../BaseService';
 
-export default class BlockService extends BaseService {
+export default class UserService extends BaseService {
 	static GetUsers(authContext){
 		return this.Context.Handlers.User.GetUsers(authContext);
 	};

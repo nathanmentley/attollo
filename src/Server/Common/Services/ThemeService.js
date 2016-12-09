@@ -1,7 +1,7 @@
 import Attollo from "../Attollo";
 import BaseService from '../BaseService';
 
-export default class BlockService extends BaseService {
+export default class ThemeService extends BaseService {
 	static GetThemes(authContext){
 		return this.Context.Handlers.Theme.GetThemes(authContext);
 	};

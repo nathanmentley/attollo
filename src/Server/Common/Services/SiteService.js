@@ -1,7 +1,7 @@
 import Attollo from "../Attollo";
 import BaseService from '../BaseService';
 
-export default class BlockService extends BaseService {
+export default class SiteService extends BaseService {
 	//SiteVersion
 
 	static GetCurrentSiteVersion(authContext, site){
@@ -31,10 +31,10 @@ export default class BlockService extends BaseService {
 				self.GetSiteVersionStatus(authContext, "Published")
 				.then((status) => {
 					self.Context.DBTransaction((transaction) => {
-						this.Context.Handlers.Site.AddSite(authContext, transaction, theme.get('id'))
+						self.Context.Handlers.Site.AddSite(authContext, transaction, theme.get('id'))
 						.then((site) => {
-							this.Context.Handlers.Site.AddSiteVersion(authContext, transaction, site.get('id'), status.first().get('id'))
-							.then((version) => {
+							self.Context.Handlers.Site.AddSiteVersion(authContext, transaction, site.get('id'), status.first().get('id'))
+							.then(() => {
 								transaction.commit(site);
 							}).catch((err) => {
 								transaction.rollback(err);

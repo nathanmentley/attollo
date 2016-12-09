@@ -3,7 +3,7 @@ import { VM } from 'vm2';
 import Attollo from "../Attollo";
 import BaseService from '../BaseService';
 
-export default class BlockService extends BaseService {
+export default class PluginService extends BaseService {
 	//PluginDefLogicDef
 	
 	static AddPluginDefLogicDef(authContext, model){

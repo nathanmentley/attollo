@@ -166,7 +166,7 @@ export default class BlockService extends BaseService {
 					Attollo.Services.Page.GetPageDef(authContext, pageDefCode)
 					.then((pageDef) => {
 						self.Context.DBTransaction((transaction) => {
-							this.Context.Handlers.Block.AddBlockDef(authContext, transaction, pluginDef.first().get('id'), pageDef.first().get('id'), code, name)
+                            self.Context.Handlers.Block.AddBlockDef(authContext, transaction, pluginDef.first().get('id'), pageDef.first().get('id'), code, name)
 							.then((result) => {
 								transaction.commit(result);
 							}).catch((err) => {
@@ -185,7 +185,7 @@ export default class BlockService extends BaseService {
 					});
 				} else {
 					self.Context.DBTransaction((transaction) => {
-						this.Context.Handlers.Block.AddBlockDef(authContext, transaction, pluginDef.first().get('id'), null, code, name)
+                        self.Context.Handlers.Block.AddBlockDef(authContext, transaction, pluginDef.first().get('id'), null, code, name)
 						.then((result) => {
 							transaction.commit(result);
 						}).catch((err) => {
@@ -218,7 +218,7 @@ export default class BlockService extends BaseService {
 				model.blockdefid = blockDef.first().get('id');
 
 				self.Context.DBTransaction((transaction) => {
-					this.Context.Handlers.Block.AddBlockDefFunction(authContext, transaction, model)
+                    self.Context.Handlers.Block.AddBlockDefFunction(authContext, transaction, model)
 					.then((result) => {
 						transaction.commit(result);
 					}).catch((err) => {
@@ -249,7 +249,7 @@ export default class BlockService extends BaseService {
 				model.blockdefid = blockDef.first().get('id');
 
 				self.Context.DBTransaction((transaction) => {
-					this.Context.Handlers.Block.AddBlockDefDataRequest(authContext, transaction, model)
+                    self.Context.Handlers.Block.AddBlockDefDataRequest(authContext, transaction, model)
 					.then((result) => {
 						transaction.commit(result);
 					}).catch((err) => {
@@ -282,7 +282,7 @@ export default class BlockService extends BaseService {
 			self.GetBlockDef(authContext, blockDefCode)
 			.then((blockDef) => {
 				self.Context.DBTransaction((transaction) => {
-					this.Context.Handlers.Block.AddBlockTemplateDef(
+                    self.Context.Handlers.Block.AddBlockTemplateDef(
 						authContext, transaction, blockDef.first().get('id'), code, name, template, BlockService._RenderTemplate(template)
 					)
 					.then((result) => {
@@ -326,7 +326,7 @@ export default class BlockService extends BaseService {
 						self.GetBlockTemplateDef(authContext, blockDef.first().get('id'), blockTemplateCode)
 						.then((blockTemplateDef) => {
 							self.Context.DBTransaction((transaction) => {
-								this.Context.Handlers.Block.AddBlock(authContext, transaction, area.first(), blockDef.first(), blockTemplateDef.first())
+                                self.Context.Handlers.Block.AddBlock(authContext, transaction, area.first(), blockDef.first(), blockTemplateDef.first())
 								.then((result) => {
 									transaction.commit(result);
 								}).catch((err) => {
@@ -360,13 +360,13 @@ export default class BlockService extends BaseService {
 
 		return new Promise((resolve, reject) => {
 			self.Context.DBTransaction((transaction) => {
-				this.Context.Handlers.Block.UpdateBlock(authContext, transaction, block)
+                self.Context.Handlers.Block.UpdateBlock(authContext, transaction, block)
 				.then((result) => {
 					if(block.BlockSettings.length > 0) {
 						var promises = [];
 
 						block.BlockSettings.map((x) => {
-							promises.push(this.Context.Handlers.Block.UpdateBlockSetting(authContext, transaction, x));
+							promises.push(self.Context.Handlers.Block.UpdateBlockSetting(authContext, transaction, x));
 						});
 
 						Promise.all(promises)
@@ -392,8 +392,10 @@ export default class BlockService extends BaseService {
 	};
 
 	static DeleteBlock(authContext, block) {
+		var self = this;
+
 		return this.Context.DBTransaction((transaction) => {
-			this.Context.Handlers.Block.DeleteBlock(authContext, transaction, block)
+            self.Context.Handlers.Block.DeleteBlock(authContext, transaction, block)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {
@@ -425,7 +427,7 @@ export default class BlockService extends BaseService {
 				self.GetBlockDef(authContext, blockDefCode)
 				.then((blockDefs) => {
 					self.Context.DBTransaction((transaction) => {
-						this.Context.Handlers.Block.AddBlockSettingDefs(authContext, transaction, blockDefs.first().get('id'), code, title, settingType.first().get('id'), defaultValue)
+                        self.Context.Handlers.Block.AddBlockSettingDefs(authContext, transaction, blockDefs.first().get('id'), code, title, settingType.first().get('id'), defaultValue)
 						.then((result) => {
 							transaction.commit(result);
 						}).catch((err) => {
@@ -456,8 +458,10 @@ export default class BlockService extends BaseService {
 	};
 
 	static AddBlockSetting(authContext, blockId, blockSettingDefId, value){
+		var self = this;
+
 		return this.Context.DBTransaction((transaction) => {
-			this.Context.Handlers.Block.AddBlockSetting(authContext, transaction, blockId, blockSettingDefId, value)
+            self.Context.Handlers.Block.AddBlockSetting(authContext, transaction, blockId, blockSettingDefId, value)
 			.then((result) => {
 				transaction.commit(result);
 			}).catch((err) => {

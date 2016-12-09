@@ -5,8 +5,6 @@ import Auid from '../../Common/DAL/Core/Auid';
 
 import jwt from 'jwt-simple';
 
-import Attollo from "../../Common/Attollo";
-
 export default class AuthConfig {
     static BuildContext(permission) {
         return function (req, res, next) {

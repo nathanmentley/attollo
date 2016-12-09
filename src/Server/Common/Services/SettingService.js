@@ -1,7 +1,6 @@
-import Attollo from "../Attollo";
 import BaseService from '../BaseService';
 
-export default class BlockService extends BaseService {
+export default class SettingService extends BaseService {
 	static GetSettingTypes(authContext){
 		return this.Context.Handlers.Setting.GetSettingTypes(authContext);
 	};

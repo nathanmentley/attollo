@@ -1,7 +1,7 @@
 import Attollo from "../Attollo";
 import BaseService from '../BaseService';
 
-export default class BlockService extends BaseService {
+export default class PageService extends BaseService {
 	static GetPageDefs(authContext){
 		return this.Context.Handlers.Page.GetPageDefs(authContext);
 	};

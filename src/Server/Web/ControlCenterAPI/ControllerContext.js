@@ -21,7 +21,8 @@ export default class ControllerContext {
                 error: true,
                 data: {
                     message: err.message,
-                    stack: err.stack
+                    stack: err.stack,
+                    err: err
                 }
             });
         };

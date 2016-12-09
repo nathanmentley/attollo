@@ -1,7 +1,7 @@
 import Attollo from "../Attollo";
 import BaseService from '../BaseService';
 
-export default class BlockService extends BaseService {
+export default class DataTypeService extends BaseService {
 	//DataType
 	static GetDataTypes(authContext, dataTypeDefId, filters){
 		return this.Context.Handlers.DataType.GetDataTypes(authContext, dataTypeDefId, filters);

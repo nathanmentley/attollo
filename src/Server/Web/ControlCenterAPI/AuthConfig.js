@@ -1,65 +1,70 @@
-import Attollo from '../../Common/Attollo';
+import Attollo from "../../Common/Attollo";
+
 import ConfigUtils from '../../Common/Utils/ConfigUtils';
 import Auid from '../../Common/DAL/Core/Auid';
 
 import jwt from 'jwt-simple';
 
-	module.exports = function(permission) {
-		return function(req, res, next) {
-			if (req.headers.authorization) {
-				var decoded = jwt.decode(req.headers.authorization.substring(7), ConfigUtils.Config.JwtSecret);
+import Attollo from "../../Common/Attollo";
 
-				if(decoded) {
-					req.AuthContext = {
-						ClientID: decoded.clientid,
-						UserName: decoded.clientid + '|' + decoded.name,
-						PluginDefIds: []
-					};
+export default class AuthConfig {
+    static BuildContext(permission) {
+        return function (req, res, next) {
+            if (req.headers.authorization) {
+                var decoded = jwt.decode(req.headers.authorization.substring(7), ConfigUtils.Config.JwtSecret);
 
-					Attollo.Services.Plugin.GetPlugins(req.AuthContext)
-					.then((plugins) => {
-						plugins.forEach((x) => {
-							req.AuthContext.PluginDefIds.push(
-								Auid.Decode(
-									x.relations['PluginDef'].get('id')
-								)
-							);
-						});
+                if (decoded) {
+                    req.AuthContext = {
+                        ClientID: decoded.clientid,
+                        UserName: decoded.clientid + '|' + decoded.name,
+                        PluginDefIds: []
+                    };
 
-						if(permission) {
-							var authorized = false;
+                    Attollo.Services.Plugin.GetPlugins(req.AuthContext)
+                        .then((plugins) => {
+                            plugins.forEach((x) => {
+                                req.AuthContext.PluginDefIds.push(
+                                    Auid.Decode(
+                                        x.relations['PluginDef'].get('id')
+                                    )
+                                );
+                            });
 
-							for(var i = 0; i < decoded.permissions.length; i++) {
-								if(decoded.permissions[i] == permission) {
-									authorized = true;
-								}
-							}
+                            if (permission) {
+                                var authorized = false;
 
-							if(authorized) {
-								next();
-							} else {
-								res.statusCode = 403;
-								res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
-								res.end('Forbidden');
-							}
-						}else {
-							next();
-						}
-					})
-					.catch(() => {
-						res.statusCode = 403;
-						res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
-						res.end('Forbidden');
-					});
-				}else{
-					res.statusCode = 403;
-					res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
-					res.end('Forbidden');
-				}
-			}else{
-				res.statusCode = 401;
-				res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
-				res.end('Unauthorized');
-			}
-		};
-	};
+                                for (var i = 0; i < decoded.permissions.length; i++) {
+                                    if (decoded.permissions[i] == permission) {
+                                        authorized = true;
+                                    }
+                                }
+
+                                if (authorized) {
+                                    next();
+                                } else {
+                                    res.statusCode = 403;
+                                    res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
+                                    res.end('Forbidden');
+                                }
+                            } else {
+                                next();
+                            }
+                        })
+                        .catch(() => {
+                            res.statusCode = 403;
+                            res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
+                            res.end('Forbidden');
+                        });
+                } else {
+                    res.statusCode = 403;
+                    res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
+                    res.end('Forbidden');
+                }
+            } else {
+                res.statusCode = 401;
+                res.setHeader('WWW-Authenticate', 'Basic realm="Attollo"');
+                res.end('Unauthorized');
+            }
+        };
+    }
+};

@@ -26,7 +26,7 @@ export default class BaseController {
         if(this.HasAuth) {
             ControllerContext.App.get(
                 this.UrlEndpoint,
-                ControllerContext.Auth(this.GetPermission),
+                ControllerContext.Auth.BuildContext(this.GetPermission),
                 (request, response) => {
                     ControllerContext.ResponseProcessor(
                         request,
@@ -38,7 +38,7 @@ export default class BaseController {
 
             ControllerContext.App.post(
                 this.UrlEndpoint,
-                ControllerContext.Auth(this.PostPermission),
+                ControllerContext.Auth.BuildContext(this.PostPermission),
                 (request, response) => {
                     ControllerContext.ResponseProcessor(
                         request,
@@ -50,7 +50,7 @@ export default class BaseController {
 
             ControllerContext.App.put(
                 this.UrlEndpoint,
-                ControllerContext.Auth(this.PutPermission),
+                ControllerContext.Auth.BuildContext(this.PutPermission),
                 (request, response) => {
                     ControllerContext.ResponseProcessor(
                         request,
@@ -62,7 +62,7 @@ export default class BaseController {
 
             ControllerContext.App.delete(
                 this.UrlEndpoint,
-                ControllerContext.Auth(this.DeletePermission),
+                ControllerContext.Auth.BuildContext(this.DeletePermission),
                 (request, response) => {
                     ControllerContext.ResponseProcessor(
                         request,

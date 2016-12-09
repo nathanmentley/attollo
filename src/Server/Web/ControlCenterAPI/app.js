@@ -1,5 +1,7 @@
 import Attollo from "../../Common/Attollo";
+
 import ConfigUtils from '../../Common/Utils/ConfigUtils';
+import LogUtils from '../../Common/Utils/LogUtils';
 import ControllerContext from './ControllerContext';
 
 import AuthController from "./Controllers/AuthController";
@@ -85,10 +87,10 @@ Attollo.Start('ControlCenterAPI')
 		LogUtils.Info('Node app is running on port ' + ControllerContext.App.get('port'));
 	});
 
-	//do something when app is closing
-	process.on('exit', (options, err) => { Attollo.Stop(); server.close(); });
-	//catches ctrl+c event
-	process.on('SIGINT', (options, err) => { Attollo.Stop(); server.close(); });
-	//catches uncaught exceptions
-	process.on('uncaughtException', (options, err) => { Attollo.Stop(); server.close(); });
+    //do something when app is closing
+    process.on('exit', (options, err) => { Attollo.Stop(); LogUtils.Info("exit: " + JSON.stringify(err)); server.close(); });
+    //catches ctrl+c event
+    process.on('SIGINT', (options, err) => { Attollo.Stop(); LogUtils.Info("SIGINT: " + JSON.stringify(err)); server.close(); });
+    //catches uncaught exceptions
+    process.on('uncaughtException', (options, err) => { Attollo.Stop(); LogUtils.Info("uncaughtException: " + JSON.stringify(err)); server.close(); });
 });

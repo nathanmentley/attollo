@@ -1,9 +1,13 @@
 import express from 'express';
 
+import Attollo from "../../Common/Attollo";
+
 import AuthConfig from "./AuthConfig";
 
+var app = express();
+
 export default class ControllerContext {
-    static get App() { return express(); }
+    static get App() { return app; }
     static get Auth() { return AuthConfig; }
     static get Express() { return express; }
     

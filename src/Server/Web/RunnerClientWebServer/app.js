@@ -1,6 +1,5 @@
 //Setup common code.
 import express from 'express';
-import path from 'path';
 import less from "less";
 import fs from 'fs';
 
@@ -35,7 +34,7 @@ Attollo.Start('RunnerClientWebServer')
 	});
 	
 	//Render Dynamic Css
-	app.get("/app.css", AuthConfig(null), function(req, res) {
+	app.get("/app.css", AuthConfig(), function(req, res) {
 		Attollo.Services.Css.GetSiteLess(req.AuthContext, req.AuthContext.SiteID)
 		.then((siteLess) => {
 			LogUtils.Info(siteLess);

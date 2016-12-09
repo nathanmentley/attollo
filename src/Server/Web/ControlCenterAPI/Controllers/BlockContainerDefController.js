@@ -1,21 +1,10 @@
-(function () {
-	var classDef = function () {};
+import Attollo from '../../../Common/Attollo';
+import BaseController from '../BaseController';
 
-	var urlendpoint = '/BlockContainerDefs';
+export default class BlockContainerDefController extends BaseController {
+    static get UrlEndpoint() { return '/BlockContainerDefs'; }
 
-	classDef.prototype.Setup = (controllerContext) => {
-		controllerContext.App.get(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Block.GetBlockContainerDefs(request.AuthContext)
-				)
-			}
-		);
-	};
-	
-	module.exports = new classDef();
-})();
+    static GetLogic(request, response) {
+        return Attollo.Services.Block.GetBlockContainerDefs(request.AuthContext);
+    }
+};

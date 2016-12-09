@@ -1,54 +1,19 @@
-(function () {
-	var classDef = function () {};
+import Attollo from '../../../Common/Attollo';
+import BaseController from '../BaseController';
 
-	var urlendpoint = '/Pages';
+export default class PageController extends BaseController {
+    static get UrlEndpoint() { return '/Pages'; }
 
-	classDef.prototype.Setup = (controllerContext) => {
-		controllerContext.App.get(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Page.GetPages(request.AuthContext, request.query.siteVersionId)
-				)
-			}
-		);
-		controllerContext.App.post(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Page.AddPage(request.AuthContext, request.body.page)
-				)
-			}
-		);
-		controllerContext.App.put(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Page.UpdatePage(request.AuthContext, request.body.page)
-				)
-			}
-		);
-		controllerContext.App.delete(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Page.DeletePage(request.AuthContext, { id: request.query.pageId })
-				)
-			}
-		);
-	};
-	
-	module.exports = new classDef();
-})();
+    static GetLogic(request, response) {
+        return Attollo.Services.Page.GetPages(request.AuthContext, request.query.siteVersionId);
+    }
+    static PostLogic(request, response) {
+        return Attollo.Services.Page.AddPage(request.AuthContext, request.body.page);
+    }
+    static PutLogic(request, response) {
+        return Attollo.Services.Page.UpdatePage(request.AuthContext, request.body.page);
+    }
+    static DeleteLogic(request, response) {
+        return Attollo.Services.Page.DeletePage(request.AuthContext, { id: request.query.pageId });
+    }
+};

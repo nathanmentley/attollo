@@ -1,54 +1,19 @@
-(function () {
-	var classDef = function () {};
+import Attollo from '../../../Common/Attollo';
+import BaseController from '../BaseController';
 
-	var urlendpoint = '/Sites';
+export default class SiteController extends BaseController {
+    static get UrlEndpoint() { return '/Sites'; }
 
-	classDef.prototype.Setup = (controllerContext) => {
-		controllerContext.App.get(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Site.GetSites(request.AuthContext)
-				)
-			}
-		);
-		controllerContext.App.post(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Site.AddSite(request.AuthContext, request.body.themeCode)
-				)
-			}
-		);
-		controllerContext.App.put(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Site.UpdateSite(request.AuthContext, request.body.site)
-				)
-			}
-		);
-		controllerContext.App.delete(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Site.DeleteSite(request.AuthContext, { id: request.query.siteId })
-				)
-			}
-		);
-	};
-	
-	module.exports = new classDef();
-})();
+    static GetLogic(request, response) {
+        return Attollo.Services.Site.GetSites(request.AuthContext);
+    }
+    static PostLogic(request, response) {
+        return Attollo.Services.Site.AddSite(request.AuthContext, request.body.themeCode);
+    }
+    static PutLogic(request, response) {
+        return Attollo.Services.Site.UpdateSite(request.AuthContext, request.body.site);
+    }
+    static DeleteLogic(request, response) {
+        return Attollo.Services.Site.DeleteSite(request.AuthContext, { id: request.query.siteId });
+    }
+};

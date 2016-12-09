@@ -1,43 +1,16 @@
-(function () {
-	var classDef = function () {};
+import Attollo from '../../../Common/Attollo';
+import BaseController from '../BaseController';
 
-	var urlendpoint = '/Plugins';
+export default class PluginController extends BaseController {
+    static get UrlEndpoint() { return '/Plugins'; }
 
-	classDef.prototype.Setup = (controllerContext) => {
-		controllerContext.App.get(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Plugin.GetPlugins(request.AuthContext)
-				)
-			}
-		);
-		controllerContext.App.post(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Plugin.AddPlugin(request.AuthContext, request.body.pluginDefCode)
-				)
-			}
-		);
-		controllerContext.App.delete(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Plugin.DeletePlugin(request.AuthContext, { id: request.query.pluginId })
-				)
-			}
-		);
-	};
-	
-	module.exports = new classDef();
-})();
+    static GetLogic(request, response) {
+        return Attollo.Services.Plugin.GetPlugins(request.AuthContext);
+    }
+    static PostLogic(request, response) {
+        return Attollo.Services.Plugin.AddPlugin(request.AuthContext, request.body.pluginDefCode);
+    }
+    static DeleteLogic(request, response) {
+        return Attollo.Services.Plugin.DeletePlugin(request.AuthContext, { id: request.query.pluginId });
+    }
+};

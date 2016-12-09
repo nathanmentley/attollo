@@ -1,14 +1,14 @@
 {
 	"Environment": "Local",
-    
-    "DbHost": "localhost",
+
+    "DbHost": "database",
     "DbUser": "attollo",
     "DbPass": "@tt0ll0P@55w0rD!",
     "DbPort": 5432,
     "DbName": "attollo",
 
-    "RedisHost": "localhost",
+    "RedisHost": "redis",
     "RedisPort": 6379,
-    
-    "RabbitMQUrl": "amqp://guest:guest@localhost"
+
+    "RabbitMQUrl": "amqp://guest:guest@rabbitmq"
 }

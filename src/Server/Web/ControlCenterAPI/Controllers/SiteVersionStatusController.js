@@ -1,21 +1,10 @@
-(function () {
-	var classDef = function () {};
+import Attollo from '../../../Common/Attollo';
+import BaseController from '../BaseController';
 
-	var urlendpoint = '/SiteVersionStatuses';
+export default class SiteVersionStatusController extends BaseController {
+    static get UrlEndpoint() { return '/SiteVersionStatuses'; }
 
-	classDef.prototype.Setup = (controllerContext) => {
-		controllerContext.App.get(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Site.GetSiteVersionStatuses(request.AuthContext)
-				)
-			}
-		);
-	};
-	
-	module.exports = new classDef();
-})();
+    static GetLogic(request, response) {
+        return Attollo.Services.Site.GetSiteVersionStatuses(request.AuthContext);
+    }
+};

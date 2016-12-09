@@ -1,32 +1,13 @@
-(function () {
-	var classDef = function () {};
+import Attollo from '../../../Common/Attollo';
+import BaseController from '../BaseController';
 
-	var urlendpoint = '/BlockCssRules';
+export default class BlockCssRuleController extends BaseController {
+    static get UrlEndpoint() { return '/BlockCssRules'; }
 
-	classDef.prototype.Setup = (controllerContext) => {
-		controllerContext.App.get(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Css.GetBlockCssRules(request.AuthContext, request.query.blockId)
-				)
-			}
-		);
-		controllerContext.App.put(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Css.UpdateBlockCssRules(request.AuthContext, request.body.rules)
-				)
-			}
-		);
-	};
-	
-	module.exports = new classDef();
-})();
+    static GetLogic(request, response) {
+        return Attollo.Services.Css.GetBlockCssRules(request.AuthContext, request.query.blockId);
+    }
+    static PutLogic(request, response) {
+        return Attollo.Services.Css.UpdateBlockCssRules(request.AuthContext, request.body.rules);
+    }
+};

@@ -1,21 +1,10 @@
-(function () {
-	var classDef = function () {};
+import Attollo from '../../../Common/Attollo';
+import BaseController from '../BaseController';
 
-	var urlendpoint = '/CssRuleDefs';
+export default class CssRuleDefController extends BaseController {
+    static get UrlEndpoint() { return '/CssRuleDefs'; }
 
-	classDef.prototype.Setup = (controllerContext) => {
-		controllerContext.App.get(
-			urlendpoint,
-			controllerContext.Auth(null),
-			(request, response) => {
-				controllerContext.ResponseProcessor(
-					request,
-					response,
-					Attollo.Services.Css.GetCssRuleDefs(request.AuthContext)
-				)
-			}
-		);
-	};
-	
-	module.exports = new classDef();
-})();
+    static GetLogic(request, response) {
+        return Attollo.Services.Css.GetCssRuleDefs(request.AuthContext);
+    }
+};

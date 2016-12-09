@@ -2,7 +2,7 @@
     // Load plugins
     var gulp = require('gulp');
     var watch = require('gulp-watch');
-    var merge = require('gulp-merge-json');
+
     var docker = (new require('dockerode'))({socketPath: '/var/run/docker.sock'});
     var serverSideContainerNames = [
         'attollo-controlcenterapi',
@@ -11,38 +11,10 @@
         'attollo-runner'
     ];
 
-    var util = require('gulp-util');
-    var Attollo = {
-        Env: util.env.Env ? util.env.Env : 'local'
-    };
-    
     // Clean
     gulp.task('Server:clean', function() {
     });
     gulp.task('Platform:clean', function() {
-    });
-
-    gulp.task('Server:DatabaseManager:config', function() {
-    });
-
-    gulp.task('Server:config', function() {
-        var serverOutputDirs = [
-            'Tools/DatabaseManager',
-            'Web/ControlCenterAPI',
-            'Web/RunnerAPI',
-            'Web/StaticWebServer',
-            'Web/RunnerClientWebServer',
-            'Tasks/TestTask',
-            'Processors/Email'
-        ];
-
-        for(var i = 0; i < serverOutputDirs.length; i++) {
-            gulp.src([
-                    './Server/' + serverOutputDirs[i] + '/Config/config.json',
-                    './Server/' + serverOutputDirs[i] + '/Config/config.' + Attollo.Env + '.json'
-            ]).pipe(merge('config.json'))
-                .pipe(gulp.dest('../dist/Server/' + serverOutputDirs[i] + '/'));
-        }
     });
 
     gulp.task('Server:copy', ['Server:clean'], function () {
@@ -68,5 +40,5 @@
     });
 
     // Build
-    gulp.task('Server:build', ['Server:copy', 'Platform:copy', 'Server:config']);
+    gulp.task('Server:build', ['Server:copy', 'Platform:copy']);
 })();

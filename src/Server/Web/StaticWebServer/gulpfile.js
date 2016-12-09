@@ -28,7 +28,7 @@
         
     });
 
-    gulp.task('StaticWebServer:js', ['StaticWebServer:config', 'StaticWebServer:clean'], () => {
+    gulp.task('StaticWebServer:js', ['StaticWebServer:config', 'StaticWebServer:clean', 'Server:build'], () => {
         return gulp.src('./Server/Web/StaticWebServer/app.js')
             .pipe(gwebpack({
                 target: 'node',
@@ -49,7 +49,7 @@
                 ],
                 devtool: 'source-map',
                 output: {
-                    filename: 'app.js'
+                    filename: 'StaticWebServer.min.js'
                 }
             })).pipe(gulp.dest('../dist/Server/Web/StaticWebServer/'));
         }

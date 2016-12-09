@@ -5,7 +5,7 @@
     require('./Client/ControlCenter/gulpfile.js')
     require('./Client/Runner/gulpfile.js');
 
-    //require('./Server/gulpfile.js');
+    require('./Server/gulpfile.js');
     
     require('./Server/Tools/DatabaseManager/gulpfile.js');
 
@@ -22,8 +22,6 @@
         'ControlCenter:build',
         'Runner:build',
 
-        //'Server:build',
-
         'DatabaseManager:build',
 
         'ControlCenterAPI:build',
@@ -38,7 +36,7 @@
         'ControlCenter:watch',
         'Runner:watch',
 
-        //'Server:watch',
+        'Server:watch',
 
         'DatabaseManager:watch',
 

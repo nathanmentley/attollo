@@ -28,7 +28,7 @@
         
     });
 
-    gulp.task('RunnerClientWebServer:js', ['RunnerClientWebServer:config', 'RunnerClientWebServer:clean'], () => {
+    gulp.task('RunnerClientWebServer:js', ['RunnerClientWebServer:config', 'RunnerClientWebServer:clean', 'Server:build'], () => {
         return gulp.src('./Server/Web/RunnerClientWebServer/app.js')
             .pipe(gwebpack({
                 target: 'node',
@@ -49,7 +49,7 @@
                 ],
                 devtool: 'source-map',
                 output: {
-                    filename: 'app.js'
+                    filename: 'RunnerClientWebServer.min.js'
                 }
             })).pipe(gulp.dest('../dist/Server/Web/RunnerClientWebServer/'));
         }

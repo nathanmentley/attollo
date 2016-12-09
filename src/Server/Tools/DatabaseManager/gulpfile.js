@@ -28,7 +28,7 @@
         
     });
 
-    gulp.task('DatabaseManager:js', ['DatabaseManager:config', 'DatabaseManager:clean'], () => {
+    gulp.task('DatabaseManager:js', ['DatabaseManager:config', 'DatabaseManager:clean', 'Server:build'], () => {
         return gulp.src('./Server/Tools/DatabaseManager/app.js')
             .pipe(gwebpack({
                 target: 'node',
@@ -49,7 +49,7 @@
                 ],
                 devtool: 'source-map',
                 output: {
-                    filename: 'app.js'
+                    filename: 'DatabaseManager.min.js'
                 }
             })).pipe(gulp.dest('../dist/Server/Tools/DatabaseManager/'));
         }

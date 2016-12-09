@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 cd /home/web/dist/Server/Web/RunnerClientWebServer
-nodejs app.js /home/web/dist/Client/Runner
+nodejs RunnerClientWebServer.min.js /home/web/dist/Client/Runner

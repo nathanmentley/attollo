@@ -5,4 +5,4 @@ npm install
 nodejs ./node_modules/gulp/bin/gulp.js --Env $attolloenv
 
 cd /home/web/dist/Server/Tools/DatabaseManager
-nodejs app.js ensure
+nodejs DatabaseManager.min.js ensure

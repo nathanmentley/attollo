@@ -49,7 +49,7 @@
                 ],
                 devtool: 'source-map',
                 output: {
-                    filename: 'app.js'
+                    filename: 'RunnerAPI.min.js'
                 }
             })).pipe(gulp.dest('../dist/Server/Web/RunnerAPI/'));
         }

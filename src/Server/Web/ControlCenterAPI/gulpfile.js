@@ -28,7 +28,7 @@
         
     });
 
-    gulp.task('ControlCenterAPI:js', ['ControlCenterAPI:config', 'ControlCenterAPI:clean'], () => {
+    gulp.task('ControlCenterAPI:js', ['ControlCenterAPI:config', 'ControlCenterAPI:clean', 'Server:build', 'Server:build'], () => {
         return gulp.src('./Server/Web/ControlCenterAPI/app.js')
             .pipe(gwebpack({
                 target: 'node',
@@ -49,7 +49,7 @@
                 ],
                 devtool: 'source-map',
                 output: {
-                    filename: 'app.js'
+                    filename: 'ControlCenterAPI.min.js'
                 }
             })).pipe(gulp.dest('../dist/Server/Web/ControlCenterAPI/'));
         }

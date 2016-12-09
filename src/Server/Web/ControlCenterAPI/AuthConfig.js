@@ -1,8 +1,8 @@
-(function() {
-	import ConfigUtils from '../../Common/Utils/ConfigUtils';
-	import Auid from '../../Common/DAL/Core/Auid';
+import Attollo from '../../Common/Attollo';
+import ConfigUtils from '../../Common/Utils/ConfigUtils';
+import Auid from '../../Common/DAL/Core/Auid';
 
-	import jwt from 'jwt-simple';
+import jwt from 'jwt-simple';
 
 	module.exports = function(permission) {
 		return function(req, res, next) {
@@ -63,4 +63,3 @@
 			}
 		};
 	};
-})(); 

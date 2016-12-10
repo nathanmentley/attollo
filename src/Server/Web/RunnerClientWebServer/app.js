@@ -4,6 +4,8 @@ import less from "less";
 import fs from 'fs';
 
 import Attollo from "../../Common/Attollo";
+
+import LogUtils from '../../Common/Utils/LogUtils';
 import ConfigUtils from '../../Common/Utils/ConfigUtils';
 import AuthConfig from "./AuthConfig";
 

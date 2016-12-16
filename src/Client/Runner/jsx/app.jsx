@@ -5,9 +5,13 @@ import App from './Components/App.jsx';
 
 window.React = React;
 
+function clientRender(compiledTemplate) {
+    return eval("var f = function(){ return " + compiledTemplate + ";}; f();");
+}
+
 render(
     (
-        <App />
+        <App Pages={null} BlockContainers={null} Page={null} TemplateProcessor={clientRender} />
     ),
     document.getElementById('app-container')
 );

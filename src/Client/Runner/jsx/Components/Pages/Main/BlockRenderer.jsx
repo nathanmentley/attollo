@@ -19,7 +19,7 @@ export default class BlockRenderer extends BaseComponent {
     render() {
         return ( 
             <div data-block-id={this.props.Block.id}>
-                <BlockComponent Block={this.props.Block} UpdatePage={this.updatePage} />
+                <BlockComponent Block={this.props.Block} UpdatePage={this.updatePage} TemplateProcessor={this.props.TemplateProcessor} />
             </div>
         );
     }

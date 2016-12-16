@@ -1,14 +1,12 @@
-import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
+import React from "react";
+import {Grid, Row, Col} from "react-bootstrap";
 
-import BasePage from '../BasePage.jsx';
-
-import PageService from '../../../Services/PageService.jsx';
-import BlockService from '../../../Services/BlockService.jsx';
-import BlockContainerService from '../../../Services/BlockContainerService.jsx';
-
-import BlockContainerRenderer from '../../../../../Common/jsx/Components/BlockContainerRenderer.jsx';
-import BlockRenderer from './BlockRenderer.jsx';
+import BasePage from "../BasePage.jsx";
+import PageService from "../../../Services/PageService.jsx";
+import BlockService from "../../../Services/BlockService.jsx";
+import BlockContainerService from "../../../Services/BlockContainerService.jsx";
+import BlockContainerRenderer from "../../../../../Common/jsx/Components/BlockContainerRenderer.jsx";
+import BlockRenderer from "./BlockRenderer.jsx";
 
 export default class MainPage extends BasePage {
     constructor(props) {
@@ -22,25 +20,27 @@ export default class MainPage extends BasePage {
 
         this.updatePage = this.updatePage.bind(this);
     }
-    
+
+    componentWillMount() {
+        if (this.props.Pages != null && this.props.BlockContainers != null && this.props.Page != null) {
+            this.setState({
+                Pages: this.props.Pages,
+                Page: this.props.Page,
+                BlockContainers: this.props.BlockContainers
+            });
+        }
+    }
+
     componentDidMount() {
         var self = this;
 
-        PageService.GetPages().then((res) => {
-            var page = res.data.data.find((x) => { return x.url == window.location.pathname; });
-
-            if(!page){
-                page = res.data.data[0];
-            }
-
-            BlockContainerService.GetBlockContainers(page.id).then((blockResult) => {
-                self.setState({
-                    Pages: res.data.data,
-                    Page: page,
-                    BlockContainers: blockResult.data.data
-                }); 
+        if(this.state.Page == null) {
+            PageService.GetPages().then((res) => {
+                self.setState({Pages: res.data.data}, () => {
+                    self.updatePage(window.location.pathname)
+                });
             });
-        });
+        }
     }
 
     updatePage(url) {
@@ -74,6 +74,7 @@ export default class MainPage extends BasePage {
                             BlockRenderer={BlockRenderer}
                             BlockService={BlockService}
                             UpdatePage={self.updatePage}
+                            TemplateProcessor={self.props.TemplateProcessor}
                         />
                     })}
                 </Grid>

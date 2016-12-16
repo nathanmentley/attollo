@@ -5,6 +5,7 @@ import fs from 'fs';
 
 import React from 'react';
 import { renderToString } from 'react-dom/server';
+import { VM } from 'vm2';
 
 import Attollo from "../../Common/Attollo";
 
@@ -73,18 +74,64 @@ Attollo.Start('RunnerClientWebServer')
     });
 
     //Render JS
-    app.get("/app.js", AuthConfig(), function(req, res) {
+    app.get("/app.js", AuthConfig(), (req, res) => {
 
     });
 
-	app.get('*', function(req, res){
-		try {
-            var appString = renderToString(<ClientApp />);
+    var templateProcessor = (compiledTemplate) => {
+        var vm = new VM({
+            sandbox:{
+                React: React
+            }
+        });
 
-            res.status(200).send(Template({
-                body: appString,
-                title: 'title'
-            }));
+        return vm.run("var f = function(){ return " + compiledTemplate + ";}; f();");
+    };
+
+	app.get('*', AuthConfig(), (req, res) => {
+		try {
+            Attollo.Services.Page.GetPages(req.AuthContext, req.AuthContext.SiteVersionID)
+                .then((pages) => {
+                    pages = pages.toJSON();
+                    var page = pages.find((x) => { return x.url == req.originalUrl; });
+                    if(page == null) {
+                        page =  pages[0];
+                    }
+
+                    Attollo.Services.Block.GetBlockContainers(req.AuthContext, page.id)
+                        .then((blockContainers) => {
+                            blockContainers = blockContainers.toJSON();
+                            var appString = renderToString(<ClientApp
+                                Pages={pages}
+                                BlockContainers={blockContainers}
+                                Page={page}
+                                TemplateProcessor={templateProcessor} />
+                            );
+
+                            res.status(200).send(Template({
+                                body: appString,
+                                title: 'title'
+                            }));
+                        })
+                        .catch((err) => {
+                            res.status(500).json({
+                                error: true,
+                                data: {
+                                    message: err.message,
+                                    stack: err.stack
+                                }
+                            });
+                        });
+                })
+                .catch((err) => {
+                    res.status(500).json({
+                        error: true,
+                        data: {
+                            message: err.message,
+                            stack: err.stack
+                        }
+                    });
+                });
         } catch (err) {
 			LogUtils.Info(JSON.stringify(err));
 		}

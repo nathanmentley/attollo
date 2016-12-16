@@ -56,12 +56,6 @@
             })).pipe(gulp.dest('../dist/Client/Runner/'));
         }
     );
-
-    gulp.task('Runner:html', ['Runner:clean'], function () {
-        return gulp.src('./Client/Runner/assets/index.html', { base: 'src' })
-            .pipe(rename('index.html'))
-            .pipe(gulp.dest('../dist/Client/Runner/'));
-    });
  
     gulp.task('Runner:watch:jsx', function () {
         return watch(['./Client/Runner/jsx/**/*.jsx', './Client/Runner/Config/**/*.json'], function () {
@@ -69,20 +63,14 @@
         });
     });
  
-    gulp.task('Runner:watch:html', function () {
-        return watch('./Client/Runner/assets/index.html', function () {
-            return gulp.run(['Runner:html']);
-        });
-    });
- 
     // Watch
     gulp.task('Runner:watch',
-        ['Runner:watch:jsx', 'Runner:watch:html']
+        ['Runner:watch:jsx']
     );
 
 
     // Build
     gulp.task('Runner:build',
-        ['Runner:jsx', 'Runner:html']
+        ['Runner:jsx']
     );
 })();

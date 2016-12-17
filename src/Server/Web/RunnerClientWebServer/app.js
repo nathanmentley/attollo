@@ -101,6 +101,13 @@ Attollo.Start('RunnerClientWebServer')
                     Attollo.Services.Block.GetBlockContainers(req.AuthContext, page.id)
                         .then((blockContainers) => {
                             blockContainers = blockContainers.toJSON();
+
+                            var initialState = {
+                                Pages: pages,
+                                Page: page,
+                                BlockContainers: blockContainers
+                            };
+
                             var appString = renderToString(<ClientApp
                                 Pages={pages}
                                 BlockContainers={blockContainers}
@@ -108,9 +115,12 @@ Attollo.Start('RunnerClientWebServer')
                                 TemplateProcessor={templateProcessor} />
                             );
 
+
+
                             res.status(200).send(Template({
                                 body: appString,
-                                title: 'title'
+                                title: 'title',
+                                initialState: initialState
                             }));
                         })
                         .catch((err) => {

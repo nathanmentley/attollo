@@ -28,10 +28,17 @@ export default class MainPage extends BasePage {
                 Page: this.props.Page,
                 BlockContainers: this.props.BlockContainers
             });
+        } else if(window && window.__ATTOLLO_INITIAL_STATE__) {
+            this.setState({
+                Pages: window.__ATTOLLO_INITIAL_STATE__.Pages,
+                Page: window.__ATTOLLO_INITIAL_STATE__.Page,
+                BlockContainers: window.__ATTOLLO_INITIAL_STATE__.BlockContainers
+            });
         }
     }
 
     componentDidMount() {
+        //if server side rendering failed lets load client side.
         var self = this;
 
         if(this.state.Page == null) {

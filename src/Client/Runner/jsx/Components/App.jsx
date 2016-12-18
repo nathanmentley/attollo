@@ -10,7 +10,13 @@ export default class App extends React.Component {
 
     render() {
         return(
-            <Main Pages={this.props.Pages} BlockContainers={this.props.BlockContainers} Page={this.props.Page}  TemplateProcessor={this.props.TemplateProcessor} />
+            <Main
+                Pages={this.props.Pages}
+                BlockContainers={this.props.BlockContainers}
+                Page={this.props.Page}
+                TemplateProcessor={this.props.TemplateProcessor}
+                DataTypeResolver={this.props.DataTypeResolver}
+            />
         );
     }
 }

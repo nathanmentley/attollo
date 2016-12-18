@@ -2,10 +2,8 @@
 import express from 'express';
 import less from "less";
 import fs from 'fs';
-
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { VM } from 'vm2';
 
 import Attollo from "../../Common/Attollo";
 
@@ -13,9 +11,11 @@ import LogUtils from '../../Common/Utils/LogUtils';
 import ConfigUtils from '../../Common/Utils/ConfigUtils';
 import AuthConfig from "./AuthConfig";
 
-import ClientApp from "../../../Client/Runner/jsx/Components/App.jsx";
-
 import Template from "./Template.js";
+import DataTypeResolver from "./DataTypeResolver.js";
+import TemplateProcessor from "./TemplateProcessor.js";
+
+import ClientApp from "../../../Client/Runner/jsx/Components/App.jsx";
 
 Attollo.Start('RunnerClientWebServer')
 .then(() => {
@@ -73,21 +73,6 @@ Attollo.Start('RunnerClientWebServer')
             });
     });
 
-    //Render JS
-    app.get("/app.js", AuthConfig(), (req, res) => {
-
-    });
-
-    var templateProcessor = (compiledTemplate) => {
-        var vm = new VM({
-            sandbox:{
-                React: React
-            }
-        });
-
-        return vm.run("var f = function(){ return " + compiledTemplate + ";}; f();");
-    };
-
 	app.get('*', AuthConfig(), (req, res) => {
 		try {
             Attollo.Services.Page.GetPages(req.AuthContext, req.AuthContext.SiteVersionID)
@@ -101,26 +86,27 @@ Attollo.Start('RunnerClientWebServer')
                     Attollo.Services.Block.GetBlockContainers(req.AuthContext, page.id)
                         .then((blockContainers) => {
                             blockContainers = blockContainers.toJSON();
+                            var dataTypeResolver = new DataTypeResolver();
 
-                            var initialState = {
-                                Pages: pages,
-                                Page: page,
-                                BlockContainers: blockContainers
-                            };
 
                             var appString = renderToString(<ClientApp
-                                Pages={pages}
-                                BlockContainers={blockContainers}
-                                Page={page}
-                                TemplateProcessor={templateProcessor} />
+                                    Pages={pages}
+                                    BlockContainers={blockContainers}
+                                    Page={page}
+                                    TemplateProcessor={TemplateProcessor}
+                                    DataTypeResolver={dataTypeResolver}
+                                />
                             );
-
-
 
                             res.status(200).send(Template({
                                 body: appString,
-                                title: 'title',
-                                initialState: initialState
+                                title: page.title,
+                                initialState: {
+                                    Pages: pages,
+                                    Page: page,
+                                    BlockContainers: blockContainers,
+                                    BlockDataTypes: dataTypeResolver.GetResolvedData()
+                                }
                             }));
                         })
                         .catch((err) => {

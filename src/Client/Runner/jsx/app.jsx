@@ -11,7 +11,13 @@ function clientRender(compiledTemplate) {
 
 render(
     (
-        <App Pages={null} BlockContainers={null} Page={null} TemplateProcessor={clientRender} />
+        <App
+            Pages={null}
+            BlockContainers={null}
+            Page={null}
+            TemplateProcessor={clientRender}
+            DataTypeResolver={null}
+        />
     ),
     document.getElementById('app-container')
 );

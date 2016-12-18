@@ -36,6 +36,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                         SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                         TemplateProcessor={self.props.TemplateProcessor}
+                        DataTypeResolver={self.props.DataTypeResolver}
                     />
                 );
                 break;
@@ -51,6 +52,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                         SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                         TemplateProcessor={self.props.TemplateProcessor}
+                        DataTypeResolver={self.props.DataTypeResolver}
                     />
                 );
                 break;
@@ -66,6 +68,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                         SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                         TemplateProcessor={self.props.TemplateProcessor}
+                        DataTypeResolver={self.props.DataTypeResolver}
                     />
                 );
                 break;
@@ -81,6 +84,7 @@ export default class BlockContainerRenderer extends BaseComponent {
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                         SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                         TemplateProcessor={self.props.TemplateProcessor}
+                        DataTypeResolver={self.props.DataTypeResolver}
                     />
                 );
                 break;

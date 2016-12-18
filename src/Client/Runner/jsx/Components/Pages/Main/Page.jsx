@@ -82,6 +82,7 @@ export default class MainPage extends BasePage {
                             BlockService={BlockService}
                             UpdatePage={self.updatePage}
                             TemplateProcessor={self.props.TemplateProcessor}
+                            DataTypeResolver={self.props.DataTypeResolver}
                         />
                     })}
                 </Grid>

@@ -24,6 +24,7 @@ export default class OneCol extends BaseBlockContainerComponent {
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                         SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                         TemplateProcessor={self.props.TemplateProcessor}
+                        DataTypeResolver={self.props.DataTypeResolver}
                     />
                 </Col>
             </Row>

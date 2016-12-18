@@ -32,22 +32,62 @@ export default class BlockComponent extends BaseComponent {
         this.getBlockSettings = this.getBlockSettings.bind(this);
     }
 
+    componentWillMount() {
+        var self = this;
+
+        if (this.props.DataTypeResolver) {
+            if(this.props.Block && this.props.Block.BlockDef && this.props.Block.BlockDef.BlockDefDataRequests) {
+                var newStateUpdates = {};
+
+                var promises = [];
+                this.props.Block.BlockDef.BlockDefDataRequests.forEach((x) => {
+                    promises.push(new Promise((resolve, reject) =>
+                        {
+                            self.props.DataTypeResolver.Resolve(self.props.Block.id, x.resultname, x.datatypedefid, x.filtername)
+                                .then((result) => {
+                                    newStateUpdates[x.resultname] = result;
+                                })
+                                .catch((err) => {
+                                    reject(err);
+                                });
+                        })
+                    );
+                });
+
+                Promise.all(promises)
+                    .then(() => {
+                        self.setState(newStateUpdates);
+                    })
+                    .catch((err) => {
+                        //log error
+                    });
+            }
+        } else if(window && window.__ATTOLLO_INITIAL_STATE__) {
+            if(this.props.Block.id in window.__ATTOLLO_INITIAL_STATE__.BlockDataTypes) {
+                this.setState(window.__ATTOLLO_INITIAL_STATE__.BlockDataTypes[this.props.Block.id]);
+            }
+        }
+    }
+
     componentDidMount() {
         var self = this;
 
+        //if we're client side, and the data isn't in __ATTOLLO_INITIAL_STATE__ then let's ajax it.
         if(this.props.Block && this.props.Block.BlockDef && this.props.Block.BlockDef.BlockDefDataRequests) {
             this.props.Block.BlockDef.BlockDefDataRequests.forEach((x) => {
-                var newStateUpdates = {};
+                if(!(x.resultname in self.state) || (self.state[x.resultname] == null)) {
+                    var newStateUpdates = {};
 
-                DataTypeService.GetDataTypes(x.datatypedefid, UrlUtils.GetValueFromQueryString(x.filtername))
-                .then((result) => {
-                    newStateUpdates[x.resultname] = result;
+                    DataTypeService.GetDataTypes(x.datatypedefid, UrlUtils.GetValueFromQueryString(x.filtername))
+                        .then((result) => {
+                            newStateUpdates[x.resultname] = result;
 
-                    self.setState(newStateUpdates)
-                })
-                .catch((err) => {
-                    //LOG ERROR?
-                });
+                            self.setState(newStateUpdates)
+                        })
+                        .catch((err) => {
+                            //LOG ERROR?
+                        });
+                }
             });
         }
     }

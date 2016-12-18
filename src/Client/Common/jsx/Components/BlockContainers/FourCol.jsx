@@ -24,7 +24,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                         SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                         TemplateProcessor={self.props.TemplateProcessor}
-                        DataTypeResolver={self.props.DataTypeResolver}
+                        DataTypes={self.props.DataTypes}
                     />
                 </Col>
                 <Col xs={12} md={6} lg={3}>
@@ -38,7 +38,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                         SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                         TemplateProcessor={self.props.TemplateProcessor}
-                        DataTypeResolver={self.props.DataTypeResolver}
+                        DataTypes={self.props.DataTypes}
                     />
                 </Col>
                 <Col xs={12} md={6} lg={3}>
@@ -52,7 +52,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                         SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                         TemplateProcessor={self.props.TemplateProcessor}
-                        DataTypeResolver={self.props.DataTypeResolver}
+                        DataTypes={self.props.DataTypes}
                     />
                 </Col>
                 <Col xs={12} md={6} lg={3}>
@@ -66,7 +66,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                         SetEditingSettingsBlock={self.props.SetEditingSettingsBlock}
                         SetEditingStyleBlock={self.props.SetEditingStyleBlock}
                         TemplateProcessor={self.props.TemplateProcessor}
-                        DataTypeResolver={self.props.DataTypeResolver}
+                        DataTypes={self.props.DataTypes}
                     />
                 </Col>
             </Row>

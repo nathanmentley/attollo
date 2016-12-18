@@ -19,7 +19,7 @@ DocumentUtils.OnReady(() => {
                 BlockContainers={null}
                 Page={null}
                 TemplateProcessor={clientRender}
-                DataTypeResolver={null}
+                DataTypes={null}
             />
         ),
         DocumentUtils.GetElementByID('app-container')

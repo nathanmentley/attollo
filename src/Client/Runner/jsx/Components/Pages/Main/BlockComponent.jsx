@@ -33,34 +33,9 @@ export default class BlockComponent extends BaseComponent {
     }
 
     componentWillMount() {
-        var self = this;
-
-        if (this.props.DataTypeResolver) {
-            if(this.props.Block && this.props.Block.BlockDef && this.props.Block.BlockDef.BlockDefDataRequests) {
-                var newStateUpdates = {};
-
-                var promises = [];
-                this.props.Block.BlockDef.BlockDefDataRequests.forEach((x) => {
-                    promises.push(new Promise((resolve, reject) =>
-                        {
-                            self.props.DataTypeResolver.Resolve(self.props.Block.id, x.resultname, x.datatypedefid, x.filtername)
-                                .then((result) => {
-                                    newStateUpdates[x.resultname] = result;
-                                })
-                                .catch((err) => {
-                                    reject(err);
-                                });
-                        })
-                    );
-                });
-
-                Promise.all(promises)
-                    .then(() => {
-                        self.setState(newStateUpdates);
-                    })
-                    .catch((err) => {
-                        //log error
-                    });
+        if (this.props.DataTypes) {
+            if(this.props.Block.id in this.props.DataTypes) {
+                this.setState(this.props.DataTypes[this.props.Block.id]);
             }
         } else if(window && window.__ATTOLLO_INITIAL_STATE__) {
             if(this.props.Block.id in window.__ATTOLLO_INITIAL_STATE__.BlockDataTypes) {

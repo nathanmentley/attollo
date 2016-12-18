@@ -15,7 +15,7 @@ export default class App extends React.Component {
                 BlockContainers={this.props.BlockContainers}
                 Page={this.props.Page}
                 TemplateProcessor={this.props.TemplateProcessor}
-                DataTypeResolver={this.props.DataTypeResolver}
+                DataTypes={this.props.DataTypes}
             />
         );
     }

@@ -86,28 +86,57 @@ Attollo.Start('RunnerClientWebServer')
                     Attollo.Services.Block.GetBlockContainers(req.AuthContext, page.id)
                         .then((blockContainers) => {
                             blockContainers = blockContainers.toJSON();
-                            var dataTypeResolver = new DataTypeResolver();
+                            var dataTypeResolver = new DataTypeResolver(req.AuthContext);
 
+                            var promises = [];
+                            blockContainers.forEach((blockContainer) => {
+                                blockContainer.BlockContainerAreas.forEach((blockContainerArea) => {
+                                    blockContainerArea.Blocks.forEach((block) => {
+                                        block.BlockDef.BlockDefDataRequests.forEach((blockDefDataRequest) => {
+                                            promises.push(
+                                                dataTypeResolver.Resolve(
+                                                    block.id,
+                                                    blockDefDataRequest.resultname,
+                                                    blockDefDataRequest.datatypedefid,
+                                                    blockDefDataRequest.filtername
+                                                )
+                                            );
+                                        });
+                                    });
+                                });
+                            });
 
-                            var appString = renderToString(<ClientApp
-                                    Pages={pages}
-                                    BlockContainers={blockContainers}
-                                    Page={page}
-                                    TemplateProcessor={TemplateProcessor}
-                                    DataTypeResolver={dataTypeResolver}
-                                />
-                            );
+                            Promise.all(promises)
+                                .then(() => {
+                                    var appString = renderToString(<ClientApp
+                                            Pages={pages}
+                                            BlockContainers={blockContainers}
+                                            Page={page}
+                                            TemplateProcessor={TemplateProcessor}
+                                            DataTypes={dataTypeResolver.GetResolvedData()}
+                                        />
+                                    );
 
-                            res.status(200).send(Template({
-                                body: appString,
-                                title: page.title,
-                                initialState: {
-                                    Pages: pages,
-                                    Page: page,
-                                    BlockContainers: blockContainers,
-                                    BlockDataTypes: dataTypeResolver.GetResolvedData()
-                                }
-                            }));
+                                    res.status(200).send(Template({
+                                        body: appString,
+                                        title: page.title,
+                                        initialState: {
+                                            Pages: pages,
+                                            Page: page,
+                                            BlockContainers: blockContainers,
+                                            BlockDataTypes: dataTypeResolver.GetResolvedData()
+                                        }
+                                    }));
+                                })
+                                .catch((err) => {
+                                    res.status(500).json({
+                                        error: true,
+                                        data: {
+                                            message: err.message,
+                                            stack: err.stack
+                                        }
+                                    });
+                                });
                         })
                         .catch((err) => {
                             res.status(500).json({

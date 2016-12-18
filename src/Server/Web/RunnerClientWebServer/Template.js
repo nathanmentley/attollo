@@ -8,10 +8,10 @@ export default ({ body, title, initialState }) => {
         <script>
             window.__ATTOLLO_INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>
+        <script src="/app.js"></script>
       </head>
       <body>
         <div id="app-container">${body}</div>
-        <script src="/app.js"></script>
       </body>
     </html>
   `;

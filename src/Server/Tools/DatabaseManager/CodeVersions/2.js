@@ -1,6 +1,7 @@
 //Seed PageDefs
 import Attollo from '../../../Common/Attollo';
 
+import PageDefCodes from '../../../../Platform/Constants/PageDefCodes';
 import PluginDefCodes from '../../../../Platform/Constants/PluginDefCodes';
 
 (function () {
@@ -9,10 +10,10 @@ import PluginDefCodes from '../../../../Platform/Constants/PluginDefCodes';
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
-            Attollo.Services.Page.AddPageDef(dbContext, PluginDefCodes.Core, { name: 'Custom', code: 'generic' }),
-            Attollo.Services.Page.AddPageDef(dbContext, PluginDefCodes.Blog, { name: 'Blog', code: 'blog' }),
-            Attollo.Services.Page.AddPageDef(dbContext, PluginDefCodes.Core, { name: '404 Page', code: '404' }),
-            Attollo.Services.Page.AddPageDef(dbContext, PluginDefCodes.Blog, { name: 'Blog Post', code: 'Blog Post' })
+            Attollo.Services.Page.AddPageDef(dbContext, PluginDefCodes.Core, { name: 'Custom', code: PageDefCodes.Generic }),
+            Attollo.Services.Page.AddPageDef(dbContext, PluginDefCodes.Core, { name: '404 Page', code: PageDefCodes.Error404 }),
+            Attollo.Services.Page.AddPageDef(dbContext, PluginDefCodes.Blog, { name: 'Blog', code: PageDefCodes.Blog }),
+            Attollo.Services.Page.AddPageDef(dbContext, PluginDefCodes.Blog, { name: 'Blog Post', code: PageDefCodes.BlogPost })
         ])
         .then(() => {
             callback();

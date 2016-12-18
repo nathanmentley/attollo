@@ -11,6 +11,7 @@
     var replace = require('gulp-replace');
     var rename = require('gulp-rename');
     var less = require('gulp-less');
+    var cleanCSS = require('gulp-clean-css');
     var sourcemaps = require('gulp-sourcemaps');
     var gwebpack = require('gulp-webpack');
     var webpack = require('webpack');
@@ -45,6 +46,7 @@
         return gulp.src('./Client/ControlCenter/less/app.less')
             .pipe(sourcemaps.init())
             .pipe(less())
+            .pipe(cleanCSS({compatibility: 'ie8'}))
             .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest('../dist/Client/ControlCenter/'));
     });

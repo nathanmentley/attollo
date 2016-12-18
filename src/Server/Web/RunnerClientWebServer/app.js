@@ -1,6 +1,7 @@
 //Setup common code.
 import express from 'express';
 import less from "less";
+import CleanCSS from 'clean-css';
 import fs from 'fs';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
@@ -16,6 +17,8 @@ import DataTypeResolver from "./DataTypeResolver.js";
 import TemplateProcessor from "./TemplateProcessor.js";
 
 import ClientApp from "../../../Client/Runner/jsx/Components/App.jsx";
+
+var cleanCSS = new CleanCSS();
 
 Attollo.Start('RunnerClientWebServer')
 .then(() => {
@@ -47,19 +50,20 @@ Attollo.Start('RunnerClientWebServer')
     app.get("/app.css", AuthConfig(), function(req, res) {
         Attollo.Services.Css.GetSiteLess(req.AuthContext, req.AuthContext.SiteID)
             .then((siteLess) => {
-                LogUtils.Info(siteLess);
-                LogUtils.Info(process.cwd() + '/less/app.less');
-                fs.readFile(process.cwd() + '/less/app.less', "utf8", function(err, data) {
+                fs.readFile(process.cwd() + '/less/app.less', "utf8", (err, data) => {
                     if (err) {
                         throw err;
                     }
                     data = data.replace("{template}", siteLess);
-                    less.render(data, function(lessErr, result) {
+                    less.render(data, (lessErr, result) => {
                         if (lessErr) {
                             throw lessErr;
                         }
-                        res.header("Content-type", "text/css");
-                        res.send(result.css);
+
+                        cleanCSS.minify(result.css, (errors, minified) => {
+                            res.header("Content-type", "text/css");
+                            res.send(minified.styles);
+                        });
                     });
                 });
             })

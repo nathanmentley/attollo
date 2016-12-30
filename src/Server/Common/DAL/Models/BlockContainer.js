@@ -1,20 +1,22 @@
-	import Auid from "../Core/Auid";
-	import Database from "../Core/Database";
-	import ModelEvents from "../Core/ModelEvents";
+import Auid from "../Core/Auid";
+import BaseModel from "../Core/BaseModel";
+import Database from "../Core/Database";
     
-	import Page from "./Page";
-	import SiteVersion from "./SiteVersion";
-	import Site from "./Site";
-	import Client from "./Client";
-	import BlockContainerCssRule from "./BlockContainerCssRule";
-	import BlockContainerDef from "./BlockContainerDef";
+import Page from "./Page";
+import SiteVersion from "./SiteVersion";
+import Site from "./Site";
+import Client from "./Client";
+import BlockContainerCssRule from "./BlockContainerCssRule";
+import BlockContainerDef from "./BlockContainerDef";
+import Block from "./Block";
+import BlockContainerArea from "./BlockContainerArea";
 
+class BlockContainer extends BaseModel {
+    TableName() {
+        return 'blockcontainer';
+    }
 
-
-	import Block from "./Block";
-	import BlockContainerArea from "./BlockContainerArea";
-
-	var filter = function(authContext, query) {
+    Filter(authContext, query) {
 		if(authContext.ClientID) {
 			var subQuery = Database.Knex.select('clientid').from('site')
 				.leftJoin('siteversion', 'site.id', '=', 'siteversion.siteid')
@@ -41,23 +43,10 @@
 				'(' + subQuery + ' where page.id = blockcontainer.pageid) = ' + Auid.Decode(authContext.SiteVersionID)
 			);
 		}
-	};
+    }
 
-	var tableName = 'blockcontainer';
-	var model = function(authContext, skipFilter) {
-		return Database.Bookshelf.Model.extend({
-			tableName: tableName,
-			constructor: function() {
-				Database.Bookshelf.Model.apply(this, arguments);
-				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
-				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
-				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
-				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockContainerDef', 'BlockContainerAreas']));
-				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
-				this.on("created", ModelEvents.AuditCreated(authContext, tableName));
-				this.on("updating", ModelEvents.AuditUpdating(authContext, tableName));
-				this.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
-			},
+    Relations(authContext, skipFilter) {
+        return {
 			Page: function() {
 				return this.belongsTo(Page.Model(authContext, skipFilter), 'pageid');
 			},
@@ -85,24 +74,8 @@
 			BlockContainerCssRules: function() {
 				return this.hasMany(BlockContainerCssRule.Model(authContext, skipFilter), 'blockcontainercssruleid');
 			}
-		});
-	};
+		};
+    }
+}
 
-	var collection = function(authContext, skipFilter) {
-		return Database.Bookshelf.Collection.extend({
-			model: model(authContext, skipFilter)
-		}).forge()
-		.on("fetching", Auid.Fetching(authContext, filter, skipFilter))
-		.on("fetched", Auid.Fetched(authContext, filter, skipFilter))
-		.on("saving", Auid.Saving(authContext, filter, skipFilter))
-		.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockContainerDef', 'BlockContainerAreas']))
-		.on("destroying", Auid.Destroying(authContext, filter, skipFilter))
-		.on("created", ModelEvents.AuditCreated(authContext, tableName))
-		.on("updating", ModelEvents.AuditUpdating(authContext, tableName))
-		.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
-	};
-	
-export default class BlockContainer {
-	static get Model() { return model; }
-	static get Collection() { return collection; }
-};
+export default new BlockContainer();

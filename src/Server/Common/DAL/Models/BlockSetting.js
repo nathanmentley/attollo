@@ -50,20 +50,18 @@ import BlockSettingDef from "./BlockSettingDef";
 	};
 
 	var tableName = 'blocksetting';
-	var model = function(authContext, skipFilter) {
-		return Database.Bookshelf.Model.extend({
-			tableName: tableName,
-			constructor: function() {
-				Database.Bookshelf.Model.apply(this, arguments);
-				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
-				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
-				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
-				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockSettingDef']));
-				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
-				this.on("created", ModelEvents.AuditCreated(authContext, tableName));
-				this.on("updating", ModelEvents.AuditUpdating(authContext, tableName));
-				this.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
-			},
+
+class ModelClass extends BaseModel {
+    TableName() {
+        return tableName;
+    }
+
+    Filter(authContext, query) {
+		filter(authContext, query);
+    }
+
+    Relations(authContext, skipFilter) {
+        return {
 			Block: function() {
 				return this.belongsTo(Block.Model(authContext, skipFilter), 'blockid');
 			},
@@ -102,21 +100,6 @@ import BlockSettingDef from "./BlockSettingDef";
 			BlockSettingDef: function() {
 				return this.belongsTo(BlockSettingDef.Model(authContext, skipFilter), 'blocksettingdefid');
 			}
-		});
-	};
-
-class ModelClass extends BaseModel {
-    TableName() {
-        return tableName;
-    }
-
-    Filter(authContext, query) {
-		filter(authContext, query);
-    }
-
-    Relations(authContext, skipFilter) {
-        return {
-
 		};
     }
 }

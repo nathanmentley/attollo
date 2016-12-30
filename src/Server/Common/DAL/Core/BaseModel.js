@@ -14,6 +14,10 @@ export default class BaseModel {
         return {};
     }
 
+    HiddenFields() {
+        return [];
+    }
+
 	Model(authContext, skipFilter) {
         var filter = this.Filter();
         var tableName = this.TableName();
@@ -25,6 +29,7 @@ export default class BaseModel {
         });
 
         model.tableName = this.TableName();
+        model.hidden = this.HiddenFields();
         model.constructor = () => {
             Database.Bookshelf.Model.apply(this, arguments);
             this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));

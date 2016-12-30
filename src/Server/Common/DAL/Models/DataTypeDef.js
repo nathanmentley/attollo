@@ -12,27 +12,6 @@ import PluginDef from "./PluginDef";
 	};
 
 	var tableName = 'datatypedef';
-	var model = function(authContext, skipFilter) {
-		return Database.Bookshelf.Model.extend({
-			tableName: tableName,
-			constructor: function() {
-				Database.Bookshelf.Model.apply(this, arguments);
-				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
-				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
-				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
-				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
-				this.on("created", ModelEvents.AuditCreated(authContext, tableName));
-				this.on("updating", ModelEvents.AuditUpdating(authContext, tableName));
-				this.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
-			},
-			Client: function() {
-				return this.belongsTo(Client.Model(authContext, skipFilter), 'clientid');
-			},
-			PluginDef: function() {
-				return this.belongsTo(PluginDef.Model(authContext, skipFilter), 'plugindefid');
-			}
-		});
-	};
 	
 class ModelClass extends BaseModel {
     TableName() {
@@ -45,7 +24,12 @@ class ModelClass extends BaseModel {
 
     Relations(authContext, skipFilter) {
         return {
-
+			Client: function() {
+				return this.belongsTo(Client.Model(authContext, skipFilter), 'clientid');
+			},
+			PluginDef: function() {
+				return this.belongsTo(PluginDef.Model(authContext, skipFilter), 'plugindefid');
+			}
 		};
     }
 }

@@ -8,24 +8,6 @@ import BlockDef from "./BlockDef";
 	};
 
 	var tableName = 'blocktemplatedef';
-	var model = function(authContext, skipFilter) {
-		return Database.Bookshelf.Model.extend({
-			tableName: tableName,
-			constructor: function() {
-				Database.Bookshelf.Model.apply(this, arguments);
-				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
-				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
-				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
-				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
-				this.on("created", ModelEvents.AuditCreated(authContext, tableName));
-				this.on("updating", ModelEvents.AuditUpdating(authContext, tableName));
-				this.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
-			},
-			BlockDef: function() {
-				return this.belongsTo(BlockDef.Model(authContext, skipFilter), 'blockdefid');
-			}
-		});
-	};
 	
 class ModelClass extends BaseModel {
     TableName() {
@@ -38,7 +20,9 @@ class ModelClass extends BaseModel {
 
     Relations(authContext, skipFilter) {
         return {
-
+			BlockDef: function() {
+				return this.belongsTo(BlockDef.Model(authContext, skipFilter), 'blockdefid');
+			}
 		};
     }
 }

@@ -28,28 +28,6 @@ import Client from "./Client";
 	};
 
 	var tableName = 'siteversion';
-	var model = function(authContext, skipFilter) {
-		return Database.Bookshelf.Model.extend({
-			tableName: tableName,
-			constructor: function() {
-				Database.Bookshelf.Model.apply(this, arguments);
-				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
-				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
-				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
-				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
-				this.on("created", ModelEvents.AuditCreated(authContext, tableName));
-				this.on("updating", ModelEvents.AuditUpdating(authContext, tableName));
-				this.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
-			},
-			Site: function() {
-				return this.belongsTo(Site.Model(authContext, skipFilter), 'siteid');
-			},
-			Client: function() {
-				return this.belongsTo(Client.Model(authContext, skipFilter), 'clientid')
-							.through(Site.Model(authContext, skipFilter), 'siteid');
-			},
-		});
-	};
 	
 class ModelClass extends BaseModel {
     TableName() {
@@ -62,7 +40,13 @@ class ModelClass extends BaseModel {
 
     Relations(authContext, skipFilter) {
         return {
-
+			Site: function() {
+				return this.belongsTo(Site.Model(authContext, skipFilter), 'siteid');
+			},
+			Client: function() {
+				return this.belongsTo(Client.Model(authContext, skipFilter), 'clientid')
+							.through(Site.Model(authContext, skipFilter), 'siteid');
+			}
 		};
     }
 }

@@ -8,24 +8,6 @@ import PermissionDef from "./PermissionDef";
 	};
 
 	var tableName = 'adminpermission';
-	var model = function(authContext, skipFilter) {
-		return Database.Bookshelf.Model.extend({
-			tableName: tableName,
-			constructor: function() {
-				Database.Bookshelf.Model.apply(this, arguments);
-				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
-				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
-				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
-				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
-				this.on("created", ModelEvents.AuditCreated(authContext, tableName));
-				this.on("updating", ModelEvents.AuditUpdating(authContext, tableName));
-				this.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
-			},
-			PermissionDef: function() {
-				return this.belongsTo(PermissionDef.Model(authContext, skipFilter), 'permissiondefid');
-			}
-		});
-	};
 	
 class ModelClass extends BaseModel {
     TableName() {
@@ -38,7 +20,9 @@ class ModelClass extends BaseModel {
 
     Relations(authContext, skipFilter) {
         return {
-
+			PermissionDef: function() {
+				return this.belongsTo(PermissionDef.Model(authContext, skipFilter), 'permissiondefid');
+			}
 		};
     }
 }

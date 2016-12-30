@@ -31,19 +31,18 @@ import PageDef from "./PageDef";
 	};
 
 	var tableName = 'page';
-	var model = function(authContext, skipFilter) {
-		return Database.Bookshelf.Model.extend({
-			tableName: tableName,
-			constructor: function() {
-				Database.Bookshelf.Model.apply(this, arguments);
-				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
-				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
-				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
-				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
-				this.on("created", ModelEvents.AuditCreated(authContext, tableName));
-				this.on("updating", ModelEvents.AuditUpdating(authContext, tableName));
-				this.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
-			},
+	
+class ModelClass extends BaseModel {
+    TableName() {
+        return tableName;
+    }
+
+    Filter(authContext, query) {
+		filter(authContext, query);
+    }
+
+    Relations(authContext, skipFilter) {
+        return {
 			SiteVersion: function() {
 				return this.belongsTo(SiteVersion.Model(authContext, skipFilter), 'siteversionid');
 			},
@@ -59,21 +58,6 @@ import PageDef from "./PageDef";
 			PageDef: function() {
 				return this.belongsTo(PageDef.Model(authContext, skipFilter), 'pagedefid');
 			}
-		});
-	};
-	
-class ModelClass extends BaseModel {
-    TableName() {
-        return tableName;
-    }
-
-    Filter(authContext, query) {
-		filter(authContext, query);
-    }
-
-    Relations(authContext, skipFilter) {
-        return {
-
 		};
     }
 }

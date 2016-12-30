@@ -44,20 +44,18 @@ import Block from "./Block";
 	};
 
 	var tableName = 'blockcontainerarea';
-	var model = function(authContext, skipFilter) {
-		return Database.Bookshelf.Model.extend({
-			tableName: tableName,
-			constructor: function() {
-				Database.Bookshelf.Model.apply(this, arguments);
-				this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
-				this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
-				this.on("saving", Auid.Saving(authContext, filter, skipFilter));
-				this.on("saving", ModelEvents.PurgeRelatedBeforeSaving(['BlockContainerAreaDef']));
-				this.on("destroying", Auid.Destroying(authContext, filter, skipFilter));
-				this.on("created", ModelEvents.AuditCreated(authContext, tableName));
-				this.on("updating", ModelEvents.AuditUpdating(authContext, tableName));
-				this.on("destroying", ModelEvents.AuditDestroying(authContext, tableName));
-			},
+
+class BlockContainerArea extends BaseModel {
+    TableName() {
+        return tableName;
+    }
+
+    Filter(authContext, query) {
+		filter(authContext, query);
+    }
+
+    Relations(authContext, skipFilter) {
+        return {
 			BlockContainer: function() {
 				return this.belongsTo(BlockContainer.Model(authContext, skipFilter), 'blockcontainerid');
 			},
@@ -84,21 +82,6 @@ import Block from "./Block";
 			Blocks: function() {
 				return this.hasMany(Block.Model(authContext, skipFilter), 'blockcontainerareaid');
 			}
-		});
-	};
-
-class BlockContainerArea extends BaseModel {
-    TableName() {
-        return tableName;
-    }
-
-    Filter(authContext, query) {
-		filter(authContext, query);
-    }
-
-    Relations(authContext, skipFilter) {
-        return {
-
 		};
     }
 }

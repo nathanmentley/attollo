@@ -4,20 +4,13 @@ import Database from "../Core/Database";
 
 import CssRule from "./CssRule";
 
-	var filter = function(authContext, query) {
-	};
-
-	var tableName = 'blockcssrule';
+var tableName = 'blockcssrule';
 
 class ModelClass extends BaseModel {
     TableName() {
         return tableName;
     }
-
-    Filter(authContext, query) {
-		filter(authContext, query);
-    }
-
+    
     Relations(authContext, skipFilter) {
         return {
 			CssRule: function() {

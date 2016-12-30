@@ -5,23 +5,7 @@ import Database from "../Core/Database";
 import Plugin from "./Plugin";
 import PluginSettingDef from "./PluginSettingDef";
 
-	var filter = function(authContext, query) {
-		if(authContext.ClientID) {
-			var subQuery = Database.Knex.select('clientid').from('plugin');
-
-			query.whereRaw(
-				'(' + subQuery + ' where plugin.id = pluginsetting.pluginid) = ' + Auid.Decode(authContext.ClientID)
-			);
-		}
-
-		if(authContext.SiteID) {
-		}
-		
-		if(authContext.SiteVersionID) {
-		}
-	};
-
-	var tableName = 'pluginsetting';
+var tableName = 'pluginsetting';
 	
 class ModelClass extends BaseModel {
     TableName() {
@@ -29,7 +13,13 @@ class ModelClass extends BaseModel {
     }
 
     Filter(authContext, query) {
-		filter(authContext, query);
+		if(authContext.ClientID) {
+			var subQuery = Database.Knex.select('clientid').from('plugin');
+
+			query.whereRaw(
+				'(' + subQuery + ' where plugin.id = pluginsetting.pluginid) = ' + Auid.Decode(authContext.ClientID)
+			);
+		}
     }
 
     Relations(authContext, skipFilter) {

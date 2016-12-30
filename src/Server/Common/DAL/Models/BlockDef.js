@@ -8,13 +8,7 @@ import BlockDefDataRequest from "./BlockDefDataRequest";
 import BlockDefFunction from "./BlockDefFunction";
 import BlockSettingDef from "./BlockSettingDef";
 
-	var filter = function(authContext, query) {
-		if(authContext.PluginDefIds) {
-			query.where('plugindefid', 'in', authContext.PluginDefIds);
-		}
-	};
-
-	var tableName = 'blockdef';
+var tableName = 'blockdef';
 
 class ModelClass extends BaseModel {
     TableName() {
@@ -22,7 +16,9 @@ class ModelClass extends BaseModel {
     }
 
     Filter(authContext, query) {
-		filter(authContext, query);
+		if(authContext.PluginDefIds) {
+			query.where('plugindefid', 'in', authContext.PluginDefIds);
+		}
     }
 
     Relations(authContext, skipFilter) {

@@ -6,19 +6,7 @@ import Client from "./Client";
 import Role from "./Role";
 import UserPermission from "./UserPermission";
 
-	var filter = function(authContext, query) {
-		if(authContext.ClientID) {
-			query.where('clientid', '=', authContext.ClientID);
-		}
-
-		if(authContext.SiteID) {
-		}
-		
-		if(authContext.SiteVersionID) {
-		}
-	};
-
-	var tableName = 'admin';
+var tableName = 'admin';
 	
 class ModelClass extends BaseModel {
     TableName() {
@@ -30,7 +18,9 @@ class ModelClass extends BaseModel {
     }
 
     Filter(authContext, query) {
-		filter(authContext, query);
+		if(authContext.ClientID) {
+			query.where('clientid', '=', authContext.ClientID);
+		}
     }
 
     Relations(authContext, skipFilter) {

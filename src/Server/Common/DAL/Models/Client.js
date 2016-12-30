@@ -2,19 +2,7 @@ import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
 import Database from "../Core/Database";
 
-	var filter = function(authContext, query) {
-		if(authContext.ClientID) {
-			query.where('id', '=', authContext.ClientID);
-		}
-
-		if(authContext.SiteID) {
-		}
-		
-		if(authContext.SiteVersionID) {
-		}
-	};
-
-	var tableName = 'client';
+var tableName = 'client';
 	
 class ModelClass extends BaseModel {
     TableName() {
@@ -22,13 +10,9 @@ class ModelClass extends BaseModel {
     }
 
     Filter(authContext, query) {
-		filter(authContext, query);
-    }
-
-    Relations(authContext, skipFilter) {
-        return {
-
-		};
+		if(authContext.ClientID) {
+			query.where('id', '=', authContext.ClientID);
+		}
     }
 }
 

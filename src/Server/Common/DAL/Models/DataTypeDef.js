@@ -5,13 +5,7 @@ import Database from "../Core/Database";
 import Client from "./Client";
 import PluginDef from "./PluginDef";
 
-	var filter = function(authContext, query) {
-		if(authContext.PluginDefIds) {
-			query.where('plugindefid', 'in', authContext.PluginDefIds);
-		}
-	};
-
-	var tableName = 'datatypedef';
+var tableName = 'datatypedef';
 	
 class ModelClass extends BaseModel {
     TableName() {
@@ -19,7 +13,9 @@ class ModelClass extends BaseModel {
     }
 
     Filter(authContext, query) {
-		filter(authContext, query);
+		if(authContext.PluginDefIds) {
+			query.where('plugindefid', 'in', authContext.PluginDefIds);
+		}
     }
 
     Relations(authContext, skipFilter) {

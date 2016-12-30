@@ -6,28 +6,13 @@ import PluginDef from "./PluginDef";
 import PluginDefLogicDef from "./PluginDefLogicDef";
 import PluginDefLogicTarget from "./PluginDefLogicTarget";
 
-	var filter = function(authContext, query) {
-		if(authContext.ClientID) {
-		}
-
-		if(authContext.SiteID) {
-		}
-		
-		if(authContext.SiteVersionID) {
-		}
-	};
-
-	var tableName = 'plugindeflogic';
+var tableName = 'plugindeflogic';
 	
 class ModelClass extends BaseModel {
     TableName() {
         return tableName;
     }
-
-    Filter(authContext, query) {
-		filter(authContext, query);
-    }
-
+	
     Relations(authContext, skipFilter) {
         return {
 			PluginDef: function() {

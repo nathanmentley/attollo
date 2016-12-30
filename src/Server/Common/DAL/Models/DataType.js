@@ -8,19 +8,7 @@ import DataTypeDef from "./DataTypeDef";
 
 import DataTypeField from "./DataTypeField";
 
-	var filter = function(authContext, query) {
-		if(authContext.ClientID) {
-			query.where('clientid', '=', authContext.ClientID);
-		}
-
-		if(authContext.SiteID) {
-		}
-		
-		if(authContext.SiteVersionID) {
-		}
-	};
-
-	var tableName = 'datatype';
+var tableName = 'datatype';
 	
 class ModelClass extends BaseModel {
     TableName() {
@@ -28,7 +16,9 @@ class ModelClass extends BaseModel {
     }
 
     Filter(authContext, query) {
-		filter(authContext, query);
+		if(authContext.ClientID) {
+			query.where('clientid', '=', authContext.ClientID);
+		}
     }
 
     Relations(authContext, skipFilter) {

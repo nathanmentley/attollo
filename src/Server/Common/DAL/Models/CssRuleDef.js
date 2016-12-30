@@ -5,18 +5,11 @@ import Database from "../Core/Database";
 import CssRuleDefType from "./CssRuleDefType";
 import CssRuleDefGroup from "./CssRuleDefGroup";
 
-	var filter = function(authContext, query) {
-	};
-
-	var tableName = 'cssruledef';
+var tableName = 'cssruledef';
 
 class ModelClass extends BaseModel {
     TableName() {
         return tableName;
-    }
-
-    Filter(authContext, query) {
-		filter(authContext, query);
     }
 
     Relations(authContext, skipFilter) {

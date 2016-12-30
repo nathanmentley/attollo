@@ -4,13 +4,7 @@ import Database from "../Core/Database";
 
 import ThemeCssRule from "./ThemeCssRule";
 
-	var filter = function(authContext, query) {
-		if(authContext.PluginDefIds) {
-			query.where('plugindefid', 'in', authContext.PluginDefIds);
-		}
-	};
-
-	var tableName = 'theme';
+var tableName = 'theme';
 	
 class ModelClass extends BaseModel {
     TableName() {
@@ -18,7 +12,9 @@ class ModelClass extends BaseModel {
     }
 
     Filter(authContext, query) {
-		filter(authContext, query);
+		if(authContext.PluginDefIds) {
+			query.where('plugindefid', 'in', authContext.PluginDefIds);
+		}
     }
 
     Relations(authContext, skipFilter) {

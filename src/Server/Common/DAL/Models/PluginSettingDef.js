@@ -4,28 +4,13 @@ import Database from "../Core/Database";
 
 import PluginDef from "./PluginDef";
 
-	var filter = function(authContext, query) {
-		if(authContext.ClientID) {
-		}
-
-		if(authContext.SiteID) {
-		}
-		
-		if(authContext.SiteVersionID) {
-		}
-	};
-
-	var tableName = 'pluginsettingdef';
+var tableName = 'pluginsettingdef';
 	
 class ModelClass extends BaseModel {
     TableName() {
         return tableName;
     }
-
-    Filter(authContext, query) {
-		filter(authContext, query);
-    }
-
+	
     Relations(authContext, skipFilter) {
         return {
 			PluginDef: function() {

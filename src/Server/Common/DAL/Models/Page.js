@@ -7,7 +7,14 @@ import Site from "./Site";
 import Client from "./Client";
 import PageDef from "./PageDef";
 
-	var filter = function(authContext, query) {
+var tableName = 'page';
+	
+class ModelClass extends BaseModel {
+    TableName() {
+        return tableName;
+    }
+
+    Filter(authContext, query) {
 		if(authContext.ClientID) {
 			var subQuery = Database.Knex.select('clientid').from('site')
 				.leftJoin('siteversion', 'site.id', '=', 'siteversion.siteid');
@@ -28,17 +35,6 @@ import PageDef from "./PageDef";
 		if(authContext.SiteVersionID) {
 			query.where('siteversionid', '=', authContext.SiteVersionID);
 		}
-	};
-
-	var tableName = 'page';
-	
-class ModelClass extends BaseModel {
-    TableName() {
-        return tableName;
-    }
-
-    Filter(authContext, query) {
-		filter(authContext, query);
     }
 
     Relations(authContext, skipFilter) {

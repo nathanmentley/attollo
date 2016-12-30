@@ -5,23 +5,7 @@ import Database from "../Core/Database";
 import DataType from "./DataType";
 import DataTypeFieldDef from "./DataTypeFieldDef";
 
-	var filter = function(authContext, query) {
-		if(authContext.ClientID) {
-			var subQuery = Database.Knex.select('clientid').from('datatype');
-
-			query.whereRaw(
-				'(' + subQuery + ' where datatype.id = datatypefield.datatypeid) = ' + Auid.Decode(authContext.ClientID)
-			);
-		}
-
-		if(authContext.SiteID) {
-		}
-		
-		if(authContext.SiteVersionID) {
-		}
-	};
-
-	var tableName = 'datatypefield';
+var tableName = 'datatypefield';
 	
 class ModelClass extends BaseModel {
     TableName() {
@@ -29,7 +13,13 @@ class ModelClass extends BaseModel {
     }
 
     Filter(authContext, query) {
-		filter(authContext, query);
+		if(authContext.ClientID) {
+			var subQuery = Database.Knex.select('clientid').from('datatype');
+
+			query.whereRaw(
+				'(' + subQuery + ' where datatype.id = datatypefield.datatypeid) = ' + Auid.Decode(authContext.ClientID)
+			);
+		}
     }
 
     Relations(authContext, skipFilter) {

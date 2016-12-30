@@ -4,18 +4,11 @@ import Database from "../Core/Database";
 
 import RolePermission from "./RolePermission";
 
-	var filter = function(authContext, query) {
-	};
-
-	var tableName = 'role';
+var tableName = 'role';
 	
 class ModelClass extends BaseModel {
     TableName() {
         return tableName;
-    }
-
-    Filter(authContext, query) {
-		filter(authContext, query);
     }
 
     Relations(authContext, skipFilter) {

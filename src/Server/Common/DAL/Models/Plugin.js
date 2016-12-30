@@ -4,19 +4,7 @@ import Database from "../Core/Database";
 
 import PluginDef from "./PluginDef";
 
-	var filter = function(authContext, query) {
-		if(authContext.ClientID) {
-			query.where('clientid', '=', authContext.ClientID);
-		}
-
-		if(authContext.SiteID) {
-		}
-		
-		if(authContext.SiteVersionID) {
-		}
-	};
-
-	var tableName = 'plugin';
+var tableName = 'plugin';
 	
 class ModelClass extends BaseModel {
     TableName() {
@@ -24,7 +12,9 @@ class ModelClass extends BaseModel {
     }
 
     Filter(authContext, query) {
-		filter(authContext, query);
+		if(authContext.ClientID) {
+			query.where('clientid', '=', authContext.ClientID);
+		}
     }
 
     Relations(authContext, skipFilter) {

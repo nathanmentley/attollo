@@ -5,7 +5,14 @@ import Database from "../Core/Database";
 import Site from "./Site";
 import Client from "./Client";
 
-	var filter = function(authContext, query) {
+var tableName = 'siteversion';
+	
+class ModelClass extends BaseModel {
+    TableName() {
+        return tableName;
+    }
+
+    Filter(authContext, query) {
 		if(authContext.ClientID) {
 			var subQuery = Database.Knex.select('clientid').from('site');
 
@@ -25,17 +32,6 @@ import Client from "./Client";
 		if(authContext.SiteVersionID) {
 			query.where('id', '=', authContext.SiteVersionID);
 		}
-	};
-
-	var tableName = 'siteversion';
-	
-class ModelClass extends BaseModel {
-    TableName() {
-        return tableName;
-    }
-
-    Filter(authContext, query) {
-		filter(authContext, query);
     }
 
     Relations(authContext, skipFilter) {

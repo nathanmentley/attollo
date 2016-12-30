@@ -11,7 +11,14 @@ import BlockContainerArea from "./BlockContainerArea";
 import Block from "./Block";
 import BlockSettingDef from "./BlockSettingDef";
 
-	var filter = function(authContext, query) {
+var tableName = 'blocksetting';
+
+class ModelClass extends BaseModel {
+    TableName() {
+        return tableName;
+    }
+
+    Filter(authContext, query) {
 		if(authContext.ClientID) {
 			var subQuery = Database.Knex.select('clientid').from('site')
 				.leftJoin('siteversion', 'site.id', '=', 'siteversion.siteid')
@@ -47,17 +54,6 @@ import BlockSettingDef from "./BlockSettingDef";
 				'(' + subQuery + ' where block.id = blocksetting.blockid) = ' + Auid.Decode(authContext.SiteVersionID)
 			);
 		}
-	};
-
-	var tableName = 'blocksetting';
-
-class ModelClass extends BaseModel {
-    TableName() {
-        return tableName;
-    }
-
-    Filter(authContext, query) {
-		filter(authContext, query);
     }
 
     Relations(authContext, skipFilter) {

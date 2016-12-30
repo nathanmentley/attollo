@@ -5,7 +5,14 @@ import Database from "../Core/Database";
 import Client from "./Client";
 import Theme from "./Theme";
 
-	var filter = function(authContext, query) {
+var tableName = 'site';
+	
+class ModelClass extends BaseModel {
+    TableName() {
+        return tableName;
+    }
+
+    Filter(authContext, query) {
 		if(authContext.ClientID) {
 			query.where('clientid', '=', authContext.ClientID);
 		}
@@ -14,19 +21,6 @@ import Theme from "./Theme";
 			query.where('id', '=', authContext.SiteID);
 		}
 		
-		if(authContext.SiteVersionID) {
-		}
-	};
-
-	var tableName = 'site';
-	
-class ModelClass extends BaseModel {
-    TableName() {
-        return tableName;
-    }
-
-    Filter(authContext, query) {
-		filter(authContext, query);
     }
 
     Relations(authContext, skipFilter) {

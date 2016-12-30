@@ -4,18 +4,11 @@ import Database from "../Core/Database";
     
 import BlockDef from "./BlockDef";
 
-	var filter = function(authContext, query) {
-	};
-
-	var tableName = 'blockdeffunction';
+var tableName = 'blockdeffunction';
 
 class ModelClass extends BaseModel {
     TableName() {
         return tableName;
-    }
-
-    Filter(authContext, query) {
-		filter(authContext, query);
     }
 
     Relations(authContext, skipFilter) {

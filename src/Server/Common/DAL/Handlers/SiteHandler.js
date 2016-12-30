@@ -1,4 +1,7 @@
 import BaseHandler from '../BaseHandler';
+
+import SiteVersionType from '../Models/SiteVersion';
+
 export default class BlockHandler extends BaseHandler {
 	static GetSite(authContext, domain){
 		return this.Context.DatabaseContext.Sites(authContext, true)
@@ -92,6 +95,31 @@ export default class BlockHandler extends BaseHandler {
 
 		return siteVersion.save(null, { transacting: transaction });
 	};
+
+	static CloneSiteVersion(authContext, transaction, siteVersionId) {
+		var self = this;
+
+		return new Proimse((resolve, reject) => {
+			self.Context.DatabaseContext.SiteVersions(authContext)
+				.query({
+					where: {
+						siteversionid: siteVersionId
+					}
+				}).fetch()
+					.then((siteVersion) => {
+						self.CloneModel(SiteVersionType)(authContext, transaction, siteVersion)
+							.then((result) => {
+								resolve(result);
+							})
+							.reject((err) => {
+								reject(err);
+							});
+					})
+					.catch((err) => {
+						reject(err);
+					});
+		});
+	}
 
 
 	static GetSiteVersionStatus(authContext, code){

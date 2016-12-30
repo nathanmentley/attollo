@@ -3,6 +3,18 @@ import Database from "../Core/Database";
 import ModelEvents from "../Core/ModelEvents";
 	
 export default class BaseModel {
+    PrimaryKey() {
+        //TODO: pull this from model?
+        return this.tableName() + 'id';
+    };
+
+    ForeignKeys() {
+        //TODO: Pull this form Relations?
+        var keys = [];
+
+        return keys;
+    }
+
     TableName() {
         return '';
     }

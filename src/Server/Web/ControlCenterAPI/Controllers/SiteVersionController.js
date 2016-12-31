@@ -1,14 +1,19 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
 
 import Attollo from '../../../Common/Attollo';
 import BaseController from '../BaseController';
 
-var attollo = constitute(Attollo);
-
+@Dependencies(
+    Attollo
+)
 export default class SiteVersionController extends BaseController {
-    static get UrlEndpoint() { return '/SiteVersions'; }
+    constructor(attollo) {
+        super(attollo);
+    }
 
-    static GetLogic(request, response) {
-        return attollo.Services.Site.GetSiteVersions(request.AuthContext, request.query.siteId);
+    get UrlEndpoint() { return '/SiteVersions'; }
+
+    GetLogic(request, response) {
+        return this._attollo.Services.Site.GetSiteVersions(request.AuthContext, request.query.siteId);
     }
 };

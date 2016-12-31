@@ -1,14 +1,19 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
 
 import Attollo from '../../../Common/Attollo';
 import BaseController from '../BaseController';
 
-var attollo = constitute(Attollo);
-
+@Dependencies(
+    Attollo
+)
 export default class BlockTemplateDefController extends BaseController {
-    static get UrlEndpoint() { return '/BlockTemplateDefs'; }
+    constructor(attollo) {
+        super(attollo);
+    }
 
-    static GetLogic(request, response) {
-        return attollo.Services.Block.GetBlockTemplateDefs(request.AuthContext);
+    get UrlEndpoint() { return '/BlockTemplateDefs'; }
+
+    GetLogic(request, response) {
+        return this._attollo.Services.Block.GetBlockTemplateDefs(request.AuthContext);
     }
 };

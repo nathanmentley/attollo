@@ -1,14 +1,19 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
 
 import Attollo from '../../../Common/Attollo';
 import BaseController from '../BaseController';
 
-var attollo = constitute(Attollo);
-
+@Dependencies(
+    Attollo
+)
 export default class BlockContainerAreaController extends BaseController {
-    static get UrlEndpoint() { return '/BlockContainerAreas'; }
+    constructor(attollo) {
+        super(attollo);
+    }
 
-    static GetLogic(request, response) {
-    	return attollo.Services.Block.GetBlockContainerArea(request.AuthContext, request.query.blockContainerId, request.query.areaCode);
+    get UrlEndpoint() { return '/BlockContainerAreas'; }
+
+    GetLogic(request, response) {
+    	return this._attollo.Services.Block.GetBlockContainerArea(request.AuthContext, request.query.blockContainerId, request.query.areaCode);
     }
 };

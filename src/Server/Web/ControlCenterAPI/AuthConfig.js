@@ -1,16 +1,23 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
+import jwt from 'jwt-simple';
 
 import Attollo from "../../Common/Attollo";
 
 import ConfigUtils from '../../Common/Utils/ConfigUtils';
 import Auid from '../../Common/DAL/Core/Auid';
 
-import jwt from 'jwt-simple';
 
-var attollo = constitute(Attollo);
-
+@Dependencies(
+    Attollo
+)
 export default class AuthConfig {
-    static BuildContext(permission) {
+    constructor(attollo) {
+        this._attollo = attollo;
+    }
+
+    BuildContext(permission) {
+        var self = this;
+
         return function (req, res, next) {
             if (req.headers.authorization) {
                 var decoded = jwt.decode(req.headers.authorization.substring(7), ConfigUtils.Config.JwtSecret);
@@ -22,7 +29,7 @@ export default class AuthConfig {
                         PluginDefIds: []
                     };
 
-                    attollo.Services.Plugin.GetPlugins(req.AuthContext)
+                    self._attollo.Services.Plugin.GetPlugins(req.AuthContext)
                         .then((plugins) => {
                             plugins.forEach((x) => {
                                 req.AuthContext.PluginDefIds.push(

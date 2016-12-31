@@ -1,23 +1,28 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
 
 import Attollo from '../../../Common/Attollo';
 import BaseController from '../BaseController';
 
-var attollo = constitute(Attollo);
-
+@Dependencies(
+    Attollo
+)
 export default class PageController extends BaseController {
-    static get UrlEndpoint() { return '/Pages'; }
+    constructor(attollo) {
+        super(attollo);
+    }
 
-    static GetLogic(request, response) {
-        return attollo.Services.Page.GetPages(request.AuthContext, request.query.siteVersionId);
+    get UrlEndpoint() { return '/Pages'; }
+
+    GetLogic(request, response) {
+        return this._attollo.Services.Page.GetPages(request.AuthContext, request.query.siteVersionId);
     }
-    static PostLogic(request, response) {
-        return attollo.Services.Page.AddPage(request.AuthContext, request.body.page);
+    PostLogic(request, response) {
+        return this._attollo.Services.Page.AddPage(request.AuthContext, request.body.page);
     }
-    static PutLogic(request, response) {
-        return attollo.Services.Page.UpdatePage(request.AuthContext, request.body.page);
+    PutLogic(request, response) {
+        return this._attollo.Services.Page.UpdatePage(request.AuthContext, request.body.page);
     }
-    static DeleteLogic(request, response) {
-        return attollo.Services.Page.DeletePage(request.AuthContext, { id: request.query.pageId });
+    DeleteLogic(request, response) {
+        return this._attollo.Services.Page.DeletePage(request.AuthContext, { id: request.query.pageId });
     }
 };

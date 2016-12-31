@@ -1,17 +1,22 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
 
 import Attollo from '../../../Common/Attollo';
 import BaseController from '../BaseController';
 
-var attollo = constitute(Attollo);
-
+@Dependencies(
+    Attollo
+)
 export default class BlockCssRuleController extends BaseController {
-    static get UrlEndpoint() { return '/BlockCssRules'; }
-
-    static GetLogic(request, response) {
-        return attollo.Services.Css.GetBlockCssRules(request.AuthContext, request.query.blockId);
+    constructor(attollo) {
+        super(attollo);
     }
-    static PutLogic(request, response) {
-        return attollo.Services.Css.UpdateBlockCssRules(request.AuthContext, request.body.rules);
+
+    get UrlEndpoint() { return '/BlockCssRules'; }
+
+    GetLogic(request, response) {
+        return this._attollo.Services.Css.GetBlockCssRules(request.AuthContext, request.query.blockId);
+    }
+    PutLogic(request, response) {
+        return this._attollo.Services.Css.UpdateBlockCssRules(request.AuthContext, request.body.rules);
     }
 };

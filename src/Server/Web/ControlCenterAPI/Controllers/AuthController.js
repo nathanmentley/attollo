@@ -1,4 +1,4 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
 import jwt from 'jwt-simple';
 
 import Attollo from '../../../Common/Attollo';
@@ -6,15 +6,20 @@ import Attollo from '../../../Common/Attollo';
 import ConfigUtils from '../../../Common/Utils/ConfigUtils';
 import BaseController from '../BaseController';
 
-var attollo = constitute(Attollo);
-
+@Dependencies(
+    Attollo
+)
 export default class AuthController extends BaseController {
-    static get UrlEndpoint() { return '/Auth'; }
-    static get HasAuth() { return false; }
+    constructor(attollo) {
+        super(attollo);
+    }
+    
+    get UrlEndpoint() { return '/Auth'; }
+    get HasAuth() { return false; }
 
-    static PostLogic(request, response) {
+    PostLogic(request, response) {
         return new Promise((resolve, reject) => {
-            attollo.Services.User.GetUser({}, request.body.username, request.body.password)
+            this._attollo.Services.User.GetUser({}, request.body.username, request.body.password)
                 .then((users) => {
                     var user = users.first();
 

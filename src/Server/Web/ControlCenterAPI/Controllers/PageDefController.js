@@ -1,14 +1,19 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
 
 import Attollo from '../../../Common/Attollo';
 import BaseController from '../BaseController';
 
-var attollo = constitute(Attollo);
-
+@Dependencies(
+    Attollo
+)
 export default class PageDefController extends BaseController {
-    static get UrlEndpoint() { return '/PageDefs'; }
+    constructor(attollo) {
+        super(attollo);
+    }
 
-    static GetLogic(request, response) {
-        return attollo.Services.Page.GetPageDefs(request.AuthContext);
+    get UrlEndpoint() { return '/PageDefs'; }
+
+    GetLogic(request, response) {
+        return this._attollo.Services.Page.GetPageDefs(request.AuthContext);
     }
 };

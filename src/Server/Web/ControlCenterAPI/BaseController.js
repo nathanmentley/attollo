@@ -1,26 +1,30 @@
 export default class BaseController {
-    static get UrlEndpoint() { return ''; }
-    static get HasAuth() { return true; }
+    get UrlEndpoint() { return ''; }
+    get HasAuth() { return true; }
 
-    static get GetPermission() { return null; }
-    static get PostPermission() { return null; }
-    static get PutPermission() { return null; }
-    static get DeletePermission() { return null; }
+    get GetPermission() { return null; }
+    get PostPermission() { return null; }
+    get PutPermission() { return null; }
+    get DeletePermission() { return null; }
 
-    static GetLogic(request, response) {
-        return new Promise(() => { reject({ message: "Unknown request." }); });
-    }
-    static PostLogic(request, response) {
-        return new Promise(() => { reject({ message: "Unknown request." }); });
-    }
-    static PutLogic(request, response) {
-        return new Promise(() => { reject({ message: "Unknown request." }); });
-    }
-    static DeleteLogic(request, response) {
-        return new Promise(() => { reject({ message: "Unknown request." }); });
+    constructor(attollo) {
+        this._attollo = attollo;
     }
 
-    static Setup(ControllerContext) {
+    GetLogic(request, response) {
+        return new Promise(() => { reject({ message: "Unknown request." }); });
+    }
+    PostLogic(request, response) {
+        return new Promise(() => { reject({ message: "Unknown request." }); });
+    }
+    PutLogic(request, response) {
+        return new Promise(() => { reject({ message: "Unknown request." }); });
+    }
+    DeleteLogic(request, response) {
+        return new Promise(() => { reject({ message: "Unknown request." }); });
+    }
+
+    Setup(ControllerContext) {
         var self = this;
 
         if(this.HasAuth) {

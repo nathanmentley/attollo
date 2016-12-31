@@ -1,23 +1,28 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
 
 import Attollo from '../../../Common/Attollo';
 import BaseController from '../BaseController';
 
-var attollo = constitute(Attollo);
-
+@Dependencies(
+    Attollo
+)
 export default class DataTypeDefController extends BaseController {
-    static get UrlEndpoint() { return '/DataTypeDefs'; }
+    constructor(attollo) {
+        super(attollo);
+    }
 
-    static GetLogic(request, response) {
-        return attollo.Services.DataType.GetDataTypeDefs(request.AuthContext);
+    get UrlEndpoint() { return '/DataTypeDefs'; }
+
+    GetLogic(request, response) {
+        return this._attollo.Services.DataType.GetDataTypeDefs(request.AuthContext);
     }
-    static PostLogic(request, response) {
-        return attollo.Services.DataType.AddDataTypeDef(request.AuthContext, request.body.dataTypeDef);
+    PostLogic(request, response) {
+        return this._attollo.Services.DataType.AddDataTypeDef(request.AuthContext, request.body.dataTypeDef);
     }
-    static PutLogic(request, response) {
-        return attollo.Services.DataType.UpdateDataTypeDef(request.AuthContext, request.body.dataTypeDef);
+    PutLogic(request, response) {
+        return this._attollo.Services.DataType.UpdateDataTypeDef(request.AuthContext, request.body.dataTypeDef);
     }
-    static DeleteLogic(request, response) {
-        return attollo.Services.DataType.DeleteDataTypeDef(request.AuthContext, { id: request.query.dataTypeDefId });
+    DeleteLogic(request, response) {
+        return this._attollo.Services.DataType.DeleteDataTypeDef(request.AuthContext, { id: request.query.dataTypeDefId });
     }
 };

@@ -1,23 +1,28 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
 
 import Attollo from '../../../Common/Attollo';
 import BaseController from '../BaseController';
 
-var attollo = constitute(Attollo);
-
+@Dependencies(
+    Attollo
+)
 export default class SiteController extends BaseController {
-    static get UrlEndpoint() { return '/Sites'; }
+    constructor(attollo) {
+        super(attollo);
+    }
 
-    static GetLogic(request, response) {
-        return attollo.Services.Site.GetSites(request.AuthContext);
+    get UrlEndpoint() { return '/Sites'; }
+
+    GetLogic(request, response) {
+        return this._attollo.Services.Site.GetSites(request.AuthContext);
     }
-    static PostLogic(request, response) {
-        return attollo.Services.Site.AddSite(request.AuthContext, request.body.themeCode);
+    PostLogic(request, response) {
+        return this._attollo.Services.Site.AddSite(request.AuthContext, request.body.themeCode);
     }
-    static PutLogic(request, response) {
-        return attollo.Services.Site.UpdateSite(request.AuthContext, request.body.site);
+    PutLogic(request, response) {
+        return this._attollo.Services.Site.UpdateSite(request.AuthContext, request.body.site);
     }
-    static DeleteLogic(request, response) {
-        return attollo.Services.Site.DeleteSite(request.AuthContext, { id: request.query.siteId });
+    DeleteLogic(request, response) {
+        return this._attollo.Services.Site.DeleteSite(request.AuthContext, { id: request.query.siteId });
     }
 };

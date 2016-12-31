@@ -1,20 +1,28 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
 import express from 'express';
 
 import Attollo from "../../Common/Attollo";
 
 import AuthConfig from "./AuthConfig";
 
-var attollo = constitute(Attollo);
-var app = express();
-
+@Dependencies(
+    Attollo,
+    AuthConfig
+)
 export default class ControllerContext {
-    static get App() { return app; }
-    static get Auth() { return AuthConfig; }
-    static get Express() { return express; }
+    get App() { return this._app; }
+    get Auth() { return this._authConfig; }
+    get Express() { return express; }
+
+    constructor(attollo, authConfig) {
+        this._attollo = attollo;
+        this._authConfig = authConfig;
+
+        this._app = express();
+    }
     
-    static ResponseProcessor(request, response, logicPromise) {
-        var logicDefCode = attollo.AppName + '/' + request.method + request.path;
+    ResponseProcessor(request, response, logicPromise) {
+        var logicDefCode = this._attollo.AppName + '/' + request.method + request.path;
 
 		response.setHeader('Content-Type', 'application/json');
 
@@ -29,7 +37,7 @@ export default class ControllerContext {
             });
         };
 
-        attollo.Services.Plugin.GetPluginDefPreLogics(
+        this._attollo.Services.Plugin.GetPluginDefPreLogics(
             request.AuthContext,
             logicDefCode
         ).then((prePromises) => {
@@ -37,7 +45,7 @@ export default class ControllerContext {
             .then(() => {
                 logicPromise
                 .then((result) => {
-                    attollo.Services.Plugin.GetPluginDefPostLogics(
+                    this._attollo.Services.Plugin.GetPluginDefPostLogics(
                         request.AuthContext,
                         logicDefCode,
                         result != null ? (

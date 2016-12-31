@@ -1,14 +1,19 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
 
 import Attollo from '../../../Common/Attollo';
 import BaseController from '../BaseController';
 
-var attollo = constitute(Attollo);
-
+@Dependencies(
+    Attollo
+)
 export default class DataTypeFieldTypeController extends BaseController {
-    static get UrlEndpoint() { return '/DataTypeFieldTypes'; }
+    constructor(attollo) {
+        super(attollo);
+    }
 
-    static GetLogic(request, response) {
-        return attollo.Services.DataType.GetDataTypeFieldTypes(request.AuthContext);
+    get UrlEndpoint() { return '/DataTypeFieldTypes'; }
+
+    GetLogic(request, response) {
+        return this._attollo.Services.DataType.GetDataTypeFieldTypes(request.AuthContext);
     }
 };

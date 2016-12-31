@@ -1,20 +1,25 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
 
 import Attollo from '../../../Common/Attollo';
 import BaseController from '../BaseController';
 
-var attollo = constitute(Attollo);
-
+@Dependencies(
+    Attollo
+)
 export default class PluginController extends BaseController {
-    static get UrlEndpoint() { return '/Plugins'; }
+    constructor(attollo) {
+        super(attollo);
+    }
 
-    static GetLogic(request, response) {
-        return attollo.Services.Plugin.GetPlugins(request.AuthContext);
+    get UrlEndpoint() { return '/Plugins'; }
+
+    GetLogic(request, response) {
+        return this._attollo.Services.Plugin.GetPlugins(request.AuthContext);
     }
-    static PostLogic(request, response) {
-        return attollo.Services.Plugin.AddPlugin(request.AuthContext, request.body.pluginDefCode);
+    PostLogic(request, response) {
+        return this._attollo.Services.Plugin.AddPlugin(request.AuthContext, request.body.pluginDefCode);
     }
-    static DeleteLogic(request, response) {
-        return attollo.Services.Plugin.DeletePlugin(request.AuthContext, { id: request.query.pluginId });
+    DeleteLogic(request, response) {
+        return this._attollo.Services.Plugin.DeletePlugin(request.AuthContext, { id: request.query.pluginId });
     }
 };

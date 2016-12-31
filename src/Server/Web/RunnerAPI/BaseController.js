@@ -1,11 +1,15 @@
 export default class BaseController {
-	static get UrlEndpoint() { return ''; }
+    constructor(attollo) {
+        this._attollo = attollo;
+    }
 
-    static GetLogic(request, response) {
+    get UrlEndpoint() { return ''; }
+
+    GetLogic(request, response) {
         return new Promise(() => { reject({ message: "Unknown request." }); });
     }
 
-	static Setup(ControllerContext) {
+    Setup(ControllerContext) {
         var self = this;
 
         ControllerContext.App.get(

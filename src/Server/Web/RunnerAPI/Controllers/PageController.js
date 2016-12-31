@@ -1,15 +1,19 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
 
 import Attollo from "../../../Common/Attollo";
-
 import BaseController from '../BaseController';
 
-var attollo = constitute(Attollo);
-
+@Dependencies(
+    Attollo
+)
 export default class PageController extends BaseController  {
-	static get UrlEndpoint() { return '/Pages'; }
+    constructor(attollo) {
+        super(attollo);
+    }
 
-    static GetLogic(request, response) {
-		return attollo.Services.Page.GetPages(request.AuthContext, request.AuthContext.SiteVersionID);
+    get UrlEndpoint() { return '/Pages'; }
+
+	GetLogic(request, response) {
+		return this._attollo.Services.Page.GetPages(request.AuthContext, request.AuthContext.SiteVersionID);
 	}
 }

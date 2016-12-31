@@ -1,17 +1,24 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
 
 import Attollo from "../../Common/Attollo";
 
-var attollo = constitute(Attollo);
-
+@Dependencies(
+    Attollo
+)
 export default class AuthConfig {
-	static BuildContext() {
+	constructor(attollo) {
+		this._attollo = attollo;
+	}
+
+	BuildContext() {
+		var self = this;
+
 		return function(req, res, next) {
 			var originDomain = req.get('origin').replace("http://", "");
-			attollo.Services.Site.GetSite({}, originDomain)
+			self._attollo.Services.Site.GetSite({}, originDomain)
 			.then(function (sites) {
 				var site = sites.first();
-				attollo.Services.Site.GetCurrentSiteVersion({}, site)
+                self._attollo.Services.Site.GetCurrentSiteVersion({}, site)
 				.then(function (siteVersions) {
 					var siteVersion = siteVersions.first();
 					if(site && siteVersion) {

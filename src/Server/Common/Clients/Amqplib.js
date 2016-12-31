@@ -6,7 +6,7 @@ import LogUtils from '../Utils/LogUtils';
 var amqpConn = null;
 
 export default class Amqplib {
-    static Connect() {
+    Connect() {
         return new Promise((resolve, reject) => {
             if(amqpConn == null && ConfigUtils.Config.RabbitMQUrl != null) {
                 amqplib.connect(ConfigUtils.Config.RabbitMQUrl + "?heartbeat=60")
@@ -32,7 +32,7 @@ export default class Amqplib {
         });
     }
 
-    static Close() {
+    Close() {
         if(amqpConn != null) {
             amqpConn.close();
             amqpConn = null;

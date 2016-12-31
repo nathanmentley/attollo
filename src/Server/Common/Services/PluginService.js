@@ -1,10 +1,21 @@
+import { Dependencies } from 'constitute';
+
 import { VM } from 'vm2';
 
-import Attollo from "../Attollo";
 import BaseService from '../BaseService';
+import PluginContext from '../PluginContext';
 
+@Dependencies(
+    PluginContext
+)
 export default class PluginService extends BaseService {
-	//PluginDefLogicDef
+    constructor(pluginContext) {
+        super();
+
+        this._PluginContext = pluginContext;
+    }
+
+    //PluginDefLogicDef
 	
 	AddPluginDefLogicDef(authContext, model){
 		return this.Context.DBTransaction((transaction) => {
@@ -113,7 +124,7 @@ export default class PluginService extends BaseService {
 		if(authContext){
 			var vm = new VM({
 				sandbox: {
-					Attollo: Attollo.GetPluginContext(authContext)
+					Attollo: this._PluginContext.BuildContext(authContext)
 				}
 			});
 
@@ -159,7 +170,7 @@ export default class PluginService extends BaseService {
 			];
 
 			if(logics.length) {
-				var pluginContext = Attollo.GetPluginContext(authContext);
+				var pluginContext = this._PluginContext.BuildContext(authContext);
 				return new Promise((resolve, reject) => {
 					var processLogic = (logicArray, currentData) => {
 						if(logicArray.length) {

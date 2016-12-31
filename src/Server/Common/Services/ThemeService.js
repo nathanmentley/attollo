@@ -1,8 +1,26 @@
-import Attollo from "../Attollo";
+import { Dependencies } from 'constitute';
+
 import BaseService from '../BaseService';
 
+import CssService from './CssService';
+import PluginService from './PluginService';
+
+@Dependencies(
+    CssService,
+    PluginService
+)
 export default class ThemeService extends BaseService {
-	GetThemes(authContext){
+    constructor(
+        cssService,
+        pluginService
+    ) {
+        super();
+
+        this._CssService = cssService;
+        this._PluginService = pluginService;
+    }
+
+    GetThemes(authContext){
 		return this.Context.Handlers.Theme.GetThemes(authContext);
 	};
 	
@@ -14,7 +32,7 @@ export default class ThemeService extends BaseService {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
-			Attollo.Services.Plugin.GetPluginDef(authContext, pluginDefCode)
+			this._PluginService.GetPluginDef(authContext, pluginDefCode)
 			.then((pluginDef) => {
 				self.Context.DBTransaction((transaction) => {
 					this.Context.Handlers.Theme.AddTheme(authContext, transaction, pluginDef.first().get('id'), code, name)
@@ -41,11 +59,11 @@ export default class ThemeService extends BaseService {
         var self = this;
 
 		//cssRuleDefCode
-		//Attollo.Services.Css.
+		//this._CssService.
 		return new Promise((resolve, reject) => {
             self.GetTheme(authContext, themeCode)
             .then((theme) => {
-				Attollo.Services.Css.GetCssRuleDef(authContext, cssRuleDefCode)
+				this._CssService.GetCssRuleDef(authContext, cssRuleDefCode)
 				.then((cssRuleDef) => {
 					self.Context.DBTransaction((transaction) => {
 						this.Context.Handlers.Css.AddCssRule(authContext, transaction, selector, value, cssRuleDef.get('id'))

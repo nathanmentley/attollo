@@ -1,9 +1,13 @@
+import constitute from 'constitute';
+
 import Attollo from "../../Common/Attollo";
 
 import ConfigUtils from '../../Common/Utils/ConfigUtils';
 import Auid from '../../Common/DAL/Core/Auid';
 
 import jwt from 'jwt-simple';
+
+var attollo = constitute(Attollo);
 
 export default class AuthConfig {
     static BuildContext(permission) {
@@ -18,7 +22,7 @@ export default class AuthConfig {
                         PluginDefIds: []
                     };
 
-                    Attollo.Services.Plugin.GetPlugins(req.AuthContext)
+                    attollo.Services.Plugin.GetPlugins(req.AuthContext)
                         .then((plugins) => {
                             plugins.forEach((x) => {
                                 req.AuthContext.PluginDefIds.push(

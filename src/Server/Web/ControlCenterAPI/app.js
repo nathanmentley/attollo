@@ -1,3 +1,5 @@
+import constitute from 'constitute';
+
 import Attollo from "../../Common/Attollo";
 
 import ConfigUtils from '../../Common/Utils/ConfigUtils';
@@ -27,7 +29,9 @@ import SiteVersionStatusController from "./Controllers/SiteVersionStatusControll
 import ThemeController from "./Controllers/ThemeController";
 import UserController from "./Controllers/UserController";
 
-Attollo.Start('ControlCenterAPI')
+var attollo = constitute(Attollo);
+
+attollo.Start('ControlCenterAPI')
 .then(() => {
 	//load deps
 	
@@ -88,9 +92,9 @@ Attollo.Start('ControlCenterAPI')
 	});
 
     //do something when app is closing
-    process.on('exit', (options, err) => { Attollo.Stop(); LogUtils.Info("exit: " + JSON.stringify(err)); server.close(); });
+    process.on('exit', (options, err) => { attollo.Stop(); LogUtils.Info("exit: " + JSON.stringify(err)); server.close(); });
     //catches ctrl+c event
-    process.on('SIGINT', (options, err) => { Attollo.Stop(); LogUtils.Info("SIGINT: " + JSON.stringify(err)); server.close(); });
+    process.on('SIGINT', (options, err) => { attollo.Stop(); LogUtils.Info("SIGINT: " + JSON.stringify(err)); server.close(); });
     //catches uncaught exceptions
-    process.on('uncaughtException', (options, err) => { Attollo.Stop(); LogUtils.Info("uncaughtException: " + JSON.stringify(err)); server.close(); });
+    process.on('uncaughtException', (options, err) => { attollo.Stop(); LogUtils.Info("uncaughtException: " + JSON.stringify(err)); server.close(); });
 });

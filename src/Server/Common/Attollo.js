@@ -1,10 +1,6 @@
+import { Dependencies } from 'constitute';
+
 import LogUtils from './Utils/LogUtils';
-
-import Amqplib from './Clients/Amqplib';
-import Redis from './Clients/Redis';
-import Database from "./DAL/Core/Database";
-
-import PluginContext from "./PluginContext";
 
 import BlockService from "./Services/BlockService";
 import ClientService from "./Services/ClientService";
@@ -20,55 +16,98 @@ import SiteService from "./Services/SiteService";
 import ThemeService from "./Services/ThemeService";
 import UserService from "./Services/UserService";
 
-var _appName = '';
+import Amqplib from './Clients/Amqplib';
+import Redis from './Clients/Redis';
+import Database from "./DAL/Core/Database";
 
-var services = {
-    Block: new BlockService(),
-    Client: new ClientService(),
-    Css: new CssService(),
-    DatabaseVersion: new DatabaseVersionService(),
-    DataType: new DataTypeService(),
-    Email: new EmailService(),
-    MessageQueue: new MessageQueueService(),
-    Page: new PageService(),
-    Plugin: new PluginService(),
-    Setting: new SettingService(),
-    Site: new SiteService(),
-    Theme: new ThemeService(),
-    User: new UserService()
-};
+@Dependencies(
+    BlockService,
+    ClientService,
+    CssService,
+    DatabaseVersionService,
+    DataTypeService,
+    EmailService,
+    MessageQueueService,
+    PageService,
+    PluginService,
+    SettingService,
+    SiteService,
+    ThemeService,
+    UserService,
 
+    Amqplib,
+    Redis,
+    Database
+)
 export default class Attollo {
-    static get AppName() {
-        return _appName;
+    constructor(
+        blockService,
+        clientService,
+        cssService,
+        databaseVersionService,
+        dataTypeService,
+        emailService,
+        messageQueueService,
+        pageService,
+        pluginService,
+        settingService,
+        siteService,
+        themeService,
+        userService,
+
+        amqplib,
+        redis,
+        database
+    ) {
+        this._appName = '';
+
+        this._services = {
+            Block: blockService,
+            Client: clientService,
+            Css: cssService,
+            DatabaseVersion: databaseVersionService,
+            DataType: dataTypeService,
+            Email: emailService,
+            MessageQueue: messageQueueService,
+            Page: pageService,
+            Plugin: pluginService,
+            Setting: settingService,
+            Site: siteService,
+            Theme: themeService,
+            User: userService
+        };
+
+        this._amqplib = amqplib;
+        this._redis = redis;
+        this._database = database;
     }
 
-    static get Services() {
-        return services;
+    get AppName() {
+        return this._appName;
     }
 
-    static Start(appName) {
-        _appName = appName;
+    get Services() {
+        return this._services;
+    }
+
+    Start(appName) {
+        this._appName = appName;
 
         LogUtils.Init(appName);
         LogUtils.Info("App Start");
 
         return Promise.all([
-            Database.Connect(),
-            Amqplib.Connect(),
-            Redis.Connect()
+            this._database.Connect(),
+            this._amqplib.Connect(),
+            this._redis.Connect()
         ]);
     }
 
-    static Stop() {
-        Database.Close();
-        Amqplib.Close();
-        Redis.Close();
+    Stop() {
+        this._database.Close();
+        this._amqplib.Close();
+        this._redis.Close();
         
         LogUtils.Info("App Stop");
-    }
-
-    static GetPluginContext(dbContext) {
-        return PluginContext.BuildContext(this, dbContext);
     }
 }

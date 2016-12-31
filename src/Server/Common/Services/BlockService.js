@@ -1,9 +1,30 @@
+import { Dependencies } from 'constitute';
 import jsx from 'react-jsx';
 
-import Attollo from "../Attollo";
 import BaseService from '../BaseService';
 
+import PageService from './PageService';
+import PluginService from './PluginService';
+import SettingService from './SettingService';
+
+@Dependencies(
+    PageService,
+    PluginService,
+    SettingService
+)
 export default class BlockService extends BaseService {
+    constructor(
+        pageService,
+        pluginService,
+        settingService
+	) {
+		super();
+
+        this._PageService = pageService;
+        this._PluginService = pluginService;
+        this._SettingService = settingService;
+    }
+
 	//blockContainerDef
 	GetBlockContainerDefs(authContext){
 		return this.Context.Handlers.Block.GetBlockContainerDefs(authContext);
@@ -160,10 +181,10 @@ export default class BlockService extends BaseService {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
-			Attollo.Services.Plugin.GetPluginDef(authContext, pluginDefCode)
+			this._PluginService.GetPluginDef(authContext, pluginDefCode)
 			.then((pluginDef) => {
 				if(pageDefCode) {
-					Attollo.Services.Page.GetPageDef(authContext, pageDefCode)
+					this._PageService.GetPageDef(authContext, pageDefCode)
 					.then((pageDef) => {
 						self.Context.DBTransaction((transaction) => {
                             self.Context.Handlers.Block.AddBlockDef(authContext, transaction, pluginDef.first().get('id'), pageDef.first().get('id'), code, name)
@@ -421,7 +442,7 @@ export default class BlockService extends BaseService {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
-			Attollo.Services.Setting.GetSettingType(authContext, settingTypeCode)
+			this._SettingService.GetSettingType(authContext, settingTypeCode)
 			.then((settingType) => {
 				self.GetBlockDef(authContext, blockDefCode)
 				.then((blockDefs) => {

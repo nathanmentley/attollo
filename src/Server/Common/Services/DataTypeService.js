@@ -1,8 +1,22 @@
-import Attollo from "../Attollo";
+import { Dependencies } from 'constitute';
+
 import BaseService from '../BaseService';
 
+import PluginService from './PluginService';
+
+@Dependencies(
+    PluginService
+)
 export default class DataTypeService extends BaseService {
-	//DataType
+    constructor(
+        pluginService
+    ) {
+        super();
+
+        this._PluginService = pluginService;
+    }
+
+    //DataType
 	GetDataTypes(authContext, dataTypeDefId, filters){
 		return this.Context.Handlers.DataType.GetDataTypes(authContext, dataTypeDefId, filters);
 	};
@@ -17,7 +31,7 @@ export default class DataTypeService extends BaseService {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
-			Attollo.Services.Plugin.GetPluginDef(authContext, pluginDefCode)
+			this._PluginService.GetPluginDef(authContext, pluginDefCode)
 			.then((pluginDef) => {
 				self.Context.DBTransaction((transaction) => {
 					model.plugindefid = pluginDef.first().get('id');

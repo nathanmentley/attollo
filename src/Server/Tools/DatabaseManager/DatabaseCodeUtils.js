@@ -1,7 +1,10 @@
+import constitute from 'constitute';
 import fs from 'fs';
 
 import Attollo from "../../Common/Attollo";
 import LogUtils from "../../Common/Utils/LogUtils";
+
+var attollo = constitute(Attollo);
 	
 //TODO: fix this.
 import Code1 from './CodeVersions/1';
@@ -44,7 +47,7 @@ export default class DatabaseCodeUtils {
 			codeScript.Logic(dbContext, () => {
 				LogUtils.Info("finished file: " + filename);
 				if(version) {
-					Attollo.Services.DatabaseVersion.AddDatabaseCodeVersion(dbContext, { versionid: version })
+					attollo.Services.DatabaseVersion.AddDatabaseCodeVersion(dbContext, { versionid: version })
 					.then(() => {
 						LogUtils.Info("finished file: " + filename);
 						callback();
@@ -94,7 +97,7 @@ export default class DatabaseCodeUtils {
 
 	static RunSqlCode(dbContext, callback, errorCallback) {
 		try{
-			Attollo.Services.DatabaseVersion.GetDatabaseCodeVersions(dbContext)
+			attollo.Services.DatabaseVersion.GetDatabaseCodeVersions(dbContext)
 			.then((dbVersions) => {
 				DatabaseCodeUtils.ExecuteDbCodes(dbContext, Math.max.apply(Math, dbVersions.map((x) => { return x.get('versionid'); })), callback, errorCallback);
 			})

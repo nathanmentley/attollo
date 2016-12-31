@@ -1,8 +1,11 @@
+import constitute from 'constitute';
 import express from 'express';
 
 import Attollo from "../../Common/Attollo";
 
 import AuthConfig from "./AuthConfig";
+
+var attollo = constitute(Attollo);
 
 var app = express();
 
@@ -12,7 +15,7 @@ export default class ControllerContext {
     static get Express() { return express; }
     
     static ResponseProcessor(request, response, logicPromise) {
-        var logicDefCode = Attollo.AppName + '/' + request.method + request.path;
+        var logicDefCode = attollo.AppName + '/' + request.method + request.path;
 
 		response.setHeader('Content-Type', 'application/json');
 
@@ -26,7 +29,7 @@ export default class ControllerContext {
             });
         };
 
-        Attollo.Services.Plugin.GetPluginDefPreLogics(
+        attollo.Services.Plugin.GetPluginDefPreLogics(
             request.AuthContext,
             logicDefCode
         ).then((prePromises) => {
@@ -34,7 +37,7 @@ export default class ControllerContext {
             .then(() => {
                 logicPromise
                 .then((result) => {
-                    Attollo.Services.Plugin.GetPluginDefPostLogics(
+                    attollo.Services.Plugin.GetPluginDefPostLogics(
                         request.AuthContext,
                         logicDefCode,
                         result != null ? (

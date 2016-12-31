@@ -1,3 +1,5 @@
+import constitute from 'constitute';
+
 import Attollo from "../../Common/Attollo";
 import LogUtils from "../../Common/Utils/LogUtils";
 
@@ -5,7 +7,9 @@ import DatabaseScriptUtils from "./DatabaseScriptUtils";
 import DBManagerDbContext from "./DBManagerDbContext";
 import DatabaseCodeUtils from "./DatabaseCodeUtils";
 
-Attollo.Start('DatabaseManager')
+var attollo = constitute(Attollo);
+
+attollo.Start('DatabaseManager')
 .then(() => {
 	LogUtils.Info('database manager start');
 
@@ -27,7 +31,7 @@ Attollo.Start('DatabaseManager')
 							LogUtils.Info('database manager code finished');
 							LogUtils.Info('database manager finished');
 							
-							Attollo.Stop();
+							attollo.Stop();
 						},
 						(err) => {
 							LogUtils.Info('database manager code error: ' + err);
@@ -47,7 +51,7 @@ Attollo.Start('DatabaseManager')
 				() => {
 					LogUtils.Info('database manager finished');
 					
-					Attollo.Stop();
+					attollo.Stop();
 				}, (err) => {
 					LogUtils.Info('database manager script error: ' + err);
 					LogUtils.Info(err.stack);
@@ -56,7 +60,7 @@ Attollo.Start('DatabaseManager')
 		break;
 		default:
 			LogUtils.Info('database manager cant run unknown command: ' + command);
-			Attollo.Stop();
+			attollo.Stop();
 			break;
 	}
 })

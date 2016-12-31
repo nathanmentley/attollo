@@ -1,8 +1,22 @@
-import Attollo from "../Attollo";
+import { Dependencies } from 'constitute';
+
 import BaseService from '../BaseService';
 
+import PluginService from './PluginService';
+
+@Dependencies(
+    PluginService
+)
 export default class PageService extends BaseService {
-	GetPageDefs(authContext){
+    constructor(
+        pluginService
+    ) {
+        super();
+
+        this._PluginService = pluginService;
+    }
+
+    GetPageDefs(authContext){
 		return this.Context.Handlers.Page.GetPageDefs(authContext);
 	};
 
@@ -12,7 +26,7 @@ export default class PageService extends BaseService {
 	
 	AddPageDef(authContext, pluginDefCode, pageDef){
 		return new Promise((resolve, reject) => {
-			Attollo.Services.Plugin.GetPluginDef(authContext, pluginDefCode)
+			this._PluginService.GetPluginDef(authContext, pluginDefCode)
 			.then((pluginDef) => {
 				this.Context.DBTransaction((transaction) => {
 					pageDef.plugindefid = pluginDef.first().get('id');

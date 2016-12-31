@@ -1,5 +1,9 @@
+import constitute from 'constitute';
+
 import Attollo from "../../Common/Attollo";
 import LogUtils from '../../Common/Utils/LogUtils';
+
+var attollo = constitute(Attollo);
 
 export default class DataTypeResolver {
     constructor(dbContext) {
@@ -15,7 +19,7 @@ export default class DataTypeResolver {
         }
 
         return new Promise((resolve, reject) => {
-            Attollo.Services.DataType.GetDataTypes(self._dbContext, dataTypeDefID, filterName)
+            attollo.Services.DataType.GetDataTypes(self._dbContext, dataTypeDefID, filterName)
                 .then((dataTypes) => {
                     var result = dataTypes.toJSON();
 

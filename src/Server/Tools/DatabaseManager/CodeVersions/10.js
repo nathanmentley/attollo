@@ -1,9 +1,13 @@
 //Seed CssRuleDeftypes and CssRuleDefs
+import constitute from 'constitute';
+
 import Attollo from '../../../Common/Attollo';
 
 import CssRuleDefTypeCodes from '../../../../Platform/Constants/CssRuleDefTypeCodes';
 import CssRuleDefGroupCodes from '../../../../Platform/Constants/CssRuleDefGroupCodes';
 import CssRuleDefCodes from '../../../../Platform/Constants/CssRuleDefCodes';
+
+var attollo = constitute(Attollo);
 
 (function () {
 
@@ -11,19 +15,19 @@ import CssRuleDefCodes from '../../../../Platform/Constants/CssRuleDefCodes';
 
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
-            Attollo.Services.Css.AddCssRuleDefType(dbContext, "color", CssRuleDefTypeCodes.Color),
-            Attollo.Services.Css.AddCssRuleDefType(dbContext, "distance", CssRuleDefTypeCodes.Distance),
-            Attollo.Services.Css.AddCssRuleDefType(dbContext, "image", CssRuleDefTypeCodes.Image),
-            Attollo.Services.Css.AddCssRuleDefType(dbContext, "singleSelectList", CssRuleDefTypeCodes.SingleSelectList),
+            attollo.Services.Css.AddCssRuleDefType(dbContext, "color", CssRuleDefTypeCodes.Color),
+            attollo.Services.Css.AddCssRuleDefType(dbContext, "distance", CssRuleDefTypeCodes.Distance),
+            attollo.Services.Css.AddCssRuleDefType(dbContext, "image", CssRuleDefTypeCodes.Image),
+            attollo.Services.Css.AddCssRuleDefType(dbContext, "singleSelectList", CssRuleDefTypeCodes.SingleSelectList),
 
-            Attollo.Services.Css.AddCssRuleDefGroup(dbContext, "Background Style", CssRuleDefGroupCodes.Background, "background"),
-            Attollo.Services.Css.AddCssRuleDefGroup(dbContext, "Color Style", CssRuleDefGroupCodes.Color, "color"),
-            Attollo.Services.Css.AddCssRuleDefGroup(dbContext, "Size Style", CssRuleDefGroupCodes.Size, "size"),
-            Attollo.Services.Css.AddCssRuleDefGroup(dbContext, "Text Styling", CssRuleDefGroupCodes.Text, "text")
+            attollo.Services.Css.AddCssRuleDefGroup(dbContext, "Background Style", CssRuleDefGroupCodes.Background, "background"),
+            attollo.Services.Css.AddCssRuleDefGroup(dbContext, "Color Style", CssRuleDefGroupCodes.Color, "color"),
+            attollo.Services.Css.AddCssRuleDefGroup(dbContext, "Size Style", CssRuleDefGroupCodes.Size, "size"),
+            attollo.Services.Css.AddCssRuleDefGroup(dbContext, "Text Styling", CssRuleDefGroupCodes.Text, "text")
         ])
         .then(() => {
             Promise.all([
-                Attollo.Services.Css.AddCssRuleDef(dbContext,
+                attollo.Services.Css.AddCssRuleDef(dbContext,
                     "Background Color",
                     CssRuleDefCodes.BackgroundColor,
                     "background-color",
@@ -32,7 +36,7 @@ import CssRuleDefCodes from '../../../../Platform/Constants/CssRuleDefCodes';
                     CssRuleDefTypeCodes.Color,
                     CssRuleDefGroupCodes.Color
                 ),
-                Attollo.Services.Css.AddCssRuleDef(dbContext,
+                attollo.Services.Css.AddCssRuleDef(dbContext,
                     "Font Color",
                     CssRuleDefCodes.Color,
                     "color",
@@ -41,7 +45,7 @@ import CssRuleDefCodes from '../../../../Platform/Constants/CssRuleDefCodes';
                     CssRuleDefTypeCodes.Color,
                     CssRuleDefGroupCodes.Color
                 ),
-                Attollo.Services.Css.AddCssRuleDef(dbContext,
+                attollo.Services.Css.AddCssRuleDef(dbContext,
                     "Widget Height",
                     CssRuleDefCodes.Height,
                     "height",
@@ -50,7 +54,7 @@ import CssRuleDefCodes from '../../../../Platform/Constants/CssRuleDefCodes';
                     CssRuleDefTypeCodes.Distance,
                     CssRuleDefGroupCodes.Size
                 ),
-                Attollo.Services.Css.AddCssRuleDef(dbContext,
+                attollo.Services.Css.AddCssRuleDef(dbContext,
                     "Widget Width",
                     CssRuleDefCodes.Width,
                     "width",
@@ -59,7 +63,7 @@ import CssRuleDefCodes from '../../../../Platform/Constants/CssRuleDefCodes';
                     CssRuleDefTypeCodes.Distance,
                     CssRuleDefGroupCodes.Size
                 ),
-                Attollo.Services.Css.AddCssRuleDef(dbContext,
+                attollo.Services.Css.AddCssRuleDef(dbContext,
                     "Background Image",
                     CssRuleDefCodes.BackgroundImage,
                     "background-image",
@@ -68,7 +72,7 @@ import CssRuleDefCodes from '../../../../Platform/Constants/CssRuleDefCodes';
                     CssRuleDefTypeCodes.Image,
                     CssRuleDefGroupCodes.Background
                 ),
-                Attollo.Services.Css.AddCssRuleDef(dbContext,
+                attollo.Services.Css.AddCssRuleDef(dbContext,
                     "Text Align",
                     CssRuleDefCodes.TextAlign,
                     "text-align",

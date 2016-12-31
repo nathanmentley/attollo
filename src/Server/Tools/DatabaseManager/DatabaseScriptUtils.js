@@ -1,9 +1,12 @@
+import constitute from 'constitute';
 import Postgresql from 'pg';
 import fs from 'fs';
 
 import Attollo from "../../Common/Attollo";
 import ConfigUtils from '../../Common/Utils/ConfigUtils';
 import LogUtils from "../../Common/Utils/LogUtils";
+
+var attollo = constitute(Attollo);
 
 export default class DatabaseScriptUtils {
     static get ConnectionString() {
@@ -30,7 +33,7 @@ export default class DatabaseScriptUtils {
 					return console.error('error running query', err);
 				}else{
 					if(version) {
-						Attollo.Services.DatabaseVersion.AddDatabaseVersion(dbContext, { versionid: version })
+						attollo.Services.DatabaseVersion.AddDatabaseVersion(dbContext, { versionid: version })
 						.then(() => {
 							callback();
 						})
@@ -77,7 +80,7 @@ export default class DatabaseScriptUtils {
 
 	static RunSqlScripts(dbContext, callback, errorCallback) {
 		try{
-			Attollo.Services.DatabaseVersion.GetDatabaseVersions(dbContext)
+			attollo.Services.DatabaseVersion.GetDatabaseVersions(dbContext)
 			.then((dbVersions) => {
 				DatabaseScriptUtils.ExecuteDbScripts(dbContext, Math.max.apply(Math, dbVersions.map((x) => { return x.get('versionid'); })), callback, errorCallback);
 			})

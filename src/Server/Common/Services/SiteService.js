@@ -1,8 +1,22 @@
-import Attollo from "../Attollo";
+import { Dependencies } from 'constitute';
+
 import BaseService from '../BaseService';
 
+import ThemeService from './ThemeService';
+
+@Dependencies(
+    ThemeService
+)
 export default class SiteService extends BaseService {
-	//SiteVersion
+    constructor(
+        themeService
+    ) {
+        super();
+
+        this._ThemeService = themeService;
+    }
+
+    //SiteVersion
 
 	GetCurrentSiteVersion(authContext, site){
 		return this.Context.Handlers.Site.GetCurrentSiteVersion(authContext, site);
@@ -26,7 +40,7 @@ export default class SiteService extends BaseService {
 		var self = this;
 
 		return new Promise(function(resolve, reject) {
-			Attollo.Services.Theme.GetTheme(authContext, themeCode)
+			self._ThemeService.GetTheme(authContext, themeCode)
 			.then((theme) => {
 				self.GetSiteVersionStatus(authContext, "Published")
 				.then((status) => {

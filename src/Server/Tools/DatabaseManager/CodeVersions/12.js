@@ -1,7 +1,11 @@
 //Seed PageDefs
+import constitute from 'constitute';
+
 import Attollo from '../../../Common/Attollo';
 
 import PluginDefCodes from '../../../../Platform/Constants/PluginDefCodes';
+
+var attollo = constitute(Attollo);
 
 (function () {
 
@@ -10,14 +14,14 @@ import PluginDefCodes from '../../../../Platform/Constants/PluginDefCodes';
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         dbContext.SetClientID(1);
         Promise.all([
-            Attollo.Services.Client.AddClient(dbContext, { name: 'Attollo' })
+            attollo.Services.Client.AddClient(dbContext, { name: 'Attollo' })
         ])
         .then(() => {
             Promise.all([
-                Attollo.Services.Plugin.AddPlugin(dbContext, PluginDefCodes.Core)
+                attollo.Services.Plugin.AddPlugin(dbContext, PluginDefCodes.Core)
             ])
             .then(() => {
-                Attollo.Services.User.AddUser(dbContext, 'username', 'password', 'Admin')
+                attollo.Services.User.AddUser(dbContext, 'username', 'password', 'Admin')
                 .then(() => {
                     dbContext.ClearClientID();
 

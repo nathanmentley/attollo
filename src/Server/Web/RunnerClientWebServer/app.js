@@ -1,4 +1,5 @@
 //Setup common code.
+import constitute from 'constitute';
 import express from 'express';
 import less from "less";
 import CleanCSS from 'clean-css';
@@ -18,9 +19,11 @@ import TemplateProcessor from "./TemplateProcessor.js";
 
 import ClientApp from "../../../Client/Runner/jsx/Components/App.jsx";
 
+var attollo = constitute(Attollo);
+
 var cleanCSS = new CleanCSS();
 
-Attollo.Start('RunnerClientWebServer')
+attollo.Start('RunnerClientWebServer')
 .then(() => {
 	var webroot = process.argv[2];
 	var port = process.argv[3];
@@ -48,7 +51,7 @@ Attollo.Start('RunnerClientWebServer')
 
     //Render Dynamic Css
     app.get("/app.css", AuthConfig(), function(req, res) {
-        Attollo.Services.Css.GetSiteLess(req.AuthContext, req.AuthContext.SiteID)
+        attollo.Services.Css.GetSiteLess(req.AuthContext, req.AuthContext.SiteID)
             .then((siteLess) => {
                 fs.readFile(process.cwd() + '/less/app.less', "utf8", (err, data) => {
                     if (err) {
@@ -79,7 +82,7 @@ Attollo.Start('RunnerClientWebServer')
 
 	app.get('*', AuthConfig(), (req, res) => {
 		try {
-            Attollo.Services.Page.GetPages(req.AuthContext, req.AuthContext.SiteVersionID)
+            attollo.Services.Page.GetPages(req.AuthContext, req.AuthContext.SiteVersionID)
                 .then((pages) => {
                     pages = pages.toJSON();
                     var page = pages.find((x) => { return x.url == req.originalUrl; });
@@ -87,7 +90,7 @@ Attollo.Start('RunnerClientWebServer')
                         page =  pages[0];
                     }
 
-                    Attollo.Services.Block.GetBlockContainers(req.AuthContext, page.id)
+                    attollo.Services.Block.GetBlockContainers(req.AuthContext, page.id)
                         .then((blockContainers) => {
                             blockContainers = blockContainers.toJSON();
                             var dataTypeResolver = new DataTypeResolver(req.AuthContext);
@@ -167,9 +170,9 @@ Attollo.Start('RunnerClientWebServer')
 	});
 
 	//do something when app is closing
-	process.on('exit', function(options, err) { LogUtils.Info("exit: " + JSON.stringify(err)); Attollo.Stop(); server.close(); });
+	process.on('exit', function(options, err) { LogUtils.Info("exit: " + JSON.stringify(err)); attollo.Stop(); server.close(); });
 	//catches ctrl+c event
-	process.on('SIGINT', function(options, err) { LogUtils.Info("SIGINT: " + JSON.stringify(err)); Attollo.Stop(); server.close(); });
+	process.on('SIGINT', function(options, err) { LogUtils.Info("SIGINT: " + JSON.stringify(err)); attollo.Stop(); server.close(); });
 	//catches uncaught exceptions
-	process.on('uncaughtException', function(options, err) { LogUtils.Info("uncaughtException: " + JSON.stringify(err)); Attollo.Stop(); server.close(); });
+	process.on('uncaughtException', function(options, err) { LogUtils.Info("uncaughtException: " + JSON.stringify(err)); attollo.Stop(); server.close(); });
 });

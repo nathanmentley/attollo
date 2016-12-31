@@ -11,7 +11,7 @@ export default class Database {
 		return bookshelf;
 	}
 
-	static Connect() {
+	Connect() {
 		return new Promise((resolve, reject) => {
 			knex = require('knex')({
 				client: 'pg',
@@ -32,7 +32,7 @@ export default class Database {
 		});
 	}
 
-	static Close() {
+	Close() {
 		Database.Knex.destroy();
 	}
 }

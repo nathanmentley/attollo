@@ -1,10 +1,13 @@
+import constitute from 'constitute';
+
 import express from 'express';
-import path from 'path';
 
 import Attollo from "../../Common/Attollo";
 import ConfigUtils from '../../Common/Utils/ConfigUtils';
 
-Attollo.Start('StaticWebServer')
+var attollo = constitute(Attollo);
+
+attollo.Start('StaticWebServer')
 .then( () => {
 	var webroot = process.argv[2];
 	var port = process.argv[3];
@@ -35,9 +38,9 @@ Attollo.Start('StaticWebServer')
 	});
 
 	//do something when app is closing
-	process.on('exit', (options, err) => { Attollo.Stop(); server.close(); });
+	process.on('exit', (options, err) => { attollo.Stop(); server.close(); });
 	//catches ctrl+c event
-	process.on('SIGINT', (options, err) => { Attollo.Stop(); server.close(); });
+	process.on('SIGINT', (options, err) => { attollo.Stop(); server.close(); });
 	//catches uncaught exceptions
-	process.on('uncaughtException', (options, err) => { Attollo.Stop(); server.close(); });
+	process.on('uncaughtException', (options, err) => { attollo.Stop(); server.close(); });
 });

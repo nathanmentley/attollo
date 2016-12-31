@@ -2,7 +2,7 @@ import BaseHandler from '../BaseHandler';
 export default class BlockHandler extends BaseHandler {
 	//DataTypes
 
-	static GetDataTypes(authContext, dataTypeDefId, filters){
+	GetDataTypes(authContext, dataTypeDefId, filters){
 		return this.Context.DatabaseContext.DataTypes(authContext)
 				.query({
 					where: {
@@ -22,28 +22,28 @@ export default class BlockHandler extends BaseHandler {
 
 	//DataTypeDefs
 
-	static GetDataTypeDefs(authContext){
+	GetDataTypeDefs(authContext){
 		return this.Context.DatabaseContext.DataTypeDefs(authContext)
 		.fetch({
 			withRelated: ['PluginDef']
 		});
 	};
 
-	static AddDataTypeDef(authContext, transaction, model){
+	AddDataTypeDef(authContext, transaction, model){
 		var DataTypeDef = this.Context.DatabaseContext.DataTypeDef(authContext);
 		var dataTypeDef = new DataTypeDef(model);
 
 		return dataTypeDef.save(null, { transacting: transaction });
 	};
 
-	static UpdateDataTypeDef(authContext, transaction, model){
+	UpdateDataTypeDef(authContext, transaction, model){
 		var DataTypeDef = this.Context.DatabaseContext.DataTypeDef(authContext);
 		var dataTypeDef = new DataTypeDef(model);
 
 		return dataTypeDef.save(null, { transacting: transaction });
 	};
 
-	static DeleteDataTypeDef(authContext, transaction, model){
+	DeleteDataTypeDef(authContext, transaction, model){
 		var DataTypeDef = this.Context.DatabaseContext.DataTypeDef(authContext);
 		var dataTypeDef = new DataTypeDef(model);
 
@@ -52,7 +52,7 @@ export default class BlockHandler extends BaseHandler {
 
 	//DataTypeFieldDefs
 
-	static GetDataTypeFieldDefs(authContext, dataTypeDefId){
+	GetDataTypeFieldDefs(authContext, dataTypeDefId){
 		return this.Context.DatabaseContext.DataTypeFieldDefs(authContext)
 				.query({
 					where: {
@@ -62,21 +62,21 @@ export default class BlockHandler extends BaseHandler {
 				.fetch();
 	};
 
-	static AddDataTypeFieldDef(authContext, transaction, model){
+	AddDataTypeFieldDef(authContext, transaction, model){
 		var DataTypeFieldDef = this.Context.DatabaseContext.DataTypeFieldDef(authContext);
 		var dataTypeFieldDef = new DataTypeFieldDef(model);
 
 		return dataTypeFieldDef.save(null, { transacting: transaction });
 	};
 
-	static UpdateDataTypeFieldDef(authContext, transaction, model){
+	UpdateDataTypeFieldDef(authContext, transaction, model){
 		var DataTypeFieldDef = this.Context.DatabaseContext.DataTypeFieldDef(authContext);
 		var dataTypeFieldDef = new DataTypeFieldDef(model);
 
 		return dataTypeFieldDef.save(null, { transacting: transaction });
 	};
 
-	static DeleteDataTypeFieldDef(authContext, transaction, model){
+	DeleteDataTypeFieldDef(authContext, transaction, model){
 		var DataTypeFieldDef = this.Context.DatabaseContext.DataTypeFieldDef(authContext);
 		var dataTypeFieldDef = new DataTypeFieldDef(model);
 
@@ -85,11 +85,11 @@ export default class BlockHandler extends BaseHandler {
 
 	//DataTypeFieldTypes
 
-	static GetDataTypeFieldTypes(authContext){
+	GetDataTypeFieldTypes(authContext){
 		return this.Context.DatabaseContext.DataTypeFieldTypes(authContext).fetch();
 	};
 
-	static GetDataTypeFieldType(authContext, code){
+	GetDataTypeFieldType(authContext, code){
 		return this.Context.DatabaseContext.DataTypeFieldType(authContext)
 				.query({
 					where: {
@@ -99,21 +99,21 @@ export default class BlockHandler extends BaseHandler {
 				.fetch();
 	};
 
-	static AddDataTypeFieldType(authContext, transaction, model){
+	AddDataTypeFieldType(authContext, transaction, model){
 		var DataTypeFieldType = this.Context.DatabaseContext.DataTypeFieldType(authContext);
 		var dataTypeFieldType = new DataTypeFieldType(model);
 
 		return dataTypeFieldType.save(null, { transacting: transaction });
 	};
 
-	static UpdateDataTypeFieldType(authContext, transaction, model){
+	UpdateDataTypeFieldType(authContext, transaction, model){
 		var DataTypeFieldType = this.Context.DatabaseContext.DataTypeFieldType(authContext);
 		var dataTypeFieldType = new DataTypeFieldType(model);
 
 		return dataTypeFieldType.save(null, { transacting: transaction });
 	};
 
-	static DeleteDataTypeFieldType(authContext, transaction, model){
+	DeleteDataTypeFieldType(authContext, transaction, model){
 		var DataTypeFieldType = this.Context.DatabaseContext.DataTypeFieldType(authContext);
 		var dataTypeFieldType = new DataTypeFieldType(model);
 

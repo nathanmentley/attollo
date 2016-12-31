@@ -1,4 +1,4 @@
-import Attollo from "./Attollo";
+import { Dependencies } from 'constitute';
 
 import Database from './DAL/Core/Database';
 
@@ -18,36 +18,70 @@ import SiteHandler from "./DAL/Handlers/SiteHandler";
 import ThemeHandler from "./DAL/Handlers/ThemeHandler";
 import UserHandler from "./DAL/Handlers/UserHandler";
 
+@Dependencies(
+    BlockHandler,
+    ClientHandler,
+    CssHandler,
+    DatabaseVersionHandler,
+    DataTypeHandler,
+    PageHandler,
+    PluginHandler,
+    SettingHandler,
+    SiteHandler,
+    ThemeHandler,
+    UserHandler,
+
+    SendGrid,
+    Redis,
+    Amqplib
+)
 export default class ServiceContext {
-	static DBTransaction(logic) {
-		return Database.Bookshelf.transaction(logic);
-	}
+    constructor(
+        blockHandler,
+        clientHandler,
+        cssHandler,
+        databaseVersionHandler,
+        dataTypeHandler,
+        pageHandler,
+        pluginHandler,
+        settingHandler,
+        siteHandler,
+        themeHandler,
+        userHandler,
 
-    static get Handlers() {
-		var handlers = {};
-
-		handlers.Block = BlockHandler;
-		handlers.Client = ClientHandler;
-		handlers.Css = CssHandler;
-		handlers.DatabaseVersion = DatabaseVersionHandler;
-		handlers.DataType = DataTypeHandler;
-		handlers.Page = PageHandler;
-		handlers.Plugin = PluginHandler;
-		handlers.Setting = SettingHandler;
-		handlers.Site = SiteHandler;
-		handlers.Theme = ThemeHandler;
-		handlers.User = UserHandler;
-		
-        return handlers;
+        sendGrid,
+        redis,
+        amqplib
+    ) {
+        this._handlers = {
+            Block: blockHandler,
+            Client: clientHandler,
+            Css: cssHandler,
+            DatabaseVersion: databaseVersionHandler,
+            DataType: dataTypeHandler,
+            Page: pageHandler,
+            Plugin: pluginHandler,
+            Setting: settingHandler,
+            Site: siteHandler,
+            Theme: themeHandler,
+            User: userHandler
+        };
+        this._clients = {
+            Email: sendGrid,
+            Redis: redis,
+            WorkQueue: amqplib
+        };
     }
 
-	static get Clients() {
-		var clients = {};
+	get Handlers() {
+        return this._handlers;
+    }
 
-		clients.Email = SendGrid;
-		clients.Redis = Redis;
-		clients.WorkQueue = Amqplib;
-		
-        return clients;
+	get Clients() {
+        return this._clients;
+    }
+
+    DBTransaction(logic) {
+        return Database.Bookshelf.transaction(logic);
     }
 }

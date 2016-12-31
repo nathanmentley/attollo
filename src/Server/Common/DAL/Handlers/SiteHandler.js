@@ -3,7 +3,7 @@ import BaseHandler from '../BaseHandler';
 import SiteVersionType from '../Models/SiteVersion';
 
 export default class BlockHandler extends BaseHandler {
-	static GetSite(authContext, domain){
+	GetSite(authContext, domain){
 		return this.Context.DatabaseContext.Sites(authContext, true)
 			.query({
 				where: {
@@ -12,7 +12,7 @@ export default class BlockHandler extends BaseHandler {
 			}).fetch();
 	};
 	
-	static GetCurrentSiteVersion(authContext, site){
+	GetCurrentSiteVersion(authContext, site){
 		return this.Context.DatabaseContext.SiteVersions(authContext, true)
 			.query({
 				where: {
@@ -24,7 +24,7 @@ export default class BlockHandler extends BaseHandler {
 
 	//Site
 
-	static GetSiteById(authContext, siteId){
+	GetSiteById(authContext, siteId){
 		return this.Context.DatabaseContext.Site(authContext)
 			.query({
 				where: {
@@ -40,7 +40,7 @@ export default class BlockHandler extends BaseHandler {
 			});
 	};
 
-	static GetSites(authContext){
+	GetSites(authContext){
 		return this.Context.DatabaseContext.Sites(authContext)
 				.fetch({
 					withRelated: [
@@ -49,7 +49,7 @@ export default class BlockHandler extends BaseHandler {
 				});
 	};
 	
-	static AddSite(authContext, transaction, themeId){
+	AddSite(authContext, transaction, themeId){
 		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site({
 			clientid: authContext.ClientID,
@@ -61,14 +61,14 @@ export default class BlockHandler extends BaseHandler {
 		return site.save(null, { transacting: transaction });
 	};
 	
-	static UpdateSite(authContext, transaction, model){
+	UpdateSite(authContext, transaction, model){
 		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site(model);
 
 		return site.save(null, { transacting: transaction });
 	};
 	
-	static DeleteSite(authContext, transaction, model){
+	DeleteSite(authContext, transaction, model){
 		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site(model);
 
@@ -76,7 +76,7 @@ export default class BlockHandler extends BaseHandler {
 	};
 
 
-	static GetSiteVersions(authContext, siteId){
+	GetSiteVersions(authContext, siteId){
 		return this.Context.DatabaseContext.SiteVersions(authContext)
 			.query({
 				where: {
@@ -85,7 +85,7 @@ export default class BlockHandler extends BaseHandler {
 			}).fetch();
 	};
 
-	static AddSiteVersion(authContext, transaction, siteId, siteVersionStatusId){
+	AddSiteVersion(authContext, transaction, siteId, siteVersionStatusId){
 		var SiteVersion = this.Context.DatabaseContext.SiteVersion(authContext);
 		var siteVersion = new SiteVersion({
 			siteversionstatusid: siteVersionStatusId,
@@ -96,7 +96,7 @@ export default class BlockHandler extends BaseHandler {
 		return siteVersion.save(null, { transacting: transaction });
 	};
 
-	static CloneSiteVersion(authContext, transaction, siteVersionId) {
+	CloneSiteVersion(authContext, transaction, siteVersionId) {
 		var self = this;
 
 		return new Proimse((resolve, reject) => {
@@ -122,7 +122,7 @@ export default class BlockHandler extends BaseHandler {
 	}
 
 
-	static GetSiteVersionStatus(authContext, code){
+	GetSiteVersionStatus(authContext, code){
 		return this.Context.DatabaseContext.SiteVersionStatuses(authContext)
 			.query({
 				where: {
@@ -131,11 +131,11 @@ export default class BlockHandler extends BaseHandler {
 			}).fetch();
 	};
 
-	static GetSiteVersionStatuses(authContext){
+	GetSiteVersionStatuses(authContext){
 		return this.Context.DatabaseContext.SiteVersionStatuses(authContext).fetch();
 	};
 
-	static AddSiteVersionStatus(authContext, transaction, name, code){
+	AddSiteVersionStatus(authContext, transaction, name, code){
 		var SiteVersionStatus = this.Context.DatabaseContext.SiteVersionStatus(authContext);
 		var siteVersionStatus = new SiteVersionStatus({
 			name: name,

@@ -2,7 +2,7 @@ import BaseHandler from '../BaseHandler';
 export default class BlockHandler extends BaseHandler {
 	//CssRuleDefType
 
-	static AddCssRuleDefType(authContext, transaction, name, code){
+	AddCssRuleDefType(authContext, transaction, name, code){
 		var CssRuleDefType = this.Context.DatabaseContext.CssRuleDefType(authContext);
 		var cssRuleDefType = new CssRuleDefType({
             name: name,
@@ -12,7 +12,7 @@ export default class BlockHandler extends BaseHandler {
 		return cssRuleDefType.save(null, { transacting: transaction });
 	};
 	
-	static GetCssRuleDefType(authContext, code){
+	GetCssRuleDefType(authContext, code){
 		return this.Context.DatabaseContext.CssRuleDefType(authContext)
 				.query({
 					where: {
@@ -24,7 +24,7 @@ export default class BlockHandler extends BaseHandler {
 	
 	//CssRuleDefGroup
 
-	static AddCssRuleDefGroup(authContext, transaction, name, code, description){
+	AddCssRuleDefGroup(authContext, transaction, name, code, description){
 		var CssRuleDefGroup = this.Context.DatabaseContext.CssRuleDefGroup(authContext);
 		var cssRuleDefGroup = new CssRuleDefGroup({
             name: name,
@@ -35,7 +35,7 @@ export default class BlockHandler extends BaseHandler {
 		return cssRuleDefGroup.save(null, { transacting: transaction });
 	};
 	
-	static GetCssRuleDefGroup(authContext, code){
+	GetCssRuleDefGroup(authContext, code){
 		return this.Context.DatabaseContext.CssRuleDefGroup(authContext)
 				.query({
 					where: {
@@ -47,7 +47,7 @@ export default class BlockHandler extends BaseHandler {
 	
 	//CssRuleDef
 
-	static AddCssRuleDef(authContext, transaction, name, code, property, description, options, cssRuleDefTypeId, cssRuleDefGroupId){
+	AddCssRuleDef(authContext, transaction, name, code, property, description, options, cssRuleDefTypeId, cssRuleDefGroupId){
 		var CssRuleDef = this.Context.DatabaseContext.CssRuleDef(authContext);
 		var cssRuleDef = new CssRuleDef({
             name: name,
@@ -62,7 +62,7 @@ export default class BlockHandler extends BaseHandler {
 		return cssRuleDef.save(null, { transacting: transaction });
 	};
 	
-	static GetCssRuleDef(authContext, code){
+	GetCssRuleDef(authContext, code){
 		return this.Context.DatabaseContext.CssRuleDef(authContext)
 				.query({
 					where: {
@@ -72,14 +72,14 @@ export default class BlockHandler extends BaseHandler {
 				.fetch({ withRelated: [ "CssRuleDefType", "CssRuleDefGroup" ] });
 	};
 	
-	static GetCssRuleDefs(authContext){
+	GetCssRuleDefs(authContext){
 		return this.Context.DatabaseContext.CssRuleDefs(authContext)
 				.fetch({ withRelated: [ "CssRuleDefType", "CssRuleDefGroup" ] });
 	};
 
 	//CssRuleDef
 
-	static AddCssRule(authContext, transaction, selector, value, cssRuleDefId){
+	AddCssRule(authContext, transaction, selector, value, cssRuleDefId){
 		var CssRule = this.Context.DatabaseContext.CssRule(authContext);
 		var cssRule = new CssRule({
             selector: selector,
@@ -90,7 +90,7 @@ export default class BlockHandler extends BaseHandler {
 		return cssRule.save(null, { transacting: transaction });
 	};
 
-	static AddBlockCssRule(authContext, transaction, blockId, cssRuleId){
+	AddBlockCssRule(authContext, transaction, blockId, cssRuleId){
 		var BlockCssRule = this.Context.DatabaseContext.BlockCssRule(authContext);
 		var blockCssRule = new BlockCssRule({
             blockid: blockId,
@@ -100,7 +100,7 @@ export default class BlockHandler extends BaseHandler {
 		return blockCssRule.save(null, { transacting: transaction });
 	};
 
-	static UpdateCssRule(authContext, transaction, model) {
+	UpdateCssRule(authContext, transaction, model) {
 		var CssRule = this.Context.DatabaseContext.CssRule(authContext);
 		var cssRule = new CssRule(model);
 

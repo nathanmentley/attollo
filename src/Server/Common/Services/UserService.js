@@ -3,11 +3,11 @@ import bcrypt from 'bcryptjs';
 import BaseService from '../BaseService';
 
 export default class UserService extends BaseService {
-	static GetUsers(authContext){
+	GetUsers(authContext){
 		return this.Context.Handlers.User.GetUsers(authContext);
 	};
 	
-	static GetUser(authContext, username, password){
+	GetUser(authContext, username, password){
 		return new Promise((resolve, reject) => {
 			this.Context.Handlers.User.GetUser(authContext, username)
 			.then((user) => {
@@ -37,7 +37,7 @@ export default class UserService extends BaseService {
 		});
 	};
 	
-	static AddUser(authContext, name, password, roleCode){
+	AddUser(authContext, name, password, roleCode){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -68,7 +68,7 @@ export default class UserService extends BaseService {
 		});
 	};
 	
-	static UpdateUser(authContext, user){
+	UpdateUser(authContext, user){
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.User.UpdateUser(authContext, transaction, user)
 			.then((result) => {
@@ -79,7 +79,7 @@ export default class UserService extends BaseService {
 		});
 	};
 	
-	static DeleteUser(authContext, userId){
+	DeleteUser(authContext, userId){
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.User.DeleteUser(authContext, transaction, userId)
 			.then((result) => {
@@ -92,15 +92,15 @@ export default class UserService extends BaseService {
 
 	//Roles
 
-	static GetRole(authContext, code) {
+	GetRole(authContext, code) {
 		return this.Context.Handlers.User.GetRole(authContext, code);
 	}
 
-	static GetRoles(authContext) {
+	GetRoles(authContext) {
 		return this.Context.Handlers.User.GetRoles(authContext);
 	}
 
-	static AddRole(authContext, name, code) {
+	AddRole(authContext, name, code) {
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.User.AddRole(authContext, transaction, name, code)
 			.then((result) => {
@@ -111,7 +111,7 @@ export default class UserService extends BaseService {
 		});
 	}
 
-	static AddRolePermission(authContext, permissionDefCode, roleCode) {
+	AddRolePermission(authContext, permissionDefCode, roleCode) {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -149,7 +149,7 @@ export default class UserService extends BaseService {
 
 	//PermissionDefs
 
-	static AddPermissionDef(authContext, name, code, description) {
+	AddPermissionDef(authContext, name, code, description) {
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.User.AddPermissionDef(authContext, transaction, name, code, description)
 			.then((result) => {
@@ -160,11 +160,11 @@ export default class UserService extends BaseService {
 		});
 	};
 
-	static GetPermissionDefs(authContext) {
+	GetPermissionDefs(authContext) {
 		return this.Context.Handlers.User.GetPermissionDefs(authContext);
 	};
 
-	static GetPermissionDef(authContext, code) {
+	GetPermissionDef(authContext, code) {
 		return this.Context.Handlers.User.GetPermissionDef(authContext, code);
 	};
 }

@@ -1,5 +1,11 @@
+import constitute from 'constitute';
+
 import ServiceContext from "./ServiceContext";
 
+var serviceContext = constitute(ServiceContext);
+
 export default class BaseService {
-	static get Context() { return ServiceContext; }
+	get Context() {
+		return serviceContext;
+	}
 };

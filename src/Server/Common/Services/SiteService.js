@@ -4,25 +4,25 @@ import BaseService from '../BaseService';
 export default class SiteService extends BaseService {
 	//SiteVersion
 
-	static GetCurrentSiteVersion(authContext, site){
+	GetCurrentSiteVersion(authContext, site){
 		return this.Context.Handlers.Site.GetCurrentSiteVersion(authContext, site);
 	};
 
-	static GetSiteVersions(authContext, siteId){
+	GetSiteVersions(authContext, siteId){
 		return this.Context.Handlers.Site.GetSiteVersions(authContext, siteId);
 	};
 	
 	//Site
 
-	static GetSite(authContext, domain){
+	GetSite(authContext, domain){
 		return this.Context.Handlers.Site.GetSite(authContext, domain);
 	};
 
-	static GetSites(authContext){
+	GetSites(authContext){
 		return this.Context.Handlers.Site.GetSites(authContext);
 	};
 	
-	static AddSite(authContext, themeCode){
+	AddSite(authContext, themeCode){
 		var self = this;
 
 		return new Promise(function(resolve, reject) {
@@ -58,7 +58,7 @@ export default class SiteService extends BaseService {
 		});
 	};
 
-	static UpdateSite(authContext, model){
+	UpdateSite(authContext, model){
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.Site.UpdateSite(authContext, transaction, model)
 			.then((result) => {
@@ -69,7 +69,7 @@ export default class SiteService extends BaseService {
 		});
 	};
 
-	static DeleteSite(authContext, model){
+	DeleteSite(authContext, model){
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.Site.DeleteSite(authContext, transaction, model)
 			.then((result) => {
@@ -82,15 +82,15 @@ export default class SiteService extends BaseService {
 
 	//SiteVersionStatus
 
-	static GetSiteVersionStatus(authContext, code){
+	GetSiteVersionStatus(authContext, code){
 		return this.Context.Handlers.Site.GetSiteVersionStatus(authContext, code);
 	};
 
-	static GetSiteVersionStatuses(authContext){
+	GetSiteVersionStatuses(authContext){
 		return this.Context.Handlers.Site.GetSiteVersionStatuses(authContext);
 	};
 
-	static AddSiteVersionStatus(authContext, name, code){
+	AddSiteVersionStatus(authContext, name, code){
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.Site.AddSiteVersionStatus(authContext, transaction, name, code)
 			.then((result) => {

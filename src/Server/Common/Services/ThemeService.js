@@ -2,15 +2,15 @@ import Attollo from "../Attollo";
 import BaseService from '../BaseService';
 
 export default class ThemeService extends BaseService {
-	static GetThemes(authContext){
+	GetThemes(authContext){
 		return this.Context.Handlers.Theme.GetThemes(authContext);
 	};
 	
-	static GetTheme(authContext, code){
+	GetTheme(authContext, code){
 		return this.Context.Handlers.Theme.GetTheme(authContext, code);
 	};
 	
-	static AddTheme(authContext, pluginDefCode, code, name){
+	AddTheme(authContext, pluginDefCode, code, name){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -37,7 +37,7 @@ export default class ThemeService extends BaseService {
 		});
 	};
 
-	static AddThemeCssRule(authContext, themeCode, cssRuleDefCode, selector, value){
+	AddThemeCssRule(authContext, themeCode, cssRuleDefCode, selector, value){
         var self = this;
 
 		//cssRuleDefCode

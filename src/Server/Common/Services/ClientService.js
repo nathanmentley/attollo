@@ -1,11 +1,11 @@
 import BaseService from '../BaseService';
 
 export default class ClientService extends BaseService {
-	static GetClients(authContext){
+	GetClients(authContext){
 		return this.Context.Handlers.Client.GetClients(authContext);
 	};
 	
-	static AddClient(authContext, name){
+	AddClient(authContext, name){
 		var self = this;
 
 		return self.Context.DBTransaction((transaction) => {

@@ -6,7 +6,7 @@ import BaseService from '../BaseService';
 export default class PluginService extends BaseService {
 	//PluginDefLogicDef
 	
-	static AddPluginDefLogicDef(authContext, model){
+	AddPluginDefLogicDef(authContext, model){
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.Plugin.AddPluginDefLogicDef(authContext, transaction, model)
 			.then((result) => {
@@ -19,7 +19,7 @@ export default class PluginService extends BaseService {
 
 	//PluginDefLogicTarget
 	
-	static AddPluginDefLogicTarget(authContext, model){
+	AddPluginDefLogicTarget(authContext, model){
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.Plugin.AddPluginDefLogicTarget(authContext, transaction, model)
 			.then((result) => {
@@ -32,15 +32,15 @@ export default class PluginService extends BaseService {
 
 	//PluginDef
 	
-	static GetPluginDefs(authContext){
+	GetPluginDefs(authContext){
 		return this.Context.Handlers.Plugin.GetPluginDefs(authContext);
 	};
 
-	static GetPluginDef(authContext, code){
+	GetPluginDef(authContext, code){
 		return this.Context.Handlers.Plugin.GetPluginDef(authContext, code);
 	};
 	
-	static AddPluginDef(authContext, model){
+	AddPluginDef(authContext, model){
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.Plugin.AddPluginDef(authContext, transaction, model)
 			.then((result) => {
@@ -53,11 +53,11 @@ export default class PluginService extends BaseService {
 	
 	//Plugin
 
-	static GetPlugins(authContext){
+	GetPlugins(authContext){
 		return this.Context.Handlers.Plugin.GetPlugins(authContext);
 	};
 	
-	static AddPlugin(authContext, code){
+	AddPlugin(authContext, code){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -85,7 +85,7 @@ export default class PluginService extends BaseService {
 		});
 	};
 
-	static UpdatePlugin(authContext, model){
+	UpdatePlugin(authContext, model){
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.Plugin.UpdatePlugin(authContext, transaction, model)
 			.then((result) => {
@@ -96,7 +96,7 @@ export default class PluginService extends BaseService {
 		});
 	};
 
-	static DeletePlugin(authContext, model){
+	DeletePlugin(authContext, model){
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.Plugin.DeletePlugin(authContext, transaction, model)
 			.then((result) => {
@@ -109,7 +109,7 @@ export default class PluginService extends BaseService {
 
 	//PluginDefLogic
 
-	static GetPluginDefPreLogics(authContext, pluginDefLogicDefCode) {
+	GetPluginDefPreLogics(authContext, pluginDefLogicDefCode) {
 		if(authContext){
 			var vm = new VM({
 				sandbox: {
@@ -144,7 +144,7 @@ export default class PluginService extends BaseService {
 		}
 	}
 
-	static GetPluginDefPostLogics(authContext, pluginDefLogicDefCode, data) {
+	GetPluginDefPostLogics(authContext, pluginDefLogicDefCode, data) {
 		if(authContext){
 			var logics = [
 				'																\

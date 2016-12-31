@@ -1,11 +1,11 @@
 import BaseService from '../BaseService';
 
 export default class DatabaseVersionService extends BaseService {
-	static GetDatabaseVersions(authContext){
+	GetDatabaseVersions(authContext){
 		return this.Context.Handlers.DatabaseVersion.GetDatabaseVersions(authContext);
 	}
 	
-	static AddDatabaseVersion(authContext, databaseVersion){
+	AddDatabaseVersion(authContext, databaseVersion){
 		var self = this;
 
 		return this.Context.DBTransaction((transaction) => {
@@ -18,11 +18,11 @@ export default class DatabaseVersionService extends BaseService {
 		});
 	}
 	
-	static GetDatabaseCodeVersions(authContext){
+	GetDatabaseCodeVersions(authContext){
 		return this.Context.Handlers.DatabaseVersion.GetDatabaseCodeVersions(authContext);
 	}
 	
-	static AddDatabaseCodeVersion(authContext, databaseCodeVersion){
+	AddDatabaseCodeVersion(authContext, databaseCodeVersion){
 		var self = this;
 		
 		return this.Context.DBTransaction((transaction) => {

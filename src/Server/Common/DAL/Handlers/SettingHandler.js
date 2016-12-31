@@ -1,10 +1,10 @@
 import BaseHandler from '../BaseHandler';
 export default class BlockHandler extends BaseHandler {
-	static GetSettingTypes(authContext){
+	GetSettingTypes(authContext){
 		return this.Context.DatabaseContext.SettingTypes(authContext).fetch();
 	};
 
-	static GetSettingType(authContext, code){
+	GetSettingType(authContext, code){
 		return this.Context.DatabaseContext.SettingTypes(authContext)
 			.query({
 				where: {
@@ -13,7 +13,7 @@ export default class BlockHandler extends BaseHandler {
 			}).fetch();
 	};
 	
-	static AddSettingType(authContext, transaction, model){
+	AddSettingType(authContext, transaction, model){
 		var SettingType = this.Context.DatabaseContext.SettingType(authContext);
 		var settingType = new SettingType(model);
 

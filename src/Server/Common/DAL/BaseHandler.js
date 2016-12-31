@@ -1,9 +1,13 @@
+import constitute from 'constitute';
+
 import HandlerContext from "../HandlerContext";
 
-export default class BaseHandler {
-	static get Context() { return HandlerContext; }
+var handlerContext = constitute(HandlerContext);
 
-	static CloneModel(type) {
+export default class BaseHandler {
+	get Context() { return handlerContext; }
+
+	CloneModel(type) {
 		return (authContext, transaction, model) => {
 			return new Promise((resolve, reject) => {
 				resolve(model);
@@ -11,7 +15,7 @@ export default class BaseHandler {
 		};
 	}
 
-	static ImportModel(type) {
+	ImportModel(type) {
 		return (authContext, transaction, model) => {
 			return new Promise((resolve, reject) => {
 				resolve(model);

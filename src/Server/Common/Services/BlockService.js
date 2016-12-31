@@ -5,15 +5,15 @@ import BaseService from '../BaseService';
 
 export default class BlockService extends BaseService {
 	//blockContainerDef
-	static GetBlockContainerDefs(authContext){
+	GetBlockContainerDefs(authContext){
 		return this.Context.Handlers.Block.GetBlockContainerDefs(authContext);
 	};
 
-	static GetBlockContainerDef(authContext, code){
+	GetBlockContainerDef(authContext, code){
 		return this.Context.Handlers.Block.GetBlockContainerDef(authContext, code);
 	};
 
-	static AddBlockContainerDef(authContext, code, title){
+	AddBlockContainerDef(authContext, code, title){
 		var self = this;
 		
 		return this.Context.DBTransaction((transaction) => {
@@ -28,11 +28,11 @@ export default class BlockService extends BaseService {
 
 	//blockContainer
 
-	static GetBlockContainers(authContext, pageId){
+	GetBlockContainers(authContext, pageId){
 		return this.Context.Handlers.Block.GetBlockContainers(authContext, pageId);
 	};
 
-	static AddBlockContainers(authContext, pageId, code){
+	AddBlockContainers(authContext, pageId, code){
 		var self = this;
 		return new Promise((resolve, reject) => {
 			try{
@@ -93,7 +93,7 @@ export default class BlockService extends BaseService {
 		});
 	};
 
-	static UpdateBlockContainer(authContext, blockContainer){
+	UpdateBlockContainer(authContext, blockContainer){
 		var self = this;
 		
 		return self.Context.DBTransaction((transaction) => {
@@ -108,11 +108,11 @@ export default class BlockService extends BaseService {
 	
 	//blockContainerAreaDef
 
-	static GetBlockContainerAreaDefs(authContext, containerCode) {
+	GetBlockContainerAreaDefs(authContext, containerCode) {
 		return this.Context.Handlers.Block.GetBlockContainerAreaDefs(authContext, containerCode);
 	};
 
-	static AddBlockContainerAreaDef(authContext, blockContainerDefCode, code, title) {
+	AddBlockContainerAreaDef(authContext, blockContainerDefCode, code, title) {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -141,22 +141,22 @@ export default class BlockService extends BaseService {
 	
 	//blockContainerArea
 
-	static GetBlockContainerArea(authContext, blockContainerId, areaCode) {
+	GetBlockContainerArea(authContext, blockContainerId, areaCode) {
 		return this.Context.Handlers.Block.GetBlockContainerArea(authContext, blockContainerId, areaCode);
 	};
 
 	//blockDef
 
-	static GetBlockDefs(authContext, pageDefId){
+	GetBlockDefs(authContext, pageDefId){
 		return this.Context.Handlers.Block.GetBlockDefs(authContext, pageDefId);
 	};
 
-	static GetBlockDef(authContext, code) {
+	GetBlockDef(authContext, code) {
 		return this.Context.Handlers.Block.GetBlockDef(authContext, code);
 	};
 
 
-	static AddBlockDef(authContext, pluginDefCode, pageDefCode, code, name){
+	AddBlockDef(authContext, pluginDefCode, pageDefCode, code, name){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -208,7 +208,7 @@ export default class BlockService extends BaseService {
 
 	//BlockDefFunctions
 
-	static AddBlockDefFunction(authContext, blockDefCode, model){
+	AddBlockDefFunction(authContext, blockDefCode, model){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -240,7 +240,7 @@ export default class BlockService extends BaseService {
 
 	//BlockDefDataRequest
 
-	static AddBlockDefDataRequest(authContext, blockDefCode, model){
+	AddBlockDefDataRequest(authContext, blockDefCode, model){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -271,11 +271,11 @@ export default class BlockService extends BaseService {
 
 	//blockTemplateDef
 
-	static GetBlockTemplateDef(authContext, blockDefId, templateCode) {
+	GetBlockTemplateDef(authContext, blockDefId, templateCode) {
 		return this.Context.Handlers.Block.GetBlockTemplateDef(authContext, blockDefId, templateCode);
 	};
 
-	static AddBlockTemplateDef(authContext, blockDefCode, code, name, template) {
+	AddBlockTemplateDef(authContext, blockDefCode, code, name, template) {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -283,7 +283,7 @@ export default class BlockService extends BaseService {
 			.then((blockDef) => {
 				self.Context.DBTransaction((transaction) => {
                     self.Context.Handlers.Block.AddBlockTemplateDef(
-						authContext, transaction, blockDef.first().get('id'), code, name, template, BlockService._RenderTemplate(template)
+						authContext, transaction, blockDef.first().get('id'), code, name, template, self._RenderTemplate(template)
 					)
 					.then((result) => {
 						transaction.commit(result);
@@ -304,17 +304,17 @@ export default class BlockService extends BaseService {
 		});
 	};
 
-	static GetBlockTemplateDefs(authContext) {
+	GetBlockTemplateDefs(authContext) {
 		return this.Context.Handlers.Block.GetBlockTemplateDefs(authContext);
 	};
 
 	//Block
 
-	static GetBlocks(authContext, blockContainerId){
+	GetBlocks(authContext, blockContainerId){
 		return this.Context.Handlers.Block.GetBlocks(authContext, blockContainerId);
 	};
 	
-	static AddBlock(authContext, blockContainerId, areaCode, blockDefCode, blockTemplateCode){
+	AddBlock(authContext, blockContainerId, areaCode, blockDefCode, blockTemplateCode){
 		var self = this;
 
 		return new Promise(function(resolve, reject) {
@@ -355,7 +355,7 @@ export default class BlockService extends BaseService {
 		});
 	};
 
-	static UpdateBlock(authContext, block) {
+	UpdateBlock(authContext, block) {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -391,7 +391,7 @@ export default class BlockService extends BaseService {
 		});
 	};
 
-	static DeleteBlock(authContext, block) {
+	DeleteBlock(authContext, block) {
 		var self = this;
 
 		return this.Context.DBTransaction((transaction) => {
@@ -403,10 +403,9 @@ export default class BlockService extends BaseService {
 			});
 		});
 	};
-	
-	//privateMethods
-	static _RenderTemplate(template) {
-		//Todo: Make this shit not fucking hacky as shit.
+
+	_RenderTemplate(template) {
+		//TODO: Make this shit not fucking hacky as shit.
 		return jsx.client(template).toString()
 				.replace("with (data)", "")
 				.replace("this.props ? this : data", "data");
@@ -414,11 +413,11 @@ export default class BlockService extends BaseService {
 
 	//BlockSettingDef
 
-	static GetBlockSettingDefs(authContext, blockDefId){
+	GetBlockSettingDefs(authContext, blockDefId){
 		return this.Context.Handlers.Block.GetBlockSettingDefs(authContext, blockDefId);
 	};
 
-	static AddBlockSettingDefs(authContext, blockDefCode, code, title, settingTypeCode, defaultValue){
+	AddBlockSettingDefs(authContext, blockDefCode, code, title, settingTypeCode, defaultValue){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -453,11 +452,11 @@ export default class BlockService extends BaseService {
 
 	//BlockSetting
 
-	static GetBlockSettings(authContext, block){
+	GetBlockSettings(authContext, block){
 		return this.Context.Handlers.Block.GetBlockSettings(authContext, block);
 	};
 
-	static AddBlockSetting(authContext, blockId, blockSettingDefId, value){
+	AddBlockSetting(authContext, blockId, blockSettingDefId, value){
 		var self = this;
 
 		return this.Context.DBTransaction((transaction) => {

@@ -2,7 +2,7 @@ import BaseHandler from '../BaseHandler';
 export default class BlockHandler extends BaseHandler {
 	//PluginDefLogicDef
 	
-	static AddPluginDefLogicDef(authContext, transaction, model){
+	AddPluginDefLogicDef(authContext, transaction, model){
 		var PluginDefLogicDef = this.Context.DatabaseContext.PluginDefLogicDef(authContext);
 		var pluginDefLogicDef = new PluginDefLogicDef(model);
 
@@ -11,7 +11,7 @@ export default class BlockHandler extends BaseHandler {
 
 	//PluginDefLogicTarget
 	
-	static AddPluginDefLogicTarget(authContext, transaction, model){
+	AddPluginDefLogicTarget(authContext, transaction, model){
 		var PluginDefLogicTarget = this.Context.DatabaseContext.PluginDefLogicTarget(authContext);
 		var pluginDefLogicTarget = new PluginDefLogicTarget(model);
 
@@ -20,11 +20,11 @@ export default class BlockHandler extends BaseHandler {
 
 	//PluginDef
 
-	static GetPluginDefs(authContext){
+	GetPluginDefs(authContext){
 		return this.Context.DatabaseContext.PluginDefs(authContext).fetch();
 	};
 
-	static GetPluginDef(authContext, code){
+	GetPluginDef(authContext, code){
 		return this.Context.DatabaseContext.PluginDefs(authContext)
 			.query({
 				where: {
@@ -33,7 +33,7 @@ export default class BlockHandler extends BaseHandler {
 			}).fetch();
 	};
 	
-	static AddPluginDef(authContext, transaction, model){
+	AddPluginDef(authContext, transaction, model){
 		var PluginDef = this.Context.DatabaseContext.PluginDef(authContext);
 		var pluginDef = new PluginDef(model);
 
@@ -42,28 +42,28 @@ export default class BlockHandler extends BaseHandler {
 	
 	//Plugin
 
-	static GetPlugins(authContext){
+	GetPlugins(authContext){
 		return this.Context.DatabaseContext.Plugins(authContext)
 		.fetch({
 			withRelated: ['PluginDef']
 		});
 	};
 	
-	static AddPlugin(authContext, transaction, model){
+	AddPlugin(authContext, transaction, model){
 		var Plugin = this.Context.DatabaseContext.Plugin(authContext);
 		var plugin = new Plugin(model);
 
 		return plugin.save(null, { transacting: transaction });
 	};
 	
-	static UpdatePlugin(authContext, transaction, model){
+	UpdatePlugin(authContext, transaction, model){
 		var Plugin = this.Context.DatabaseContext.Plugin(authContext);
 		var plugin = new Plugin(model);
 
 		return plugin.save(null, { transacting: transaction });
 	};
 	
-	static DeletePlugin(authContext, transaction, model){
+	DeletePlugin(authContext, transaction, model){
 		var Plugin = this.Context.DatabaseContext.Plugin(authContext);
 		var plugin = new Plugin(model);
 

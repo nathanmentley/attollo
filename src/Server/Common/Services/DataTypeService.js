@@ -3,17 +3,17 @@ import BaseService from '../BaseService';
 
 export default class DataTypeService extends BaseService {
 	//DataType
-	static GetDataTypes(authContext, dataTypeDefId, filters){
+	GetDataTypes(authContext, dataTypeDefId, filters){
 		return this.Context.Handlers.DataType.GetDataTypes(authContext, dataTypeDefId, filters);
 	};
 
 	//DataTypeDef
 
-	static GetDataTypeDefs(authContext){
+	GetDataTypeDefs(authContext){
 		return this.Context.Handlers.DataType.GetDataTypeDefs(authContext);
 	};
 
-	static AddDataTypeDef(authContext, pluginDefCode, model){
+	AddDataTypeDef(authContext, pluginDefCode, model){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -42,7 +42,7 @@ export default class DataTypeService extends BaseService {
 		});
 	};
 
-	static UpdateDataTypeDef(authContext, model){
+	UpdateDataTypeDef(authContext, model){
 		var self = this;
 		
 		return this.Context.DBTransaction((transaction) => {
@@ -55,7 +55,7 @@ export default class DataTypeService extends BaseService {
 		});
 	};
 
-	static DeleteDataTypeDef(authContext, model){
+	DeleteDataTypeDef(authContext, model){
 		var self = this;
 		
 		return this.Context.DBTransaction((transaction) => {
@@ -70,11 +70,11 @@ export default class DataTypeService extends BaseService {
 
 	//DataTypeFieldDef
 
-	static GetDataTypeFieldDefs(authContext, dataTypeDefId){
+	GetDataTypeFieldDefs(authContext, dataTypeDefId){
 		return this.Context.Handlers.DataType.GetDataTypeFieldDefs(authContext, dataTypeDefId);
 	};
 
-	static AddDataTypeFieldDef(authContext, dataTypeFieldTypeCode, model){
+	AddDataTypeFieldDef(authContext, dataTypeFieldTypeCode, model){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -103,7 +103,7 @@ export default class DataTypeService extends BaseService {
 		});
 	};
 
-	static UpdateDataTypeFieldDef(authContext, model){
+	UpdateDataTypeFieldDef(authContext, model){
 		var self = this;
 
 		return this.Context.DBTransaction((transaction) => {
@@ -116,7 +116,7 @@ export default class DataTypeService extends BaseService {
 		});
 	};
 
-	static DeleteDataTypeFieldDef(authContext, model){
+	DeleteDataTypeFieldDef(authContext, model){
 		var self = this;
 		
 		return this.Context.DBTransaction((transaction) => {
@@ -131,15 +131,15 @@ export default class DataTypeService extends BaseService {
 
 	//DataTypeFieldTypes
 
-	static GetDataTypeFieldTypes(authContext){
+	GetDataTypeFieldTypes(authContext){
 		return this.Context.Handlers.DataType.GetDataTypeFieldTypes(authContext);
 	};
 
-	static GetDataTypeFieldType(authContext, code){
+	GetDataTypeFieldType(authContext, code){
 		return this.Context.Handlers.DataType.GetDataTypeFieldType(authContext, code);
 	};
 
-	static AddDataTypeFieldType(authContext, model){
+	AddDataTypeFieldType(authContext, model){
 		var self = this;
 		
 		return this.Context.DBTransaction((transaction) => {
@@ -152,7 +152,7 @@ export default class DataTypeService extends BaseService {
 		});
 	};
 
-	static UpdateDataTypeFieldType(authContext, model){
+	UpdateDataTypeFieldType(authContext, model){
 		var self = this;
 		
 		return this.Context.DBTransaction((transaction) => {
@@ -165,7 +165,7 @@ export default class DataTypeService extends BaseService {
 		});
 	};
 
-	static DeleteDataTypeFieldType(authContext, model){
+	DeleteDataTypeFieldType(authContext, model){
 		var self = this;
 		
 		return this.Context.DBTransaction((transaction) => {

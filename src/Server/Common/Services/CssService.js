@@ -2,7 +2,7 @@ import BaseService from '../BaseService';
 
 export default class CssService extends BaseService {
 	//CssRuleDefType
-	static AddCssRuleDefType(authContext, name, code){
+	AddCssRuleDefType(authContext, name, code){
         return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.Css.AddCssRuleDefType(authContext, transaction, name, code)
 			.then((result) => {
@@ -13,12 +13,12 @@ export default class CssService extends BaseService {
 		});
 	};
 	
-	static GetCssRuleDefType(authContext, code){
+	GetCssRuleDefType(authContext, code){
 		return this.Context.Handlers.Css.GetCssRuleDefType(authContext, code);
 	};
 	
 	//CssRuleDefGroup
-	static AddCssRuleDefGroup(authContext, name, code, description){
+	AddCssRuleDefGroup(authContext, name, code, description){
         return this.Context.DBTransaction((transaction) => {
             this.Context.Handlers.Css.AddCssRuleDefGroup(authContext, transaction, name, code, description)
 			.then((result) => {
@@ -29,12 +29,12 @@ export default class CssService extends BaseService {
 		});
 	};
 	
-	static GetCssRuleDefGroup(authContext, code){
+	GetCssRuleDefGroup(authContext, code){
 		return this.Context.Handlers.Css.GetCssRuleDefGroup(authContext, code);
 	};
 	
 	//CssRuleDef
-	static AddCssRuleDef(authContext, name, code, property, description, options, cssRuleDefTypeCode, cssRuleDefGroupCodes){
+	AddCssRuleDef(authContext, name, code, property, description, options, cssRuleDefTypeCode, cssRuleDefGroupCodes){
         var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -67,20 +67,20 @@ export default class CssService extends BaseService {
         });
 	};
 	
-	static GetCssRuleDef(authContext, code){
+	GetCssRuleDef(authContext, code){
 		return this.Context.Handlers.Css.GetCssRuleDef(authContext, code);
 	};
 	
-	static GetCssRuleDefs(authContext){
+	GetCssRuleDefs(authContext){
 		return this.Context.Handlers.Css.GetCssRuleDefs(authContext);
 	};
 	
     //BlockCssRules
-    static GetBlockCssRules(authContext, blockId) {
+    GetBlockCssRules(authContext, blockId) {
         return this.Context.Handlers.Block.GetBlockCssRulesForBlock(authContext, blockId);
     };
 
-    static AddBlockCssRules(authContext, model) {
+    AddBlockCssRules(authContext, model) {
         var self = this;
 
         return new Promise((resolve, reject) => {
@@ -113,7 +113,7 @@ export default class CssService extends BaseService {
         });
     };
 
-    static UpdateBlockCssRules(authContext, rules) {
+    UpdateBlockCssRules(authContext, rules) {
         var self = this;
 
         return new Promise((resolve, reject) => {
@@ -173,7 +173,7 @@ export default class CssService extends BaseService {
     };
 
 	//CssRule
-	static AddCssRule(authContext, selector, value, cssRuleDefCode){
+	AddCssRule(authContext, selector, value, cssRuleDefCode){
         var self = this;
 
 		return new Promise((resolve, reject) => {
@@ -200,7 +200,7 @@ export default class CssService extends BaseService {
         });
 	};
 
-    static GetSiteLess(authContext, siteId) {
+    GetSiteLess(authContext, siteId) {
         return new Promise((resolve, reject) => {
             var less = '';
 

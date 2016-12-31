@@ -1,6 +1,6 @@
 import BaseHandler from '../BaseHandler';
 export default class BlockHandler extends BaseHandler {
-	static GetBlockDefs(authContext, pageDefId){
+	GetBlockDefs(authContext, pageDefId){
 		return this.Context.DatabaseContext.BlockDefs(authContext)
 			.query((qb) => {
 				qb.whereNull('pagedefid')
@@ -8,7 +8,7 @@ export default class BlockHandler extends BaseHandler {
 			}).fetch();
 	};
 
-	static GetBlockDef(authContext, code){
+	GetBlockDef(authContext, code){
 		return this.Context.DatabaseContext.BlockDefs(authContext)
 				.query({
 					where: {
@@ -18,7 +18,7 @@ export default class BlockHandler extends BaseHandler {
 				.fetch();
 	};
 
-	static AddBlockDef(authContext, transaction, pluginDefId, pageDefId, code, name){
+	AddBlockDef(authContext, transaction, pluginDefId, pageDefId, code, name){
 		var BlockDef = this.Context.DatabaseContext.BlockDef(authContext);
 		var blockDef = new BlockDef({
 			plugindefid: pluginDefId,
@@ -32,7 +32,7 @@ export default class BlockHandler extends BaseHandler {
 
 	//BlockDefFunctions
 
-	static AddBlockDefFunction(authContext, transaction, model){
+	AddBlockDefFunction(authContext, transaction, model){
 		var BlockDefFunction = this.Context.DatabaseContext.BlockDefFunction(authContext);
 		var blockDefFunction = new BlockDefFunction(model);
 
@@ -41,7 +41,7 @@ export default class BlockHandler extends BaseHandler {
 
 	//BlockDefDataRequest
 
-	static AddBlockDefDataRequest(authContext, transaction, model){
+	AddBlockDefDataRequest(authContext, transaction, model){
 		var BlockDefDataRequest = this.Context.DatabaseContext.BlockDefDataRequest(authContext);
 		var blockDefDataRequest = new BlockDefDataRequest(model);
 
@@ -50,7 +50,7 @@ export default class BlockHandler extends BaseHandler {
 
 	//blockTemplateDef
 
-	static GetBlockTemplateDef(authContext, blockDefId, templateCode) {
+	GetBlockTemplateDef(authContext, blockDefId, templateCode) {
 		return this.Context.DatabaseContext.BlockTemplateDefs(authContext)
 				.query({
 					where: {
@@ -61,12 +61,12 @@ export default class BlockHandler extends BaseHandler {
 				.fetch();
 	};
 
-	static GetBlockTemplateDefs(authContext) {
+	GetBlockTemplateDefs(authContext) {
 		return this.Context.DatabaseContext.BlockTemplateDefs(authContext)
 				.fetch();
 	};
 
-	static AddBlockTemplateDef(authContext, transaction, blockDefId, code, name, template, compiledTemplate) {
+	AddBlockTemplateDef(authContext, transaction, blockDefId, code, name, template, compiledTemplate) {
 		var BlockTemplateDef = this.Context.DatabaseContext.BlockTemplateDef(authContext);
 		var blockTemplateDef = new BlockTemplateDef({
 			blockdefid: blockDefId,
@@ -80,14 +80,14 @@ export default class BlockHandler extends BaseHandler {
 	};
 
 	//Block
-	static GetBlocks(authContext, blockContainerId){
+	GetBlocks(authContext, blockContainerId){
 		return this.Context.DatabaseContext.Blocks(authContext)
 			.query((qb) => {
 				qb.where('blockcontainer.id', '=', blockContainerId);
 			}).fetch({ withRelated: ['BlockDef', 'BlockContainerArea.BlockContainerAreaDef'] });
 	};
 	
-	static AddBlock(authContext, transaction, blockContainerArea, blockDef, blockTemplateDef){
+	AddBlock(authContext, transaction, blockContainerArea, blockDef, blockTemplateDef){
 		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block({
 			blockdefid: blockDef.id,
@@ -99,21 +99,21 @@ export default class BlockHandler extends BaseHandler {
 		return block.save(null, { transacting: transaction });
 	};
 	
-	static UpdateBlock(authContext, transaction, model){
+	UpdateBlock(authContext, transaction, model){
 		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block(model);
 
 		return block.save(null, { transacting: transaction });
 	};
 	
-	static DeleteBlock(authContext, transaction, model){
+	DeleteBlock(authContext, transaction, model){
 		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block(model);
 
 		return block.destroy({ transacting: transaction });
 	};
 
-	static GetBlockCssRules(authContext) {
+	GetBlockCssRules(authContext) {
 		return this.Context.DatabaseContext.BlockCssRules(authContext)
 			.fetch({
 				withRelated: [
@@ -123,7 +123,7 @@ export default class BlockHandler extends BaseHandler {
 			});
 	};
 
-	static GetBlockCssRulesForBlock(authContext, blockId) {
+	GetBlockCssRulesForBlock(authContext, blockId) {
 		return this.Context.DatabaseContext.BlockCssRules(authContext)
 			.query((qb) => {
 				qb.where('blockid', '=', blockId);
@@ -137,18 +137,18 @@ export default class BlockHandler extends BaseHandler {
 
 	//BlockContainerDef
 
-	static GetBlockContainerDefs(authContext){
+	GetBlockContainerDefs(authContext){
 		return this.Context.DatabaseContext.BlockContainerDefs(authContext).fetch();
 	};
 
-	static GetBlockContainerDef(authContext, code){
+	GetBlockContainerDef(authContext, code){
 		return this.Context.DatabaseContext.BlockContainerDefs(authContext)
 			.query((qb) => {
 				qb.where('code', '=', code);
 			}).fetch();
 	};
 
-	static AddBlockContainerDef(authContext, transaction, code, title){
+	AddBlockContainerDef(authContext, transaction, code, title){
 		var BlockContainerDef = this.Context.DatabaseContext.BlockContainerDef(authContext);
 		var blockContainerDef = new BlockContainerDef({
 			code: code,
@@ -160,7 +160,7 @@ export default class BlockHandler extends BaseHandler {
 
 	//BlockContainer
 
-	static GetBlockContainers(authContext, pageId){
+	GetBlockContainers(authContext, pageId){
 		return this.Context.DatabaseContext.BlockContainers(authContext)
 			.query((qb) => {
 				qb.where('pageid', '=', pageId);
@@ -183,7 +183,7 @@ export default class BlockHandler extends BaseHandler {
 			] });
 	};
 
-	static AddBlockContainers(authContext, transaction, pageId, blockContainerDefId, displayOrder){
+	AddBlockContainers(authContext, transaction, pageId, blockContainerDefId, displayOrder){
 		var BlockContainer = this.Context.DatabaseContext.BlockContainer(authContext);
 		var blockContainer = new BlockContainer({
 			pageid: pageId,
@@ -194,14 +194,14 @@ export default class BlockHandler extends BaseHandler {
 		return blockContainer.save(null, { transacting: transaction });
 	};
 
-	static UpdateBlockContainer(authContext, transaction, model){
+	UpdateBlockContainer(authContext, transaction, model){
 		var BlockContainer = this.Context.DatabaseContext.BlockContainer(authContext);
 		var blockContainer = new BlockContainer(model);
 
 		return blockContainer.save(null, { transacting: transaction });
 	};
 
-	static GetBlockContainerCssRules(authContext) {
+	GetBlockContainerCssRules(authContext) {
 		return this.Context.DatabaseContext.BlockContainerCssRules(authContext)
 			.fetch({
 				withRelated: [
@@ -213,7 +213,7 @@ export default class BlockHandler extends BaseHandler {
 
 	//BlockContainerAreaDef
 
-	static GetBlockContainerAreaDefs(authContext, blockContainerCode) {
+	GetBlockContainerAreaDefs(authContext, blockContainerCode) {
 		return this.Context.DatabaseContext.BlockContainerAreaDefs(authContext)
 			.query((qb) => {
 				qb.where('blockcontainerdef.code', '=', blockContainerCode);
@@ -221,7 +221,7 @@ export default class BlockHandler extends BaseHandler {
 			}).fetch();
 	};
 
-	static AddBlockContainerAreaDef(authContext, transaction, blockContainerDefID, code, title) {
+	AddBlockContainerAreaDef(authContext, transaction, blockContainerDefID, code, title) {
 		var BlockContainerAreaDef = this.Context.DatabaseContext.BlockContainerAreaDef(authContext);
 		var blockContainerAreaDef = new BlockContainerAreaDef({
 			blockcontainerdefid: blockContainerDefID,
@@ -234,7 +234,7 @@ export default class BlockHandler extends BaseHandler {
 
 	//BlockContainerArea
 
-	static GetBlockContainerArea(authContext, blockContainerId, areaCode) {
+	GetBlockContainerArea(authContext, blockContainerId, areaCode) {
 		return this.Context.DatabaseContext.BlockContainerAreas(authContext)
 			.query((qb) => {
 				qb.where('blockcontainerid', '=', blockContainerId);
@@ -243,7 +243,7 @@ export default class BlockHandler extends BaseHandler {
 			}).fetch();
 	};
 
-	static AddBlockContainerArea(authContext, transaction, blockContainerId, areaDefId) {
+	AddBlockContainerArea(authContext, transaction, blockContainerId, areaDefId) {
 		var BlockContainerArea = this.Context.DatabaseContext.BlockContainerArea(authContext);
 		var blockContainerArea = new BlockContainerArea({
 			blockcontainerid: blockContainerId,
@@ -255,7 +255,7 @@ export default class BlockHandler extends BaseHandler {
 
 	//BlockSettingDef
 
-	static GetBlockSettingDefs(authContext, blockDefId){
+	GetBlockSettingDefs(authContext, blockDefId){
 		return this.Context.DatabaseContext.BlockSettingDefs(authContext)
 			.query({
 				where: {
@@ -264,7 +264,7 @@ export default class BlockHandler extends BaseHandler {
 			}).fetch();
 	};
 
-	static AddBlockSettingDefs(authContext, transaction, blockDefId, code, title, settingTypeId, defaultValue){
+	AddBlockSettingDefs(authContext, transaction, blockDefId, code, title, settingTypeId, defaultValue){
 		var BlockSettingDef = this.Context.DatabaseContext.BlockSettingDef(authContext);
 		var blockSettingDef = new BlockSettingDef({
 			blockdefid: blockDefId,
@@ -279,7 +279,7 @@ export default class BlockHandler extends BaseHandler {
 
 	//BlockSettings
 
-	static GetBlockSettings(authContext, blockId){
+	GetBlockSettings(authContext, blockId){
 		return this.Context.DatabaseContext.BlockSettings(authContext)
 			.query({
 				where: {
@@ -288,7 +288,7 @@ export default class BlockHandler extends BaseHandler {
 			}).fetch();
 	};
 
-	static AddBlockSetting(authContext, transaction, blockId, blockSettingDefId, value) {
+	AddBlockSetting(authContext, transaction, blockId, blockSettingDefId, value) {
 		var BlockSetting = this.Context.DatabaseContext.BlockSetting(authContext);
 		var blockSetting = new BlockSetting({
 			blockid: blockId,
@@ -299,7 +299,7 @@ export default class BlockHandler extends BaseHandler {
 		return blockSetting.save(null, { transacting: transaction });
 	};
 
-	static UpdateBlockSetting(authContext, transaction, model) {
+	UpdateBlockSetting(authContext, transaction, model) {
 		var BlockSetting = this.Context.DatabaseContext.BlockSetting(authContext);
 		var blockSetting = new BlockSetting(model);
 

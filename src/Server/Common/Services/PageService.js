@@ -2,15 +2,15 @@ import Attollo from "../Attollo";
 import BaseService from '../BaseService';
 
 export default class PageService extends BaseService {
-	static GetPageDefs(authContext){
+	GetPageDefs(authContext){
 		return this.Context.Handlers.Page.GetPageDefs(authContext);
 	};
 
-	static GetPageDef(authContext, code){
+	GetPageDef(authContext, code){
 		return this.Context.Handlers.Page.GetPageDef(authContext, code);
 	};
 	
-	static AddPageDef(authContext, pluginDefCode, pageDef){
+	AddPageDef(authContext, pluginDefCode, pageDef){
 		return new Promise((resolve, reject) => {
 			Attollo.Services.Plugin.GetPluginDef(authContext, pluginDefCode)
 			.then((pluginDef) => {
@@ -37,11 +37,11 @@ export default class PageService extends BaseService {
 		});
 	};
 	
-	static GetPages(authContext, siteVersionId){
+	GetPages(authContext, siteVersionId){
 		return this.Context.Handlers.Page.GetPages(authContext, siteVersionId);
 	};
 	
-	static AddPage(authContext, page){
+	AddPage(authContext, page){
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.Page.AddPage(authContext, transaction, page)
 			.then((result) => {
@@ -52,7 +52,7 @@ export default class PageService extends BaseService {
 		});
 	};
 
-	static UpdatePage(authContext, model){
+	UpdatePage(authContext, model){
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.Page.UpdatePage(authContext, transaction, model)
 			.then((result) => {
@@ -63,7 +63,7 @@ export default class PageService extends BaseService {
 		});
 	};
 
-	static DeletePage(authContext, model){
+	DeletePage(authContext, model){
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.Page.DeletePage(authContext, transaction, model)
 			.then((result) => {

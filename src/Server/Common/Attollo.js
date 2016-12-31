@@ -1,4 +1,3 @@
-import ConfigUtils from './Utils/ConfigUtils';
 import LogUtils from './Utils/LogUtils';
 
 import Amqplib from './Clients/Amqplib';
@@ -22,27 +21,30 @@ import ThemeService from "./Services/ThemeService";
 import UserService from "./Services/UserService";
 
 var _appName = '';
+
+var services = {
+    Block: new BlockService(),
+    Client: new ClientService(),
+    Css: new CssService(),
+    DatabaseVersion: new DatabaseVersionService(),
+    DataType: new DataTypeService(),
+    Email: new EmailService(),
+    MessageQueue: new MessageQueueService(),
+    Page: new PageService(),
+    Plugin: new PluginService(),
+    Setting: new SettingService(),
+    Site: new SiteService(),
+    Theme: new ThemeService(),
+    User: new UserService()
+};
+
 export default class Attollo {
     static get AppName() {
         return _appName;
     }
 
     static get Services() {
-        return {
-            Block: BlockService,
-            Client: ClientService,
-            Css: CssService,
-            DatabaseVersion: DatabaseVersionService,
-            DataType: DataTypeService,
-            Email: EmailService,
-            MessageQueue: MessageQueueService,
-            Page: PageService,
-            Plugin: PluginService,
-            Setting: SettingService,
-            Site: SiteService,
-            Theme: ThemeService,
-            User: UserService
-        };
+        return services;
     }
 
     static Start(appName) {

@@ -1,10 +1,10 @@
 import BaseHandler from '../BaseHandler';
 export default class BlockHandler extends BaseHandler {
-	static GetUsers(authContext){
+	GetUsers(authContext){
 		return this.Context.DatabaseContext.Users(authContext).fetch();
 	};
 
-	static GetUser(authContext, username) {
+	GetUser(authContext, username) {
 		return this.Context.DatabaseContext.Users(authContext, true)
 				.query({
 					where: {
@@ -20,7 +20,7 @@ export default class BlockHandler extends BaseHandler {
 				]});
 	};
 	
-	static AddUser(authContext, transaction, name, password, role){
+	AddUser(authContext, transaction, name, password, role){
 		var User = this.Context.DatabaseContext.User(authContext);
 		var user = new User({
 			clientid: authContext.ClientID,
@@ -32,14 +32,14 @@ export default class BlockHandler extends BaseHandler {
 		return user.save(null, { transacting: transaction });
 	};
 	
-	static UpdateUser(authContext, transaction, model){
+	UpdateUser(authContext, transaction, model){
 		var User = this.Context.DatabaseContext.User(authContext);
 		var user = new User(model);
 
 		return user.save(null, { transacting: transaction });
 	};
 	
-	static DeleteUser(authContext, transaction, userId){
+	DeleteUser(authContext, transaction, userId){
 		var User = this.Context.DatabaseContext.User(authContext);
 		var user = new User({ id: userId });
 
@@ -48,7 +48,7 @@ export default class BlockHandler extends BaseHandler {
 
 	//Roles
 
-	static GetRole(authContext, code) {
+	GetRole(authContext, code) {
 		return this.Context.DatabaseContext.Roles(authContext)
 				.query({
 					where: {
@@ -58,11 +58,11 @@ export default class BlockHandler extends BaseHandler {
 				.fetch();
 	};
 
-	static GetRoles(authContext) {
+	GetRoles(authContext) {
 		return this.Context.DatabaseContext.Roles(authContext).fetch();
 	};
 
-	static AddRole(authContext, transaction, name, code) {
+	AddRole(authContext, transaction, name, code) {
 		var Role = this.Context.DatabaseContext.Role(authContext);
 		var role = new Role({
 			name: name,
@@ -72,7 +72,7 @@ export default class BlockHandler extends BaseHandler {
 		return role.save(null, { transacting: transaction });
 	};
 
-	static AddRolePermission(authContext, transaction, permissionDefId, roleId) {
+	AddRolePermission(authContext, transaction, permissionDefId, roleId) {
 		var RolePermission = this.Context.DatabaseContext.RolePermission(authContext);
 		var rolePermission = new RolePermission({
 			permissiondefid: permissionDefId,
@@ -84,7 +84,7 @@ export default class BlockHandler extends BaseHandler {
 
 	//PermissionDefs
 
-	static AddPermissionDef(authContext, transaction, name, code, description) {
+	AddPermissionDef(authContext, transaction, name, code, description) {
 		var PermissionDef = this.Context.DatabaseContext.PermissionDef(authContext);
 		var permissionDef = new PermissionDef({
 			name: name,
@@ -95,11 +95,11 @@ export default class BlockHandler extends BaseHandler {
 		return permissionDef.save(null, { transacting: transaction });
 	};
 
-	static GetPermissionDefs(authContext) {
+	GetPermissionDefs(authContext) {
 		return this.Context.DatabaseContext.PermissionDefs(authContext).fetch();
 	};
 
-	static GetPermissionDef(authContext, code) {
+	GetPermissionDef(authContext, code) {
 		return this.Context.DatabaseContext.PermissionDefs(authContext)
 				.query({
 					where: {

@@ -3,22 +3,26 @@ import jsx from 'react-jsx';
 
 import BaseService from '../BaseService';
 
+import ServiceContext from "../ServiceContext";
+
 import PageService from './PageService';
 import PluginService from './PluginService';
 import SettingService from './SettingService';
 
 @Dependencies(
+    ServiceContext,
     PageService,
     PluginService,
     SettingService
 )
 export default class BlockService extends BaseService {
     constructor(
+        serviceContext,
         pageService,
         pluginService,
         settingService
 	) {
-		super();
+		super(serviceContext);
 
         this._PageService = pageService;
         this._PluginService = pluginService;

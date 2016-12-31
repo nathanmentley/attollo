@@ -1,11 +1,9 @@
-import constitute from 'constitute';
-
-import HandlerContext from "../HandlerContext";
-
-var handlerContext = constitute(HandlerContext);
-
 export default class BaseHandler {
-	get Context() { return handlerContext; }
+	constructor(handlerContext) {
+		this._handlerContext = handlerContext;
+	}
+
+	get Context() { return this._handlerContext; }
 
 	CloneModel(type) {
 		return (authContext, transaction, model) => {

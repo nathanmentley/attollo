@@ -1,9 +1,21 @@
+import { Dependencies } from 'constitute';
 import bcrypt from 'bcryptjs';
 
 import BaseService from '../BaseService';
 
+import ServiceContext from "../ServiceContext";
+
+@Dependencies(
+    ServiceContext
+)
 export default class UserService extends BaseService {
-	GetUsers(authContext){
+    constructor(
+        serviceContext
+    ) {
+        super(serviceContext);
+    }
+
+    GetUsers(authContext){
 		return this.Context.Handlers.User.GetUsers(authContext);
 	};
 	

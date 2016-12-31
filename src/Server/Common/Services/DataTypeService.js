@@ -2,16 +2,20 @@ import { Dependencies } from 'constitute';
 
 import BaseService from '../BaseService';
 
+import ServiceContext from "../ServiceContext";
+
 import PluginService from './PluginService';
 
 @Dependencies(
+    ServiceContext,
     PluginService
 )
 export default class DataTypeService extends BaseService {
     constructor(
+        serviceContext,
         pluginService
     ) {
-        super();
+        super(serviceContext);
 
         this._PluginService = pluginService;
     }

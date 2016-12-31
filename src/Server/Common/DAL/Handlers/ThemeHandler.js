@@ -1,6 +1,17 @@
+import { Dependencies } from 'constitute';
+
 import BaseHandler from '../BaseHandler';
+import HandlerContext from "../../HandlerContext";
+
+@Dependencies(
+    HandlerContext
+)
 export default class BlockHandler extends BaseHandler {
-	GetThemes(authContext){
+    constructor(handlerContext) {
+        super(handlerContext);
+    }
+
+    GetThemes(authContext){
 		return this.Context.DatabaseContext.Themes(authContext).fetch();
 	};
 	

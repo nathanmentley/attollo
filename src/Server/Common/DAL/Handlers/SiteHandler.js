@@ -1,9 +1,19 @@
+import { Dependencies } from 'constitute';
+
 import BaseHandler from '../BaseHandler';
+import HandlerContext from "../../HandlerContext";
 
 import SiteVersionType from '../Models/SiteVersion';
 
+@Dependencies(
+    HandlerContext
+)
 export default class BlockHandler extends BaseHandler {
-	GetSite(authContext, domain){
+    constructor(handlerContext) {
+        super(handlerContext);
+    }
+
+    GetSite(authContext, domain){
 		return this.Context.DatabaseContext.Sites(authContext, true)
 			.query({
 				where: {

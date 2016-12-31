@@ -1,7 +1,20 @@
+import { Dependencies } from 'constitute';
+
 import BaseService from '../BaseService';
 
+import ServiceContext from "../ServiceContext";
+
+@Dependencies(
+    ServiceContext
+)
 export default class DatabaseVersionService extends BaseService {
-	GetDatabaseVersions(authContext){
+    constructor(
+        serviceContext
+    ) {
+        super(serviceContext);
+    }
+
+    GetDatabaseVersions(authContext){
 		return this.Context.Handlers.DatabaseVersion.GetDatabaseVersions(authContext);
 	}
 	

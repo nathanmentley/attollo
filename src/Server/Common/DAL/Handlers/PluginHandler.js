@@ -1,6 +1,17 @@
+import { Dependencies } from 'constitute';
+
 import BaseHandler from '../BaseHandler';
+import HandlerContext from "../../HandlerContext";
+
+@Dependencies(
+    HandlerContext
+)
 export default class BlockHandler extends BaseHandler {
-	//PluginDefLogicDef
+    constructor(handlerContext) {
+        super(handlerContext);
+    }
+
+    //PluginDefLogicDef
 	
 	AddPluginDefLogicDef(authContext, transaction, model){
 		var PluginDefLogicDef = this.Context.DatabaseContext.PluginDefLogicDef(authContext);

@@ -1,6 +1,17 @@
+import { Dependencies } from 'constitute';
+
 import BaseHandler from '../BaseHandler';
+import HandlerContext from "../../HandlerContext";
+
+@Dependencies(
+    HandlerContext
+)
 export default class BlockHandler extends BaseHandler {
-	GetUsers(authContext){
+    constructor(handlerContext) {
+        super(handlerContext);
+    }
+
+    GetUsers(authContext){
 		return this.Context.DatabaseContext.Users(authContext).fetch();
 	};
 

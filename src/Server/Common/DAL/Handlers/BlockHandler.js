@@ -1,5 +1,16 @@
+import { Dependencies } from 'constitute';
+
 import BaseHandler from '../BaseHandler';
+import HandlerContext from "../../HandlerContext";
+
+@Dependencies(
+    HandlerContext
+)
 export default class BlockHandler extends BaseHandler {
+    constructor(handlerContext) {
+        super(handlerContext);
+    }
+
 	GetBlockDefs(authContext, pageDefId){
 		return this.Context.DatabaseContext.BlockDefs(authContext)
 			.query((qb) => {

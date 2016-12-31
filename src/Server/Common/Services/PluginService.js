@@ -3,14 +3,20 @@ import { Dependencies } from 'constitute';
 import { VM } from 'vm2';
 
 import BaseService from '../BaseService';
+
+import ServiceContext from "../ServiceContext";
 import PluginContext from '../PluginContext';
 
 @Dependencies(
+    ServiceContext,
     PluginContext
 )
 export default class PluginService extends BaseService {
-    constructor(pluginContext) {
-        super();
+    constructor(
+        serviceContext,
+		pluginContext
+	) {
+        super(serviceContext);
 
         this._PluginContext = pluginContext;
     }

@@ -1,7 +1,20 @@
+import { Dependencies } from 'constitute';
+
 import BaseService from '../BaseService';
 
+import ServiceContext from "../ServiceContext";
+
+@Dependencies(
+    ServiceContext
+)
 export default class CssService extends BaseService {
-	//CssRuleDefType
+    constructor(
+        serviceContext
+    ) {
+        super(serviceContext);
+    }
+
+    //CssRuleDefType
 	AddCssRuleDefType(authContext, name, code){
         return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.Css.AddCssRuleDefType(authContext, transaction, name, code)

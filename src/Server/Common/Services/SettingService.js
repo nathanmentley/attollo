@@ -1,7 +1,20 @@
+import { Dependencies } from 'constitute';
+
 import BaseService from '../BaseService';
 
+import ServiceContext from "../ServiceContext";
+
+@Dependencies(
+    ServiceContext
+)
 export default class SettingService extends BaseService {
-	GetSettingTypes(authContext){
+    constructor(
+        serviceContext
+    ) {
+        super(serviceContext);
+    }
+
+    GetSettingTypes(authContext){
 		return this.Context.Handlers.Setting.GetSettingTypes(authContext);
 	};
 

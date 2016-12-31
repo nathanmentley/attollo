@@ -2,16 +2,20 @@ import { Dependencies } from 'constitute';
 
 import BaseService from '../BaseService';
 
+import ServiceContext from "../ServiceContext";
+
 import MessageQueueService from './MessageQueueService';
 
 @Dependencies(
+    ServiceContext,
     MessageQueueService
 )
 export default class EmailService extends BaseService {
     constructor(
+        serviceContext,
         messageQueueService
     ) {
-        super();
+        super(serviceContext);
 
         this._MessageQueueService = messageQueueService;
     }

@@ -1,6 +1,19 @@
+import { Dependencies } from 'constitute';
+
 import BaseService from '../BaseService';
 
+import ServiceContext from "../ServiceContext";
+
+@Dependencies(
+    ServiceContext
+)
 export default class ClientService extends BaseService {
+    constructor(
+        serviceContext
+    ) {
+        super(serviceContext);
+    }
+
 	GetClients(authContext){
 		return this.Context.Handlers.Client.GetClients(authContext);
 	};

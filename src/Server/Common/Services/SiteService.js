@@ -2,16 +2,20 @@ import { Dependencies } from 'constitute';
 
 import BaseService from '../BaseService';
 
+import ServiceContext from "../ServiceContext";
+
 import ThemeService from './ThemeService';
 
 @Dependencies(
+    ServiceContext,
     ThemeService
 )
 export default class SiteService extends BaseService {
     constructor(
+        serviceContext,
         themeService
     ) {
-        super();
+        super(serviceContext);
 
         this._ThemeService = themeService;
     }

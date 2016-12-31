@@ -1,6 +1,17 @@
+import { Dependencies } from 'constitute';
+
 import BaseHandler from '../BaseHandler';
+import HandlerContext from "../../HandlerContext";
+
+@Dependencies(
+    HandlerContext
+)
 export default class BlockHandler extends BaseHandler {
-	//CssRuleDefType
+    constructor(handlerContext) {
+        super(handlerContext);
+    }
+
+    //CssRuleDefType
 
 	AddCssRuleDefType(authContext, transaction, name, code){
 		var CssRuleDefType = this.Context.DatabaseContext.CssRuleDefType(authContext);

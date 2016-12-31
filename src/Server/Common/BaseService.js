@@ -1,15 +1,9 @@
-import constitute from 'constitute';
-
-import ServiceContext from "./ServiceContext";
-
-var serviceContext = constitute(ServiceContext);
-
 export default class BaseService {
-	constructor() {
-
+	constructor(serviceContext) {
+		this._serviceContext = serviceContext;
 	}
 
 	get Context() {
-		return serviceContext;
+		return this._serviceContext;
 	}
 };

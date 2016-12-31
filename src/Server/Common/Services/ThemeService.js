@@ -2,19 +2,23 @@ import { Dependencies } from 'constitute';
 
 import BaseService from '../BaseService';
 
+import ServiceContext from "../ServiceContext";
+
 import CssService from './CssService';
 import PluginService from './PluginService';
 
 @Dependencies(
+    ServiceContext,
     CssService,
     PluginService
 )
 export default class ThemeService extends BaseService {
     constructor(
+        serviceContext,
         cssService,
         pluginService
     ) {
-        super();
+        super(serviceContext);
 
         this._CssService = cssService;
         this._PluginService = pluginService;

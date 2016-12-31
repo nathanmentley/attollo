@@ -1,6 +1,8 @@
 (function() {
     // Load plugins
     var gulp = require('gulp');
+    var mocha = require('gulp-mocha');
+    var babel = require('babel-core/register');
 
     require('./Client/ControlCenter/gulpfile.js')
     require('./Client/Runner/gulpfile.js');
@@ -15,8 +17,21 @@
     require('./Server/Web/StaticWebServer/gulpfile.js');
     require('./Platform/gulpfile.js');
 
+    // Test
+    gulp.task('test', () => {
+        gulp.src(["Tests/**/*.js"], {read: false})
+            .pipe(mocha({
+                reporter: 'spec',
+                compilers: {
+                    js: babel
+                }
+            }))
+    });
+
     // Build
     gulp.task('build', [
+        'test',
+
         'Platform:node_modules',
         'Platform:package',
         'ControlCenter:build',

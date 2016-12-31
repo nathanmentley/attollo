@@ -1,12 +1,12 @@
-import constitute from 'constitute';
+import { Dependencies } from 'constitute';
 
-import Attollo from "../../Common/Attollo";
 import LogUtils from '../../Common/Utils/LogUtils';
+import Attollo from "../../Common/Attollo";
 
-var attollo = constitute(Attollo);
+class ConfiguredDataTypeResolver {
+    constructor(attollo, dbContext) {
+        this._attollo = attollo;
 
-export default class DataTypeResolver {
-    constructor(dbContext) {
         this._dbContext = dbContext;
         this._data = {};
     }
@@ -19,7 +19,7 @@ export default class DataTypeResolver {
         }
 
         return new Promise((resolve, reject) => {
-            attollo.Services.DataType.GetDataTypes(self._dbContext, dataTypeDefID, filterName)
+            self._attollo.Services.DataType.GetDataTypes(self._dbContext, dataTypeDefID, filterName)
                 .then((dataTypes) => {
                     var result = dataTypes.toJSON();
 
@@ -36,5 +36,18 @@ export default class DataTypeResolver {
 
     GetResolvedData() {
         return this._data;
+    }
+}
+
+@Dependencies(
+    Attollo
+)
+export default class DataTypeResolver {
+    constructor(attollo) {
+        this._attollo = attollo;
+    }
+
+    Create(context) {
+        return new ConfiguredDataTypeResolver(this._attollo, context);
     }
 }

@@ -11,6 +11,10 @@ import BlockSettingDef from "./BlockSettingDef";
 var tableName = 'blockdef';
 
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

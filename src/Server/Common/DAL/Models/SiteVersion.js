@@ -8,6 +8,10 @@ import Client from "./Client";
 var tableName = 'siteversion';
 	
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

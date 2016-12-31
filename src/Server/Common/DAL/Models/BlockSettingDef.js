@@ -8,6 +8,10 @@ import SettingType from "./SettingType";
 var tableName = 'blocksettingdef';
 
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

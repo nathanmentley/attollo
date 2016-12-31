@@ -5,6 +5,10 @@ import Database from "../Core/Database";
 var tableName = 'plugindeflogictarget';
 	
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

@@ -7,6 +7,10 @@ import PermissionDef from "./PermissionDef";
 var tableName = 'adminpermission';
 	
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

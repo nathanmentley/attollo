@@ -11,6 +11,10 @@ import DataTypeField from "./DataTypeField";
 var tableName = 'datatype';
 	
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

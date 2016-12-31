@@ -6,6 +6,10 @@ var tableName = 'blockcontainerdef';
 	
 
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

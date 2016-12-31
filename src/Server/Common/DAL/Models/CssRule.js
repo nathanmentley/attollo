@@ -7,6 +7,10 @@ import CssRuleDef from "./CssRuleDef";
 var tableName = 'cssrule';
 	
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

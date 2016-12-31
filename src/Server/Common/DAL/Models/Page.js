@@ -10,6 +10,10 @@ import PageDef from "./PageDef";
 var tableName = 'page';
 	
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

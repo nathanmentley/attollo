@@ -9,6 +9,10 @@ import UserPermission from "./UserPermission";
 var tableName = 'admin';
 	
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

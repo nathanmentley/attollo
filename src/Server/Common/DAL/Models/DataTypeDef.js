@@ -8,6 +8,10 @@ import PluginDef from "./PluginDef";
 var tableName = 'datatypedef';
 	
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

@@ -7,6 +7,10 @@ import PluginDef from "./PluginDef";
 var tableName = 'pluginsettingdef';
 	
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

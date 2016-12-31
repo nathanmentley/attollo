@@ -7,6 +7,10 @@ import RolePermission from "./RolePermission";
 var tableName = 'role';
 	
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

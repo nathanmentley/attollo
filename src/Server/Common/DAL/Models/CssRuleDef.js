@@ -8,6 +8,10 @@ import CssRuleDefGroup from "./CssRuleDefGroup";
 var tableName = 'cssruledef';
 
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

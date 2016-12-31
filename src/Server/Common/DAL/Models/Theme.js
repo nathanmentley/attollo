@@ -7,6 +7,10 @@ import ThemeCssRule from "./ThemeCssRule";
 var tableName = 'theme';
 	
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

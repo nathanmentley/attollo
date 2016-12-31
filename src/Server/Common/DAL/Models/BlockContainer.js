@@ -12,6 +12,10 @@ import Block from "./Block";
 import BlockContainerArea from "./BlockContainerArea";
 
 class BlockContainer extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return 'blockcontainer';
     }

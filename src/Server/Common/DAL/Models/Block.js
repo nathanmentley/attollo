@@ -15,6 +15,10 @@ import BlockTemplateDef from "./BlockTemplateDef";
 import BlockSetting from "./BlockSetting";
 
 class Block extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return 'block';
     }

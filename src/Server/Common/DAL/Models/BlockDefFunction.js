@@ -7,6 +7,10 @@ import BlockDef from "./BlockDef";
 var tableName = 'blockdeffunction';
 
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

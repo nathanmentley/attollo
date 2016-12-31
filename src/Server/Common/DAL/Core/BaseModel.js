@@ -3,6 +3,21 @@ import Database from "../Core/Database";
 import ModelEvents from "../Core/ModelEvents";
 	
 export default class BaseModel {
+    constructor() {
+        this.PrimaryKey = this.PrimaryKey.bind(this);
+        this.ForeignKeys = this.ForeignKeys.bind(this);
+
+        this.TableName = this.TableName.bind(this);
+
+        this.Filter = this.Filter.bind(this);
+
+        this.Relations = this.Relations.bind(this);
+        this.HiddenFields = this.HiddenFields.bind(this);
+
+        this.Collection = this.Collection.bind(this);
+        this.Model = this.Model.bind(this);
+    }
+
     PrimaryKey() {
         //TODO: pull this from model?
         return this.tableName() + 'id';
@@ -31,18 +46,19 @@ export default class BaseModel {
     }
 
 	Model(authContext, skipFilter) {
-        var filter = this.Filter();
         var tableName = this.TableName();
+        var filter = this.Filter;
 
         var model = this.Relations(authContext, skipFilter);
         var relationNames = [];
-        model.keys.forEach((key) => {
+
+        Object.keys(model).forEach((key) => {
             relationNames.push(key);
         });
 
         model.tableName = this.TableName();
         model.hidden = this.HiddenFields();
-        model.constructor = () => {
+        model.constructor = function() {
             Database.Bookshelf.Model.apply(this, arguments);
             this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
             this.on("fetched", Auid.Fetched(authContext, filter, skipFilter));
@@ -58,11 +74,11 @@ export default class BaseModel {
     }
 
 	Collection(authContext, skipFilter) {
-        var filter = this.Filter();
+        var filter = this.Filter;
         var tableName = this.TableName();
         var relations = this.Relations(authContext, skipFilter);
         var relationNames = [];
-        relations.keys.forEach((key) => {
+        Object.keys(relations).forEach((key) => {
             relationNames.push(key);
         });
 

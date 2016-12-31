@@ -14,6 +14,10 @@ import BlockSettingDef from "./BlockSettingDef";
 var tableName = 'blocksetting';
 
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

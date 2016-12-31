@@ -1,13 +1,13 @@
-import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
-import Database from "../Core/Database";
-
-var tableName = 'databaseversion';
 	
-class ModelClass extends BaseModel {
+class DatabaseVersion extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
-        return tableName;
+        return 'databaseversion';
     }
 }
 
-export default new ModelClass();
+export default new DatabaseVersion();

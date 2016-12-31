@@ -1,6 +1,10 @@
 import BaseModel from "../Core/BaseModel";
 
 class PageDef extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return 'pagedef';
     }

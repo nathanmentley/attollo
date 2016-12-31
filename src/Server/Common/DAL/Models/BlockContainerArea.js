@@ -14,6 +14,10 @@ import Block from "./Block";
 var tableName = 'blockcontainerarea';
 
 class BlockContainerArea extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

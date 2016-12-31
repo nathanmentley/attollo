@@ -9,6 +9,10 @@ import PluginDefLogicTarget from "./PluginDefLogicTarget";
 var tableName = 'plugindeflogic';
 	
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

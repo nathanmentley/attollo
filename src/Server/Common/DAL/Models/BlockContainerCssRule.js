@@ -7,6 +7,10 @@ import CssRule from "./CssRule";
 var tableName = 'blockcontainercssrule';
 
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

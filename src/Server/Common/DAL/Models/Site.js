@@ -8,6 +8,10 @@ import Theme from "./Theme";
 var tableName = 'site';
 	
 class ModelClass extends BaseModel {
+    constructor() {
+        super();
+    }
+
     TableName() {
         return tableName;
     }

@@ -1,7 +1,8 @@
 import Auid from "../Core/Auid";
-import Database from "../Core/Database";
 import ModelEvents from "../Core/ModelEvents";
-	
+
+import Database from "../Core/Database";
+
 export default class BaseModel {
     constructor() {
         this.PrimaryKey = this.PrimaryKey.bind(this);
@@ -16,7 +17,6 @@ export default class BaseModel {
     }
 
     PrimaryKey() {
-        //TODO: pull this from model?
         return this.TableName + 'id';
     };
 
@@ -31,7 +31,41 @@ export default class BaseModel {
     }
 
     Relations(authContext, skipFilter) {
-        return {};
+        var ret = {};
+
+        if(this.BelongsTo) {
+            this.BelongsTo.forEach((belongs) => {
+                ret[belongs.Name] = function() {
+                    var belong = this.belongsTo(belongs.Type.Model(authContext, skipFilter), belongs.Field);
+
+                    if(belongs.Through) {
+                        belongs.Through.forEach((through) => {
+                            belong.through(through.Type.Model(authContext, skipFilter), through.Field);
+                        });
+                    }
+
+                    return belong;
+                };
+            });
+        }
+
+        if(this.HasMany) {
+            this.HasMany.forEach((hasManys) => {
+                ret[hasManys.Name] = function() {
+                    var hasMany = this.hasMany(hasManys.Type.Model(authContext, skipFilter), hasManys.Field);
+
+                    if (hasManys.Through) {
+                        hasManys.Through.forEach((through) => {
+                            hasMany.through(through.Type.Model(authContext, skipFilter), through.Field);
+                        });
+                    }
+
+                    return hasMany;
+                }
+            });
+        }
+
+        return ret;
     }
 
 	Model(authContext, skipFilter) {

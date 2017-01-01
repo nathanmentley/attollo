@@ -1,4 +1,6 @@
 import TableName from "../Core/Decorators/TableName";
+import BelongsTo from "../Core/Decorators/BelongsTo";
+import HasMany from "../Core/Decorators/HasMany";
 
 import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
@@ -14,6 +16,23 @@ import BlockContainerAreaDef from "./BlockContainerAreaDef";
 import Block from "./Block";
 
 @TableName('blockcontainerarea')
+@BelongsTo('BlockContainer', BlockContainer, "BlockContainerID")
+@BelongsTo('BlockContainerAreaDef', BlockContainerAreaDef, "BlockContainerAreaDefID")
+@BelongsTo('Page', Page, "PageID", [
+    { Type: BlockContainer, Field: 'BlockContainerID' }
+])
+@BelongsTo('Site', Site, "SiteID", [
+    { Type: SiteVersion, Field: 'SiteVersionID' },
+    { Type: Page, Field: 'PageID' },
+    { Type: BlockContainer, Field: 'BlockContainerID' }
+])
+@BelongsTo('Client', Client, "ClientID", [
+    { Type: Site, Field: 'SiteID' },
+    { Type: SiteVersion, Field: 'SiteVersionID' },
+    { Type: Page, Field: 'PageID' },
+    { Type: BlockContainer, Field: 'BlockContainerID' }
+])
+@HasMany('Blocks', Block, "blockcontainerareaid")
 class BlockContainerArea extends BaseModel {
     constructor() {
         super();
@@ -49,37 +68,6 @@ class BlockContainerArea extends BaseModel {
 				'(' + subQuery + ' where blockcontainer.id = blockcontainerarea.blockcontainerid) = ' + Auid.Decode(authContext.SiteVersionID)
 			);
 		}
-    }
-
-    Relations(authContext, skipFilter) {
-        return {
-			BlockContainer: function() {
-				return this.belongsTo(BlockContainer.Model(authContext, skipFilter), 'blockcontainerid');
-			},
-			Page: function() {
-				return this.belongsTo(Page.Model(authContext, skipFilter), 'pageid')
-							.through(BlockContainer.Model(authContext, skipFilter), 'blockcontainerid');
-			},
-			Site: function() {
-				return this.belongsTo(Site.Model(authContext, skipFilter), 'siteid')
-							.through(SiteVersion.Model(authContext, skipFilter), 'siteversionid')
-							.through(Page.Model(authContext, skipFilter), 'pageid')
-							.through(BlockContainer.Model(authContext, skipFilter), 'blockcontainerid');
-			},
-			Client: function() {
-				return this.belongsTo(Client.Model(authContext, skipFilter), 'clientid')
-							.through(Site.Model(authContext, skipFilter), 'siteid')
-							.through(SiteVersion.Model(authContext, skipFilter), 'siteversionid')
-							.through(Page.Model(authContext, skipFilter), 'pageid')
-							.through(BlockContainer.Model(authContext, skipFilter), 'blockcontainerid');
-			},
-			BlockContainerAreaDef: function() {
-				return this.belongsTo(BlockContainerAreaDef.Model(authContext, skipFilter), 'blockcontainerareadefid');
-			},
-			Blocks: function() {
-				return this.hasMany(Block.Model(authContext, skipFilter), 'blockcontainerareaid');
-			}
-		};
     }
 }
 

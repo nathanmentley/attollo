@@ -1,4 +1,5 @@
 import TableName from "../Core/Decorators/TableName";
+import BelongsTo from "../Core/Decorators/BelongsTo";
 
 import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
@@ -13,8 +14,37 @@ import BlockContainerArea from "./BlockContainerArea";
 import Block from "./Block";
 import BlockSettingDef from "./BlockSettingDef";
 
-@TableName('blocksetting')
-class ModelClass extends BaseModel {
+@TableName('BlockSetting')
+@BelongsTo('Block', Block, "BlockID")
+@BelongsTo('BlockSettingDef', BlockSettingDef, "BlockSettingDefID")
+@BelongsTo('BlockContainerArea', BlockContainerArea, "BlockContainerAreaID", [
+    { Type: Block, Field: 'BlockID' }
+])
+@BelongsTo('BlockContainer', BlockContainer, "BlockContainerID", [
+    { Type: BlockContainerArea, Field: 'BlockContainerAreaID' },
+    { Type: Block, Field: 'BlockID' }
+])
+@BelongsTo('Page', Page, "PageID", [
+    { Type: BlockContainer, Field: 'BlockContainerID' },
+    { Type: BlockContainerArea, Field: 'BlockContainerAreaID' },
+    { Type: Block, Field: 'BlockID' }
+])
+@BelongsTo('Site', Site, "SiteID", [
+    { Type: SiteVersion, Field: 'SiteVersionID' },
+    { Type: Page, Field: 'PageID' },
+    { Type: BlockContainer, Field: 'BlockContainerID' },
+    { Type: BlockContainerArea, Field: 'BlockContainerAreaID' },
+    { Type: Block, Field: 'BlockID' }
+])
+@BelongsTo('Client', Client, "ClientID", [
+    { Type: Site, Field: 'SiteID' },
+    { Type: SiteVersion, Field: 'SiteVersionID' },
+    { Type: Page, Field: 'PageID' },
+    { Type: BlockContainer, Field: 'BlockContainerID' },
+    { Type: BlockContainerArea, Field: 'BlockContainerAreaID' },
+    { Type: Block, Field: 'BlockID' }
+])
+class BlockSetting extends BaseModel {
     constructor() {
         super();
     }
@@ -56,49 +86,6 @@ class ModelClass extends BaseModel {
 			);
 		}
     }
-
-    Relations(authContext, skipFilter) {
-        return {
-			Block: function() {
-				return this.belongsTo(Block.Model(authContext, skipFilter), 'blockid');
-			},
-			BlockContainerArea: function() {
-				return this.belongsTo(BlockContainerArea.Model(authContext, skipFilter), 'blockcontainerareaid')
-							.through(Block.Model(authContext, skipFilter), 'blockid');
-			},
-			BlockContainer: function() {
-				return this.belongsTo(BlockContainer.Model(authContext, skipFilter), 'blockcontainerid')
-							.through(BlockContainerArea.Model(authContext, skipFilter), 'blockcontainerareaid')
-							.through(Block.Model(authContext, skipFilter), 'blockid');
-			},
-			Page: function() {
-				return this.belongsTo(Page.Model(authContext, skipFilter), 'pageid')
-							.through(BlockContainer.Model(authContext, skipFilter), 'blockcontainerid')
-							.through(BlockContainerArea.Model(authContext, skipFilter), 'blockcontainerareaid')
-							.through(Block.Model(authContext, skipFilter), 'blockid');
-			},
-			Site: function() {
-				return this.belongsTo(Site.Model(authContext, skipFilter), 'siteid')
-							.through(SiteVersion.Model(authContext, skipFilter), 'siteversionid')
-							.through(Page.Model(authContext, skipFilter), 'pageid')
-							.through(BlockContainer.Model(authContext, skipFilter), 'blockcontainerid')
-							.through(BlockContainerArea.Model(authContext, skipFilter), 'blockcontainerareaid')
-							.through(Block.Model(authContext, skipFilter), 'blockid');
-			},
-			Client: function() {
-				return this.belongsTo(Client.Model(authContext, skipFilter), 'clientid')
-							.through(Site.Model(authContext, skipFilter), 'siteid')
-							.through(SiteVersion.Model(authContext, skipFilter), 'siteversionid')
-							.through(Page.Model(authContext, skipFilter), 'pageid')
-							.through(BlockContainer.Model(authContext, skipFilter), 'blockcontainerid')
-							.through(BlockContainerArea.Model(authContext, skipFilter), 'blockcontainerareaid')
-							.through(Block.Model(authContext, skipFilter), 'blockid');
-			},
-			BlockSettingDef: function() {
-				return this.belongsTo(BlockSettingDef.Model(authContext, skipFilter), 'blocksettingdefid');
-			}
-		};
-    }
 }
 
-export default new ModelClass();
+export default new BlockSetting();

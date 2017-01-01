@@ -1,4 +1,5 @@
 import TableName from "../Core/Decorators/TableName";
+import BelongsTo from "../Core/Decorators/BelongsTo";
 
 import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
@@ -7,8 +8,10 @@ import Database from "../Core/Database";
 import Plugin from "./Plugin";
 import PluginSettingDef from "./PluginSettingDef";
 
-@TableName('pluginsetting')
-class ModelClass extends BaseModel {
+@TableName('PluginSetting')
+@BelongsTo('Plugin', Plugin, "PluginID")
+@BelongsTo('PluginSettingDef', PluginSettingDef, "PluginSettingDefID")
+class PluginSetting extends BaseModel {
     constructor() {
         super();
     }
@@ -22,17 +25,6 @@ class ModelClass extends BaseModel {
 			);
 		}
     }
-
-    Relations(authContext, skipFilter) {
-        return {
-			Plugin: function() {
-				return this.belongsTo(Plugin.Model(authContext, skipFilter), 'pluginid');
-			},
-			PluginSettingDef: function() {
-				return this.belongsTo(PluginSettingDef.Model(authContext, skipFilter), 'pluginsettingdefid');
-			}
-		};
-    }
 }
 
-export default new ModelClass();
+export default new PluginSetting();

@@ -1,12 +1,15 @@
 import TableName from "../Core/Decorators/TableName";
+import BelongsTo from "../Core/Decorators/BelongsTo";
 
 import BaseModel from "../Core/BaseModel";
 
 import Client from "./Client";
 import Theme from "./Theme";
 
-@TableName('site')
-class ModelClass extends BaseModel {
+@TableName('Site')
+@BelongsTo('Client', Client, "ClientID")
+@BelongsTo('Theme', Theme, "ThemeID")
+class Site extends BaseModel {
     constructor() {
         super();
     }
@@ -21,17 +24,6 @@ class ModelClass extends BaseModel {
 		}
 		
     }
-
-    Relations(authContext, skipFilter) {
-        return {
-			Client: function() {
-				return this.belongsTo(Client.Model(authContext, skipFilter), 'clientid');
-			},
-			Theme: function() {
-				return this.belongsTo(Theme.Model(authContext, skipFilter), 'themeid');
-			}
-		};
-    }
 }
 
-export default new ModelClass();
+export default new Site();

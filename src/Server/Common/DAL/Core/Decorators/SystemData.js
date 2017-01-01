@@ -1,5 +1,5 @@
 export default function() {
     return function (target) {
-        target.IsSystemData = true;
+        target.prototype.IsSystemData = true;
     }
 };

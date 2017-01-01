@@ -1,4 +1,6 @@
 import TableName from "../Core/Decorators/TableName";
+import BelongsTo from "../Core/Decorators/BelongsTo";
+import HasMany from "../Core/Decorators/HasMany";
 
 import BaseModel from "../Core/BaseModel";
 
@@ -6,7 +8,9 @@ import DataTypeDef from "./DataTypeDef";
 import DataTypeField from "./DataTypeField";
 
 @TableName('datatype')
-class ModelClass extends BaseModel {
+@BelongsTo('DataTypeDef', DataTypeDef, "DataTypeDefID")
+@HasMany('DataTypeFields', DataTypeField, "DataTypeID")
+class DataType extends BaseModel {
     constructor() {
         super();
     }
@@ -16,17 +20,6 @@ class ModelClass extends BaseModel {
 			query.where('clientid', '=', authContext.ClientID);
 		}
     }
-
-    Relations(authContext, skipFilter) {
-        return {
-			DataTypeDef: function() {
-				return this.belongsTo(DataTypeDef.Model(authContext, skipFilter), 'datatypedefid');
-			},
-			DataTypeFields: function () {
-				return this.hasMany(DataTypeField.Model(authContext, skipFilter), 'datatypeid');
-			}
-		};
-    }
 }
 
-export default new ModelClass();
+export default new DataType();

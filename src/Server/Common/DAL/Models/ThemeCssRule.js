@@ -1,22 +1,16 @@
 import TableName from "../Core/Decorators/TableName";
+import BelongsTo from "../Core/Decorators/BelongsTo";
 
 import BaseModel from "../Core/BaseModel";
 
 import CssRule from "./CssRule";
 
-@TableName('themecssrule')
-class ModelClass extends BaseModel {
+@TableName('ThemeCssRule')
+@BelongsTo('CssRule', CssRule, "CssRuleID")
+class ThemeCssRule extends BaseModel {
     constructor() {
         super();
     }
-
-    Relations(authContext, skipFilter) {
-        return {
-			CssRule: function() {
-				return this.belongsTo(CssRule.Model(authContext, skipFilter), 'cssruleid');
-			}
-		};
-    }
 }
 
-export default new ModelClass();
+export default new ThemeCssRule();

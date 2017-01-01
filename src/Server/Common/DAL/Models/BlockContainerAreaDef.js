@@ -1,8 +1,9 @@
 import TableName from "../Core/Decorators/TableName";
-import DefTable from "../Core/Decorators/DefTable";
+import SystemData from "../Core/Decorators/SystemData";
 
 import BaseModel from "../Core/BaseModel";
 
+@SystemData()
 @TableName('blockcontainerareadef')
 class ModelClass extends BaseModel {
     constructor() {

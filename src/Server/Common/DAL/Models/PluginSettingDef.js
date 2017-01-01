@@ -1,22 +1,16 @@
 import TableName from "../Core/Decorators/TableName";
+import BelongsTo from "../Core/Decorators/BelongsTo";
 
 import BaseModel from "../Core/BaseModel";
 
 import PluginDef from "./PluginDef";
 
-@TableName('pluginsettingdef')
-class ModelClass extends BaseModel {
+@TableName('PluginSettingDef')
+@BelongsTo('PluginDef', PluginDef, "PluginDefID")
+class PluginSettingDef extends BaseModel {
     constructor() {
         super();
     }
-
-    Relations(authContext, skipFilter) {
-        return {
-			PluginDef: function() {
-				return this.belongsTo(PluginDef.Model(authContext, skipFilter), 'plugindefid');
-			}
-		};
-    }
 }
 
-export default new ModelClass();
+export default new PluginSettingDef();

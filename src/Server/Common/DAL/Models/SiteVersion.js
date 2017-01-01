@@ -1,4 +1,5 @@
 import TableName from "../Core/Decorators/TableName";
+import BelongsTo from "../Core/Decorators/BelongsTo";
 
 import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
@@ -7,8 +8,12 @@ import Database from "../Core/Database";
 import Site from "./Site";
 import Client from "./Client";
 
-@TableName('siteversion')
-class ModelClass extends BaseModel {
+@TableName('SiteVersion')
+@BelongsTo('Site', Site, "SiteID")
+@BelongsTo('Client', Client, "ClientID", [
+    { Type: Site, Field: 'SiteID' }
+])
+class SiteVersion extends BaseModel {
     constructor() {
         super();
     }
@@ -34,18 +39,6 @@ class ModelClass extends BaseModel {
 			query.where('id', '=', authContext.SiteVersionID);
 		}
     }
-
-    Relations(authContext, skipFilter) {
-        return {
-			Site: function() {
-				return this.belongsTo(Site.Model(authContext, skipFilter), 'siteid');
-			},
-			Client: function() {
-				return this.belongsTo(Client.Model(authContext, skipFilter), 'clientid')
-							.through(Site.Model(authContext, skipFilter), 'siteid');
-			}
-		};
-    }
 }
 
-export default new ModelClass();
+export default new SiteVersion();

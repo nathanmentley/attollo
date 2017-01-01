@@ -1,4 +1,5 @@
 import TableName from "../Core/Decorators/TableName";
+import BelongsTo from "../Core/Decorators/BelongsTo";
 
 import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
@@ -9,8 +10,17 @@ import Site from "./Site";
 import Client from "./Client";
 import PageDef from "./PageDef";
 
-@TableName('page')
-class ModelClass extends BaseModel {
+@TableName('Page')
+@BelongsTo('SiteVersion', SiteVersion, "SiteVersionID")
+@BelongsTo('PageDef', PageDef, "PageDefID")
+@BelongsTo('Site', Site, "SiteID", [
+    { Type: SiteVersion, Field: 'SiteVersionID' }
+])
+@BelongsTo('Client', Client, "ClientID", [
+    { Type: Site, Field: 'SiteID' },
+    { Type: SiteVersion, Field: 'SiteVersionID' }
+])
+class Page extends BaseModel {
     constructor() {
         super();
     }
@@ -37,26 +47,6 @@ class ModelClass extends BaseModel {
 			query.where('siteversionid', '=', authContext.SiteVersionID);
 		}
     }
-
-    Relations(authContext, skipFilter) {
-        return {
-			SiteVersion: function() {
-				return this.belongsTo(SiteVersion.Model(authContext, skipFilter), 'siteversionid');
-			},
-			Site: function() {
-				return this.belongsTo(Site.Model(authContext, skipFilter), 'siteid')
-							.through(SiteVersion.Model(authContext, skipFilter), 'siteversionid');
-			},
-			Client: function() {
-				return this.belongsTo(Client.Model(authContext, skipFilter), 'clientid')
-							.through(Site.Model(authContext, skipFilter), 'siteid')
-							.through(SiteVersion.Model(authContext, skipFilter), 'siteversionid');
-			},
-			PageDef: function() {
-				return this.belongsTo(PageDef.Model(authContext, skipFilter), 'pagedefid');
-			}
-		};
-    }
 }
 
-export default new ModelClass();
+export default new Page();

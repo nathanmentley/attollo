@@ -1,4 +1,5 @@
 import TableName from "../Core/Decorators/TableName";
+import BelongsTo from "../Core/Decorators/BelongsTo";
 
 import BaseModel from "../Core/BaseModel";
 
@@ -6,20 +7,11 @@ import DataTypeDef from "./DataTypeDef";
 import DataTypeFieldType from "./DataTypeFieldType";
 
 @TableName('datatypefielddef')
+@BelongsTo('DataTypeDef', DataTypeDef, "DataTypeDefID")
+@BelongsTo('DataTypeFieldType', DataTypeFieldType, "DataTypeFieldTypeID")
 class ModelClass extends BaseModel {
     constructor() {
         super();
-    }
-
-    Relations(authContext, skipFilter) {
-        return {
-			DataTypeDef: function() {
-				return this.belongsTo(DataTypeDef.Model(authContext, skipFilter), 'datatypedefid');
-			},
-			DataTypeFieldType: function() {
-				return this.belongsTo(DataTypeFieldType(authContext, skipFilter), 'datatypefieldtypeid');
-			}
-		};
     }
 }
 

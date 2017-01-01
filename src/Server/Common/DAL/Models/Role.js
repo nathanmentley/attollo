@@ -1,22 +1,18 @@
 import TableName from "../Core/Decorators/TableName";
+import HasMany from "../Core/Decorators/HasMany";
+import SystemData from "../Core/Decorators/SystemData";
 
 import BaseModel from "../Core/BaseModel";
 
 import RolePermission from "./RolePermission";
 
-@TableName('role')
-class ModelClass extends BaseModel {
+@SystemData()
+@TableName('Role')
+@HasMany('RolePermissions', RolePermission, "RoleID")
+class Role extends BaseModel {
     constructor() {
         super();
     }
-
-    Relations(authContext, skipFilter) {
-        return {
-			RolePermisions: function() {
-				return this.hasMany(RolePermission.Model(authContext, skipFilter), 'roleid');
-			}
-		};
-    }
 }
 
-export default new ModelClass();
+export default new Role();

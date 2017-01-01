@@ -1,11 +1,13 @@
 import TableName from "../Core/Decorators/TableName";
+import HasMany from "../Core/Decorators/HasMany";
 
 import BaseModel from "../Core/BaseModel";
 
 import ThemeCssRule from "./ThemeCssRule";
 
-@TableName('theme')
-class ModelClass extends BaseModel {
+@TableName('Theme')
+@HasMany('ThemeCssRules', ThemeCssRule, "ThemeID")
+class Theme extends BaseModel {
     constructor() {
         super();
     }
@@ -15,14 +17,6 @@ class ModelClass extends BaseModel {
 			query.where('plugindefid', 'in', authContext.PluginDefIds);
 		}
     }
-
-    Relations(authContext, skipFilter) {
-        return {
-			ThemeCssRules: function() {
-				return this.hasMany(ThemeCssRule.Model(authContext, skipFilter), 'themeid');
-			}
-		};
-    }
 }
 
-export default new ModelClass();
+export default new Theme();

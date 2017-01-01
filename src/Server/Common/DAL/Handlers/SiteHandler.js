@@ -106,31 +106,17 @@ export default class BlockHandler extends BaseHandler {
 		return siteVersion.save(null, { transacting: transaction });
 	};
 
+    ExportSiteVersion(authContext, siteVersionId) {
+        return this.ExportModel(SiteVersionType)(authContext, siteVersionId);
+    }
+
+    ImportSiteVersion(authContext, transaction, siteVersion) {
+        return this.ImportModel(SiteVersionType)(authContext, transaction, siteVersion);
+    }
+
 	CloneSiteVersion(authContext, transaction, siteVersionId) {
-		var self = this;
-
-		return new Proimse((resolve, reject) => {
-			self.Context.DatabaseContext.SiteVersions(authContext)
-				.query({
-					where: {
-						siteversionid: siteVersionId
-					}
-				}).fetch()
-					.then((siteVersion) => {
-						self.CloneModel(SiteVersionType)(authContext, transaction, siteVersion)
-							.then((result) => {
-								resolve(result);
-							})
-							.reject((err) => {
-								reject(err);
-							});
-					})
-					.catch((err) => {
-						reject(err);
-					});
-		});
+		return this.CloneModel(SiteVersionType)(authContext, transaction, siteVersionId);
 	}
-
 
 	GetSiteVersionStatus(authContext, code){
 		return this.Context.DatabaseContext.SiteVersionStatuses(authContext)

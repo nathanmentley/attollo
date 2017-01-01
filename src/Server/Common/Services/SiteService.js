@@ -100,6 +100,32 @@ export default class SiteService extends BaseService {
 
 	//SiteVersionStatus
 
+    ExportSiteVersion(authContext, id) {
+        return this.Context.Handlers.Site.ExportSiteVersion(authContext, id);
+    };
+
+    ImportSiteVersion(authContext, data) {
+        return this.Context.DBTransaction((transaction) => {
+            this.Context.Handlers.Site.ImportSiteVersion(authContext, transaction, data)
+                .then((result) => {
+                    transaction.commit(result);
+                }).catch((err) => {
+                transaction.rollback(err);
+            });
+        });
+    };
+
+    CloneSiteVersion(authContext, id) {
+        return this.Context.DBTransaction((transaction) => {
+            this.Context.Handlers.Site.CloneSiteVersion(authContext, transaction, id)
+                .then((result) => {
+                    transaction.commit(result);
+                }).catch((err) => {
+                transaction.rollback(err);
+            });
+        });
+    };
+
 	GetSiteVersionStatus(authContext, code){
 		return this.Context.Handlers.Site.GetSiteVersionStatus(authContext, code);
 	};

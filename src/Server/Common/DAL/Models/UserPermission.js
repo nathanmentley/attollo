@@ -1,14 +1,13 @@
+import TableName from "../Core/Decorators/TableName";
+
 import BaseModel from "../Core/BaseModel";
 
 import PermissionDef from "./PermissionDef";
-	
+
+@TableName('adminpermission')
 class ModelClass extends BaseModel {
     constructor() {
         super();
-    }
-
-    TableName() {
-        return 'adminpermission';
     }
 
     Relations(authContext, skipFilter) {

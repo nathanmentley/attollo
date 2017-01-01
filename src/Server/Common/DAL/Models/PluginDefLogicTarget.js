@@ -1,16 +1,11 @@
-import Auid from "../Core/Auid";
-import BaseModel from "../Core/BaseModel";
-import Database from "../Core/Database";
+import TableName from "../Core/Decorators/TableName";
 
-var tableName = 'plugindeflogictarget';
-	
+import BaseModel from "../Core/BaseModel";
+
+@TableName('plugindeflogictarget')
 class ModelClass extends BaseModel {
     constructor() {
         super();
-    }
-
-    TableName() {
-        return tableName;
     }
 }
 

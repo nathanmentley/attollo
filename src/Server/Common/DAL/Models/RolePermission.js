@@ -1,18 +1,13 @@
-import Auid from "../Core/Auid";
+import TableName from "../Core/Decorators/TableName";
+
 import BaseModel from "../Core/BaseModel";
-import Database from "../Core/Database";
 
 import PermissionDef from "./PermissionDef";
 
-var tableName = 'rolepermission';
-	
+@TableName('rolepermission')
 class ModelClass extends BaseModel {
     constructor() {
         super();
-    }
-
-    TableName() {
-        return tableName;
     }
 
     Relations(authContext, skipFilter) {

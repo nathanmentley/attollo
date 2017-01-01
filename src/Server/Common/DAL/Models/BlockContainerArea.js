@@ -1,3 +1,5 @@
+import TableName from "../Core/Decorators/TableName";
+
 import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
 import Database from "../Core/Database";
@@ -11,15 +13,10 @@ import BlockContainerAreaDef from "./BlockContainerAreaDef";
 
 import Block from "./Block";
 
-var tableName = 'blockcontainerarea';
-
+@TableName('blockcontainerarea')
 class BlockContainerArea extends BaseModel {
     constructor() {
         super();
-    }
-
-    TableName() {
-        return tableName;
     }
 
     Filter(authContext, query) {

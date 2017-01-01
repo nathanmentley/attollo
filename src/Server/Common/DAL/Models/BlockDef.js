@@ -1,6 +1,6 @@
-import Auid from "../Core/Auid";
-import BaseModel from "../Core/BaseModel";
-import Database from "../Core/Database";
+import TableName from "../Core/Decorators/TableName";
+
+import BaseModel from "../Core/BaseModel"
 
 import PageDef from "./PageDef";
 
@@ -8,15 +8,10 @@ import BlockDefDataRequest from "./BlockDefDataRequest";
 import BlockDefFunction from "./BlockDefFunction";
 import BlockSettingDef from "./BlockSettingDef";
 
-var tableName = 'blockdef';
-
+@TableName('blockdef')
 class ModelClass extends BaseModel {
     constructor() {
         super();
-    }
-
-    TableName() {
-        return tableName;
     }
 
     Filter(authContext, query) {

@@ -1,20 +1,15 @@
-import Auid from "../Core/Auid";
+import TableName from "../Core/Decorators/TableName";
+
 import BaseModel from "../Core/BaseModel";
-import Database from "../Core/Database";
 
 import CssRule from "./CssRule";
 
-var tableName = 'themecssrule';
-	
+@TableName('themecssrule')
 class ModelClass extends BaseModel {
     constructor() {
         super();
     }
 
-    TableName() {
-        return tableName;
-    }
-    
     Relations(authContext, skipFilter) {
         return {
 			CssRule: function() {

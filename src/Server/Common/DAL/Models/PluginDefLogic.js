@@ -1,22 +1,17 @@
-import Auid from "../Core/Auid";
+import TableName from "../Core/Decorators/TableName";
+
 import BaseModel from "../Core/BaseModel";
-import Database from "../Core/Database";
 
 import PluginDef from "./PluginDef";
 import PluginDefLogicDef from "./PluginDefLogicDef";
 import PluginDefLogicTarget from "./PluginDefLogicTarget";
 
-var tableName = 'plugindeflogic';
-	
+@TableName('plugindeflogic')
 class ModelClass extends BaseModel {
     constructor() {
         super();
     }
 
-    TableName() {
-        return tableName;
-    }
-	
     Relations(authContext, skipFilter) {
         return {
 			PluginDef: function() {

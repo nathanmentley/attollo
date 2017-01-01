@@ -1,17 +1,12 @@
-import Auid from "../Core/Auid";
+import TableName from "../Core/Decorators/TableName";
+import DefTable from "../Core/Decorators/DefTable";
+
 import BaseModel from "../Core/BaseModel";
-import Database from "../Core/Database";
 
-var tableName = 'blockcontainerdef';
-	
-
+@TableName('blockcontainerdef')
 class ModelClass extends BaseModel {
     constructor() {
         super();
-    }
-
-    TableName() {
-        return tableName;
     }
 }
 

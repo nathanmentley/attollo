@@ -1,3 +1,5 @@
+import TableName from "../Core/Decorators/TableName";
+
 import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
 import Database from "../Core/Database";
@@ -7,15 +9,10 @@ import Site from "./Site";
 import Client from "./Client";
 import PageDef from "./PageDef";
 
-var tableName = 'page';
-	
+@TableName('page')
 class ModelClass extends BaseModel {
     constructor() {
         super();
-    }
-
-    TableName() {
-        return tableName;
     }
 
     Filter(authContext, query) {

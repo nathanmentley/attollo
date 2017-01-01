@@ -1,16 +1,11 @@
-import Auid from "../Core/Auid";
-import BaseModel from "../Core/BaseModel";
-import Database from "../Core/Database";
+import TableName from "../Core/Decorators/TableName";
 
-var tableName = 'cssruledeftype';
-	
+import BaseModel from "../Core/BaseModel";
+
+@TableName('cssruledeftype')
 class ModelClass extends BaseModel {
     constructor() {
         super();
-    }
-
-    TableName() {
-        return tableName;
     }
 }
 

@@ -1,22 +1,14 @@
-import Auid from "../Core/Auid";
+import TableName from "../Core/Decorators/TableName";
+
 import BaseModel from "../Core/BaseModel";
-import Database from "../Core/Database";
 
 import DataTypeDef from "./DataTypeDef";
-
-
-
 import DataTypeField from "./DataTypeField";
 
-var tableName = 'datatype';
-	
+@TableName('datatype')
 class ModelClass extends BaseModel {
     constructor() {
         super();
-    }
-
-    TableName() {
-        return tableName;
     }
 
     Filter(authContext, query) {

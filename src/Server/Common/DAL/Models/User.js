@@ -1,20 +1,17 @@
+import TableName from "../Core/Decorators/TableName";
+import HiddenFields from "../Core/Decorators/HiddenFields";
+
 import BaseModel from "../Core/BaseModel";
 
 import Client from "./Client";
 import Role from "./Role";
 import UserPermission from "./UserPermission";
 
+@TableName('admin')
+@HiddenFields(['password'])
 class ModelClass extends BaseModel {
     constructor() {
         super();
-    }
-
-    TableName() {
-        return 'admin';
-    }
-
-    HiddenFields() {
-        return ['password'];
     }
 
     Filter(authContext, query) {

@@ -1,3 +1,5 @@
+import TableName from "../Core/Decorators/TableName";
+
 import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
 import Database from "../Core/Database";
@@ -14,13 +16,10 @@ import BlockDef from "./BlockDef";
 import BlockTemplateDef from "./BlockTemplateDef";
 import BlockSetting from "./BlockSetting";
 
+@TableName("Block")
 class Block extends BaseModel {
     constructor() {
         super();
-    }
-
-    TableName() {
-        return 'block';
     }
 
     Filter(authContext, query) {

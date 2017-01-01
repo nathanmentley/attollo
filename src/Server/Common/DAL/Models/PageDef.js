@@ -1,12 +1,11 @@
+import TableName from "../Core/Decorators/TableName";
+
 import BaseModel from "../Core/BaseModel";
 
+@TableName('pagedef')
 class PageDef extends BaseModel {
     constructor() {
         super();
-    }
-
-    TableName() {
-        return 'pagedef';
     }
 
     Filter(authContext, query) {

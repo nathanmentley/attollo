@@ -1,19 +1,14 @@
-import Auid from "../Core/Auid";
+import TableName from "../Core/Decorators/TableName";
+
 import BaseModel from "../Core/BaseModel";
-import Database from "../Core/Database";
 
 import DataTypeDef from "./DataTypeDef";
 import DataTypeFieldType from "./DataTypeFieldType";
 
-var tableName = 'datatypefielddef';
-	
+@TableName('datatypefielddef')
 class ModelClass extends BaseModel {
     constructor() {
         super();
-    }
-
-    TableName() {
-        return tableName;
     }
 
     Relations(authContext, skipFilter) {
@@ -22,7 +17,7 @@ class ModelClass extends BaseModel {
 				return this.belongsTo(DataTypeDef.Model(authContext, skipFilter), 'datatypedefid');
 			},
 			DataTypeFieldType: function() {
-				return this.belongsTo(Client.DataTypeFieldType(authContext, skipFilter), 'datatypefieldtypeid');
+				return this.belongsTo(DataTypeFieldType(authContext, skipFilter), 'datatypefieldtypeid');
 			}
 		};
     }

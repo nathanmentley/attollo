@@ -7,12 +7,9 @@ export default class BaseModel {
         this.PrimaryKey = this.PrimaryKey.bind(this);
         this.ForeignKeys = this.ForeignKeys.bind(this);
 
-        this.TableName = this.TableName.bind(this);
-
         this.Filter = this.Filter.bind(this);
 
         this.Relations = this.Relations.bind(this);
-        this.HiddenFields = this.HiddenFields.bind(this);
 
         this.Collection = this.Collection.bind(this);
         this.Model = this.Model.bind(this);
@@ -20,7 +17,7 @@ export default class BaseModel {
 
     PrimaryKey() {
         //TODO: pull this from model?
-        return this.tableName() + 'id';
+        return this.TableName + 'id';
     };
 
     ForeignKeys() {
@@ -30,10 +27,6 @@ export default class BaseModel {
         return keys;
     }
 
-    TableName() {
-        return '';
-    }
-
     Filter(authContext, query) {
     }
 
@@ -41,13 +34,9 @@ export default class BaseModel {
         return {};
     }
 
-    HiddenFields() {
-        return [];
-    }
-
 	Model(authContext, skipFilter) {
-        var tableName = this.TableName();
         var filter = this.Filter;
+        var tableName = this.TableName;
 
         var model = this.Relations(authContext, skipFilter);
         var relationNames = [];
@@ -56,8 +45,8 @@ export default class BaseModel {
             relationNames.push(key);
         });
 
-        model.tableName = this.TableName();
-        model.hidden = this.HiddenFields();
+        model.tableName = this.TableName;
+        model.hidden = this.HiddenFields || [];
         model.constructor = function() {
             Database.Bookshelf.Model.apply(this, arguments);
             this.on("fetching", Auid.Fetching(authContext, filter, skipFilter));
@@ -75,7 +64,7 @@ export default class BaseModel {
 
 	Collection(authContext, skipFilter) {
         var filter = this.Filter;
-        var tableName = this.TableName();
+        var tableName = this.TableName;
         var relations = this.Relations(authContext, skipFilter);
         var relationNames = [];
         Object.keys(relations).forEach((key) => {

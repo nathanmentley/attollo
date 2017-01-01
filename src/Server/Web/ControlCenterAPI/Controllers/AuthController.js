@@ -26,7 +26,7 @@ export default class AuthController extends BaseController {
                     if(user) {
                         var permissions = [];
 
-                        var rolePermissions = user.relations['Role'].relations['RolePermisions'].toJSON();
+                        var rolePermissions = user.relations['Role'].relations['RolePermissions'].toJSON();
                         for(var i = 0; i < rolePermissions.length; i++) {
                             permissions.push(rolePermissions[i].PermissionDef.code);
                         }

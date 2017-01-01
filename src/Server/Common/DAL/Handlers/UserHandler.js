@@ -24,8 +24,8 @@ export default class BlockHandler extends BaseHandler {
 				})
 				.fetch({ withRelated: [ 
 					'Role',
-					'Role.RolePermisions',
-					'Role.RolePermisions.PermissionDef',
+					'Role.RolePermissions',
+					'Role.RolePermissions.PermissionDef',
 					'UserPermissions',
 					'UserPermissions.PermissionDef'
 				]});

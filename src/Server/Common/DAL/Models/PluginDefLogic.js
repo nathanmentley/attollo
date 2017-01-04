@@ -1,5 +1,5 @@
 import TableName from "../Core/Decorators/TableName";
-import BelongsTo from "../Core/Decorators/BelongsTo";
+
 
 import BaseModel from "../Core/BaseModel";
 
@@ -8,12 +8,19 @@ import PluginDefLogicDef from "./PluginDefLogicDef";
 import PluginDefLogicTarget from "./PluginDefLogicTarget";
 
 @TableName('plugindeflogic')
-@BelongsTo('PluginDef', PluginDef, "PluginDefID")
-@BelongsTo('PluginDefLogicDef', PluginDefLogicDef, "PluginDefLogicDefID")
-@BelongsTo('PluginDefLogicTarget', PluginDefLogicTarget, "PluginDefLogicTargetID")
 class ModelClass extends BaseModel {
     constructor() {
         super();
+    }
+
+    BelongsTo() {
+        var belongsTo = super.BelongsTo();
+
+        belongsTo.push({ Title: 'PluginDef', Type: PluginDef, Field: "PluginDefID"  });
+        belongsTo.push({ Title: 'PluginDefLogicDef', Type: PluginDefLogicDef, Field: "PluginDefLogicDefID"  });
+        belongsTo.push({ Title: 'PluginDefLogicTarget', Type: PluginDefLogicTarget, Field: "PluginDefLogicTargetID"  });
+
+        return belongsTo;
     }
 }
 

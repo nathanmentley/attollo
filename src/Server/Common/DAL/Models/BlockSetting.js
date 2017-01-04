@@ -1,5 +1,5 @@
 import TableName from "../Core/Decorators/TableName";
-import BelongsTo from "../Core/Decorators/BelongsTo";
+
 
 import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
@@ -15,38 +15,45 @@ import Block from "./Block";
 import BlockSettingDef from "./BlockSettingDef";
 
 @TableName('BlockSetting')
-@BelongsTo('Block', Block, "BlockID")
-@BelongsTo('BlockSettingDef', BlockSettingDef, "BlockSettingDefID")
-@BelongsTo('BlockContainerArea', BlockContainerArea, "BlockContainerAreaID", [
-    { Type: Block, Field: 'BlockID' }
-])
-@BelongsTo('BlockContainer', BlockContainer, "BlockContainerID", [
-    { Type: BlockContainerArea, Field: 'BlockContainerAreaID' },
-    { Type: Block, Field: 'BlockID' }
-])
-@BelongsTo('Page', Page, "PageID", [
-    { Type: BlockContainer, Field: 'BlockContainerID' },
-    { Type: BlockContainerArea, Field: 'BlockContainerAreaID' },
-    { Type: Block, Field: 'BlockID' }
-])
-@BelongsTo('Site', Site, "SiteID", [
-    { Type: SiteVersion, Field: 'SiteVersionID' },
-    { Type: Page, Field: 'PageID' },
-    { Type: BlockContainer, Field: 'BlockContainerID' },
-    { Type: BlockContainerArea, Field: 'BlockContainerAreaID' },
-    { Type: Block, Field: 'BlockID' }
-])
-@BelongsTo('Client', Client, "ClientID", [
-    { Type: Site, Field: 'SiteID' },
-    { Type: SiteVersion, Field: 'SiteVersionID' },
-    { Type: Page, Field: 'PageID' },
-    { Type: BlockContainer, Field: 'BlockContainerID' },
-    { Type: BlockContainerArea, Field: 'BlockContainerAreaID' },
-    { Type: Block, Field: 'BlockID' }
-])
 class BlockSetting extends BaseModel {
     constructor() {
         super();
+    }
+
+    BelongsTo() {
+        var belongsTo = super.BelongsTo();
+
+        belongsTo.push({ Title: 'Block', Type: Block, Field: "BlockID"  });
+        belongsTo.push({ Title: 'BlockSettingDef', Type: BlockSettingDef, Field: "BlockSettingDefID"  });
+        belongsTo.push({ Title: 'BlockContainerArea', Type: BlockContainerArea, Field: "BlockContainerAreaID", Through: [
+            { Type: Block, Field: 'BlockID' }
+        ] });
+        belongsTo.push({ Title: 'BlockContainer', Type: BlockContainer, Field: "BlockContainerID", Through: [
+            { Type: BlockContainerArea, Field: 'BlockContainerAreaID' },
+            { Type: Block, Field: 'BlockID' }
+        ] });
+        belongsTo.push({ Title: 'Page', Type: Page, Field: "PageID", Through: [
+            { Type: BlockContainer, Field: 'BlockContainerID' },
+            { Type: BlockContainerArea, Field: 'BlockContainerAreaID' },
+            { Type: Block, Field: 'BlockID' }
+        ] });
+        belongsTo.push({ Title: 'Site', Type: Site, Field: "SiteID", Through: [
+            { Type: SiteVersion, Field: 'SiteVersionID' },
+            { Type: Page, Field: 'PageID' },
+            { Type: BlockContainer, Field: 'BlockContainerID' },
+            { Type: BlockContainerArea, Field: 'BlockContainerAreaID' },
+            { Type: Block, Field: 'BlockID' }
+        ] });
+        belongsTo.push({ Title: 'Client', Type: Client, Field: "ClientID", Through: [
+            { Type: Site, Field: 'SiteID' },
+            { Type: SiteVersion, Field: 'SiteVersionID' },
+            { Type: Page, Field: 'PageID' },
+            { Type: BlockContainer, Field: 'BlockContainerID' },
+            { Type: BlockContainerArea, Field: 'BlockContainerAreaID' },
+            { Type: Block, Field: 'BlockID' }
+        ] });
+
+        return belongsTo;
     }
 
     Filter(authContext, query) {

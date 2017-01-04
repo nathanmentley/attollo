@@ -1,5 +1,5 @@
 import TableName from "../Core/Decorators/TableName";
-import BelongsTo from "../Core/Decorators/BelongsTo";
+
 
 import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
@@ -9,13 +9,20 @@ import Site from "./Site";
 import Client from "./Client";
 
 @TableName('SiteVersion')
-@BelongsTo('Site', Site, "SiteID")
-@BelongsTo('Client', Client, "ClientID", [
-    { Type: Site, Field: 'SiteID' }
-])
 class SiteVersion extends BaseModel {
     constructor() {
         super();
+    }
+
+    BelongsTo() {
+        var belongsTo = super.BelongsTo();
+
+        belongsTo.push({ Title: 'Site', Type: Site, Field: "SiteID"  });
+        belongsTo.push({ Title: 'Client', Type: Client, Field: "ClientID", Through: [
+            { Type: Site, Field: 'SiteID' }
+        ] });
+
+        return belongsTo;
     }
 
     Filter(authContext, query) {

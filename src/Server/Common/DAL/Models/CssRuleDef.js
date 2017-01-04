@@ -1,6 +1,6 @@
 import TableName from "../Core/Decorators/TableName";
 import SystemData from "../Core/Decorators/SystemData";
-import BelongsTo from "../Core/Decorators/BelongsTo";
+
 
 import BaseModel from "../Core/BaseModel";
 
@@ -9,11 +9,18 @@ import CssRuleDefGroup from "./CssRuleDefGroup";
 
 @SystemData()
 @TableName('cssruledef')
-@BelongsTo('CssRuleDefType', CssRuleDefType, "CssRuleDefTypeID")
-@BelongsTo('CssRuleDefGroup', CssRuleDefGroup, "CssRuleDefGroupID")
 class ModelClass extends BaseModel {
     constructor() {
         super();
+    }
+
+    BelongsTo() {
+        var belongsTo = super.BelongsTo();
+
+        belongsTo.push({ Title: 'CssRuleDefType', Type: CssRuleDefType, Field: "CssRuleDefTypeID"  });
+        belongsTo.push({ Title: 'CssRuleDefGroup', Type: CssRuleDefGroup, Field: "CssRuleDefGroupID"  });
+
+        return belongsTo;
     }
 }
 

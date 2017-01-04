@@ -1,6 +1,4 @@
 import TableName from "../Core/Decorators/TableName";
-import BelongsTo from "../Core/Decorators/BelongsTo";
-import HasMany from "../Core/Decorators/HasMany";
 
 import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
@@ -19,37 +17,97 @@ import BlockTemplateDef from "./BlockTemplateDef";
 import BlockSetting from "./BlockSetting";
 
 @TableName("Block")
-@BelongsTo('BlockContainerArea', BlockContainerArea, "blockcontainerareaid")
-@BelongsTo('BlockContainerAreaDef', BlockContainerAreaDef, "blockcontainerareadefid", [
-    { Type: BlockContainerArea, Field: 'blockcontainerareaid' }
-])
-@BelongsTo('BlockContainer', BlockContainer, "blockcontainerid", [
-    { Type: BlockContainerAreaDef, Field: 'blockcontainerareadefid' }
-])
-@BelongsTo('Page', Page, "pageid", [
-    { Type: BlockContainer, Field: 'blockcontainerid' },
-    { Type: BlockContainerAreaDef, Field: 'blockcontainerareadefid' }
-])
-@BelongsTo('Site', Site, "siteid", [
-    { Type: SiteVersion, Field: 'siteversionid' },
-    { Type: Page, Field: 'pageid' },
-    { Type: BlockContainer, Field: 'blockcontainerid' },
-    { Type: BlockContainerAreaDef, Field: 'blockcontainerareadefid' }
-])
-@BelongsTo('Client', Client, "clientid", [
-    { Type: Site, Field: 'siteid' },
-    { Type: SiteVersion, Field: 'siteversionid' },
-    { Type: Page, Field: 'pageid' },
-    { Type: BlockContainer, Field: 'blockcontainerid' },
-    { Type: BlockContainerAreaDef, Field: 'blockcontainerareadefid' }
-])
-@BelongsTo('BlockDef', BlockDef, "blockdefid")
-@BelongsTo('BlockTemplateDef', BlockTemplateDef, "blocktemplatedefid")
-@HasMany('BlockSettings', BlockSetting, "blockid")
-@HasMany('BlockCssRules', BlockCssRule, "blockid")
 class Block extends BaseModel {
     constructor() {
         super();
+    }
+
+    BelongsTo() {
+        var ret = super.BelongsTo();
+
+        ret.push({
+            Name: 'BlockDef',
+            Type: BlockDef,
+            Field: 'BlockDefID'
+        });
+        ret.push({
+            Name: 'BlockTemplateDef',
+            Type: BlockTemplateDef,
+            Field: 'BlockTemplateDefID'
+        });
+        ret.push({
+            Name: 'BlockContainerArea',
+            Type: BlockContainerArea,
+            Field: 'BlockContainerAreaID'
+        });
+
+        ret.push({
+            Name: 'BlockContainerAreaDef',
+            Type: BlockContainerAreaDef,
+            Field: 'BlockContainerAreaDefID',
+            Through: [
+                { Type: BlockContainerArea, Field: 'blockcontainerareaid' }
+            ]
+        });
+        ret.push({
+            Name: 'BlockContainer',
+            Type: BlockContainer,
+            Field: 'BlockContainerID',
+            Through: [
+                { Type: BlockContainerAreaDef, Field: 'blockcontainerareadefid' }
+            ]
+        });
+        ret.push({
+            Name: 'Page',
+            Type: Page,
+            Field: 'PageID',
+            Through: [
+                { Type: BlockContainer, Field: 'blockcontainerid' },
+                { Type: BlockContainerAreaDef, Field: 'blockcontainerareadefid' }
+            ]
+        });
+        ret.push({
+            Name: 'Site',
+            Type: Site,
+            Field: 'SiteID',
+            Through: [
+                { Type: SiteVersion, Field: 'siteversionid' },
+                { Type: Page, Field: 'pageid' },
+                { Type: BlockContainer, Field: 'blockcontainerid' },
+                { Type: BlockContainerAreaDef, Field: 'blockcontainerareadefid' }
+            ]
+        });
+        ret.push({
+            Name: 'Client',
+            Type: Client,
+            Field: 'ClientID',
+            Through: [
+                { Type: Site, Field: 'siteid' },
+                { Type: SiteVersion, Field: 'siteversionid' },
+                { Type: Page, Field: 'pageid' },
+                { Type: BlockContainer, Field: 'blockcontainerid' },
+                { Type: BlockContainerAreaDef, Field: 'blockcontainerareadefid' }
+            ]
+        });
+
+        return ret;
+    }
+
+    HasMany() {
+        var ret = super.HasMany();
+
+        ret.push({
+            Name: 'BlockSettings',
+            Type: BlockSetting,
+            Field: 'BlockID'
+        });
+        ret.push({
+            Name: 'BlockCssRules',
+            Type: BlockCssRule,
+            Field: 'BlockID'
+        });
+
+        return ret;
     }
 
     Filter(authContext, query) {

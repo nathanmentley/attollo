@@ -1,5 +1,5 @@
 import TableName from "../Core/Decorators/TableName";
-import BelongsTo from "../Core/Decorators/BelongsTo";
+
 
 import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
@@ -9,11 +9,18 @@ import Plugin from "./Plugin";
 import PluginSettingDef from "./PluginSettingDef";
 
 @TableName('PluginSetting')
-@BelongsTo('Plugin', Plugin, "PluginID")
-@BelongsTo('PluginSettingDef', PluginSettingDef, "PluginSettingDefID")
 class PluginSetting extends BaseModel {
     constructor() {
         super();
+    }
+
+    BelongsTo() {
+        var belongsTo = super.BelongsTo();
+
+        belongsTo.push({ Title: 'Plugin', Type: Plugin, Field: "PluginID"  });
+        belongsTo.push({ Title: 'PluginSettingDef', Type: PluginSettingDef, Field: "PluginSettingDefID"  });
+
+        return belongsTo;
     }
 
     Filter(authContext, query) {

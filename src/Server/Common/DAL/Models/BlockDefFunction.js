@@ -1,15 +1,22 @@
 import TableName from "../Core/Decorators/TableName";
-import BelongsTo from "../Core/Decorators/BelongsTo";
+
 
 import BaseModel from "../Core/BaseModel";
     
 import BlockDef from "./BlockDef";
 
 @TableName('BlockDefFunction')
-@BelongsTo('BlockDef', BlockDef, "BlockDefID")
 class BlockDefFunction extends BaseModel {
     constructor() {
         super();
+    }
+
+    BelongsTo() {
+        var belongsTo = super.BelongsTo();
+
+        belongsTo.push({ Title: 'BlockDef', Type: BlockDef, Field: "BlockDefID"  });
+
+        return belongsTo;
     }
 }
 

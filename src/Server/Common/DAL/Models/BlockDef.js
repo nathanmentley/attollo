@@ -1,6 +1,6 @@
 import TableName from "../Core/Decorators/TableName";
-import BelongsTo from "../Core/Decorators/BelongsTo";
-import HasMany from "../Core/Decorators/HasMany";
+
+
 
 import BaseModel from "../Core/BaseModel"
 
@@ -11,13 +11,27 @@ import BlockDefFunction from "./BlockDefFunction";
 import BlockSettingDef from "./BlockSettingDef";
 
 @TableName('blockdef')
-@BelongsTo('PageDef', PageDef, "pagedefid")
-@HasMany('BlockSettingDefs', BlockSettingDef, "blockdefid")
-@HasMany('BlockDefDataRequests', BlockDefDataRequest, "blockdefid")
-@HasMany('BlockDefFunctions', BlockDefFunction, "blockdefid")
 class ModelClass extends BaseModel {
     constructor() {
         super();
+    }
+
+    BelongsTo() {
+        var belongsTo = super.BelongsTo();
+
+        belongsTo.push({ Title: 'PageDef', Type: PageDef, Field: "pagedefid"  });
+
+        return belongsTo;
+    }
+
+    HasMany() {
+        var hasMany = super.HasMany();
+
+        hasMany.push({ Title: 'BlockSettingDefs', Type: BlockSettingDef, Field: "blockdefid"  });
+        hasMany.push({ Title: 'BlockDefDataRequests', Type: BlockDefDataRequest, Field: "blockdefid"  });
+        hasMany.push({ Title: 'BlockDefFunctions', Type: BlockDefFunction, Field: "blockdefid"  });
+
+        return hasMany;
     }
 
     Filter(authContext, query) {

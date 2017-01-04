@@ -1,6 +1,6 @@
 import TableName from "../Core/Decorators/TableName";
-import BelongsTo from "../Core/Decorators/BelongsTo";
-import HasMany from "../Core/Decorators/HasMany";
+
+
 
 import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
@@ -16,27 +16,43 @@ import BlockContainerAreaDef from "./BlockContainerAreaDef";
 import Block from "./Block";
 
 @TableName('blockcontainerarea')
-@BelongsTo('BlockContainer', BlockContainer, "BlockContainerID")
-@BelongsTo('BlockContainerAreaDef', BlockContainerAreaDef, "BlockContainerAreaDefID")
-@BelongsTo('Page', Page, "PageID", [
-    { Type: BlockContainer, Field: 'BlockContainerID' }
-])
-@BelongsTo('Site', Site, "SiteID", [
-    { Type: SiteVersion, Field: 'SiteVersionID' },
-    { Type: Page, Field: 'PageID' },
-    { Type: BlockContainer, Field: 'BlockContainerID' }
-])
-@BelongsTo('Client', Client, "ClientID", [
-    { Type: Site, Field: 'SiteID' },
-    { Type: SiteVersion, Field: 'SiteVersionID' },
-    { Type: Page, Field: 'PageID' },
-    { Type: BlockContainer, Field: 'BlockContainerID' }
-])
-@HasMany('Blocks', Block, "blockcontainerareaid")
 class BlockContainerArea extends BaseModel {
     constructor() {
         super();
     }
+
+    BelongsTo() {
+        var belongsTo = super.BelongsTo();
+
+        belongsTo.push({ Title: 'BlockContainer', Type: BlockContainer, Field: "BlockContainerID"  });
+        belongsTo.push({ Title: 'BlockContainerAreaDef', Type: BlockContainerAreaDef, Field: "BlockContainerAreaDefID"  });
+        belongsTo.push({ Title: 'Page', Type: Page, Field: "PageID", Through: [
+            { Type: BlockContainer, Field: 'BlockContainerID' }
+        ] });
+        belongsTo.push({ Title: 'Site', Type: Site, Field: "SiteID", Through: [
+            { Type: SiteVersion, Field: 'SiteVersionID' },
+            { Type: Page, Field: 'PageID' },
+            { Type: BlockContainer, Field: 'BlockContainerID' }
+        ] });
+        belongsTo.push({ Title: 'Client', Type: Client, Field: "ClientID", Through: [
+            { Type: Site, Field: 'SiteID' },
+            { Type: SiteVersion, Field: 'SiteVersionID' },
+            { Type: Page, Field: 'PageID' },
+            { Type: BlockContainer, Field: 'BlockContainerID' }
+        ] });
+
+        return belongsTo;
+    }
+
+    HasMany() {
+        var hasMany = super.HasMany();
+
+        hasMany.push({ Title: 'Blocks', Type: Block, Field: "blockcontainerareaid"  });
+
+        return hasMany;
+    }
+
+
 
     Filter(authContext, query) {
 		if(authContext.ClientID) {

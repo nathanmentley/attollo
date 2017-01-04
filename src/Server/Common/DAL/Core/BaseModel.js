@@ -1,7 +1,6 @@
 import Auid from "../Core/Auid";
-import ModelEvents from "../Core/ModelEvents";
-
 import Database from "../Core/Database";
+import ModelEvents from "../Core/ModelEvents";
 
 export default class BaseModel {
     constructor() {
@@ -10,7 +9,9 @@ export default class BaseModel {
 
         this.Filter = this.Filter.bind(this);
 
-        this.Relations = this.Relations.bind(this);
+        this._GetBaseModel = this._GetBaseModel.bind(this);
+        this.BelongsTo = this.BelongsTo.bind(this);
+        this.HasMany = this.HasMany.bind(this);
 
         this.Collection = this.Collection.bind(this);
         this.Model = this.Model.bind(this);
@@ -30,40 +31,45 @@ export default class BaseModel {
     Filter(authContext, query) {
     }
 
-    Relations(authContext, skipFilter) {
+    BelongsTo() {
+        return [];
+    }
+
+    HasMany() {
+        return [];
+    }
+
+    _GetBaseModel(authContext, skipFilter) {
         var ret = {};
 
-        if(this.BelongsTo) {
-            this.BelongsTo.forEach((belongs) => {
-                ret[belongs.Name] = function() {
-                    var belong = this.belongsTo(belongs.Type.Model(authContext, skipFilter), belongs.Field);
+        this.BelongsTo().forEach((belongs) => {
+            ret[belongs.Name] = function() {
+                var belong = this.belongsTo(belongs.Type.Model(authContext, skipFilter), belongs.Field);
 
-                    if(belongs.Through) {
-                        belongs.Through.forEach((through) => {
-                            belong.through(through.Type.Model(authContext, skipFilter), through.Field);
-                        });
-                    }
-
-                    return belong;
-                };
-            });
-        }
-
-        if(this.HasMany) {
-            this.HasMany.forEach((hasManys) => {
-                ret[hasManys.Name] = function() {
-                    var hasMany = this.hasMany(hasManys.Type.Model(authContext, skipFilter), hasManys.Field);
-
-                    if (hasManys.Through) {
-                        hasManys.Through.forEach((through) => {
-                            hasMany.through(through.Type.Model(authContext, skipFilter), through.Field);
-                        });
-                    }
-
-                    return hasMany;
+                if(belongs.Through) {
+                    belongs.Through.forEach((through) => {
+                        belong.through(through.Type.Model(authContext, skipFilter), through.Field);
+                    });
                 }
-            });
-        }
+
+                return belong;
+            };
+        });
+
+        this.HasMany().forEach((hasManys) => {
+            ret[hasManys.Name] = function() {
+                var hasMany = this.hasMany(hasManys.Type.Model(authContext, skipFilter), hasManys.Field);
+
+                if (hasManys.Through) {
+                    hasManys.Through.forEach((through) => {
+                        hasMany.through(through.Type.Model(authContext, skipFilter), through.Field);
+                    });
+                }
+
+                return hasMany;
+            }
+        });
+
 
         return ret;
     }
@@ -72,7 +78,7 @@ export default class BaseModel {
         var filter = this.Filter;
         var tableName = this.TableName;
 
-        var model = this.Relations(authContext, skipFilter);
+        var model = this._GetBaseModel(authContext, skipFilter);
         var relationNames = [];
 
         Object.keys(model).forEach((key) => {
@@ -99,7 +105,7 @@ export default class BaseModel {
 	Collection(authContext, skipFilter) {
         var filter = this.Filter;
         var tableName = this.TableName;
-        var relations = this.Relations(authContext, skipFilter);
+        var relations = this._GetBaseModel(authContext, skipFilter);
         var relationNames = [];
         Object.keys(relations).forEach((key) => {
             relationNames.push(key);

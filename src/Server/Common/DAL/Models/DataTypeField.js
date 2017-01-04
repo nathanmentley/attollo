@@ -1,5 +1,5 @@
 import TableName from "../Core/Decorators/TableName";
-import BelongsTo from "../Core/Decorators/BelongsTo";
+
 
 import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
@@ -9,11 +9,18 @@ import DataType from "./DataType";
 import DataTypeFieldDef from "./DataTypeFieldDef";
 
 @TableName('datatypefield')
-@BelongsTo('DataType', DataType, "DataTypeID")
-@BelongsTo('DataTypeFieldDef', DataTypeFieldDef, "DataTypeFieldDefID")
 class ModelClass extends BaseModel {
     constructor() {
         super();
+    }
+
+    BelongsTo() {
+        var belongsTo = super.BelongsTo();
+
+        belongsTo.push({ Title: 'DataType', Type: DataType, Field: "DataTypeID"  });
+        belongsTo.push({ Title: 'DataTypeFieldDef', Type: DataTypeFieldDef, Field: "DataTypeFieldDefID"  });
+
+        return belongsTo;
     }
 
     Filter(authContext, query) {

@@ -1,5 +1,5 @@
 import TableName from "../Core/Decorators/TableName";
-import BelongsTo from "../Core/Decorators/BelongsTo";
+
 
 import BaseModel from "../Core/BaseModel";
 
@@ -7,11 +7,18 @@ import Client from "./Client";
 import PluginDef from "./PluginDef";
 
 @TableName('datatypedef')
-@BelongsTo('Client', Client, "ClientID")
-@BelongsTo('PluginDef', PluginDef, "PluginDefID")
 class ModelClass extends BaseModel {
     constructor() {
         super();
+    }
+
+    BelongsTo() {
+        var belongsTo = super.BelongsTo();
+
+        belongsTo.push({ Title: 'Client', Type: Client, Field: "ClientID"  });
+        belongsTo.push({ Title: 'PluginDef', Type: PluginDef, Field: "PluginDefID"  });
+
+        return belongsTo;
     }
 
     Filter(authContext, query) {

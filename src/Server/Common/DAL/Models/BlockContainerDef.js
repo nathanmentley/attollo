@@ -9,6 +9,18 @@ class ModelClass extends BaseModel {
     constructor() {
         super();
     }
+
+    BelongsTo() {
+        var belongsTo = super.BelongsTo();
+
+        return belongsTo;
+    }
+
+    HasMany() {
+        var hasMany = super.HasMany();
+
+        return hasMany;
+    }
 }
 
 export default new ModelClass();

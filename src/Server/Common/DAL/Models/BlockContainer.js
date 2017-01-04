@@ -23,17 +23,17 @@ class BlockContainer extends BaseModel {
         var ret = super.BelongsTo();
 
         ret.push({
-            Name: 'Page',
+            Title: 'Page',
             Type: Page,
             Field: 'PageID'
         });
         ret.push({
-            Name: 'BlockContainerDef',
+            Title: 'BlockContainerDef',
             Type: BlockContainerDef,
             Field: 'BlockContainerDefID'
         });
         ret.push({
-            Name: 'Site',
+            Title: 'Site',
             Type: Site,
             Field: 'SiteID',
             Through: [
@@ -42,7 +42,7 @@ class BlockContainer extends BaseModel {
             ]
         });
         ret.push({
-            Name: 'Client',
+            Title: 'Client',
             Type: Client,
             Field: 'ClientID',
             Through: [
@@ -59,17 +59,17 @@ class BlockContainer extends BaseModel {
         var ret = super.HasMany();
 
         ret.push({
-            Name: 'BlockContainerAreas',
+            Title: 'BlockContainerAreas',
             Type: BlockContainerArea,
             Field: 'BlockContainerID'
         });
         ret.push({
-            Name: 'BlockContainerCssRules',
+            Title: 'BlockContainerCssRules',
             Type: BlockContainerCssRule,
             Field: 'BlockContainerID'
         });
         ret.push({
-            Name: 'Blocks',
+            Title: 'Blocks',
             Type: Block,
             Field: 'BlockContainerAreaID',
             Through: [

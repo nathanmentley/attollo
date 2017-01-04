@@ -43,12 +43,12 @@ export default class BaseModel {
         var ret = {};
 
         this.BelongsTo().forEach((belongs) => {
-            ret[belongs.Name] = function() {
-                var belong = this.belongsTo(belongs.Type.Model(authContext, skipFilter), belongs.Field);
+            ret[belongs.Title] = function() {
+                var belong = this.belongsTo(belongs.Type.Model(authContext, skipFilter), belongs.Field.toLowerCase());
 
                 if(belongs.Through) {
                     belongs.Through.forEach((through) => {
-                        belong.through(through.Type.Model(authContext, skipFilter), through.Field);
+                        belong.through(through.Type.Model(authContext, skipFilter), through.Field.toLowerCase());
                     });
                 }
 
@@ -57,12 +57,12 @@ export default class BaseModel {
         });
 
         this.HasMany().forEach((hasManys) => {
-            ret[hasManys.Name] = function() {
-                var hasMany = this.hasMany(hasManys.Type.Model(authContext, skipFilter), hasManys.Field);
+            ret[hasManys.Title] = function() {
+                var hasMany = this.hasMany(hasManys.Type.Model(authContext, skipFilter), hasManys.Field.toLowerCase());
 
                 if (hasManys.Through) {
                     hasManys.Through.forEach((through) => {
-                        hasMany.through(through.Type.Model(authContext, skipFilter), through.Field);
+                        hasMany.through(through.Type.Model(authContext, skipFilter), through.Field.toLowerCase());
                     });
                 }
 

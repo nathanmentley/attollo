@@ -26,23 +26,23 @@ class Block extends BaseModel {
         var ret = super.BelongsTo();
 
         ret.push({
-            Name: 'BlockDef',
+            Title: 'BlockDef',
             Type: BlockDef,
             Field: 'BlockDefID'
         });
         ret.push({
-            Name: 'BlockTemplateDef',
+            Title: 'BlockTemplateDef',
             Type: BlockTemplateDef,
             Field: 'BlockTemplateDefID'
         });
         ret.push({
-            Name: 'BlockContainerArea',
+            Title: 'BlockContainerArea',
             Type: BlockContainerArea,
             Field: 'BlockContainerAreaID'
         });
 
         ret.push({
-            Name: 'BlockContainerAreaDef',
+            Title: 'BlockContainerAreaDef',
             Type: BlockContainerAreaDef,
             Field: 'BlockContainerAreaDefID',
             Through: [
@@ -50,7 +50,7 @@ class Block extends BaseModel {
             ]
         });
         ret.push({
-            Name: 'BlockContainer',
+            Title: 'BlockContainer',
             Type: BlockContainer,
             Field: 'BlockContainerID',
             Through: [
@@ -58,7 +58,7 @@ class Block extends BaseModel {
             ]
         });
         ret.push({
-            Name: 'Page',
+            Title: 'Page',
             Type: Page,
             Field: 'PageID',
             Through: [
@@ -67,7 +67,7 @@ class Block extends BaseModel {
             ]
         });
         ret.push({
-            Name: 'Site',
+            Title: 'Site',
             Type: Site,
             Field: 'SiteID',
             Through: [
@@ -78,7 +78,7 @@ class Block extends BaseModel {
             ]
         });
         ret.push({
-            Name: 'Client',
+            Title: 'Client',
             Type: Client,
             Field: 'ClientID',
             Through: [
@@ -97,12 +97,12 @@ class Block extends BaseModel {
         var ret = super.HasMany();
 
         ret.push({
-            Name: 'BlockSettings',
+            Title: 'BlockSettings',
             Type: BlockSetting,
             Field: 'BlockID'
         });
         ret.push({
-            Name: 'BlockCssRules',
+            Title: 'BlockCssRules',
             Type: BlockCssRule,
             Field: 'BlockID'
         });

@@ -32,17 +32,49 @@ export default class BaseHandler {
     ExportModel(type) {
         return (authContext, id) => {
             return new Promise((resolve, reject) => {
-            	type.Model(authContext, false).query((qb) => {
-                    qb.where(type.PrimaryKey(), '=', id);
-                }).fetch({ withRelated: [] })
+            	//load related.
+				var related = [];
+
+                type.BelongsTo().forEach((belongsTo) => {
+                	var title = belongsTo.Title;
+                	if(belongsTo.Through) {
+                		belongsTo.Through.forEach((through) => {
+                			title = through.Title + '.' + title;
+						});
+					}
+
+                    related.push(title);
+                });
+
+                type.HasMany().forEach((hasMany) => {
+                    var title = hasMany.Title;
+                    if(hasMany.Through) {
+                        hasMany.Through.forEach((through) => {
+                            title = through.Title + '.' + title;
+                        });
+                    }
+
+                    related.push(title);
+                });
+
+                //Filter on id/PK
+                type.Model(authContext, false).query((qb) => {
+                    qb.where(type.TableName + '.' + type.PrimaryKey(), '=', id);
+                }).fetch({ withRelated: related })
 				.then((result) => {
-                    var data = result.toJson();
+                    var ret = result.toJSON();
 
-                    //CleanIDs.
-					//Set System Data to codes.
-					//YaddaYadda
+                	//clear PKs and FKs.
+					delete ret[type.PrimaryKey()];
+					type.ForeignKeys().forEach((fk) => {
+						delete ret[fk];
+					});
+                    type.BelongsTo().forEach((belongsTo) => {
+                    });
+                    type.HasMany().forEach((hasMany) => {
+                    });
 
-					resolve(data);
+					resolve(ret);
 				})
 				.catch((err) => {
 					reject(err);

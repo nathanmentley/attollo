@@ -98,7 +98,7 @@ export default class SiteService extends BaseService {
 		});
 	};
 
-	//SiteVersionStatus
+	//site version provision
 
     ExportSiteVersion(authContext, id) {
         return this.Context.Handlers.Site.ExportSiteVersion(authContext, id);
@@ -125,6 +125,8 @@ export default class SiteService extends BaseService {
             });
         });
     };
+
+    //SiteVersionStatus
 
 	GetSiteVersionStatus(authContext, code){
 		return this.Context.Handlers.Site.GetSiteVersionStatus(authContext, code);

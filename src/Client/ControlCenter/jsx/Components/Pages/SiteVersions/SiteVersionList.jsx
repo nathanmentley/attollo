@@ -15,6 +15,12 @@ export default class SiteVersionList extends BaseComponent {
         browserHistory.push("/Sites/" + this.props.SiteID + "/" + siteVersionId);
     }
 
+    export(siteVersionId) {
+        if(this.props.Export) {
+            this.props.Export(siteVersionId);
+        }
+    }
+
     render() {
         var self = this;
 
@@ -36,6 +42,9 @@ export default class SiteVersionList extends BaseComponent {
                                         <DropdownButton title={<Glyphicon glyph="cog" />} id={x.id + '-action-button'}>
                                             <MenuItem eventKey="1" onClick={() => { self.goToPageBin(x.id); }}>
                                                 <Glyphicon glyph="pencil" /> Edit
+                                            </MenuItem>
+                                            <MenuItem eventKey="1" onClick={() => { self.export(x.id); }}>
+                                                <Glyphicon glyph="pencil" /> Export
                                             </MenuItem>
                                         </DropdownButton>
                                     </td>

@@ -19,7 +19,7 @@ class SiteVersion extends BaseModel {
 
         belongsTo.push({ Title: 'Site', Type: Site, Field: "SiteID"  });
         belongsTo.push({ Title: 'Client', Type: Client, Field: "ClientID", Through: [
-            { Type: Site, Field: 'SiteID' }
+            { Title: 'Site', Type: Site, Field: 'SiteID' }
         ] });
 
         return belongsTo;
@@ -43,7 +43,7 @@ class SiteVersion extends BaseModel {
 		}
 		
 		if(authContext.SiteVersionID) {
-			query.where('id', '=', authContext.SiteVersionID);
+			query.where('siteversion.id', '=', authContext.SiteVersionID);
 		}
     }
 }

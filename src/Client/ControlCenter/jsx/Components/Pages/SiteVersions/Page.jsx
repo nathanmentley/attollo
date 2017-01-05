@@ -1,11 +1,10 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 
-import ObjectUtils from '../../../Utils/ObjectUtils.jsx';
-
 import BasePage from '../BasePage.jsx';
 
 import SiteVersionService from '../../../Services/SiteVersionService.jsx';
+import SiteVersionProvisionService from '../../../Services/SiteVersionProvisionService.jsx';
 
 import SiteVersionList from './SiteVersionList.jsx';
 
@@ -17,7 +16,7 @@ export default class SiteVersionsPage extends BasePage {
             SiteVersions: []
         };
     }
-    
+
     componentDidMount() {
         var self = this;
 
@@ -39,12 +38,18 @@ export default class SiteVersionsPage extends BasePage {
         });
     }
 
+    Export(siteVersionId) {
+        SiteVersionProvisionService.ExportSiteVersion(siteVersionId).then((res) => {
+            alert(JSON.stringify(res.data.data));
+        });
+    }
+
     _render() {
         return (
             <div>
                 <Row>
                     <Col xs={12} md={12}>
-                        <SiteVersionList SiteVersions={this.state.SiteVersions} SiteID={this.props.params.SiteID} />
+                        <SiteVersionList SiteVersions={this.state.SiteVersions} SiteID={this.props.params.SiteID} Export={this.Export} />
                     </Col>
                 </Row>
             </div>

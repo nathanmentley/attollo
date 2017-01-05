@@ -18,7 +18,7 @@ export default class BaseModel {
     }
 
     PrimaryKey() {
-        return this.TableName + 'id';
+        return 'id';
     };
 
     ForeignKeys() {

@@ -10,6 +10,8 @@ import Site from "./Site";
 import Client from "./Client";
 import PageDef from "./PageDef";
 
+import BlockContainer from "./BlockContainer";
+
 @TableName('Page')
 class Page extends BaseModel {
     constructor() {
@@ -30,6 +32,19 @@ class Page extends BaseModel {
         ] });
 
         return belongsTo;
+    }
+
+    HasMany() {
+        return [
+            { Title: 'BlockContainers', Type: BlockContainer, Field: "PageID"  }
+        ];
+    }
+
+    SerializableRelations() {
+        return [
+            { Title: 'PageDef', Type: PageDef },
+            { Title: 'BlockContainers', Type: BlockContainer  }
+        ];
     }
 
     Filter(authContext, query) {

@@ -1,12 +1,13 @@
 import TableName from "../Core/Decorators/TableName";
 
-
 import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
 import Database from "../Core/Database";
 
 import Site from "./Site";
 import Client from "./Client";
+
+import Page from "./Page";
 
 @TableName('SiteVersion')
 class SiteVersion extends BaseModel {
@@ -23,6 +24,18 @@ class SiteVersion extends BaseModel {
         ] });
 
         return belongsTo;
+    }
+
+    HasMany() {
+    	return [
+            { Title: 'Pages', Type: Page, Field: "SiteVersionID"  }
+		];
+	}
+
+    SerializableRelations() {
+        return [
+			{ Title: 'Pages', Type: Page }
+		];
     }
 
     Filter(authContext, query) {

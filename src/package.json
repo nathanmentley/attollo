@@ -5,6 +5,8 @@
   "author": "Nathan Mentley <nathanmentley@gmail.com>",
 
   "dependencies": {
+    "source-map-support": "0.4.8",
+
     "axios": "0.14.0",
     "bootstrap": "3.3.7",
     "chart.js": "2.3.0",

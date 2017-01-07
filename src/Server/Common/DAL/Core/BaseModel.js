@@ -22,8 +22,21 @@ export default class BaseModel {
     };
 
     ForeignKeys() {
-        //TODO: Pull this form Relations?
         var keys = [];
+
+        this.BelongsTo().forEach((belongs) => {
+            var field = belongs.Field;
+
+            if(belongs.Through) {
+                belongs.Through.forEach((through) => {
+                    field = through.Field;
+                });
+            }
+
+            if(!keys.includes(field)) {
+                keys.push(field.toLowerCase());
+            }
+        });
 
         return keys;
     }
@@ -36,6 +49,10 @@ export default class BaseModel {
     }
 
     HasMany() {
+        return [];
+    }
+
+    SerializableRelations() {
         return [];
     }
 

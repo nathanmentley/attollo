@@ -1,3 +1,4 @@
+import 'source-map-support/register';
 import constitute from 'constitute';
 
 import Attollo from "../../Common/Attollo";

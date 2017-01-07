@@ -30,32 +30,46 @@ export default class BaseHandler {
     }
 
     ExportModel(type) {
+		//remove primary key and fks from model.
+		var cleanModel = function(modelType, model) {
+            if(model) {
+                if (Array.isArray(model)) {
+                    model.forEach((x) => {
+                        cleanModel(modelType, x);
+                    });
+                } else {
+                    delete model[modelType.PrimaryKey()];
+                    modelType.ForeignKeys().forEach((fk) => {
+                        delete model[fk];
+                    });
+
+                    modelType.SerializableRelations().forEach((relation) => {
+                        cleanModel(relation.Type, model[relation.Title]);
+                    });
+                }
+            }
+		};
+
+		var getRelations = function(modelType) {
+		    var ret = [];
+
+            modelType.SerializableRelations().forEach((relation) => {
+                ret.push(relation.Title);
+
+                var children = getRelations(relation.Type);
+
+                children.forEach((child) => {
+                    ret.push(relation.Title + '.' + child);
+                });
+            });
+
+            return ret;
+        };
+
         return (authContext, id) => {
             return new Promise((resolve, reject) => {
             	//load related.
-				var related = [];
-
-                type.BelongsTo().forEach((belongsTo) => {
-                	var title = belongsTo.Title;
-                	if(belongsTo.Through) {
-                		belongsTo.Through.forEach((through) => {
-                			title = through.Title + '.' + title;
-						});
-					}
-
-                    related.push(title);
-                });
-
-                type.HasMany().forEach((hasMany) => {
-                    var title = hasMany.Title;
-                    if(hasMany.Through) {
-                        hasMany.Through.forEach((through) => {
-                            title = through.Title + '.' + title;
-                        });
-                    }
-
-                    related.push(title);
-                });
+				var related = getRelations(type);
 
                 //Filter on id/PK
                 type.Model(authContext, false).query((qb) => {
@@ -64,15 +78,7 @@ export default class BaseHandler {
 				.then((result) => {
                     var ret = result.toJSON();
 
-                	//clear PKs and FKs.
-					delete ret[type.PrimaryKey()];
-					type.ForeignKeys().forEach((fk) => {
-						delete ret[fk];
-					});
-                    type.BelongsTo().forEach((belongsTo) => {
-                    });
-                    type.HasMany().forEach((hasMany) => {
-                    });
+                    cleanModel(type, ret);
 
 					resolve(ret);
 				})

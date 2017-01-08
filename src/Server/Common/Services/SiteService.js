@@ -104,9 +104,9 @@ export default class SiteService extends BaseService {
         return this.Context.Handlers.Site.ExportSiteVersion(authContext, id);
     };
 
-    ImportSiteVersion(authContext, data) {
+    ImportSiteVersion(authContext, data, siteId) {
         return this.Context.DBTransaction((transaction) => {
-            this.Context.Handlers.Site.ImportSiteVersion(authContext, transaction, data)
+            this.Context.Handlers.Site.ImportSiteVersion(authContext, transaction, data, siteId, siteId)
                 .then((result) => {
                     transaction.commit(result);
                 }).catch((err) => {
@@ -115,9 +115,9 @@ export default class SiteService extends BaseService {
         });
     };
 
-    CloneSiteVersion(authContext, id) {
+    CloneSiteVersion(authContext, id, siteId) {
         return this.Context.DBTransaction((transaction) => {
-            this.Context.Handlers.Site.CloneSiteVersion(authContext, transaction, id)
+            this.Context.Handlers.Site.CloneSiteVersion(authContext, transaction, id, siteId, siteId)
                 .then((result) => {
                     transaction.commit(result);
                 }).catch((err) => {

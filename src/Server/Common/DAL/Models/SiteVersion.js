@@ -8,6 +8,7 @@ import Site from "./Site";
 import Client from "./Client";
 
 import Page from "./Page";
+import SiteVersionStatus from "./SiteVersionStatus";
 
 @TableName('SiteVersion')
 class SiteVersion extends BaseModel {
@@ -16,14 +17,13 @@ class SiteVersion extends BaseModel {
     }
 
     BelongsTo() {
-        var belongsTo = super.BelongsTo();
-
-        belongsTo.push({ Title: 'Site', Type: Site, Field: "SiteID"  });
-        belongsTo.push({ Title: 'Client', Type: Client, Field: "ClientID", Through: [
-            { Title: 'Site', Type: Site, Field: 'SiteID' }
-        ] });
-
-        return belongsTo;
+        return [
+            { Title: 'Site', Type: Site, Field: "SiteID"  },
+            { Title: 'SiteVersionStatus', Type: SiteVersionStatus, Field: "SiteVersionStatusID"  },
+            { Title: 'Client', Type: Client, Field: "ClientID", Through: [
+                { Title: 'Site', Type: Site, Field: 'SiteID' }
+            ] }
+		];
     }
 
     HasMany() {
@@ -34,7 +34,7 @@ class SiteVersion extends BaseModel {
 
     SerializableRelations() {
         return [
-			{ Title: 'Pages', Type: Page }
+            { Title: 'Pages', Type: Page }
 		];
     }
 

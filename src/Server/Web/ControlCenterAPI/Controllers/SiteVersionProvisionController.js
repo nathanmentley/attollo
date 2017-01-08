@@ -18,10 +18,10 @@ export default class SiteVersionProvisionController extends BaseController {
     }
 
     PostLogic(request, response) {
-        return this._attollo.Services.Site.ImportSiteVersion(request.AuthContext, request.body.site);
+        return this._attollo.Services.Site.ImportSiteVersion(request.AuthContext, request.body.site, request.body.siteId);
     }
 
     PutLogic(request, response) {
-        return this._attollo.Services.Site.CloneSiteVersion(request.AuthContext, request.query.siteVersionId);
+        return this._attollo.Services.Site.CloneSiteVersion(request.AuthContext, request.query.siteVersionId, request.query.siteId);
     }
 };

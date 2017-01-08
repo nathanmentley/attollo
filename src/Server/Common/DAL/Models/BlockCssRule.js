@@ -18,6 +18,12 @@ class ModelClass extends BaseModel {
 
         return belongsTo;
     }
+
+    SerializableRelations() {
+        return [
+            { Title: 'CssRule', Type: CssRule }
+        ];
+    }
 }
 
 export default new ModelClass();

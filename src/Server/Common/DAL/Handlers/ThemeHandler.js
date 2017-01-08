@@ -1,6 +1,6 @@
 import { Dependencies } from 'constitute';
 
-import BaseHandler from '../BaseHandler';
+import BaseHandler from '../Core/BaseHandler';
 import HandlerContext from "../../HandlerContext";
 
 @Dependencies(

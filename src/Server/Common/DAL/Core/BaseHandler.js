@@ -8,11 +8,11 @@ export default class BaseHandler {
 	CloneModel(type) {
 		var self = this;
 
-		return (authContext, transaction, id) => {
+		return (authContext, transaction, id, merge) => {
 			return new Promise((resolve, reject) => {
-				self.ExportModel(Type)(authContext, id)
+				self.ExportModel(type)(authContext, id)
 					.then((result) => {
-						self.ImportModel(type)(authContext, transaction, result)
+						self.ImportModel(type)(authContext, transaction, result, merge)
 							.then((ret) => { resolve(ret); })
 							.catch((err) => { reject(err); });
 					})
@@ -22,9 +22,14 @@ export default class BaseHandler {
 	}
 
     ImportModel(type) {
-        return (authContext, transaction, model) => {
+        return (authContext, transaction, model, merge) => {
             return new Promise((resolve, reject) => {
-                resolve(model);
+                var ImportModel = type.Model(authContext);
+                var importModel = new ImportModel(Object.assign(model, merge));
+
+                importModel.save(null, { transacting: transaction })
+                    .then((result) => { resolve(result); })
+                    .catch((err) => { reject(err); });
             });
         };
     }

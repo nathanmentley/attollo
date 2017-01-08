@@ -9,6 +9,8 @@ export default class SiteVersionList extends BaseComponent {
         super(props);
 
         this.goToPageBin = this.goToPageBin.bind(this);
+        this.export = this.export.bind(this);
+        this.clone = this.clone.bind(this);
     }
 
     goToPageBin(siteVersionId) {
@@ -18,6 +20,12 @@ export default class SiteVersionList extends BaseComponent {
     export(siteVersionId) {
         if(this.props.Export) {
             this.props.Export(siteVersionId);
+        }
+    }
+
+    clone(siteVersionId) {
+        if(this.props.Clone) {
+            this.props.Clone(siteVersionId);
         }
     }
 
@@ -45,6 +53,9 @@ export default class SiteVersionList extends BaseComponent {
                                             </MenuItem>
                                             <MenuItem eventKey="1" onClick={() => { self.export(x.id); }}>
                                                 <Glyphicon glyph="pencil" /> Export
+                                            </MenuItem>
+                                            <MenuItem eventKey="1" onClick={() => { self.clone(x.id); }}>
+                                                <Glyphicon glyph="pencil" /> Clone
                                             </MenuItem>
                                         </DropdownButton>
                                     </td>

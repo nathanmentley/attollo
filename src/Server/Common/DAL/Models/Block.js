@@ -110,6 +110,15 @@ class Block extends BaseModel {
         return ret;
     }
 
+    SerializableRelations() {
+        return [
+            { Title: 'BlockSettings', Type: BlockSetting },
+            { Title: 'BlockCssRules', Type: BlockCssRule },
+            { Title: 'BlockDef', Type: BlockDef },
+            { Title: 'BlockTemplateDef', Type: BlockTemplateDef }
+        ];
+    }
+
     Filter(authContext, query) {
 		if(authContext.ClientID) {
 			var subQuery = Database.Knex.select('clientid').from('site')

@@ -56,6 +56,12 @@ class BlockSetting extends BaseModel {
         return belongsTo;
     }
 
+    SerializableRelations() {
+        return [
+            { Title: 'BlockSettingDef', Type: BlockSettingDef }
+        ];
+    }
+
     Filter(authContext, query) {
 		if(authContext.ClientID) {
 			var subQuery = Database.Knex.select('clientid').from('site')

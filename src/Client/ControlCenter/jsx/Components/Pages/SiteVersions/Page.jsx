@@ -15,6 +15,9 @@ export default class SiteVersionsPage extends BasePage {
         this.state = {
             SiteVersions: []
         };
+
+        this.export = this.export.bind(this);
+        this.clone = this.clone.bind(this);
     }
 
     componentDidMount() {
@@ -38,8 +41,14 @@ export default class SiteVersionsPage extends BasePage {
         });
     }
 
-    Export(siteVersionId) {
+    export(siteVersionId) {
         SiteVersionProvisionService.ExportSiteVersion(siteVersionId).then((res) => {
+            alert(JSON.stringify(res.data.data));
+        });
+    }
+
+    clone(siteVersionId) {
+        SiteVersionProvisionService.CloneSiteVersion(siteVersionId, this.props.params.SiteID).then((res) => {
             alert(JSON.stringify(res.data.data));
         });
     }
@@ -49,7 +58,12 @@ export default class SiteVersionsPage extends BasePage {
             <div>
                 <Row>
                     <Col xs={12} md={12}>
-                        <SiteVersionList SiteVersions={this.state.SiteVersions} SiteID={this.props.params.SiteID} Export={this.Export} />
+                        <SiteVersionList
+                            SiteVersions={this.state.SiteVersions}
+                            SiteID={this.props.params.SiteID}
+                            Export={this.export}
+                            Clone={this.clone}
+                        />
                     </Col>
                 </Row>
             </div>

@@ -80,6 +80,14 @@ class BlockContainer extends BaseModel {
         return ret;
     }
 
+    SerializableRelations() {
+        return [
+            { Title: 'BlockContainerAreas', Type: BlockContainerArea },
+            { Title: 'BlockContainerCssRules', Type: BlockContainerCssRule },
+            { Title: 'BlockContainerDef', Type: BlockContainerDef }
+        ];
+    }
+
     Filter(authContext, query) {
 		if(authContext.ClientID) {
 			var subQuery = Database.Knex.select('clientid').from('site')

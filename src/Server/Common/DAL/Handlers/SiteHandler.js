@@ -1,6 +1,6 @@
 import { Dependencies } from 'constitute';
 
-import BaseHandler from '../BaseHandler';
+import BaseHandler from '../Core/BaseHandler';
 import HandlerContext from "../../HandlerContext";
 
 import SiteVersionType from '../Models/SiteVersion';
@@ -110,12 +110,12 @@ export default class BlockHandler extends BaseHandler {
         return this.ExportModel(SiteVersionType)(authContext, siteVersionId);
     }
 
-    ImportSiteVersion(authContext, transaction, siteVersion) {
-        return this.ImportModel(SiteVersionType)(authContext, transaction, siteVersion);
+    ImportSiteVersion(authContext, transaction, siteVersion, siteId, siteVersionStatusId) {
+        return this.ImportModel(SiteVersionType)(authContext, transaction, siteVersion, { siteid: siteId, siteversionstatusid: siteVersionStatusId });
     }
 
-	CloneSiteVersion(authContext, transaction, siteVersionId) {
-		return this.CloneModel(SiteVersionType)(authContext, transaction, siteVersionId);
+	CloneSiteVersion(authContext, transaction, siteVersionId, siteId, siteVersionStatusId) {
+		return this.CloneModel(SiteVersionType)(authContext, transaction, siteVersionId,  { siteid: siteId, siteversionstatusid: siteVersionStatusId });
 	}
 
 	GetSiteVersionStatus(authContext, code){

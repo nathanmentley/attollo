@@ -52,7 +52,12 @@ class BlockContainerArea extends BaseModel {
         return hasMany;
     }
 
-
+    SerializableRelations() {
+        return [
+            { Title: 'Blocks', Type: Block },
+            { Title: 'BlockContainerAreaDef', Type: BlockContainerAreaDef }
+        ];
+    }
 
     Filter(authContext, query) {
 		if(authContext.ClientID) {

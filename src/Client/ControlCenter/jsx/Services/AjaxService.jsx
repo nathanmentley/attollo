@@ -54,4 +54,8 @@ export default class AjaxService {
     static Delete(url, body, headers) {
         return $ajax.delete(Config.BaseAPIURL + url, body, headers);
     }
+
+    static GetBaseUrl() {
+        return Config.BaseAPIURL;
+    }
 }

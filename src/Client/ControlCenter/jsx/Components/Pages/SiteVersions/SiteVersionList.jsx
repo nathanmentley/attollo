@@ -4,6 +4,8 @@ import { Table, DropdownButton, MenuItem, Glyphicon } from 'react-bootstrap';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
+import SiteVersionProvisionService from '../../../Services/SiteVersionProvisionService.jsx';
+
 export default class SiteVersionList extends BaseComponent {
     constructor(props) {
         super(props);

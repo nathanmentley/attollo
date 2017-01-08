@@ -11,6 +11,10 @@ export default class BaseController {
         this._attollo = attollo;
     }
 
+    get Attollo() {
+        return this._attollo;
+    }
+
     GetLogic(request, response) {
         return new Promise(() => { reject({ message: "Unknown request." }); });
     }

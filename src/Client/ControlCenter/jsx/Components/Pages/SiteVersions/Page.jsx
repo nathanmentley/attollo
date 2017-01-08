@@ -3,6 +3,8 @@ import { Grid, Row, Col, Button, Glyphicon } from 'react-bootstrap';
 
 import BasePage from '../BasePage.jsx';
 
+import FileUtils from '../../../Utils/FileUtils.jsx';
+
 import SiteVersionService from '../../../Services/SiteVersionService.jsx';
 import SiteVersionProvisionService from '../../../Services/SiteVersionProvisionService.jsx';
 
@@ -17,6 +19,7 @@ export default class SiteVersionsPage extends BasePage {
         };
 
         this.publish = this.publish.bind(this);
+        this.import = this.import.bind(this);
         this.export = this.export.bind(this);
         this.clone = this.clone.bind(this);
     }
@@ -47,12 +50,23 @@ export default class SiteVersionsPage extends BasePage {
     }
 
     import() {
-        alert("import");
+        FileUtils.GetFile()
+            .then((result) => {
+                SiteVersionProvisionService.ImportSiteVersion(JSON.parse(result), this.props.params.SiteID)
+                    .then(() => {
+                        SiteVersionService.GetSiteVersions(this.props.params.SiteID).then((res) => {
+                            this.setState({ SiteVersions: res.data.data });
+                        });
+                    });
+            });
     }
 
     export(siteVersionId) {
         SiteVersionProvisionService.ExportSiteVersion(siteVersionId).then((res) => {
-            alert(JSON.stringify(res.data.data));
+            FileUtils.GenerateDownload(
+                "export_siteversion_" + siteVersionId + ".attollo",
+                JSON.stringify(res.data.data)
+            );
         });
     }
 
@@ -70,9 +84,6 @@ export default class SiteVersionsPage extends BasePage {
         return (
             <div>
                 <Row>
-                    <Button bsStyle="primary" onClick={this.import}><Glyphicon glyph="cloud-upload" /> Import</Button>
-                </Row>
-                <Row>
                     <Col xs={12} md={12}>
                         <SiteVersionList
                             SiteVersions={this.state.SiteVersions}
@@ -81,6 +92,14 @@ export default class SiteVersionsPage extends BasePage {
                             Export={this.export}
                             Clone={this.clone}
                         />
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col xs={12} md={12} className="page-action-bar">
+                        <Button bsStyle="primary" className="pull-right" onClick={this.import}>
+                            <Glyphicon glyph="cloud-upload" /> Import
+                        </Button>
                     </Col>
                 </Row>
             </div>

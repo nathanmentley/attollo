@@ -27,6 +27,7 @@ import RoleController from "./Controllers/RoleController";
 import SiteController from "./Controllers/SiteController";
 import SiteVersionController from "./Controllers/SiteVersionController";
 import SiteVersionProvisionController from "./Controllers/SiteVersionProvisionController";
+import SiteVersionPublishController from "./Controllers/SiteVersionPublishController";
 import SiteVersionStatusController from "./Controllers/SiteVersionStatusController";
 import ThemeController from "./Controllers/ThemeController";
 import UserController from "./Controllers/UserController";
@@ -56,6 +57,7 @@ import UserController from "./Controllers/UserController";
     SiteController,
     SiteVersionController,
     SiteVersionProvisionController,
+    SiteVersionPublishController,
     SiteVersionStatusController,
     ThemeController,
     UserController
@@ -86,6 +88,7 @@ export default class AppStart {
         siteController,
         siteVersionController,
         siteVersionProvisionController,
+        siteVersionPublishController,
         siteVersionStatusController,
         themeController,
         userController
@@ -115,6 +118,7 @@ export default class AppStart {
             siteController,
             siteVersionController,
             siteVersionProvisionController,
+            siteVersionPublishController,
             siteVersionStatusController,
             themeController,
             userController

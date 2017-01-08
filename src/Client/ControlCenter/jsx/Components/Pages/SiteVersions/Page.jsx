@@ -7,6 +7,7 @@ import FileUtils from '../../../Utils/FileUtils.jsx';
 
 import SiteVersionService from '../../../Services/SiteVersionService.jsx';
 import SiteVersionProvisionService from '../../../Services/SiteVersionProvisionService.jsx';
+import SiteVersionPublishService from '../../../Services/SiteVersionPublishService.jsx';
 
 import SiteVersionList from './SiteVersionList.jsx';
 
@@ -46,7 +47,12 @@ export default class SiteVersionsPage extends BasePage {
     }
 
     publish(siteVersionId) {
-        alert(siteVersionId);
+        SiteVersionPublishService.PublishSiteVersion(siteVersionId)
+            .then(() => {
+                SiteVersionService.GetSiteVersions(this.props.params.SiteID).then((res) => {
+                    this.setState({ SiteVersions: res.data.data });
+                });
+            });
     }
 
     import() {

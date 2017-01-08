@@ -86,18 +86,46 @@ export default class BlockHandler extends BaseHandler {
 	};
 
 
-	GetSiteVersions(authContext, siteId){
-		return this.Context.DatabaseContext.SiteVersions(authContext)
-			.query({
-				where: {
-					siteid: siteId
-				}
-			}).fetch({
+    GetSiteVersion(authContext, siteVersionId){
+        return this.Context.DatabaseContext.SiteVersion(authContext)
+            .query({
+                where: {
+                    id: siteVersionId
+                }
+            }).fetch({
                 withRelated: [
                     'SiteVersionStatus'
                 ]
             });
-	};
+    };
+
+
+    GetSiteVersions(authContext, siteId){
+        return this.Context.DatabaseContext.SiteVersions(authContext)
+            .query({
+                where: {
+                    siteid: siteId
+                }
+            }).fetch({
+                withRelated: [
+                    'SiteVersionStatus'
+                ]
+            });
+    };
+
+    GetSiteVersionsByStatusId(authContext, siteId, statusId){
+        return this.Context.DatabaseContext.SiteVersions(authContext)
+            .query({
+                where: {
+                    siteid: siteId,
+					siteversionstatusid: statusId
+                }
+            }).fetch({
+                withRelated: [
+                    'SiteVersionStatus'
+                ]
+            });
+    };
 
 	AddSiteVersion(authContext, transaction, siteId, siteVersionStatusId){
 		var SiteVersion = this.Context.DatabaseContext.SiteVersion(authContext);
@@ -110,6 +138,13 @@ export default class BlockHandler extends BaseHandler {
 		return siteVersion.save(null, { transacting: transaction });
 	};
 
+    UpdateSiteVersion(authContext, transaction, model){
+        var SiteVersion = this.Context.DatabaseContext.SiteVersion(authContext);
+        var siteVersion = new SiteVersion(model);
+
+        return siteVersion.save(null, { transacting: transaction });
+    };
+
     ExportSiteVersion(authContext, siteVersionId) {
         return this.ExportModel(SiteVersionType)(authContext, siteVersionId);
     }
@@ -121,6 +156,8 @@ export default class BlockHandler extends BaseHandler {
 	CloneSiteVersion(authContext, transaction, siteVersionId, siteId, siteVersionStatusId) {
 		return this.CloneModel(SiteVersionType)(authContext, transaction, siteVersionId,  { siteid: siteId, siteversionstatusid: siteVersionStatusId, current: false });
 	}
+
+
 
 	GetSiteVersionStatus(authContext, code){
 		return this.Context.DatabaseContext.SiteVersionStatuses(authContext)

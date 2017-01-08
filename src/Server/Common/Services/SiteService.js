@@ -28,9 +28,13 @@ export default class SiteService extends BaseService {
 		return this.Context.Handlers.Site.GetCurrentSiteVersion(authContext, site);
 	};
 
-	GetSiteVersions(authContext, siteId){
-		return this.Context.Handlers.Site.GetSiteVersions(authContext, siteId);
-	};
+    GetSiteVersions(authContext, siteId){
+        return this.Context.Handlers.Site.GetSiteVersions(authContext, siteId);
+    };
+
+    GetSiteVersion(authContext, siteVersionId){
+        return this.Context.Handlers.Site.GetSiteVersion(authContext, siteVersionId);
+    };
 	
 	//Site
 
@@ -147,6 +151,71 @@ export default class SiteService extends BaseService {
                 });
         });
     };
+
+    PublishSiteVersion(authContext, id) {
+        return new Promise((resolve, reject) => {
+        	this.GetSiteVersion(authContext, id)
+				.then((siteVersion) => {
+                    this.GetSiteVersionStatus(authContext, SiteVersionStatusCodes.Editing)
+                        .then((editingStatus) => {
+                            this.GetSiteVersionStatus(authContext, SiteVersionStatusCodes.Published)
+                                .then((publishedStatus) => {
+                                    var editingStatusId = editingStatus.first().get('id');
+                                    var publishedStatusId = publishedStatus.first().get('id');
+
+                                    this.Context.Handlers.Site.GetSiteVersionsByStatusId(authContext, siteVersion.get('siteid'), publishedStatusId)
+										.then((publishedVersions) => {
+                                            this.Context.DBTransaction((transaction) => {
+                                            	var promises = [];
+
+                                                publishedVersions.toJSON().forEach((publishedVersion) => {
+                                                    publishedVersion.current = false;
+                                                    publishedVersion.siteversionstatusid = editingStatusId;
+
+                                                	promises.push(
+                                                        this.Context.Handlers.Site.UpdateSiteVersion(authContext, transaction, publishedVersion)
+													);
+												});
+
+                                            	var newPublishedModel = siteVersion.toJSON();
+                                                newPublishedModel.current = true;
+                                                newPublishedModel.siteversionstatusid = publishedStatusId;
+
+                                                promises.push(
+                                                    this.Context.Handlers.Site.UpdateSiteVersion(authContext, transaction, newPublishedModel)
+												);
+
+                                                Promise.all(promises)
+													.then(() => {
+														transaction.commit(siteVersion);
+													}).catch((err) => {
+														transaction.rollback(err);
+													});
+                                            })
+                                                .then(() => {
+                                                    resolve(siteVersion);
+                                                })
+                                                .catch((err) => {
+                                                    reject(err);
+                                                });
+										})
+                                        .catch((err) => {
+                                            reject(err);
+                                        });
+                                })
+                                .catch((err) => {
+                                    reject(err);
+                                });
+                        })
+                        .catch((err) => {
+                            reject(err);
+                        });
+				})
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+	}
 
     //SiteVersionStatus
 

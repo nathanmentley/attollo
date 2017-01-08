@@ -92,7 +92,11 @@ export default class BlockHandler extends BaseHandler {
 				where: {
 					siteid: siteId
 				}
-			}).fetch();
+			}).fetch({
+                withRelated: [
+                    'SiteVersionStatus'
+                ]
+            });
 	};
 
 	AddSiteVersion(authContext, transaction, siteId, siteVersionStatusId){
@@ -111,11 +115,11 @@ export default class BlockHandler extends BaseHandler {
     }
 
     ImportSiteVersion(authContext, transaction, siteVersion, siteId, siteVersionStatusId) {
-        return this.ImportModel(SiteVersionType)(authContext, transaction, siteVersion, { siteid: siteId, siteversionstatusid: siteVersionStatusId });
+        return this.ImportModel(SiteVersionType)(authContext, transaction, siteVersion, { siteid: siteId, siteversionstatusid: siteVersionStatusId, current: false });
     }
 
 	CloneSiteVersion(authContext, transaction, siteVersionId, siteId, siteVersionStatusId) {
-		return this.CloneModel(SiteVersionType)(authContext, transaction, siteVersionId,  { siteid: siteId, siteversionstatusid: siteVersionStatusId });
+		return this.CloneModel(SiteVersionType)(authContext, transaction, siteVersionId,  { siteid: siteId, siteversionstatusid: siteVersionStatusId, current: false });
 	}
 
 	GetSiteVersionStatus(authContext, code){

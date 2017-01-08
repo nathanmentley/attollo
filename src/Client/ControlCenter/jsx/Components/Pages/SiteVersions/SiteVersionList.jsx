@@ -8,9 +8,16 @@ export default class SiteVersionList extends BaseComponent {
     constructor(props) {
         super(props);
 
+        this.publish = this.publish.bind(this);
         this.goToPageBin = this.goToPageBin.bind(this);
         this.export = this.export.bind(this);
         this.clone = this.clone.bind(this);
+    }
+
+    publish(siteVersionId) {
+        if(this.props.Publish) {
+            this.props.Publish(siteVersionId);
+        }
     }
 
     goToPageBin(siteVersionId) {
@@ -37,6 +44,7 @@ export default class SiteVersionList extends BaseComponent {
                 <thead>
                     <tr>
                         <th>Version</th>
+                        <th>Status</th>
                         <th className="action-col">Action</th>
                     </tr>
                 </thead>
@@ -45,17 +53,21 @@ export default class SiteVersionList extends BaseComponent {
                         this.props.SiteVersions.map((x) => {
                             return (
                                 <tr key={x.id}>
-                                    <td onClick={() => { self.goToPageBin(x.id); }}>{x.id}</td>
+                                    <td>{x.id}</td>
+                                    <td>{x.SiteVersionStatus.name}</td>
                                     <td >
                                         <DropdownButton title={<Glyphicon glyph="cog" />} id={x.id + '-action-button'}>
+                                            <MenuItem eventKey="1" onClick={() => { self.publish(x.id); }}>
+                                                <Glyphicon glyph="ok" /> Publish
+                                            </MenuItem>
                                             <MenuItem eventKey="1" onClick={() => { self.goToPageBin(x.id); }}>
                                                 <Glyphicon glyph="pencil" /> Edit
                                             </MenuItem>
                                             <MenuItem eventKey="1" onClick={() => { self.export(x.id); }}>
-                                                <Glyphicon glyph="pencil" /> Export
+                                                <Glyphicon glyph="cloud-download" /> Export
                                             </MenuItem>
                                             <MenuItem eventKey="1" onClick={() => { self.clone(x.id); }}>
-                                                <Glyphicon glyph="pencil" /> Clone
+                                                <Glyphicon glyph="asterisk" /> Clone
                                             </MenuItem>
                                         </DropdownButton>
                                     </td>

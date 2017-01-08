@@ -1,5 +1,7 @@
 import { Dependencies } from 'constitute';
 
+import SiteVersionStatusCodes from '../../../Platform/Constants/SiteVersionStatusCodes';
+
 import BaseService from '../BaseService';
 
 import ServiceContext from "../ServiceContext";
@@ -46,7 +48,7 @@ export default class SiteService extends BaseService {
 		return new Promise(function(resolve, reject) {
 			self._ThemeService.GetTheme(authContext, themeCode)
 			.then((theme) => {
-				self.GetSiteVersionStatus(authContext, "Published")
+				self.GetSiteVersionStatus(authContext, SiteVersionStatusCodes.Published)
 				.then((status) => {
 					self.Context.DBTransaction((transaction) => {
 						self.Context.Handlers.Site.AddSite(authContext, transaction, theme.get('id'))
@@ -105,24 +107,44 @@ export default class SiteService extends BaseService {
     };
 
     ImportSiteVersion(authContext, data, siteId) {
-        return this.Context.DBTransaction((transaction) => {
-            this.Context.Handlers.Site.ImportSiteVersion(authContext, transaction, data, siteId, siteId)
-                .then((result) => {
-                    transaction.commit(result);
-                }).catch((err) => {
-                transaction.rollback(err);
-            });
-        });
+    	return new Promise((resolve, reject) => {
+            this.GetSiteVersionStatus(authContext, SiteVersionStatusCodes.Editing)
+                .then((status) => {
+                    this.Context.DBTransaction((transaction) => {
+                        this.Context.Handlers.Site.ImportSiteVersion(authContext, transaction, data, siteId, status.first().get('id'))
+                            .then((result) => {
+                                transaction.commit(result);
+                                resolve(result);
+                            }).catch((err) => {
+								transaction.rollback(err);
+								reject(err);
+							});
+                    });
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+		});
     };
 
     CloneSiteVersion(authContext, id, siteId) {
-        return this.Context.DBTransaction((transaction) => {
-            this.Context.Handlers.Site.CloneSiteVersion(authContext, transaction, id, siteId, siteId)
-                .then((result) => {
-                    transaction.commit(result);
-                }).catch((err) => {
-                transaction.rollback(err);
-            });
+        return new Promise((resolve, reject) => {
+            this.GetSiteVersionStatus(authContext, SiteVersionStatusCodes.Editing)
+                .then((status) => {
+                    this.Context.DBTransaction((transaction) => {
+                        this.Context.Handlers.Site.CloneSiteVersion(authContext, transaction, id, siteId, status.first().get('id'))
+                            .then((result) => {
+                                transaction.commit(result);
+                                resolve(result);
+                            }).catch((err) => {
+                            transaction.rollback(err);
+                            reject(err);
+                        });
+                    });
+                })
+                .catch((err) => {
+                    reject(err);
+                });
         });
     };
 

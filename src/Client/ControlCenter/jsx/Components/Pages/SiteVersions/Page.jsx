@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Glyphicon } from 'react-bootstrap';
 
 import BasePage from '../BasePage.jsx';
 
@@ -16,6 +16,7 @@ export default class SiteVersionsPage extends BasePage {
             SiteVersions: []
         };
 
+        this.publish = this.publish.bind(this);
         this.export = this.export.bind(this);
         this.clone = this.clone.bind(this);
     }
@@ -41,6 +42,14 @@ export default class SiteVersionsPage extends BasePage {
         });
     }
 
+    publish(siteVersionId) {
+        alert(siteVersionId);
+    }
+
+    import() {
+        alert("import");
+    }
+
     export(siteVersionId) {
         SiteVersionProvisionService.ExportSiteVersion(siteVersionId).then((res) => {
             alert(JSON.stringify(res.data.data));
@@ -48,8 +57,12 @@ export default class SiteVersionsPage extends BasePage {
     }
 
     clone(siteVersionId) {
+        var self = this;
+
         SiteVersionProvisionService.CloneSiteVersion(siteVersionId, this.props.params.SiteID).then((res) => {
-            alert(JSON.stringify(res.data.data));
+            SiteVersionService.GetSiteVersions(this.props.params.SiteID).then((res) => {
+                self.setState({ SiteVersions: res.data.data });
+            });
         });
     }
 
@@ -57,10 +70,14 @@ export default class SiteVersionsPage extends BasePage {
         return (
             <div>
                 <Row>
+                    <Button bsStyle="primary" onClick={this.import}><Glyphicon glyph="cloud-upload" /> Import</Button>
+                </Row>
+                <Row>
                     <Col xs={12} md={12}>
                         <SiteVersionList
                             SiteVersions={this.state.SiteVersions}
                             SiteID={this.props.params.SiteID}
+                            Publish={this.publish}
                             Export={this.export}
                             Clone={this.clone}
                         />

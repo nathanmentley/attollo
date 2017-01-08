@@ -91,11 +91,11 @@ export default DragDropContext(HTML5Backend)(
                                 },
                                 {
                                     title: "Site Versions",
-                                    url: "/Sites/" + this.props.params.SiteVersionID
+                                    url: "/Sites/" + this.props.params.SiteID
                                 },
                                 {
                                     title: "Pages",
-                                    url: "/Sites/" + this.props.params.SiteVersionID + "/" + this.props.params.SiteID
+                                    url: "/Sites/" + this.props.params.SiteID + "/" + this.props.params.SiteVersionID
                                 }
                             ]);
                         }); 

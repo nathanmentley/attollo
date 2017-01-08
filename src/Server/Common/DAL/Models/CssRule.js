@@ -12,11 +12,15 @@ class CssRule extends BaseModel {
     }
 
     BelongsTo() {
-        var belongsTo = super.BelongsTo();
+        return [
+            { Title: 'CssRuleDef', Type: CssRuleDef, Field: "CssRuleDefID"  }
+        ];
+    }
 
-        belongsTo.push({ Title: 'CssRuleDef', Type: CssRuleDef, Field: "CssRuleDefID"  });
-
-        return belongsTo;
+    SerializableRelations() {
+        return [
+            { Title: 'CssRuleDef', Type: CssRuleDef }
+        ];
     }
 }
 

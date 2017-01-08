@@ -9,19 +9,17 @@ import CssRuleDefGroup from "./CssRuleDefGroup";
 
 @SystemData()
 @TableName('cssruledef')
-class ModelClass extends BaseModel {
+class CssRuleDef extends BaseModel {
     constructor() {
         super();
     }
 
     BelongsTo() {
-        var belongsTo = super.BelongsTo();
-
-        belongsTo.push({ Title: 'CssRuleDefType', Type: CssRuleDefType, Field: "CssRuleDefTypeID"  });
-        belongsTo.push({ Title: 'CssRuleDefGroup', Type: CssRuleDefGroup, Field: "CssRuleDefGroupID"  });
-
-        return belongsTo;
+        return [
+            { Title: 'CssRuleDefType', Type: CssRuleDefType, Field: "CssRuleDefTypeID"  },
+            { Title: 'CssRuleDefGroup', Type: CssRuleDefGroup, Field: "CssRuleDefGroupID"  }
+        ];
     }
 }
 
-export default new ModelClass();
+export default new CssRuleDef();

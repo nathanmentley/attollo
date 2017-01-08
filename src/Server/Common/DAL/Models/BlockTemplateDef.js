@@ -1,10 +1,11 @@
 import TableName from "../Core/Decorators/TableName";
-
+import SystemData from "../Core/Decorators/SystemData";
 
 import BaseModel from "../Core/BaseModel";
     
 import BlockDef from "./BlockDef";
 
+@SystemData()
 @TableName('BlockTemplateDef')
 class BlockTemplateDef extends BaseModel {
     constructor() {

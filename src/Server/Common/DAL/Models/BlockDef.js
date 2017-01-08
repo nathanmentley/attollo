@@ -1,6 +1,5 @@
 import TableName from "../Core/Decorators/TableName";
-
-
+import SystemData from "../Core/Decorators/SystemData";
 
 import BaseModel from "../Core/BaseModel"
 
@@ -10,6 +9,7 @@ import BlockDefDataRequest from "./BlockDefDataRequest";
 import BlockDefFunction from "./BlockDefFunction";
 import BlockSettingDef from "./BlockSettingDef";
 
+@SystemData()
 @TableName('blockdef')
 class ModelClass extends BaseModel {
     constructor() {

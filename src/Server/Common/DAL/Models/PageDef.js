@@ -1,7 +1,9 @@
+import SystemData from "../Core/Decorators/SystemData";
 import TableName from "../Core/Decorators/TableName";
 
 import BaseModel from "../Core/BaseModel";
 
+@SystemData()
 @TableName('pagedef')
 class PageDef extends BaseModel {
     constructor() {

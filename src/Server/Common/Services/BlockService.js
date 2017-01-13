@@ -104,16 +104,16 @@ export default class BlockService extends BaseService {
 							resolve(result);
 						})
 						.catch((err) => {
-							reject({ message: err.message });
+							reject(err);
 						});
 					}).catch((err) => {
-						reject({ message: err.message });
+                        reject(err);
 					});
 				}).catch((err) => {
-					reject({ message: err.message });
+                    reject(err);
 				});
 			} catch(e) {
-				reject({ message: e.message });
+                reject(e);
 			}
 		});
 	};
@@ -339,43 +339,55 @@ export default class BlockService extends BaseService {
 		return this.Context.Handlers.Block.GetBlocks(authContext, blockContainerId);
 	};
 	
-	AddBlock(authContext, blockContainerId, areaCode, blockDefCode, blockTemplateCode){
+	AddBlock(authContext, siteVersionId, blockContainerId, areaCode, blockDefCode, blockTemplateCode){
 		var self = this;
 
 		return new Promise(function(resolve, reject) {
 			try{
-				self.GetBlockContainerArea(authContext, blockContainerId, areaCode)
-				.then((area) => {
-					self.GetBlockDef(authContext, blockDefCode)
-					.then((blockDef) => {
-						self.GetBlockTemplateDef(authContext, blockDef.first().get('id'), blockTemplateCode)
-						.then((blockTemplateDef) => {
-							self.Context.DBTransaction((transaction) => {
-                                self.Context.Handlers.Block.AddBlock(authContext, transaction, area.first(), blockDef.first(), blockTemplateDef.first())
-								.then((result) => {
-									transaction.commit(result);
-								}).catch((err) => {
-									transaction.rollback(err);
-								});
-							})
-							.then(() => {
-								resolve();
-							})
-							.catch((err) => {
-								reject({ stack: err.stack, message: err.message });
-							});
-						})
-						.catch((err) => {
-							reject({ stack: err.stack, message: err.message });
-						});
-					}).catch((err) => {
-						reject({ stack: err.stack, message: err.message });
+				self.Context.Handlers.Site.GetSiteVersion(authContext, siteVersionId)
+					.then((siteVersion) => {
+                        self.GetBlockContainerArea(authContext, blockContainerId, areaCode)
+                            .then((area) => {
+                                self.GetBlockDef(authContext, blockDefCode)
+                                    .then((blockDef) => {
+                                        self.GetBlockTemplateDef(authContext, blockDef.first().get('id'), blockTemplateCode)
+                                            .then((blockTemplateDef) => {
+                                                self.Context.DBTransaction((transaction) => {
+                                                    self.Context.Handlers.Block.AddBlock(authContext, transaction, siteVersion, blockDef.first(), blockTemplateDef.first())
+                                                        .then((block) => {
+                                                            self.AddBlockcontainerAreaInstance(authContext, transaction, block, area.first())
+                                                                .then((result) => {
+                                                                    transaction.commit(result);
+                                                                })
+                                                                .catch((err) => {
+                                                                    transaction.rollback(err);
+                                                                });
+                                                        }).catch((err) => {
+                                                        transaction.rollback(err);
+                                                    });
+                                                })
+                                                    .then((result) => {
+                                                        resolve(result);
+                                                    })
+                                                    .catch((err) => {
+                                                        reject(err);
+                                                    });
+                                            })
+                                            .catch((err) => {
+                                                reject(err);
+                                            });
+                                    }).catch((err) => {
+                                    reject(err);
+                                });
+                            }).catch((err) => {
+                            reject(err);
+                        });
+					})
+					.catch((err) => {
+						reject(err);
 					});
-				}).catch((err) => {
-					reject({ stack: err.stack, message: err.message });
-				});
 			} catch(e) {
-				reject({ message: e.message });
+                reject(e);
 			}
 		});
 	};
@@ -435,6 +447,12 @@ export default class BlockService extends BaseService {
 				.replace("with (data)", "")
 				.replace("this.props ? this : data", "data");
 	};
+
+    //BlockcontainerAreaInstance
+
+    AddBlockcontainerAreaInstance(authContext, transaction, block, area) {
+        return this.Context.Handlers.Block.AddBlockcontainerAreaInstance(authContext, transaction, block, area);
+    }
 
 	//BlockSettingDef
 

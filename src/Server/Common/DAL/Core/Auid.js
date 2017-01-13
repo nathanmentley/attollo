@@ -8,6 +8,7 @@ var SchemaIdFields = [
     'BlockContainerDefID'.toLowerCase(),
     'BlockContainerAreaID'.toLowerCase(),
     'BlockContainerAreaDefID'.toLowerCase(),
+    'BlockContainerAreaInstanceID'.toLowerCase(),
     'BlockID'.toLowerCase(),
     "BlockCssRuleID".toLowerCase(),
     'BlockDefID'.toLowerCase(),
@@ -67,7 +68,7 @@ class Auid {
                     .digest('hex').substring(0, 4))
                     .toUpperCase();
             if(checkSumClaim !== checkSumExpected) {
-                throw new Error("Invalid AUID.");
+                throw new Error("Invalid AUID: " + auid);
             }
             newId = parseInt(newId.toLowerCase(), 36) >> 5;
             newId = newId ^ key;

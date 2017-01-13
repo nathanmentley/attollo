@@ -13,7 +13,7 @@ import Client from "./Client";
 import BlockContainer from "./BlockContainer";
 import BlockContainerAreaDef from "./BlockContainerAreaDef";
 
-import Block from "./Block";
+import BlockContainerAreaInstance from "./BlockContainerAreaInstance";
 
 @TableName('blockcontainerarea')
 class BlockContainerArea extends BaseModel {
@@ -47,14 +47,14 @@ class BlockContainerArea extends BaseModel {
     HasMany() {
         var hasMany = super.HasMany();
 
-        hasMany.push({ Title: 'Blocks', Type: Block, Field: "blockcontainerareaid"  });
+        hasMany.push({ Title: 'BlockContainerAreaInstances', Type: BlockContainerAreaInstance, Field: "blockcontainerareaid"  });
 
         return hasMany;
     }
 
     SerializableRelations() {
         return [
-            { Title: 'Blocks', Type: Block },
+            { Title: 'BlockContainerAreaInstances', Type: BlockContainerAreaInstance },
             { Title: 'BlockContainerAreaDef', Type: BlockContainerAreaDef }
         ];
     }

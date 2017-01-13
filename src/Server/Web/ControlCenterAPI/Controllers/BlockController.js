@@ -18,8 +18,8 @@ export default class BlockController extends BaseController {
     }
     PostLogic(request, response) {
         return this._attollo.Services.Block.AddBlock(
-            request.AuthContext, request.body.blockContainerId, request.body.areaCode,
-            request.body.code, request.body.templateCode
+            request.AuthContext, request.body.siteVersionId, request.body.blockContainerId,
+            request.body.areaCode, request.body.code, request.body.templateCode
         );
     }
     PutLogic(request, response) {

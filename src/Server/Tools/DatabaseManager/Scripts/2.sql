@@ -282,10 +282,16 @@ CREATE TABLE IF NOT EXISTS BlockDefDataRequest (
 
 CREATE TABLE IF NOT EXISTS Block (
     ID SERIAL PRIMARY KEY,
-    BlockDefID integer REFERENCES BlockDef,
-    BlockContainerAreaID integer REFERENCES BlockContainerArea NOT NULL,
+    SiteVersionID integer REFERENCES SiteVersion NOT NULL,
+    BlockDefID integer REFERENCES BlockDef NOT NULL,
     BlockTemplateDefID integer REFERENCES BlockTemplateDef NOT NULL,
     Title VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS BlockContainerAreaInstance(
+    ID SERIAL PRIMARY KEY,
+    BlockID integer REFERENCES Block NOT NULL,
+    BlockContainerAreaID integer REFERENCES BlockContainerArea NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS BlockCssRule (

@@ -98,11 +98,11 @@ export default class BlockHandler extends BaseHandler {
 			}).fetch({ withRelated: ['BlockDef', 'BlockContainerArea.BlockContainerAreaDef'] });
 	};
 	
-	AddBlock(authContext, transaction, blockContainerArea, blockDef, blockTemplateDef){
+	AddBlock(authContext, transaction, siteVersion, blockDef, blockTemplateDef){
 		var Block = this.Context.DatabaseContext.Block(authContext);
 		var block = new Block({
+			siteversionid: siteVersion.get('id'),
 			blockdefid: blockDef.id,
-			blockcontainerareaid: blockContainerArea.get('id'),
 			title: blockDef.get('name'),
 			blocktemplatedefid: blockTemplateDef.get('id')
 		});
@@ -177,19 +177,19 @@ export default class BlockHandler extends BaseHandler {
 				qb.where('pageid', '=', pageId);
 			}).fetch({ withRelated: [
 				'BlockContainerDef',
-				'BlockContainerAreas.Blocks',
-				'BlockContainerAreas.Blocks.BlockSettings',
-				'BlockContainerAreas.Blocks.BlockSettings.BlockSettingDef',
-				'BlockContainerAreas.Blocks.BlockSettings.BlockSettingDef.SettingType',
-				'BlockContainerAreas.Blocks.BlockDef',
-				'BlockContainerAreas.Blocks.BlockDef.BlockSettingDefs',
-				'BlockContainerAreas.Blocks.BlockDef.BlockSettingDefs.SettingType',
-				'BlockContainerAreas.Blocks.BlockDef.BlockDefDataRequests',
-				'BlockContainerAreas.Blocks.BlockDef.BlockDefFunctions',
-				'BlockContainerAreas.Blocks.BlockTemplateDef',
-				'BlockContainerAreas.Blocks.BlockCssRules',
-				'BlockContainerAreas.Blocks.BlockCssRules.CssRule',
-				'BlockContainerAreas.Blocks.BlockCssRules.CssRule.CssRuleDef',
+				'BlockContainerAreas.BlockContainerAreaInstances.Block',
+				'BlockContainerAreas.BlockContainerAreaInstances.Block.BlockSettings',
+				'BlockContainerAreas.BlockContainerAreaInstances.Block.BlockSettings.BlockSettingDef',
+				'BlockContainerAreas.BlockContainerAreaInstances.Block.BlockSettings.BlockSettingDef.SettingType',
+				'BlockContainerAreas.BlockContainerAreaInstances.Block.BlockDef',
+				'BlockContainerAreas.BlockContainerAreaInstances.Block.BlockDef.BlockSettingDefs',
+				'BlockContainerAreas.BlockContainerAreaInstances.Block.BlockDef.BlockSettingDefs.SettingType',
+				'BlockContainerAreas.BlockContainerAreaInstances.Block.BlockDef.BlockDefDataRequests',
+				'BlockContainerAreas.BlockContainerAreaInstances.Block.BlockDef.BlockDefFunctions',
+				'BlockContainerAreas.BlockContainerAreaInstances.Block.BlockTemplateDef',
+				'BlockContainerAreas.BlockContainerAreaInstances.Block.BlockCssRules',
+				'BlockContainerAreas.BlockContainerAreaInstances.Block.BlockCssRules.CssRule',
+				'BlockContainerAreas.BlockContainerAreaInstances.Block.BlockCssRules.CssRule.CssRuleDef',
 				'BlockContainerAreas.BlockContainerAreaDef'
 			] });
 	};
@@ -221,6 +221,18 @@ export default class BlockHandler extends BaseHandler {
 				]
 			});
 	};
+
+	//BlockcontainerAreaInstance
+
+	AddBlockcontainerAreaInstance(authContext, transaction, block, area) {
+        var BlockContainerAreaInstance = this.Context.DatabaseContext.BlockContainerAreaInstance(authContext);
+        var blockContainerAreaInstance = new BlockContainerAreaInstance({
+            blockid: block.get('id'),
+            blockcontainerareaid: area.get('id')
+        });
+
+        return blockContainerAreaInstance.save(null, { transacting: transaction });
+	}
 
 	//BlockContainerAreaDef
 

@@ -15,8 +15,10 @@ export default class BaseBlockContainerComponent extends BaseComponent {
             return x.BlockContainerAreaDef.code == code
         });
 
-        if(area && area.Blocks.length) {
-            return area.Blocks[0];
+        if(area && area.BlockContainerAreaInstances.length) {
+            if(area.BlockContainerAreaInstances[0].Block) {
+                return area.BlockContainerAreaInstances[0].Block;
+            }
         }
 
         return null;

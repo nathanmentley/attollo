@@ -4,14 +4,11 @@ import Auid from "../Core/Auid";
 import BaseModel from "../Core/BaseModel";
 import Database from "../Core/Database";
 
-import Page from "./Page";
 import SiteVersion from "./SiteVersion";
 import Site from "./Site";
 import Client from "./Client";
 import BlockCssRule from "./BlockCssRule";
-import BlockContainer from "./BlockContainer";
-import BlockContainerArea from "./BlockContainerArea";
-import BlockContainerAreaDef from "./BlockContainerAreaDef";
+
 import BlockDef from "./BlockDef";
 import BlockTemplateDef from "./BlockTemplateDef";
 import BlockSetting from "./BlockSetting";
@@ -35,46 +32,13 @@ class Block extends BaseModel {
             Type: BlockTemplateDef,
             Field: 'BlockTemplateDefID'
         });
-        ret.push({
-            Title: 'BlockContainerArea',
-            Type: BlockContainerArea,
-            Field: 'BlockContainerAreaID'
-        });
 
-        ret.push({
-            Title: 'BlockContainerAreaDef',
-            Type: BlockContainerAreaDef,
-            Field: 'BlockContainerAreaDefID',
-            Through: [
-                { Type: BlockContainerArea, Field: 'blockcontainerareaid' }
-            ]
-        });
-        ret.push({
-            Title: 'BlockContainer',
-            Type: BlockContainer,
-            Field: 'BlockContainerID',
-            Through: [
-                { Type: BlockContainerAreaDef, Field: 'blockcontainerareadefid' }
-            ]
-        });
-        ret.push({
-            Title: 'Page',
-            Type: Page,
-            Field: 'PageID',
-            Through: [
-                { Type: BlockContainer, Field: 'blockcontainerid' },
-                { Type: BlockContainerAreaDef, Field: 'blockcontainerareadefid' }
-            ]
-        });
         ret.push({
             Title: 'Site',
             Type: Site,
             Field: 'SiteID',
             Through: [
-                { Type: SiteVersion, Field: 'siteversionid' },
-                { Type: Page, Field: 'pageid' },
-                { Type: BlockContainer, Field: 'blockcontainerid' },
-                { Type: BlockContainerAreaDef, Field: 'blockcontainerareadefid' }
+                { Type: SiteVersion, Field: 'siteversionid' }
             ]
         });
         ret.push({
@@ -83,10 +47,7 @@ class Block extends BaseModel {
             Field: 'ClientID',
             Through: [
                 { Type: Site, Field: 'siteid' },
-                { Type: SiteVersion, Field: 'siteversionid' },
-                { Type: Page, Field: 'pageid' },
-                { Type: BlockContainer, Field: 'blockcontainerid' },
-                { Type: BlockContainerAreaDef, Field: 'blockcontainerareadefid' }
+                { Type: SiteVersion, Field: 'siteversionid' }
             ]
         });
 
@@ -123,30 +84,19 @@ class Block extends BaseModel {
 		if(authContext.ClientID) {
 			var subQuery = Database.Knex.select('clientid').from('site')
 				.leftJoin('siteversion', 'site.id', '=', 'siteversion.siteid')
-				.leftJoin('page', 'siteversion.id', '=', 'page.siteversionid')
-				.leftJoin('blockcontainer', 'blockcontainer.pageid', '=', 'page.id')
-				.leftJoin('blockcontainerarea', 'blockcontainerarea.blockcontainerid', '=', 'blockcontainer.id');
 			query.whereRaw(
-				'(' + subQuery + ' where blockcontainerarea.id = block.blockcontainerareaid) = ' + Auid.Decode(authContext.ClientID)
+				'(' + subQuery + ' where siteversion.id = block.siteversionid) = ' + Auid.Decode(authContext.ClientID)
 			);
 		}
 		if(authContext.SiteID) {
 			var subQuery = Database.Knex.select('siteid').from('siteversion')
-				.leftJoin('page', 'siteversion.id', '=', 'page.siteversionid')
-				.leftJoin('blockcontainer', 'blockcontainer.pageid', '=', 'page.id')
-				.leftJoin('blockcontainerarea', 'blockcontainerarea.blockcontainerid', '=', 'blockcontainer.id');
 			query.whereRaw(
-				'(' + subQuery + ' where blockcontainerarea.id = block.blockcontainerareaid) = ' + Auid.Decode(authContext.SiteID)
+				'(' + subQuery + ' where siteversion.id = block.siteversionid) = ' + Auid.Decode(authContext.SiteID)
 			);
 		}
 		
 		if(authContext.SiteVersionID) {
-			var subQuery = Database.Knex.select('siteversionid').from('page')
-				.leftJoin('blockcontainer', 'blockcontainer.pageid', '=', 'page.id')
-				.leftJoin('blockcontainerarea', 'blockcontainerarea.blockcontainerid', '=', 'blockcontainer.id');
-			query.whereRaw(
-				'(' + subQuery + ' where blockcontainerarea.id = block.blockcontainerareaid) = ' + Auid.Decode(authContext.SiteVersionID)
-			);
+			query.where('siteversionid', '=', authContext.SiteVersionID);
 		}
     }
 }

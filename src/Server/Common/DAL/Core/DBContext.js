@@ -5,6 +5,7 @@ import BlockContainerCssRule from "../Models/BlockContainerCssRule";
 import BlockContainerDef from "../Models/BlockContainerDef";
 import BlockContainerArea from "../Models/BlockContainerArea";
 import BlockContainerAreaDef from "../Models/BlockContainerAreaDef";
+import BlockContainerAreaInstance from "../Models/BlockContainerAreaInstance";
 import BlockCssRule from "../Models/BlockCssRule";
 import BlockSetting from "../Models/BlockSetting";
 import BlockSettingDef from "../Models/BlockSettingDef";
@@ -65,6 +66,9 @@ export default class DBContext {
 
 	get BlockContainerAreaDefs() { return BlockContainerAreaDef.Collection; }
 	get BlockContainerAreaDef() { return BlockContainerAreaDef.Model; }
+
+	get BlockContainerAreaInstances() { return BlockContainerAreaInstance.Collection; }
+	get BlockContainerAreaInstance() { return BlockContainerAreaInstance.Model; }
 
 	get BlockCssRules() { return BlockCssRule.Collection; }
 	get BlockCssRule() { return BlockCssRule.Model; }

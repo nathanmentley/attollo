@@ -14,7 +14,11 @@ export default class BlockController extends BaseController {
     get UrlEndpoint() { return '/Blocks'; }
 
     GetLogic(request, response) {
-        return this._attollo.Services.Block.GetBlocks(request.AuthContext, request.query.blockContainerId);
+        if(request.query.blockContainerId) {
+            return this._attollo.Services.Block.GetBlocks(request.AuthContext, request.query.blockContainerId);
+        } else {
+            return this._attollo.Services.Block.GetBlocksForSiteVersion(request.AuthContext, request.query.siteVersionId);
+        }
     }
     PostLogic(request, response) {
         return this._attollo.Services.Block.AddBlock(

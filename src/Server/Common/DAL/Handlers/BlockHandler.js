@@ -95,8 +95,15 @@ export default class BlockHandler extends BaseHandler {
 		return this.Context.DatabaseContext.Blocks(authContext)
 			.query((qb) => {
 				qb.where('blockcontainer.id', '=', blockContainerId);
-			}).fetch({ withRelated: ['BlockDef', 'BlockContainerArea.BlockContainerAreaDef'] });
-	};
+			}).fetch({ withRelated: ['BlockDef'] });
+	}
+
+    GetBlocksForSiteVersion(authContext, siteVersionId) {
+        return this.Context.DatabaseContext.Blocks(authContext)
+            .query((qb) => {
+                qb.where('siteversionid', '=', siteVersionId);
+            }).fetch({ withRelated: ['BlockDef'] });
+    }
 	
 	AddBlock(authContext, transaction, siteVersion, blockDef, blockTemplateDef){
 		var Block = this.Context.DatabaseContext.Block(authContext);
@@ -224,7 +231,7 @@ export default class BlockHandler extends BaseHandler {
 
 	//BlockcontainerAreaInstance
 
-	AddBlockcontainerAreaInstance(authContext, transaction, blockId, areaId) {
+	AddBlockContainerAreaInstance(authContext, transaction, blockId, areaId) {
         var BlockContainerAreaInstance = this.Context.DatabaseContext.BlockContainerAreaInstance(authContext);
         var blockContainerAreaInstance = new BlockContainerAreaInstance({
             blockid: blockId,
@@ -234,7 +241,7 @@ export default class BlockHandler extends BaseHandler {
         return blockContainerAreaInstance.save(null, { transacting: transaction });
 	}
 
-    UpdateBlockcontainerAreaInstance(authContext, transaction, model) {
+    UpdateBlockContainerAreaInstance(authContext, transaction, model) {
 
         var BlockContainerAreaInstance = this.Context.DatabaseContext.BlockContainerAreaInstance(authContext);
         var blockContainerAreaInstance = new BlockContainerAreaInstance(model);

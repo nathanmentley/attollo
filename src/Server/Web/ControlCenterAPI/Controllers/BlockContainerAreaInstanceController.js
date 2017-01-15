@@ -14,6 +14,10 @@ export default class BlockContainerAreaInstanceController extends BaseController
     get UrlEndpoint() { return '/BlockContainerAreaInstances'; }
 
     PutLogic(request, response) {
-        return this._attollo.Services.Block.UpdateBlockcontainerAreaInstance(request.AuthContext, request.body.blockContainerAreaInstance);
+        return this._attollo.Services.Block.UpdateBlockContainerAreaInstance(request.AuthContext, request.body.blockContainerAreaInstance);
+    }
+
+    PostLogic(request, response) {
+        return this._attollo.Services.Block.AddBlockContainerAreaInstance(request.AuthContext, request.body.blockContainerAreaInstance);
     }
 };

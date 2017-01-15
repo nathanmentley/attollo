@@ -23,6 +23,7 @@ import BlockSettingsEditor from './BlockSettingsEditor.jsx';
 import BlockStyleEditor from './BlockStyleEditor.jsx';
 import BlockEditor from './BlockEditor.jsx';
 import BlockDefList from './BlockDefList.jsx';
+import BlockList from './BlockList.jsx';
 import BlockContainerDefList from './BlockContainerDefList.jsx';
 import BlockContainerList from './BlockContainerList.jsx';
 
@@ -38,7 +39,10 @@ export default DragDropContext(HTML5Backend)(
                 EditingBlock: null,
                 BlockContainers: [],
 
+                DisplayBlockDefs: true,
                 BlockDefs: [],
+                ExistingBlocks: [],
+
                 BlockContainerDefs: [],
                 BlockTemplateDefs: [],
                 CssRuleDefs: [],
@@ -53,6 +57,7 @@ export default DragDropContext(HTML5Backend)(
             this.setEditingBlock = this.setEditingBlock.bind(this);
             this.setEditingSettingsBlock = this.setEditingSettingsBlock.bind(this);
             this.setEditingStyleBlock = this.setEditingStyleBlock.bind(this);
+            this.toggleDisplayBlockDefs = this.toggleDisplayBlockDefs.bind(this);
             
             this.updateEditingBlockTitle = this.updateEditingBlockTitle.bind(this);
             this.updateEditingBlockTemplate = this.updateEditingBlockTemplate.bind(this);
@@ -65,6 +70,7 @@ export default DragDropContext(HTML5Backend)(
 
             this.handleTabChange = this.handleTabChange.bind(this);
 
+            this.placeBlock = this.placeBlock.bind(this);
             this.moveBlock = this.moveBlock.bind(this);
             this.addBlock = this.addBlock.bind(this);
             this.saveBlock = this.saveBlock.bind(this);
@@ -108,6 +114,10 @@ export default DragDropContext(HTML5Backend)(
                 self.setState({ BlockDefs: res.data.data }); 
             });
 
+            BlockService.GetSiteVersionBlocks(this.props.params.SiteVersionID).then((res) => {
+                self.setState({ ExistingBlocks: res.data.data });
+            });
+
             BlockContainerDefService.GetBlockContainerDefs().then((res) => {
                 self.setState({ BlockContainerDefs: res.data.data }); 
             });
@@ -128,6 +138,10 @@ export default DragDropContext(HTML5Backend)(
                     self.setState({ siteUrl: 'http://' + site.domain + page.url });
                 });
             });
+        }
+
+        toggleDisplayBlockDefs() {
+            this.setState({ DisplayBlockDefs: !this.state.DisplayBlockDefs });
         }
 
         handleTabChange(key) {
@@ -324,6 +338,28 @@ export default DragDropContext(HTML5Backend)(
                 BlockContainerService.GetBlockContainers(self.props.params.PageID).then((res) => {
                     self.setState({ BlockContainers: res.data.data });
                 });
+
+                BlockService.GetSiteVersionBlocks(self.props.params.SiteVersionID).then((res) => {
+                    self.setState({ ExistingBlocks: res.data.data });
+                });
+            });
+        }
+
+        placeBlock(blockContainerId, areaCode, blockId) {
+            var self = this;
+
+            var newBlockContainerAreaInstance = {
+                blockid: blockId
+            };
+
+            BlockContainerAreaService.GetBlockContainerArea(blockContainerId, areaCode).then((getResult) => {
+                newBlockContainerAreaInstance.blockcontainerareaid = getResult.data.data.id;
+
+                BlockContainerAreaInstanceService.AddBlockContainerAreaInstance(newBlockContainerAreaInstance).then(() => {
+                    BlockContainerService.GetBlockContainers(self.props.params.PageID).then((res) => {
+                        self.setState({ BlockContainers: res.data.data });
+                    });
+                });
             });
         }
 
@@ -374,6 +410,16 @@ export default DragDropContext(HTML5Backend)(
                                     <h5>Layouts</h5>
                                 </Col>
                                 <Col xs={12} md={6}>
+                                    <a
+                                        onClick={this.toggleDisplayBlockDefs}
+                                        className="toggle-display-block-defs-button"
+                                    >
+                                        {
+                                            this.state.DisplayBlockDefs ?
+                                                "Show Existing Blocks" :
+                                                "Show New Blocks"
+                                        }
+                                    </a>
                                     <h5>Widgets</h5>
                                 </Col>
                             </Row>
@@ -385,10 +431,17 @@ export default DragDropContext(HTML5Backend)(
                                     />
                                 </Col>
                                 <Col xs={6} md={6}>
-                                    <BlockDefList
-                                        BlockDefs={this.state.BlockDefs}
-                                        AddBlock={this.addBlock}
-                                    />
+                                    {
+                                        this.state.DisplayBlockDefs ?
+                                            <BlockDefList
+                                                BlockDefs={this.state.BlockDefs}
+                                                AddBlock={this.addBlock}
+                                            /> :
+                                            <BlockList
+                                                Blocks={this.state.ExistingBlocks}
+                                                PlaceBlock={this.placeBlock}
+                                            />
+                                    }
                                 </Col>
                             </Row>
 

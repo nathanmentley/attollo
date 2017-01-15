@@ -334,11 +334,14 @@ export default class BlockService extends BaseService {
 	};
 
 	//Block
-
 	GetBlocks(authContext, blockContainerId){
 		return this.Context.Handlers.Block.GetBlocks(authContext, blockContainerId);
-	};
-	
+	}
+
+    GetBlocksForSiteVersion(authContext, siteVersionId) {
+        return this.Context.Handlers.Block.GetBlocksForSiteVersion(authContext, siteVersionId);
+	}
+
 	AddBlock(authContext, siteVersionId, blockContainerId, areaCode, blockDefCode, blockTemplateCode){
 		var self = this;
 
@@ -355,7 +358,7 @@ export default class BlockService extends BaseService {
                                                 self.Context.DBTransaction((transaction) => {
                                                     self.Context.Handlers.Block.AddBlock(authContext, transaction, siteVersion, blockDef.first(), blockTemplateDef.first())
                                                         .then((block) => {
-                                                            self.AddBlockcontainerAreaInstance(authContext, transaction, block.get('id'), area.get('id'))
+                                                            self.Context.Handlers.Block.AddBlockContainerAreaInstance(authContext, transaction, block.get('id'), area.get('id'))
                                                                 .then((result) => {
                                                                     transaction.commit(result);
                                                                 })
@@ -450,16 +453,32 @@ export default class BlockService extends BaseService {
 
     //BlockcontainerAreaInstance
 
-    AddBlockcontainerAreaInstance(authContext, transaction, block, area) {
-        return this.Context.Handlers.Block.AddBlockcontainerAreaInstance(authContext, transaction, block, area);
-    }
-
-    UpdateBlockcontainerAreaInstance(authContext, blockcontainerAreaInstance) {
+    AddBlockContainerAreaInstance(authContext, blockContainerAreaInstance) {
         var self = this;
 
         return new Promise((resolve, reject) => {
             self.Context.DBTransaction((transaction) => {
-                self.Context.Handlers.Block.UpdateBlockcontainerAreaInstance(authContext, transaction, blockcontainerAreaInstance)
+                self.Context.Handlers.Block.AddBlockContainerAreaInstance(authContext, transaction, blockContainerAreaInstance.blockid, blockContainerAreaInstance.blockcontainerareaid)
+                    .then((result) => {
+                        transaction.commit(result);
+                    }).catch((err) => {
+                    transaction.rollback(err);
+                });
+            })
+                .then((result) => {
+                    resolve(result);
+                }).catch((err) => {
+                reject({ message: err.message, err: err });
+            });
+        });
+    }
+
+    UpdateBlockContainerAreaInstance(authContext, blockcontainerAreaInstance) {
+        var self = this;
+
+        return new Promise((resolve, reject) => {
+            self.Context.DBTransaction((transaction) => {
+                self.Context.Handlers.Block.UpdateBlockContainerAreaInstance(authContext, transaction, blockcontainerAreaInstance)
                     .then((result) => {
 						transaction.commit(result);
                     }).catch((err) => {

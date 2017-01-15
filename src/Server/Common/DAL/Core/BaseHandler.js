@@ -1,7 +1,5 @@
 import Auid from './Auid';
 
-import LogUtils from '../../Utils/LogUtils';
-
 var OLD_PK_KEY = "__old_pk_key";
 
 var flattenPromises = function(data, logic) {
@@ -59,12 +57,8 @@ export default class BaseHandler {
 	    var importModel = function(modelType, authContext, transaction, model) {
 	        var old_primary_key = model[OLD_PK_KEY];
 
-            LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " " + 1);
-
 	        return new Promise((resolve, reject) => {
 	            if(modelType.TableName + old_primary_key in importedModels) {
-                    LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " loading already imported model");
-
 	                resolve(importedModels[modelType.TableName + old_primary_key]);
                 } else {
 	                delete model[OLD_PK_KEY];
@@ -72,7 +66,6 @@ export default class BaseHandler {
                     var systemDataIdPromises = [];
                     var belongsToPromises = [];
 
-                    LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " loading required children");
                     modelType.SerializableRelations().forEach((relation) => {
                         if (relation.Type.IsSystemData) {
                             systemDataIdPromises.push(
@@ -109,28 +102,21 @@ export default class BaseHandler {
                         }
                     });
 
-                    LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " loading required children - Waiting");
                     Promise.all(
                         systemDataIdPromises.concat(
                             belongsToPromises
                         )
                     )
                         .then(() => {
-                            LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " loading required children - resolved");
-
                             var Model = modelType.Model(authContext);
                             var modelInstance = new Model(model);
 
                             modelInstance.save(null, {transacting: transaction})
                                 .then((result) => {
-                                    LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " model saved. Starting indep children");
-
                                     flattenPromises(
                                         modelType.SerializableRelations(),
                                         (relation) => {
                                             return new Promise((resolve2, reject2) => {
-                                                LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " model saved. Importing relation: " + relation.Type.TableName);
-
                                                 if ((!relation.Type.IsSystemData) &&
                                                     (!modelType.BelongsTo().some((x) => {
                                                         return x.Type == relation.Type
@@ -166,7 +152,6 @@ export default class BaseHandler {
                                     )
                                         .then(() => {
                                             importedModels[modelType.TableName + old_primary_key] = result;
-                                            LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " model cached.");
                                             resolve(result);
                                         }).catch((err) => {
                                             reject(err);

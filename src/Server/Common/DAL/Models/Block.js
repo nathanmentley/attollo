@@ -12,6 +12,7 @@ import BlockCssRule from "./BlockCssRule";
 import BlockDef from "./BlockDef";
 import BlockTemplateDef from "./BlockTemplateDef";
 import BlockSetting from "./BlockSetting";
+import BlockContainerAreaInstance from "./BlockContainerAreaInstance";
 
 @TableName("Block")
 class Block extends BaseModel {
@@ -42,6 +43,11 @@ class Block extends BaseModel {
             ]
         });
         ret.push({
+            Title: 'SiteVersion',
+            Type: SiteVersion,
+            Field: 'SiteVersionID'
+        });
+        ret.push({
             Title: 'Client',
             Type: Client,
             Field: 'ClientID',
@@ -67,12 +73,18 @@ class Block extends BaseModel {
             Type: BlockCssRule,
             Field: 'BlockID'
         });
+        ret.push({
+            Title: 'BlockContainerAreaInstances',
+            Type: BlockContainerAreaInstance,
+            Field: 'BlockID'
+        });
 
         return ret;
     }
 
     SerializableRelations() {
         return [
+            { Title: 'BlockContainerAreaInstances', Type: BlockContainerAreaInstance },
             { Title: 'BlockSettings', Type: BlockSetting },
             { Title: 'BlockCssRules', Type: BlockCssRule },
             { Title: 'BlockDef', Type: BlockDef },

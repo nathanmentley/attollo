@@ -1,4 +1,4 @@
 {
 	"PortNumber": 80,
-	"LogDir": "../../../../../logs/"
+	"LogDir": "/../../../../logs/"
 }

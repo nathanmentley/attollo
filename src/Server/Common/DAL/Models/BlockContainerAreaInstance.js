@@ -22,7 +22,7 @@ class BlockContainerAreaInstance extends BaseModel {
 
     SerializableRelations() {
         return [
-            { Title: 'Block', Type: Block },
+            { Title: 'BlockContainerArea', Type: BlockContainerArea },
         ];
     }
 

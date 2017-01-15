@@ -1,3 +1,25 @@
+import Auid from './Auid';
+
+import LogUtils from '../../Utils/LogUtils';
+
+var OLD_PK_KEY = "__old_pk_key";
+
+var flattenPromises = function(data, logic) {
+    return new Promise((resolve, reject) => {
+        var recursiveFunction = function(logic, i) {
+            if(data.length > i) {
+                logic(data[i])
+                    .then(() => { recursiveFunction(logic, ++i); })
+                    .catch((err) => { reject(err) });
+            } else {
+                resolve();
+            }
+        };
+
+        recursiveFunction(logic, 0);
+    });
+};
+
 export default class BaseHandler {
 	constructor(handlerContext) {
 		this._handlerContext = handlerContext;
@@ -22,6 +44,8 @@ export default class BaseHandler {
 	}
 
     ImportModel(type) {
+	    var importedModels = {};
+
 	    var getSystemDataID = function(modelType, authContext, code) {
 	        return modelType.Model(authContext)
                 .query({
@@ -33,91 +57,129 @@ export default class BaseHandler {
         };
 
 	    var importModel = function(modelType, authContext, transaction, model) {
+	        var old_primary_key = model[OLD_PK_KEY];
+
+            LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " " + 1);
+
 	        return new Promise((resolve, reject) => {
-                var systemDataIdPromises = [];
-                var belongsToPromises = [];
+	            if(modelType.TableName + old_primary_key in importedModels) {
+                    LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " loading already imported model");
 
-                modelType.SerializableRelations().forEach((relation) => {
-                    if(relation.Type.IsSystemData) {
-                        systemDataIdPromises.push(
-                            new Promise((resolve2, reject2) => {
-                                getSystemDataID(relation.Type, authContext, model[relation.Title].code)
-                                    .then((systemDataRecord) => {
-                                        var key = systemDataRecord.get(relation.Type.PrimaryKey());
-                                        model[relation.Type.TableName + 'id'] = key;
+	                resolve(importedModels[modelType.TableName + old_primary_key]);
+                } else {
+	                delete model[OLD_PK_KEY];
 
-                                        resolve2(key);
-                                    })
-                                    .catch((err) => {
-                                        reject2(err);
-                                    });
-                            })
-                        );
-                    } else if(modelType.BelongsTo().some((x) => { return x.Type == relation.Type })) {
-                        belongsToPromises.push(
-                            new Promise((resolve2, reject2) => {
-                                importModel(relation.Type, authContext, transaction, model[relation.Title])
-                                    .then((belongsToRecord) => {
-                                        var key = belongsToRecord.get(relation.Type.PrimaryKey());
-                                        model[relation.Type.TableName + 'id'] = key;
+                    var systemDataIdPromises = [];
+                    var belongsToPromises = [];
 
-                                        resolve2(key);
-                                    })
-                                    .catch((err) => {
-                                        reject2(err);
-                                    });
-                            })
-                        );
-                    }
-                });
+                    LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " loading required children");
+                    modelType.SerializableRelations().forEach((relation) => {
+                        if (relation.Type.IsSystemData) {
+                            systemDataIdPromises.push(
+                                new Promise((resolve2, reject2) => {
+                                    getSystemDataID(relation.Type, authContext, model[relation.Title].code)
+                                        .then((systemDataRecord) => {
+                                            var key = systemDataRecord.get(relation.Type.PrimaryKey());
+                                            model[relation.Type.TableName + 'id'] = key;
 
-                Promise.all(
-                    systemDataIdPromises.concat(
-                        belongsToPromises
+                                            resolve2(key);
+                                        })
+                                        .catch((err) => {
+                                            reject2(err);
+                                        });
+                                })
+                            );
+                        } else if (modelType.BelongsTo().some((x) => {
+                                return x.Type == relation.Type
+                            })) {
+                            belongsToPromises.push(
+                                new Promise((resolve2, reject2) => {
+                                    importModel(relation.Type, authContext, transaction, model[relation.Title])
+                                        .then((belongsToRecord) => {
+                                            var key = belongsToRecord.get(relation.Type.PrimaryKey());
+                                            model[relation.Type.TableName + 'id'] = key;
+
+                                            resolve2(key);
+                                        })
+                                        .catch((err) => {
+                                            reject2(err);
+                                        });
+                                })
+                            );
+                        }
+                    });
+
+                    LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " loading required children - Waiting");
+                    Promise.all(
+                        systemDataIdPromises.concat(
+                            belongsToPromises
+                        )
                     )
-                )
-                    .then(() => {
-                        var Model = modelType.Model(authContext);
-                        var modelInstance = new Model(model);
+                        .then(() => {
+                            LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " loading required children - resolved");
 
-                        modelInstance.save(null, { transacting: transaction })
-                            .then((result) => {
-                                var childrenImportPromises = [];
+                            var Model = modelType.Model(authContext);
+                            var modelInstance = new Model(model);
 
-                                modelType.SerializableRelations().forEach((relation) => {
-                                    if((!relation.Type.IsSystemData) &&
-                                        (!modelType.BelongsTo().some((x) => { return x.Type == relation.Type }))
-                                    ) {
-                                        if(Array.isArray(model[relation.Title])) {
-                                            model[relation.Title].forEach((childModelData) => {
-                                                childModelData[modelType.TableName + 'id'] = result.get(modelType.PrimaryKey());
+                            modelInstance.save(null, {transacting: transaction})
+                                .then((result) => {
+                                    LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " model saved. Starting indep children");
 
-                                                childrenImportPromises.push(
-                                                    importModel(relation.Type, authContext, transaction, childModelData)
-                                                );
+                                    flattenPromises(
+                                        modelType.SerializableRelations(),
+                                        (relation) => {
+                                            return new Promise((resolve2, reject2) => {
+                                                LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " model saved. Importing relation: " + relation.Type.TableName);
+
+                                                if ((!relation.Type.IsSystemData) &&
+                                                    (!modelType.BelongsTo().some((x) => {
+                                                        return x.Type == relation.Type
+                                                    }))
+                                                ) {
+                                                    if (Array.isArray(model[relation.Title])) {
+                                                        flattenPromises(
+                                                            model[relation.Title],
+                                                            (childModelData) => {
+                                                                return new Promise((resolve3, reject3) => {
+                                                                    childModelData[modelType.TableName + 'id'] = result.get(modelType.PrimaryKey());
+
+                                                                    importModel(relation.Type, authContext, transaction, childModelData)
+                                                                        .then((ret) => { resolve3(ret); })
+                                                                        .catch((err) => { reject3(err); });
+                                                                });
+                                                            }
+                                                        )
+                                                            .then((ret) => { resolve2(ret); })
+                                                            .catch((err) => { reject2(err); });
+                                                    } else {
+                                                        model[relation.Title][modelType.TableName + 'id'] = result.get(modelType.PrimaryKey());
+
+                                                        importModel(relation.Type, authContext, transaction, model[relation.Title])
+                                                            .then((ret) => { resolve2(ret); })
+                                                            .catch((err) => { reject2(err); });
+                                                    }
+                                                } else {
+                                                    resolve2();
+                                                }
                                             });
-                                        } else {
-                                            model[relation.Title][modelType.TableName + 'id'] = result.get(modelType.PrimaryKey());
-
-                                            childrenImportPromises.push(
-                                                importModel(relation.Type, authContext, transaction, model[relation.Title])
-                                            );
                                         }
-                                    }
-                                });
+                                    )
+                                        .then(() => {
+                                            importedModels[modelType.TableName + old_primary_key] = result;
+                                            LogUtils.Info("Importing Model: " + modelType.TableName + " - " + old_primary_key + " model cached.");
+                                            resolve(result);
+                                        }).catch((err) => {
+                                            reject(err);
+                                        });
 
-                                Promise.all(childrenImportPromises).then(() => {
-                                    resolve(result);
                                 }).catch((err) => {
                                     reject(err);
                                 });
-                            }).catch((err) => {
-                                reject(err);
-                            });
-                    })
-                    .catch((err) => {
-                        reject(err);
-                    });
+                        })
+                        .catch((err) => {
+                            reject(err);
+                        });
+                }
             });
         };
 
@@ -143,7 +205,9 @@ export default class BaseHandler {
                         cleanModel(modelType, x);
                     });
                 } else {
+                    model[OLD_PK_KEY] = Auid.Encode(model[modelType.PrimaryKey()]);
                     delete model[modelType.PrimaryKey()];
+
                     modelType.ForeignKeys().forEach((fk) => {
                         delete model[fk];
                     });
@@ -180,16 +244,16 @@ export default class BaseHandler {
                 type.Model(authContext, false).query((qb) => {
                     qb.where(type.TableName + '.' + type.PrimaryKey(), '=', id);
                 }).fetch({ withRelated: related })
-				.then((result) => {
-                    var ret = result.toJSON();
+                    .then((result) => {
+                        var ret = result.toJSON();
 
-                    cleanModel(type, ret);
+                        cleanModel(type, ret);
 
-					resolve(ret);
-				})
-				.catch((err) => {
-					reject(err);
-				});
+                        resolve(ret);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
         };
     }

@@ -7,6 +7,7 @@ import Database from "../Core/Database";
 import Site from "./Site";
 import Client from "./Client";
 
+import Block from "./Block";
 import Page from "./Page";
 import SiteVersionStatus from "./SiteVersionStatus";
 
@@ -28,13 +29,15 @@ class SiteVersion extends BaseModel {
 
     HasMany() {
     	return [
-            { Title: 'Pages', Type: Page, Field: "SiteVersionID"  }
+            { Title: 'Pages', Type: Page, Field: "SiteVersionID"  },
+            { Title: 'Blocks', Type: Block, Field: "SiteVersionID"  }
 		];
 	}
 
     SerializableRelations() {
         return [
-            { Title: 'Pages', Type: Page }
+            { Title: 'Pages', Type: Page },
+            { Title: 'Blocks', Type: Block }
 		];
     }
 

@@ -9,6 +9,7 @@ import ControllerContext from './ControllerContext';
 
 import AuthController from "./Controllers/AuthController";
 import BlockContainerAreaController from "./Controllers/BlockContainerAreaController";
+import BlockContainerAreaInstanceController from "./Controllers/BlockContainerAreaInstanceController";
 import BlockContainerController from "./Controllers/BlockContainerController";
 import BlockContainerDefController from "./Controllers/BlockContainerDefController";
 import BlockController from "./Controllers/BlockController";
@@ -39,6 +40,7 @@ import UserController from "./Controllers/UserController";
 
     AuthController,
     BlockContainerAreaController,
+    BlockContainerAreaInstanceController,
     BlockContainerController,
     BlockContainerDefController,
     BlockController,
@@ -70,6 +72,7 @@ export default class AppStart {
 
         authController,
         blockContainerAreaController,
+        blockContainerAreaInstanceController,
         blockContainerController,
         blockContainerDefController,
         blockController,
@@ -100,6 +103,7 @@ export default class AppStart {
         this._controllers = [
             authController,
             blockContainerAreaController,
+            blockContainerAreaInstanceController,
             blockContainerController,
             blockContainerDefController,
             blockController,

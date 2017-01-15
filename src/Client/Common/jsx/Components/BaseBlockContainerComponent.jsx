@@ -7,18 +7,16 @@ export default class BaseBlockContainerComponent extends BaseComponent {
         super(props);
 
         this.updatePage = this.updatePage.bind(this);
-        this.getBlockForAreaCode = this.getBlockForAreaCode.bind(this);
+        this.getBlockContainerAreaInstanceForAreaCode = this.getBlockContainerAreaInstanceForAreaCode.bind(this);
     }
 
-    getBlockForAreaCode(code) {
+    getBlockContainerAreaInstanceForAreaCode(code) {
         var area = this.props.BlockContainer.BlockContainerAreas.find((x) => {
             return x.BlockContainerAreaDef.code == code
         });
 
         if(area && area.BlockContainerAreaInstances.length) {
-            if(area.BlockContainerAreaInstances[0].Block) {
-                return area.BlockContainerAreaInstances[0].Block;
-            }
+            return area.BlockContainerAreaInstances[0];
         }
 
         return null;

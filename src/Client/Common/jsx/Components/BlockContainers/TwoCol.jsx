@@ -16,7 +16,7 @@ export default class TwoCol extends BaseBlockContainerComponent {
                 <Col xs={12} md={6}>
                     <this.props.BlockRenderer
                         BlockContainer={self.props.BlockContainer}
-                        Block={self.getBlockForAreaCode('First')}
+                        BlockContainerAreaInstance={self.getBlockContainerAreaInstanceForAreaCode('First')}
                         AreaCode={'First'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
@@ -30,7 +30,7 @@ export default class TwoCol extends BaseBlockContainerComponent {
                 <Col xs={12} md={6}>
                     <this.props.BlockRenderer
                         BlockContainer={self.props.BlockContainer}
-                        Block={self.getBlockForAreaCode('Second')}
+                        BlockContainerAreaInstance={self.getBlockContainerAreaInstanceForAreaCode('Second')}
                         AreaCode={'Second'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}

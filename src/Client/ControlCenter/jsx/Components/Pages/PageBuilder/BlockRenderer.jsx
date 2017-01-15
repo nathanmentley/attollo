@@ -7,12 +7,12 @@ import BaseComponent from '../../BaseComponent.jsx';
 const BlockRendererSource = {
     beginDrag(props) {
         return {
-            BlockID: props.Block.id
+            BlockID: props.BlockContainerAreaInstance.Block.id
         };
     },
     endDrag(props, monitor, component) {
         var target = monitor.getDropResult();
-        var source = props.Block;
+        var source = props.BlockContainerAreaInstance;
 
         if(props.MoveBlock && target && source) {
             props.MoveBlock(target.BlockContainerID, target.AreaCode, source);
@@ -61,19 +61,19 @@ export default DropTarget("BlockDef", BlockRendererTarget, dropCollect)(
 
                 setEditingBlock() {
                     if(this.props.SetEditingBlock) {
-                        this.props.SetEditingBlock(this.props.Block);
+                        this.props.SetEditingBlock(this.props.BlockContainerAreaInstance.Block);
                     }
                 }
 
                 setEditingSettingsBlock() {
                     if(this.props.SetEditingSettingsBlock) {
-                        this.props.SetEditingSettingsBlock(this.props.Block);
+                        this.props.SetEditingSettingsBlock(this.props.BlockContainerAreaInstance.Block);
                     }
                 }
 
                 setEditingStyleBlock() {
                     if(this.props.SetEditingStyleBlock) {
-                        this.props.SetEditingStyleBlock(this.props.Block);
+                        this.props.SetEditingStyleBlock(this.props.BlockContainerAreaInstance.Block);
                     }
                 }
 
@@ -81,7 +81,7 @@ export default DropTarget("BlockDef", BlockRendererTarget, dropCollect)(
                     var self = this;
                     const { connectDropTarget, isOver, connectBlockDropTarget, isBlockOver, connectDragSource, isDragging } = this.props;
 
-                    if(this.props.Block) {
+                    if(this.props.BlockContainerAreaInstance && this.props.BlockContainerAreaInstance.Block) {
                         return connectDragSource(
                             <div className="block-node" style={
                                 { 
@@ -89,13 +89,13 @@ export default DropTarget("BlockDef", BlockRendererTarget, dropCollect)(
                                 }
                             }>
                                 <p className="block-node-title">
-                                    {this.props.Block.title}
+                                    {this.props.BlockContainerAreaInstance.Block.title}
                                 </p>
 
                                 <div className="pull-right">
                                     <DropdownButton
                                         title={<Glyphicon glyph="cog" />}
-                                        id={this.props.Block.id + '-block-action-button'}
+                                        id={this.props.BlockContainerAreaInstance.Block.id + '-block-action-button'}
                                     >
                                         <MenuItem eventKey="1" onClick={() => { self.setEditingBlock(); }}>
                                             <Glyphicon glyph="pencil" /> Edit Block

@@ -355,7 +355,7 @@ export default class BlockService extends BaseService {
                                                 self.Context.DBTransaction((transaction) => {
                                                     self.Context.Handlers.Block.AddBlock(authContext, transaction, siteVersion, blockDef.first(), blockTemplateDef.first())
                                                         .then((block) => {
-                                                            self.AddBlockcontainerAreaInstance(authContext, transaction, block.get('id'), area.first().get('id'))
+                                                            self.AddBlockcontainerAreaInstance(authContext, transaction, block.get('id'), area.get('id'))
                                                                 .then((result) => {
                                                                     transaction.commit(result);
                                                                 })
@@ -452,6 +452,26 @@ export default class BlockService extends BaseService {
 
     AddBlockcontainerAreaInstance(authContext, transaction, block, area) {
         return this.Context.Handlers.Block.AddBlockcontainerAreaInstance(authContext, transaction, block, area);
+    }
+
+    UpdateBlockcontainerAreaInstance(authContext, blockcontainerAreaInstance) {
+        var self = this;
+
+        return new Promise((resolve, reject) => {
+            self.Context.DBTransaction((transaction) => {
+                self.Context.Handlers.Block.UpdateBlockcontainerAreaInstance(authContext, transaction, blockcontainerAreaInstance)
+                    .then((result) => {
+						transaction.commit(result);
+                    }).catch((err) => {
+						transaction.rollback(err);
+					});
+            })
+                .then((result) => {
+                    resolve(result);
+                }).catch((err) => {
+					reject({ message: err.message, err: err });
+				});
+        });
     }
 
 	//BlockSettingDef

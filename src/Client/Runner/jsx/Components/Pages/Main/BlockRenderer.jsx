@@ -17,10 +17,15 @@ export default class BlockRenderer extends BaseComponent {
     }
 
     render() {
-        return ( 
-            <div data-block-id={this.props.Block.id}>
-                <BlockComponent Block={this.props.Block} UpdatePage={this.updatePage} TemplateProcessor={this.props.TemplateProcessor} DataTypes={this.props.DataTypes} />
-            </div>
-        );
+        if(this.props.BlockContainerAreaInstance && this.props.BlockContainerAreaInstance.Block) {
+            return (
+                <div data-block-id={this.props.BlockContainerAreaInstance.Block.id}>
+                    <BlockComponent Block={this.props.BlockContainerAreaInstance.Block} UpdatePage={this.updatePage}
+                                    TemplateProcessor={this.props.TemplateProcessor} DataTypes={this.props.DataTypes}/>
+                </div>
+            );
+        } else {
+            return <div />;
+        }
     }
 }

@@ -16,7 +16,7 @@ export default class OneCol extends BaseBlockContainerComponent {
                 <Col xs={12} md={12}>
                     <this.props.BlockRenderer
                         BlockContainer={self.props.BlockContainer}
-                        Block={self.getBlockForAreaCode('First')}
+                        BlockContainerAreaInstance={self.getBlockContainerAreaInstanceForAreaCode('First')}
                         AreaCode={'First'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}

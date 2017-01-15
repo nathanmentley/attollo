@@ -12,6 +12,7 @@ import BlockDefService from '../../../Services/BlockDefService.jsx';
 import BlockContainerDefService from '../../../Services/BlockContainerDefService.jsx';
 import BlockContainerService from '../../../Services/BlockContainerService.jsx';
 import BlockContainerAreaService from '../../../Services/BlockContainerAreaService.jsx';
+import BlockContainerAreaInstanceService from '../../../Services/BlockContainerAreaInstanceService.jsx';
 import BlockCssRuleService from '../../../Services/BlockCssRuleService.jsx';
 import BlockTemplateDefService from '../../../Services/BlockTemplateDefService.jsx';
 import CssRuleDefService from '../../../Services/CssRuleDefService.jsx';
@@ -298,14 +299,14 @@ export default DragDropContext(HTML5Backend)(
             });
         }
 
-        moveBlock(blockContainerId, areaCode, block) {
+        moveBlock(blockContainerId, areaCode, blockContainerAreaInstance) {
             var self = this;
-            var newBlock = ObjectUtils.Clone(block);
+            var newBlockContainerAreaInstance = ObjectUtils.Clone(blockContainerAreaInstance);
 
             BlockContainerAreaService.GetBlockContainerArea(blockContainerId, areaCode).then((getResult) => {
-                newBlock.blockcontainerareaid = getResult.data.data.id;
-                
-                BlockService.SaveBlock(newBlock).then((saveResult) => {
+                newBlockContainerAreaInstance.blockcontainerareaid = getResult.data.data.id;
+
+                BlockContainerAreaInstanceService.SaveBlockContainerAreaInstance(newBlockContainerAreaInstance).then((saveResult) => {
                     BlockContainerService.GetBlockContainers(self.props.params.PageID).then((res) => {
                         self.setState({ BlockContainers: res.data.data });
                     });

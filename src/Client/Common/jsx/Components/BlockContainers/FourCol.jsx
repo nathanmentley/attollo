@@ -16,7 +16,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                 <Col xs={12} md={6} lg={3}>
                     <this.props.BlockRenderer
                         BlockContainer={self.props.BlockContainer}
-                        Block={self.getBlockForAreaCode('First')}
+                        BlockContainerAreaInstance={self.getBlockContainerAreaInstanceForAreaCode('First')}
                         AreaCode={'First'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
@@ -30,7 +30,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                 <Col xs={12} md={6} lg={3}>
                     <this.props.BlockRenderer
                         BlockContainer={self.props.BlockContainer}
-                        Block={self.getBlockForAreaCode('Second')}
+                        BlockContainerAreaInstance={self.getBlockContainerAreaInstanceForAreaCode('Second')}
                         AreaCode={'Second'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
@@ -44,7 +44,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                 <Col xs={12} md={6} lg={3}>
                     <this.props.BlockRenderer
                         BlockContainer={self.props.BlockContainer}
-                        Block={self.getBlockForAreaCode('Third')}
+                        BlockContainerAreaInstance={self.getBlockContainerAreaInstanceForAreaCode('Third')}
                         AreaCode={'Third'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}
@@ -58,7 +58,7 @@ export default class FourCol extends BaseBlockContainerComponent {
                 <Col xs={12} md={6} lg={3}>
                     <this.props.BlockRenderer
                         BlockContainer={self.props.BlockContainer}
-                        Block={self.getBlockForAreaCode('Fourth')}
+                        BlockContainerAreaInstance={self.getBlockContainerAreaInstanceForAreaCode('Fourth')}
                         AreaCode={'Fourth'}
                         UpdatePage={this.updatePage}
                         MoveBlock={self.props.MoveBlock}

@@ -15,6 +15,7 @@ export default class BaseController {
         return this._attollo;
     }
 
+    //TODO: 404 these?
     GetLogic(request, response) {
         return new Promise(() => { reject({ message: "Unknown request." }); });
     }

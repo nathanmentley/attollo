@@ -234,6 +234,14 @@ export default class BlockHandler extends BaseHandler {
         return blockContainerAreaInstance.save(null, { transacting: transaction });
 	}
 
+    UpdateBlockcontainerAreaInstance(authContext, transaction, model) {
+
+        var BlockContainerAreaInstance = this.Context.DatabaseContext.BlockContainerAreaInstance(authContext);
+        var blockContainerAreaInstance = new BlockContainerAreaInstance(model);
+
+        return blockContainerAreaInstance.save(null, { transacting: transaction });
+	}
+
 	//BlockContainerAreaDef
 
 	GetBlockContainerAreaDefs(authContext, blockContainerCode) {
@@ -258,7 +266,7 @@ export default class BlockHandler extends BaseHandler {
 	//BlockContainerArea
 
 	GetBlockContainerArea(authContext, blockContainerId, areaCode) {
-		return this.Context.DatabaseContext.BlockContainerAreas(authContext)
+		return this.Context.DatabaseContext.BlockContainerArea(authContext)
 			.query((qb) => {
 				qb.where('blockcontainerid', '=', blockContainerId);
 				qb.where('blockcontainerareadef.code', '=', areaCode);

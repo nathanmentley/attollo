@@ -224,11 +224,11 @@ export default class BlockHandler extends BaseHandler {
 
 	//BlockcontainerAreaInstance
 
-	AddBlockcontainerAreaInstance(authContext, transaction, block, area) {
+	AddBlockcontainerAreaInstance(authContext, transaction, blockId, areaId) {
         var BlockContainerAreaInstance = this.Context.DatabaseContext.BlockContainerAreaInstance(authContext);
         var blockContainerAreaInstance = new BlockContainerAreaInstance({
-            blockid: block.get('id'),
-            blockcontainerareaid: area.get('id')
+            blockid: blockId,
+            blockcontainerareaid: areaId
         });
 
         return blockContainerAreaInstance.save(null, { transacting: transaction });

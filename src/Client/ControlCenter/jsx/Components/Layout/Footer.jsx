@@ -8,7 +8,7 @@ export default class Footer extends BaseComponent {
     render() {
         return (
             <footer>
-                Attollo Build: {Config.Environment} - {Config.Version}
+                &copy; 2017 Attollo | Attollo Build: {Config.Environment} - {Config.Version}
             </footer>
         );
     }

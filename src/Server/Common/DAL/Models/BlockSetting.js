@@ -69,7 +69,8 @@ class BlockSetting extends BaseModel {
 				.leftJoin('page', 'siteversion.id', '=', 'page.siteversionid')
 				.leftJoin('blockcontainer', 'blockcontainer.pageid', '=', 'page.id')
 				.leftJoin('blockcontainerarea', 'blockcontainerarea.blockcontainerid', '=', 'blockcontainer.id')
-				.leftJoin('block', 'block.blockcontainerareaid', '=', 'blockcontainerarea.id');
+                .leftJoin('blockcontainerareainstance', 'blockcontainerareainstance.blockcontainerareaid', '=', 'blockcontainerarea.id')
+                .leftJoin('block', 'block.id', '=', 'blockcontainerareainstance.blockid');
 
 			query.whereRaw(
 				'(' + subQuery + ' where block.id = blocksetting.blockid) = ' + Auid.Decode(authContext.ClientID)
@@ -81,7 +82,8 @@ class BlockSetting extends BaseModel {
 				.leftJoin('page', 'siteversion.id', '=', 'page.siteversionid')
 				.leftJoin('blockcontainer', 'blockcontainer.pageid', '=', 'page.id')
 				.leftJoin('blockcontainerarea', 'blockcontainerarea.blockcontainerid', '=', 'blockcontainer.id')
-				.leftJoin('block', 'block.blockcontainerareaid', '=', 'blockcontainerarea.id');
+                .leftJoin('blockcontainerareainstance', 'blockcontainerareainstance.blockcontainerareaid', '=', 'blockcontainerarea.id')
+                .leftJoin('block', 'block.id', '=', 'blockcontainerareainstance.blockid');
 
 			query.whereRaw(
 				'(' + subQuery + ' where block.id = blocksetting.blockid) = ' + Auid.Decode(authContext.SiteID)
@@ -92,7 +94,8 @@ class BlockSetting extends BaseModel {
 			var subQuery = Database.Knex.select('siteversionid').from('page')
 				.leftJoin('blockcontainer', 'blockcontainer.pageid', '=', 'page.id')
 				.leftJoin('blockcontainerarea', 'blockcontainerarea.blockcontainerid', '=', 'blockcontainer.id')
-				.leftJoin('block', 'block.blockcontainerareaid', '=', 'blockcontainerarea.id');
+                .leftJoin('blockcontainerareainstance', 'blockcontainerareainstance.blockcontainerareaid', '=', 'blockcontainerarea.id')
+                .leftJoin('block', 'block.id', '=', 'blockcontainerareainstance.blockid');
 
 			query.whereRaw(
 				'(' + subQuery + ' where block.id = blocksetting.blockid) = ' + Auid.Decode(authContext.SiteVersionID)

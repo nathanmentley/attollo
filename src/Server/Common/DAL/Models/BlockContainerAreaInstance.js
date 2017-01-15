@@ -34,7 +34,7 @@ class BlockContainerAreaInstance extends BaseModel {
 				.leftJoin('blockcontainer', 'blockcontainer.pageid', '=', 'page.id')
 				.leftJoin('blockcontainerarea', 'blockcontainerarea.blockcontainerid', '=', 'blockcontainer.id');
 			query.whereRaw(
-				'(' + subQuery + ' where blockcontainerarea.id = block.blockcontainerareaid) = ' + Auid.Decode(authContext.ClientID)
+				'(' + subQuery + ' where blockcontainerarea.id = blockcontainerareainstance.blockcontainerareaid) = ' + Auid.Decode(authContext.ClientID)
 			);
 		}
 		if(authContext.SiteID) {
@@ -43,7 +43,7 @@ class BlockContainerAreaInstance extends BaseModel {
 				.leftJoin('blockcontainer', 'blockcontainer.pageid', '=', 'page.id')
 				.leftJoin('blockcontainerarea', 'blockcontainerarea.blockcontainerid', '=', 'blockcontainer.id');
 			query.whereRaw(
-				'(' + subQuery + ' where blockcontainerarea.id = block.blockcontainerareaid) = ' + Auid.Decode(authContext.SiteID)
+				'(' + subQuery + ' where blockcontainerarea.id = blockcontainerareainstance.blockcontainerareaid) = ' + Auid.Decode(authContext.SiteID)
 			);
 		}
 		
@@ -52,7 +52,7 @@ class BlockContainerAreaInstance extends BaseModel {
 				.leftJoin('blockcontainer', 'blockcontainer.pageid', '=', 'page.id')
 				.leftJoin('blockcontainerarea', 'blockcontainerarea.blockcontainerid', '=', 'blockcontainer.id');
 			query.whereRaw(
-				'(' + subQuery + ' where blockcontainerarea.id = block.blockcontainerareaid) = ' + Auid.Decode(authContext.SiteVersionID)
+				'(' + subQuery + ' where blockcontainerarea.id = blockcontainerareainstance.blockcontainerareaid) = ' + Auid.Decode(authContext.SiteVersionID)
 			);
 		}
     }

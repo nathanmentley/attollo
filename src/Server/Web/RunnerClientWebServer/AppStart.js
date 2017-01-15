@@ -119,8 +119,8 @@ export default class AppStart {
                                         var promises = [];
                                         blockContainers.forEach((blockContainer) => {
                                             blockContainer.BlockContainerAreas.forEach((blockContainerArea) => {
-                                                blockContainerArea.Blocks.forEach((block) => {
-                                                    block.BlockDef.BlockDefDataRequests.forEach((blockDefDataRequest) => {
+                                                blockContainerArea.BlockContainerAreaInstances.forEach((blockContainerAreaInstances) => {
+                                                    blockContainerAreaInstances.Block.BlockDef.BlockDefDataRequests.forEach((blockDefDataRequest) => {
                                                         promises.push(
                                                             dataTypeResolver.Resolve(
                                                                 block.id,

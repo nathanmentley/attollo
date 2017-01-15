@@ -355,7 +355,7 @@ export default class BlockService extends BaseService {
                                                 self.Context.DBTransaction((transaction) => {
                                                     self.Context.Handlers.Block.AddBlock(authContext, transaction, siteVersion, blockDef.first(), blockTemplateDef.first())
                                                         .then((block) => {
-                                                            self.AddBlockcontainerAreaInstance(authContext, transaction, block, area.first())
+                                                            self.AddBlockcontainerAreaInstance(authContext, transaction, block.get('id'), area.first().get('id'))
                                                                 .then((result) => {
                                                                     transaction.commit(result);
                                                                 })
@@ -363,8 +363,8 @@ export default class BlockService extends BaseService {
                                                                     transaction.rollback(err);
                                                                 });
                                                         }).catch((err) => {
-                                                        transaction.rollback(err);
-                                                    });
+															transaction.rollback(err);
+														});
                                                 })
                                                     .then((result) => {
                                                         resolve(result);
@@ -377,11 +377,11 @@ export default class BlockService extends BaseService {
                                                 reject(err);
                                             });
                                     }).catch((err) => {
-                                    reject(err);
-                                });
+										reject(err);
+									});
                             }).catch((err) => {
-                            reject(err);
-                        });
+								reject(err);
+							});
 					})
 					.catch((err) => {
 						reject(err);

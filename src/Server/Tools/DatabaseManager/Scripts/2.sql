@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS CssRule (
     Value TEXT NOT NULL
 );
 
--- Plugins
+-- Plugin Defs
 
 CREATE TABLE IF NOT EXISTS PluginDef (
     ID SERIAL PRIMARY KEY,
@@ -73,19 +73,6 @@ CREATE TABLE IF NOT EXISTS PluginSettingDef (
     Code VARCHAR(255) NOT NULL,
     Title VARCHAR(255) NOT NULL,
     DefaultValue TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS Plugin (
-    ID SERIAL PRIMARY KEY,
-    ClientID integer REFERENCES Client NOT NULL,
-    PluginDefID integer REFERENCES PluginDef NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS PluginSetting (
-    ID SERIAL PRIMARY KEY,
-    PluginID integer REFERENCES Plugin NOT NULL,
-    PluginSettingDefID integer REFERENCES PluginSettingDef NOT NULL,
-    Value TEXT NOT NULL
 );
 
 -- Theme
@@ -178,7 +165,6 @@ CREATE TABLE IF NOT EXISTS DataTypeField (
 CREATE TABLE IF NOT EXISTS Site (
     ID SERIAL PRIMARY KEY,
     ClientID integer REFERENCES Client NOT NULL,
-    ThemeID integer REFERENCES Theme NOT NULL,
     Domain VARCHAR(255) NOT NULL,
     Name VARCHAR(255) NOT NULL
 );
@@ -193,7 +179,23 @@ CREATE TABLE IF NOT EXISTS SiteVersion (
     ID SERIAL PRIMARY KEY,
     SiteID integer REFERENCES Site NOT NULL,
     SiteVersionStatusID integer REFERENCES SiteVersionStatus NOT NULL,
+    ThemeID integer REFERENCES Theme NOT NULL,
     Current boolean NOT NULL
+);
+
+-- Plugins
+
+CREATE TABLE IF NOT EXISTS Plugin (
+    ID SERIAL PRIMARY KEY,
+    SiteVersionID integer REFERENCES SiteVersion NOT NULL,
+    PluginDefID integer REFERENCES PluginDef NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS PluginSetting (
+    ID SERIAL PRIMARY KEY,
+    PluginID integer REFERENCES Plugin NOT NULL,
+    PluginSettingDefID integer REFERENCES PluginSettingDef NOT NULL,
+    Value TEXT NOT NULL
 );
 
 -- Pages

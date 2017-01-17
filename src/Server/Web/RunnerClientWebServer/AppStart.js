@@ -1,5 +1,6 @@
 import { Dependencies } from 'constitute';
 import express from 'express';
+import mime from 'mime-types';
 import less from "less";
 import CleanCSS from 'clean-css';
 import fs from 'fs';
@@ -97,6 +98,17 @@ export default class AppStart {
                                 }
                             });
                         });
+                });
+
+                //Setup Asset Route
+                app.get('/Assets', self._authConfig.BuildContext(), (req, res) => {
+                    var filename = "87357.jpg";
+                    var filestream = self._attollo.Services.CloudStorage.Get(filename);
+
+                    res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+                    res.setHeader('Content-type', mime.lookup(filename));
+
+                    filestream.pipe(res);
                 });
 
                 app.get('*', self._authConfig.BuildContext(), (req, res) => {

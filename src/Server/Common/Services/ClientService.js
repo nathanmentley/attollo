@@ -24,7 +24,13 @@ export default class ClientService extends BaseService {
 		return self.Context.DBTransaction((transaction) => {
             self.Context.Handlers.Client.AddClient(authContext, transaction, name)
 			.then((result) => {
-				transaction.commit(result);
+            	self.Context.Clients.CloudStorage.CreateBucket(result.get('id'))
+					.then(() => {
+                        transaction.commit(result);
+					})
+					.catch((err) => {
+                        transaction.rollback(err);
+					});
 			}).catch((err) => {
 				transaction.rollback(err);
 			});

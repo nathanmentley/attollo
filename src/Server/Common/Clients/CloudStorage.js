@@ -1,9 +1,10 @@
 import googleCloudStorage from '@google-cloud/storage';
 
-import ConfigUtils from '../Utils/ConfigUtils';
+import Auid from '../DAL/Core/Auid';
+
+import LogUtils from '../Utils/LogUtils';
 
 var client = null;
-var bucket = null;
 
 export default class CloudStorage {
     Connect() {
@@ -13,9 +14,7 @@ export default class CloudStorage {
                 keyFilename: '/home/web/keys/googlecloudkey.json'
             });
 
-            bucket = client.bucket('attollo-local');
-
-            resolve(bucket);
+            resolve(client);
         });
     }
 
@@ -23,7 +22,67 @@ export default class CloudStorage {
 
     }
 
-    Get(filename) {
+    CreateBucket(clientId) {
+        return new Promise((resolve, reject) => {
+            client.createBucket('attollo-' + clientId)
+                .then((result) => {
+                    resolve(result);
+                })
+                .catch((err) => {
+                    resolve(client.bucket('attollo-' + clientId));
+                });
+        });
+    }
+
+    Get(authContext, filename) {
+        var bucket = client.bucket('attollo-' + Auid.Decode(authContext.ClientID));
+
         return bucket.file(filename).createReadStream();
+    }
+
+    Save(authContext, filename, content) {
+        return new Promise((resolve, reject) => {
+            try {
+                var bucket = client.bucket('attollo-' + Auid.Decode(authContext.ClientID));
+
+                var blobStream = bucket.file(filename).createWriteStream();
+                blobStream.on('finish', () => {
+                    resolve();
+                });
+
+                blobStream.on('error', (err) => {
+                    reject(err);
+                    return;
+                });
+                blobStream.end(content);
+            } catch(err) {
+                reject(err);
+            }
+        });
+    }
+
+    Dir(authContext) {
+        return new Promise((resolve, reject) => {
+            var bucket = client.bucket('attollo-' + Auid.Decode(authContext.ClientID));
+
+            bucket.getFiles()
+                .then((data) => {
+                    var ret = [];
+
+                    data[0].forEach((x) => {
+                        ret.push(x.name);
+                    });
+
+                    resolve(ret);
+                })
+                .catch((err) => { reject(err); })
+
+        });
+    }
+
+    Delete(authContext, filename) {
+        var bucket = client.bucket('attollo-' + Auid.Decode(authContext.ClientID));
+
+        return bucket.file(filename).delete();
     }
 }

@@ -103,7 +103,7 @@ export default class AppStart {
                 //Setup Asset Route
                 app.get('/Assets', self._authConfig.BuildContext(), (req, res) => {
                     var filename = "87357.jpg";
-                    var filestream = self._attollo.Services.CloudStorage.Get(filename);
+                    var filestream = self._attollo.Services.CloudStorage.Get(req.AuthContext, filename);
 
                     res.setHeader('Content-disposition', 'attachment; filename=' + filename);
                     res.setHeader('Content-type', mime.lookup(filename));

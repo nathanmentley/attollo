@@ -7,6 +7,7 @@ import Attollo from "../../Common/Attollo";
 
 import ControllerContext from './ControllerContext';
 
+import AssetController from "./Controllers/AssetController";
 import AuthController from "./Controllers/AuthController";
 import BlockContainerAreaController from "./Controllers/BlockContainerAreaController";
 import BlockContainerAreaInstanceController from "./Controllers/BlockContainerAreaInstanceController";
@@ -38,6 +39,7 @@ import UserController from "./Controllers/UserController";
 
     ControllerContext,
 
+    AssetController,
     AuthController,
     BlockContainerAreaController,
     BlockContainerAreaInstanceController,
@@ -70,6 +72,7 @@ export default class AppStart {
 
         controllerContext,
 
+        assetController,
         authController,
         blockContainerAreaController,
         blockContainerAreaInstanceController,
@@ -101,6 +104,7 @@ export default class AppStart {
         this._controllerContext = controllerContext;
 
         this._controllers = [
+            assetController,
             authController,
             blockContainerAreaController,
             blockContainerAreaInstanceController,
@@ -145,7 +149,7 @@ export default class AppStart {
                 this._controllerContext.App.set('port', ConfigUtils.Config.PortNumber);
 
                 //Setup Json Body Parser
-                this._controllerContext.App.use(require('body-parser').json());
+                this._controllerContext.App.use(require('body-parser').json({limit: '50mb'}));
 
                 //Force HTTPS on non local
                 if (ConfigUtils.Config.Environment != "Local" &&

@@ -105,6 +105,9 @@ export default class Header extends BaseComponent {
                                 })}
                                 
                             </NavDropdown>
+                            <NavItem eventKey={5} onClick={() => { self.changePage('/FileSystem')} }>
+                                <Glyphicon glyph="link" /> FileSystem
+                            </NavItem>
                         </Nav>
                         <Nav pullRight>
                             <NavItem eventKey={1} onClick={() => { self.changePage('/Account')} }>

@@ -14,7 +14,23 @@ export default class CloudStorageService extends BaseService {
         super(serviceContext);
     }
 
-    Get(filename) {
-        return this.Context.Clients.CloudStorage.Get(filename);
+    CreateBucket(clientId) {
+        return this.Context.Clients.CloudStorage.CreateBucket(clientId);
+    }
+
+    Get(authContext, filename) {
+        return this.Context.Clients.CloudStorage.Get(authContext, filename);
+    }
+
+    Save(authContext, filename, content) {
+        return this.Context.Clients.CloudStorage.Save(authContext, filename, content);
+    }
+
+    Dir(authContext) {
+        return this.Context.Clients.CloudStorage.Dir(authContext);
+    }
+
+    Delete(authContext, filename) {
+        return this.Context.Clients.CloudStorage.Delete(authContext, filename);
     }
 }

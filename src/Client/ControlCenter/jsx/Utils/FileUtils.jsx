@@ -25,7 +25,10 @@ export default class FileUtils {
                     reader.onload = function (event) {
                         var contents = event.target.result;
 
-                        resolve(contents);
+                        resolve({
+                            filename: file.name,
+                            content: contents
+                        });
                     };
                     reader.readAsText(file);
                 }

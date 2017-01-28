@@ -54,12 +54,21 @@ export default class FileSystemPage extends BasePage {
             });
     }
 
+    downloadFile(file) {
+        AssetService.GetAsset(file).then((res) => {
+            FileUtils.GenerateDownload(
+                file,
+                res.data.data
+            );
+        });
+    }
+
     _render() {
         return (
             <div>
                 <Row>
                     <Col xs={12} md={12}>
-                        <FileList Files={this.state.Files} DeleteFile={this.deleteFile} />
+                        <FileList Files={this.state.Files} DeleteFile={this.deleteFile} DownloadFile={this.downloadFile} />
                     </Col>
                 </Row>
 

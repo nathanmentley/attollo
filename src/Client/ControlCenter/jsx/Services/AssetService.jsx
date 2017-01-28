@@ -7,6 +7,10 @@ export default class AssetService {
         return AjaxService.Get(endpoint, {}, {});
     }
 
+    static GetAsset(filename) {
+        return AjaxService.Get(endpoint + "?filename=" + filename, {}, {});
+    }
+
     static AddAsset(filename, content) {
         return AjaxService.Post(endpoint, { filename: filename, content: content }, {});
     }

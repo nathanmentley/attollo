@@ -58,7 +58,7 @@ export default class SiteVersionsPage extends BasePage {
     import() {
         FileUtils.GetFile()
             .then((result) => {
-                SiteVersionProvisionService.ImportSiteVersion(JSON.parse(result), this.props.params.SiteID)
+                SiteVersionProvisionService.ImportSiteVersion(JSON.parse(result.content), this.props.params.SiteID)
                     .then(() => {
                         SiteVersionService.GetSiteVersions(this.props.params.SiteID).then((res) => {
                             this.setState({ SiteVersions: res.data.data });

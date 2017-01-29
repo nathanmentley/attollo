@@ -32,6 +32,7 @@ class DockerProcessor:
         ports = [PortMapDef(6379, 6379)];
         links = [];
         volumes = [
+            VolumnDef('/keys', '/home/web/keys'),
             VolumnDef('/dist', '/home/web/dist'),
             VolumnDef('/logs', '/home/web/logs'),
             VolumnDef('/src', '/home/web/src')
@@ -47,6 +48,7 @@ class DockerProcessor:
         links = [];
         volumes = [
             VolumnDef('/storage/database', '/var/lib/postgresql/data'),
+            VolumnDef('/keys', '/home/web/keys'),
             VolumnDef('/dist', '/home/web/dist'),
             VolumnDef('/logs', '/home/web/logs'),
             VolumnDef('/src', '/home/web/src')
@@ -61,6 +63,7 @@ class DockerProcessor:
         ports = [PortMapDef(5672, 5672)];
         links = [];
         volumes = [
+            VolumnDef('/keys', '/home/web/keys'),
             VolumnDef('/dist', '/home/web/dist'),
             VolumnDef('/logs', '/home/web/logs'),
             VolumnDef('/src', '/home/web/src')
@@ -79,6 +82,7 @@ class DockerProcessor:
             LinkDef('attollo-rabbitmq', 'rabbitmq')
         ];
         volumes = [
+            VolumnDef('/keys', '/home/web/keys'),
             VolumnDef('/dist', '/home/web/dist'),
             VolumnDef('/logs', '/home/web/logs'),
             VolumnDef('/src', '/home/web/src')
@@ -97,6 +101,7 @@ class DockerProcessor:
             LinkDef('attollo-rabbitmq', 'rabbitmq')
         ];
         volumes = [
+            VolumnDef('/keys', '/home/web/keys'),
             VolumnDef('/dist', '/home/web/dist'),
             VolumnDef('/logs', '/home/web/logs'),
             VolumnDef('/src', '/home/web/src')
@@ -115,6 +120,7 @@ class DockerProcessor:
             LinkDef('attollo-rabbitmq', 'rabbitmq')
         ];
         volumes = [
+            VolumnDef('/keys', '/home/web/keys'),
             VolumnDef('/dist', '/home/web/dist'),
             VolumnDef('/logs', '/home/web/logs'),
             VolumnDef('/src', '/home/web/src')
@@ -133,6 +139,7 @@ class DockerProcessor:
             LinkDef('attollo-rabbitmq', 'rabbitmq')
         ];
         volumes = [
+            VolumnDef('/keys', '/home/web/keys'),
             VolumnDef('/dist', '/home/web/dist'),
             VolumnDef('/logs', '/home/web/logs'),
             VolumnDef('/src', '/home/web/src')
@@ -151,6 +158,7 @@ class DockerProcessor:
             LinkDef('attollo-rabbitmq', 'rabbitmq')
         ];
         volumes = [
+            VolumnDef('/keys', '/home/web/keys'),
             VolumnDef('/dist', '/home/web/dist'),
             VolumnDef('/logs', '/home/web/logs'),
             VolumnDef('/src', '/home/web/src')
@@ -169,6 +177,7 @@ class DockerProcessor:
             LinkDef('attollo-rabbitmq', 'rabbitmq')
         ];
         volumes = [
+            VolumnDef('/keys', '/home/web/keys'),
             VolumnDef('/dist', '/home/web/dist'),
             VolumnDef('/logs', '/home/web/logs'),
             VolumnDef('/src', '/home/web/src')

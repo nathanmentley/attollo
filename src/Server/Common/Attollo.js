@@ -4,6 +4,7 @@ import LogUtils from './Utils/LogUtils';
 
 import BlockService from "./Services/BlockService";
 import ClientService from "./Services/ClientService";
+import CloudStorageService from "./Services/CloudStorageService";
 import CssService from "./Services/CssService";
 import DatabaseVersionService from "./Services/DatabaseVersionService";
 import DataTypeService from "./Services/DataTypeService";
@@ -18,11 +19,13 @@ import UserService from "./Services/UserService";
 
 import Amqplib from './Clients/Amqplib';
 import Redis from './Clients/Redis';
+import CloudStorage from './Clients/CloudStorage';
 import Database from "./DAL/Core/Database";
 
 @Dependencies(
     BlockService,
     ClientService,
+    CloudStorageService,
     CssService,
     DatabaseVersionService,
     DataTypeService,
@@ -37,12 +40,14 @@ import Database from "./DAL/Core/Database";
 
     Amqplib,
     Redis,
+    CloudStorage,
     Database
 )
 export default class Attollo {
     constructor(
         blockService,
         clientService,
+        cloudStorageService,
         cssService,
         databaseVersionService,
         dataTypeService,
@@ -57,6 +62,7 @@ export default class Attollo {
 
         amqplib,
         redis,
+        cloudStorage,
         database
     ) {
         this._appName = '';
@@ -64,6 +70,7 @@ export default class Attollo {
         this._services = {
             Block: blockService,
             Client: clientService,
+            CloudStorage: cloudStorageService,
             Css: cssService,
             DatabaseVersion: databaseVersionService,
             DataType: dataTypeService,
@@ -79,6 +86,7 @@ export default class Attollo {
 
         this._amqplib = amqplib;
         this._redis = redis;
+        this._cloudStorage = cloudStorage;
         this._database = database;
     }
 
@@ -99,7 +107,8 @@ export default class Attollo {
         return Promise.all([
             this._database.Connect(),
             this._amqplib.Connect(),
-            this._redis.Connect()
+            this._redis.Connect(),
+            this._cloudStorage.Connect()
         ]);
     }
 
@@ -107,6 +116,7 @@ export default class Attollo {
         this._database.Close();
         this._amqplib.Close();
         this._redis.Close();
+        this._cloudStorage.Close();
         
         LogUtils.Info("App Stop");
     }

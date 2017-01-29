@@ -13,7 +13,7 @@ var attollo = constitute(Attollo);
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
             attollo.Services.Block.AddBlockSettingDefs(dbContext, BlockDefCodes.Html, 'htmlContent', 'HTML Content', 'html', '<p>html content from setting</p>'),
-            attollo.Services.Block.AddBlockSettingDefs(dbContext, BlockDefCodes.Image, 'imageUrl', 'Image Url', 'text', 'http://fpoimg.com/300x250'),
+            attollo.Services.Block.AddBlockSettingDefs(dbContext, BlockDefCodes.Image, 'imageUrl', 'Image Url', 'image', 'http://fpoimg.com/300x250'),
             attollo.Services.Block.AddBlockSettingDefs(dbContext, BlockDefCodes.Image, 'imageCaption', 'Image Caption', 'text', 'Image Caption')
         ])
         .then(() => {

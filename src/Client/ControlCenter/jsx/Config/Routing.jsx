@@ -9,6 +9,8 @@ import Plugins from '../Components/Pages/Plugins/Page.jsx';
 import DataTypeDefs from '../Components/Pages/DataTypeDefs/Page.jsx';
 import DataTypeDefBuilder from '../Components/Pages/DataTypeDefBuilder/Page.jsx';
 
+import FileSystem from '../Components/Pages/FileSystem/Page.jsx';
+
 import Sites from '../Components/Pages/Sites/Page.jsx';
 import SiteVersions from '../Components/Pages/SiteVersions/Page.jsx';
 import Pages from '../Components/Pages/Pages/Page.jsx';
@@ -34,6 +36,8 @@ export default class Routing extends React.Component {
                 <Route path="/Plugins" component={Plugins} onEnter={Auth.AuthRequired} />
                 <Route path="/DataTypeDefs/:PluginDefID" component={DataTypeDefs} onEnter={Auth.AuthRequired} />
                 <Route path="/DataTypeDefs/:PluginDefID/:DataTypeDefID" component={DataTypeDefBuilder} onEnter={Auth.AuthRequired} />
+
+                <Route path="/FileSystem" component={FileSystem} onEnter={Auth.AuthRequired} />
 
                 <Route path="/Sites" component={Sites} onEnter={Auth.AuthRequired} />
                 <Route path="/Sites/:SiteID" component={SiteVersions} onEnter={Auth.AuthRequired} />

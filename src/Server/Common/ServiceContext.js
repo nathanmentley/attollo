@@ -5,6 +5,7 @@ import Database from './DAL/Core/Database';
 import SendGrid from "./Clients/SendGrid";
 import Redis from "./Clients/Redis";
 import Amqplib from "./Clients/Amqplib";
+import CloudStorage from "./Clients/CloudStorage";
 
 import BlockHandler from "./DAL/Handlers/BlockHandler";
 import ClientHandler from "./DAL/Handlers/ClientHandler";
@@ -33,7 +34,8 @@ import UserHandler from "./DAL/Handlers/UserHandler";
 
     SendGrid,
     Redis,
-    Amqplib
+    Amqplib,
+    CloudStorage
 )
 export default class ServiceContext {
     constructor(
@@ -51,7 +53,8 @@ export default class ServiceContext {
 
         sendGrid,
         redis,
-        amqplib
+        amqplib,
+        cloudStorage
     ) {
         this._handlers = {
             Block: blockHandler,
@@ -69,7 +72,8 @@ export default class ServiceContext {
         this._clients = {
             Email: sendGrid,
             Redis: redis,
-            WorkQueue: amqplib
+            WorkQueue: amqplib,
+            CloudStorage: cloudStorage
         };
     }
 

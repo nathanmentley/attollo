@@ -1,7 +1,11 @@
 export default class FileUtils {
-    static GenerateDownload(filename, content) {
+    static GenerateDownload(filename, content, datatype) {
+        if(!datatype) {
+            datatype = 'text/plain;charset=utf-8';
+        }
+
         var pom = document.createElement('a');
-        pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+        pom.setAttribute('href', 'data:' + datatype + ',' + encodeURIComponent(content));
         pom.setAttribute('download', filename);
 
         if (document.createEvent) {
@@ -23,11 +27,20 @@ export default class FileUtils {
                 } else {
                     var reader = new FileReader();
                     reader.onload = function (event) {
-                        var contents = event.target.result;
+                        var fileData = event.target.result;
+                        var bytes = new Uint8Array(fileData);
+                        var binaryText = '';
 
-                        resolve(contents);
+                        for (var index = 0; index < bytes.byteLength; index++) {
+                            binaryText += String.fromCharCode( bytes[index] );
+                        }
+
+                        resolve({
+                            filename: file.name,
+                            content: btoa(binaryText)
+                        });
                     };
-                    reader.readAsText(file);
+                    reader.readAsArrayBuffer(file);
                 }
             }
 

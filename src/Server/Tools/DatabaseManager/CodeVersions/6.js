@@ -11,7 +11,8 @@ var attollo = constitute(Attollo);
 	classDef.prototype.Logic = function(dbContext, callback, errorCallback) {
         Promise.all([
             attollo.Services.Setting.AddSettingType(dbContext, { code: 'text', title: 'Text' }),
-            attollo.Services.Setting.AddSettingType(dbContext, { code: 'html', title: 'HTML' })
+            attollo.Services.Setting.AddSettingType(dbContext, { code: 'html', title: 'HTML' }),
+            attollo.Services.Setting.AddSettingType(dbContext, { code: 'image', title: 'Image' })
         ])
         .then(() => {
             callback();

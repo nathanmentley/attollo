@@ -92,16 +92,12 @@ export default class DataTypeService extends BaseService {
 		return this.Context.Handlers.DataType.GetDataTypeFieldDefs(authContext, dataTypeDefId);
 	};
 
-	AddDataTypeFieldDef(authContext, dataTypeFieldTypeCode, model){
+	AddDataTypeFieldDef(authContext, model){
 		var self = this;
 
 		return new Promise((resolve, reject) => {
-			self.GetDataTypeFieldType(authContext, dataTypeFieldTypeCode)
-			.then((fieldType) => {
-				self.Context.DBTransaction((transaction) => {
-					model.datatypefieldtypeid = fieldType.get('id');
-
-					self.Context.Handlers.DataType.AddDataTypeFieldDef(authContext, transaction, model)
+			self.Context.DBTransaction((transaction) => {
+				self.Context.Handlers.DataType.AddDataTypeFieldDef(authContext, transaction, model)
 					.then((result) => {
 						transaction.commit(result);
 					}).catch((err) => {
@@ -114,10 +110,6 @@ export default class DataTypeService extends BaseService {
 				.catch((err) => {
 					reject(err);
 				});
-			})
-			.catch((err) => {
-				reject(err);
-			});
 		});
 	};
 

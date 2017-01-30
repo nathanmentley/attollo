@@ -7,8 +7,8 @@ export default class DataTypeDefService {
         return AjaxService.Get(endpoint, {}, {});
     }
 
-    static AddDataTypeDef(dataTypeDef) {
-        return AjaxService.Post(endpoint, { dataTypeDef: dataTypeDef }, {});
+    static AddDataTypeDef(pluginDefCode, dataTypeDef) {
+        return AjaxService.Post(endpoint, { pluginDefCode: pluginDefCode, dataTypeDef: dataTypeDef }, {});
     }
 
     static SaveDataTypeDef(dataTypeDef) {

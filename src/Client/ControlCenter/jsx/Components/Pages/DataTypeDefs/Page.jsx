@@ -6,6 +6,7 @@ import ObjectUtils from '../../../Utils/ObjectUtils.jsx';
 import BasePage from '../BasePage.jsx';
 
 import DataTypeDefService from '../../../Services/DataTypeDefService.jsx';
+import PluginDefService from '../../../Services/PluginDefService.jsx';
 
 import DataTypeDefList from './DataTypeDefList.jsx';
 import DataTypeDefEditor from './DataTypeDefEditor.jsx';
@@ -18,7 +19,8 @@ export default class DataTypeDefsPage extends BasePage {
         this.state = {
             EditingDataType: null,
             CreatingDataType: null,
-            DataTypeDefs: []
+            DataTypeDefs: [],
+            PluginDef: null
         };
 
         this.setEditingDataType = this.setEditingDataType.bind(this);
@@ -40,13 +42,18 @@ export default class DataTypeDefsPage extends BasePage {
 
         self.setPageTitle("Data Types", () => {
             DataTypeDefService.GetDataTypeDefs().then((res) => {
-                self.setState({ DataTypeDefs: res.data.data }, () => {
+                self.setState({ DataTypeDefs: res.data.data.filter((x) => { return x.plugindefid == this.props.params.PluginDefID; }) }, () => {
                     self.setBreadCrumbs([
                         {
                             title: "Dashboard",
                             url: "/"
                         }
                     ]);
+                });
+            });
+            PluginDefService.GetPluginDefs().then((res) => {
+                self.setState({
+                    PluginDef: res.data.data.filter((x) => { return x.id == this.props.params.PluginDefID; })[0]
                 });
             });
         });
@@ -71,7 +78,7 @@ export default class DataTypeDefsPage extends BasePage {
 
         DataTypeDefService.SaveDataTypeDef(this.state.EditingDataType).then((saveResult) => {
             DataTypeDefService.GetDataTypeDefs().then((res) => {
-                self.setState({ DataTypeDefs: res.data.data, EditingDataType: null });
+                self.setState({ DataTypeDefs: res.data.data.filter((x) => { return x.plugindefid == this.props.params.PluginDefID; }), EditingDataType: null });
             });
         });
     }
@@ -81,7 +88,7 @@ export default class DataTypeDefsPage extends BasePage {
 
         DataTypeDefService.DeleteDataTypeDef(this.state.EditingDataType.id).then((saveResult) => {
             DataTypeDefService.GetDataTypeDefs().then((res) => {
-                self.setState({ DataTypeDefs: res.data.data, EditingDataType: null });
+                self.setState({ DataTypeDefs: res.data.data.filter((x) => { return x.plugindefid == this.props.params.PluginDefID; }), EditingDataType: null });
             });
         });
     }
@@ -95,9 +102,9 @@ export default class DataTypeDefsPage extends BasePage {
     createDataType() {
         var self = this;
 
-        DataTypeDefService.AddDataTypeDef(this.state.CreatingDataType).then((addRes) => {
+        DataTypeDefService.AddDataTypeDef(this.state.PluginDef.code, this.state.CreatingDataType).then((addRes) => {
             DataTypeDefService.GetDataTypeDefs().then((res) => {
-                self.setState({ DataTypeDefs: res.data.data, CreatingDataType: null });
+                self.setState({ DataTypeDefs: res.data.data.filter((x) => { return x.plugindefid == this.props.params.PluginDefID; }), CreatingDataType: null });
             });
         });
     }

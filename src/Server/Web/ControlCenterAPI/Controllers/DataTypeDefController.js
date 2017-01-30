@@ -17,11 +17,11 @@ export default class DataTypeDefController extends BaseController {
         return this._attollo.Services.DataType.GetDataTypeDefs(request.AuthContext);
     }
     PostLogic(request, response) {
-        return this._attollo.Services.DataType.AddDataTypeDef(request.AuthContext, request.body.dataTypeDef);
+        return this._attollo.Services.DataType.AddDataTypeDef(request.AuthContext, request.body.pluginDefCode, request.body.dataTypeDef);
     }
     PutLogic(request, response) {
         return this._attollo.Services.DataType.UpdateDataTypeDef(request.AuthContext, request.body.dataTypeDef);
-    }
+    }n
     DeleteLogic(request, response) {
         return this._attollo.Services.DataType.DeleteDataTypeDef(request.AuthContext, { id: request.query.dataTypeDefId });
     }

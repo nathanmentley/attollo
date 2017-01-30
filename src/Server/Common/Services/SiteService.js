@@ -55,9 +55,9 @@ export default class SiteService extends BaseService {
 				self.GetSiteVersionStatus(authContext, SiteVersionStatusCodes.Published)
 				.then((status) => {
 					self.Context.DBTransaction((transaction) => {
-						self.Context.Handlers.Site.AddSite(authContext, transaction, theme.get('id'))
+						self.Context.Handlers.Site.AddSite(authContext, transaction)
 						.then((site) => {
-							self.Context.Handlers.Site.AddSiteVersion(authContext, transaction, site.get('id'), status.first().get('id'))
+							self.Context.Handlers.Site.AddSiteVersion(authContext, transaction, site.get('id'), status.first().get('id'), theme.get('id'))
 							.then(() => {
 								transaction.commit(site);
 							}).catch((err) => {

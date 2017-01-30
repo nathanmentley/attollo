@@ -17,11 +17,7 @@ var attollo = constitute(Attollo);
             attollo.Services.Client.AddClient(dbContext, { name: 'Attollo' })
         ])
         .then(() => {
-            Promise.all([
-                attollo.Services.Plugin.AddPlugin(dbContext, PluginDefCodes.Core)
-            ])
-            .then(() => {
-                attollo.Services.User.AddUser(dbContext, 'username', 'password', 'Admin')
+            attollo.Services.User.AddUser(dbContext, 'username', 'password', 'Admin')
                 .then(() => {
                     dbContext.ClearClientID();
 
@@ -32,12 +28,6 @@ var attollo = constitute(Attollo);
 
                     errorCallback(err);
                 });
-            })
-            .catch((err) => {
-                dbContext.ClearClientID();
-
-                errorCallback(err);
-            });
         })
         .catch((err) => {
             dbContext.ClearClientID();

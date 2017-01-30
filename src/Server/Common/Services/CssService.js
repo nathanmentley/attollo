@@ -213,13 +213,13 @@ export default class CssService extends BaseService {
         });
 	};
 
-    GetSiteLess(authContext, siteId) {
+    GetSiteVersionLess(authContext, siteVersionID) {
         return new Promise((resolve, reject) => {
             var less = '';
 
-            this.Context.Handlers.Site.GetSiteById(authContext, siteId)
-            .then((site) => {
-                var rules = site.relations['Theme'].relations['ThemeCssRules'];
+            this.Context.Handlers.Site.GetSiteVersionById(authContext, siteVersionID)
+            .then((siteVersion) => {
+                var rules = siteVersion.relations['Theme'].relations['ThemeCssRules'];
 
                 var css = {};
                 rules.forEach((rule) => {

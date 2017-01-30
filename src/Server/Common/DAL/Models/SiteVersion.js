@@ -10,6 +10,7 @@ import Client from "./Client";
 import Block from "./Block";
 import Page from "./Page";
 import SiteVersionStatus from "./SiteVersionStatus";
+import Theme from "./Theme";
 
 @TableName('SiteVersion')
 class SiteVersion extends BaseModel {
@@ -20,6 +21,7 @@ class SiteVersion extends BaseModel {
     BelongsTo() {
         return [
             { Title: 'Site', Type: Site, Field: "SiteID"  },
+            { Title: 'Theme', Type: Theme, Field: "ThemeID"  },
             { Title: 'SiteVersionStatus', Type: SiteVersionStatus, Field: "SiteVersionStatusID"  },
             { Title: 'Client', Type: Client, Field: "ClientID", Through: [
                 { Title: 'Site', Type: Site, Field: 'SiteID' }

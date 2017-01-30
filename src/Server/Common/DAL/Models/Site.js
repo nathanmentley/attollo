@@ -4,7 +4,6 @@ import TableName from "../Core/Decorators/TableName";
 import BaseModel from "../Core/BaseModel";
 
 import Client from "./Client";
-import Theme from "./Theme";
 
 @TableName('Site')
 class Site extends BaseModel {
@@ -16,7 +15,6 @@ class Site extends BaseModel {
         var belongsTo = super.BelongsTo();
 
         belongsTo.push({ Title: 'Client', Type: Client, Field: "ClientID"  });
-        belongsTo.push({ Title: 'Theme', Type: Theme, Field: "ThemeID"  });
 
         return belongsTo;
     }

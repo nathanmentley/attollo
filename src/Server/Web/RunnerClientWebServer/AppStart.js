@@ -71,7 +71,7 @@ export default class AppStart {
 
                 //Render Dynamic Css
                 app.get("/app.css", self._authConfig.BuildContext(), function (req, res) {
-                    self._attollo.Services.Css.GetSiteLess(req.AuthContext, req.AuthContext.SiteID)
+                    self._attollo.Services.Css.GetSiteVersionLess(req.AuthContext, req.AuthContext.SiteVersionID)
                         .then((siteLess) => {
                             fs.readFile(process.cwd() + '/less/app.less', "utf8", (err, data) => {
                                 if (err) {

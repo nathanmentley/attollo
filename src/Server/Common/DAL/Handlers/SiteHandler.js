@@ -13,6 +13,8 @@ export default class BlockHandler extends BaseHandler {
         super(handlerContext);
     }
 
+    //Site
+
     GetSite(authContext, domain){
 		return this.Context.DatabaseContext.Sites(authContext, true)
 			.query({
@@ -21,18 +23,6 @@ export default class BlockHandler extends BaseHandler {
 				}
 			}).fetch();
 	};
-	
-	GetCurrentSiteVersion(authContext, site){
-		return this.Context.DatabaseContext.SiteVersions(authContext, true)
-			.query({
-				where: {
-					siteid: site.get('id'),
-					current: true
-				}
-			}).fetch();
-	};
-
-	//Site
 
 	GetSiteById(authContext, siteId){
 		return this.Context.DatabaseContext.Site(authContext)
@@ -40,32 +30,20 @@ export default class BlockHandler extends BaseHandler {
 				where: {
 					id: siteId
 				}
-			}).fetch({ 
-				withRelated: [ 
-					'Theme',
-					'Theme.ThemeCssRules',
-					'Theme.ThemeCssRules.CssRule',
-					'Theme.ThemeCssRules.CssRule.CssRuleDef'
-				]
-			});
+			}).fetch();
 	};
 
 	GetSites(authContext){
 		return this.Context.DatabaseContext.Sites(authContext)
-				.fetch({
-					withRelated: [
-						"Theme"
-					]
-				});
+				.fetch();
 	};
 	
-	AddSite(authContext, transaction, themeId){
+	AddSite(authContext, transaction){
 		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site({
 			clientid: authContext.ClientID,
 			domain: 'example.com',
-			name: 'new site',
-			themeid: themeId
+			name: 'new site'
 		});
 
 		return site.save(null, { transacting: transaction });
@@ -85,6 +63,33 @@ export default class BlockHandler extends BaseHandler {
 		return site.destroy({ transacting: transaction });
 	};
 
+	//Get SiteVersion
+
+    GetSiteVersionById(authContext, siteVersionId){
+        return this.Context.DatabaseContext.SiteVersion(authContext)
+            .query({
+                where: {
+                    id: siteVersionId
+                }
+            }).fetch({
+                withRelated: [
+                    'Theme',
+                    'Theme.ThemeCssRules',
+                    'Theme.ThemeCssRules.CssRule',
+                    'Theme.ThemeCssRules.CssRule.CssRuleDef'
+                ]
+            });
+    };
+
+    GetCurrentSiteVersion(authContext, site){
+        return this.Context.DatabaseContext.SiteVersions(authContext, true)
+            .query({
+                where: {
+                    siteid: site.get('id'),
+                    current: true
+                }
+            }).fetch();
+    };
 
     GetSiteVersion(authContext, siteVersionId){
         return this.Context.DatabaseContext.SiteVersion(authContext)
@@ -127,11 +132,12 @@ export default class BlockHandler extends BaseHandler {
             });
     };
 
-	AddSiteVersion(authContext, transaction, siteId, siteVersionStatusId){
+	AddSiteVersion(authContext, transaction, siteId, siteVersionStatusId, themeId){
 		var SiteVersion = this.Context.DatabaseContext.SiteVersion(authContext);
 		var siteVersion = new SiteVersion({
 			siteversionstatusid: siteVersionStatusId,
 			siteid: siteId,
+            themeid: themeId,
 			current: true
 		});
 

@@ -29,12 +29,12 @@ export default class AuthConfig {
                         PluginDefIds: []
                     };
 
-                    self._attollo.Services.Plugin.GetPlugins(req.AuthContext)
-                        .then((plugins) => {
-                            plugins.forEach((x) => {
+                    self._attollo.Services.Plugin.GetPluginDefs(req.AuthContext)
+                        .then((pluginDefs) => {
+                            pluginDefs.forEach((pluginDef) => {
                                 req.AuthContext.PluginDefIds.push(
                                     Auid.Decode(
-                                        x.relations['PluginDef'].get('id')
+                                        pluginDef.get('id')
                                     )
                                 );
                             });

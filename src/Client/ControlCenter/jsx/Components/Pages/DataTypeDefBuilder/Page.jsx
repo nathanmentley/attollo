@@ -27,7 +27,6 @@ export default class DataTypeDefBuilderPage extends BasePage {
             DataTypeFieldTypes: []
         };
 
-        this.addNewDataType = this.addNewDataType.bind(this);
         this.addNewDataTypeField = this.addNewDataTypeField.bind(this);
 
         this.setEditingDataTypeField = this.setEditingDataTypeField.bind(this);
@@ -78,14 +77,6 @@ export default class DataTypeDefBuilderPage extends BasePage {
                 datatypedefid: this.props.params.DataTypeDefID,
                 name: '',
                 datatypefieldtypeid: this.state.DataTypeFieldTypes[0].id
-            }
-        });
-    }
-
-    addNewDataType() {
-        this.setState({
-            CreatingDataType: {
-
             }
         });
     }
@@ -217,9 +208,6 @@ export default class DataTypeDefBuilderPage extends BasePage {
                     <Col xs={12} md={12} className="page-action-bar">
                         <div className="btn btn-primary pull-right" onClick={this.addNewDataTypeField}>
                             <Glyphicon glyph="plus" /> Add New Field
-                        </div>
-                        <div className="btn btn-primary pull-right" onClick={this.addNewDataType}>
-                            <Glyphicon glyph="plus" /> Add New Record
                         </div>
                     </Col>
                 </Row>

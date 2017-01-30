@@ -5,7 +5,6 @@ import { Line, Doughnut, Bar } from 'react-chartjs-2';
 import BasePage from '../BasePage.jsx';
 
 import PluginDefService from '../../../Services/PluginDefService.jsx';
-import PluginService from '../../../Services/PluginService.jsx';
 
 import PluginDefList from './PluginDefList.jsx';
 
@@ -14,12 +13,8 @@ export default class PluginsPage extends BasePage {
         super(props);
 
         this.state = {
-            PluginDefs: [],
-            Plugins: []
+            PluginDefs: []
         };
-
-        this.enablePlugin = this.enablePlugin.bind(this);
-        this.disablePlugin = this.disablePlugin.bind(this);
     }
 
     componentDidMount() {
@@ -40,42 +35,6 @@ export default class PluginsPage extends BasePage {
         .catch((err) => {
             
         });
-
-        PluginService.GetPlugins()
-        .then((result) => {
-            self.setState({ Plugins: result.data.data });
-        })
-        .catch((err) => {
-            
-        });
-    }
-
-    enablePlugin(pluginDefCode) {
-        var self = this;  
-        PluginService.AddPlugin(pluginDefCode)
-        .then(() => {
-            PluginService.GetPlugins()
-            .then((result) => {
-                self.setState({ Plugins: result.data.data });
-            })
-            .catch((err) => {
-                
-            });
-        });
-    }
-
-    disablePlugin(pluginId) {
-        var self = this;  
-        PluginService.DeletePlugin(pluginId)
-        .then(() => {
-            PluginService.GetPlugins()
-            .then((result) => {
-                self.setState({ Plugins: result.data.data });
-            })
-            .catch((err) => {
-                
-            });
-        });
     }
 
     _render() {
@@ -87,9 +46,6 @@ export default class PluginsPage extends BasePage {
                     <Col xs={12} md={12}>
                         <PluginDefList
                             PluginDefs={this.state.PluginDefs}
-                            Plugins={this.state.Plugins}
-                            EnablePlugin={this.enablePlugin}
-                            DisablePlugin={this.disablePlugin}
                         />
                     </Col>
                 </Row>

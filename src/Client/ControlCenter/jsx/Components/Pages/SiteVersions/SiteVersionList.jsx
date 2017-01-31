@@ -1,10 +1,9 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
 import { Table, DropdownButton, MenuItem, Glyphicon } from 'react-bootstrap';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
-import SiteVersionProvisionService from '../../../Services/SiteVersionProvisionService.jsx';
+import PageUtils from '../../../../../Common/jsx/Utils/PageUtils.jsx';
 
 export default class SiteVersionList extends BaseComponent {
     constructor(props) {
@@ -23,7 +22,7 @@ export default class SiteVersionList extends BaseComponent {
     }
 
     goToPageBin(siteVersionId) {
-        browserHistory.push("/Sites/" + this.props.SiteID + "/" + siteVersionId);
+        PageUtils.ChangePage("/Sites/" + this.props.SiteID + "/" + siteVersionId);
     }
 
     export(siteVersionId) {

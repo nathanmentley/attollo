@@ -22,11 +22,6 @@
             .pipe(gulp.dest('../dist/Server/'));
     });
 
-    gulp.task('Electron:copy', ['Server:clean'], function () {
-        return gulp.src('./**/*', { base: './dist/Client/ControlCenter/' })
-            .pipe(gulp.dest('./dist/Server/Electron/ControlCenter/'));
-    });
-
     gulp.task('Platform:copy', ['Platform:clean'], function () {
         return gulp.src('./Platform/**/*', { base: 'src' })
              .pipe(gulp.dest('../dist/Platform/'));
@@ -45,5 +40,5 @@
     });
 
     // Build
-    gulp.task('Server:build', ['Server:copy', 'Electron:copy', 'Platform:copy']);
+    gulp.task('Server:build', ['Server:copy', 'Platform:copy']);
 })();

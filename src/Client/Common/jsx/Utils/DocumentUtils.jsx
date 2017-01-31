@@ -55,4 +55,21 @@ export default class DocumentUtils {
     static GetElementByID(id) {
         return document.getElementById(id);
     }
+
+    static GetUrlParam(param) {
+        var vars = {};
+
+        window.location.href.replace(location.hash, '').replace(
+            /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+            function( m, key, value ) { // callback
+                vars[key] = value !== undefined ? value : '';
+            }
+        );
+
+        return vars[param] ? vars[param] : null;
+    }
+
+    static IsElectron() {
+        return (process && process.versions && (process.versions.electron !== undefined)) || (DocumentUtils.GetUrlParam('isElectron') == "true");
+    }
 }

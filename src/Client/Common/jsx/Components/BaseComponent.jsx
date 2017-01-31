@@ -1,5 +1,6 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
+
+import PageUtils from '../Utils/PageUtils.jsx';
 
 export default class BaseComponent extends React.Component {
     constructor(props) {
@@ -7,6 +8,6 @@ export default class BaseComponent extends React.Component {
     }
 
     goToPage(url) {
-        browserHistory.push(url);
+        PageUtils.ChangePage(url);
     }
 }

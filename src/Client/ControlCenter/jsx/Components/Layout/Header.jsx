@@ -1,10 +1,11 @@
 import React from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Glyphicon } from 'react-bootstrap';
-import { browserHistory } from 'react-router';
 
 import PermissionDefCodes from '../../../../../Platform/Constants/PermissionDefCodes.js';
 
 import BaseComponent from '../BaseComponent.jsx';
+
+import PageUtils from '../../../../Common/jsx/Utils/PageUtils.jsx';
 
 import AjaxService from '../../Services/AjaxService.jsx';
 import SiteService from '../../Services/SiteService.jsx';
@@ -38,7 +39,7 @@ export default class Header extends BaseComponent {
     }
 
     changePage(url) {
-        browserHistory.push(url);
+        PageUtils.ChangePage(url);
     }
 
     render() {

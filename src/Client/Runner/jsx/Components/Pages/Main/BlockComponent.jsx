@@ -1,7 +1,8 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
 
 import BaseComponent from '../../../../../Common/jsx/Components/BaseComponent.jsx';
+
+import PageUtils from '../../../../../Common/jsx/Utils/PageUtils.jsx';
 
 import DataTypeService from '../../../Services/DataTypeService.jsx';
 import UrlUtils from '../../../Utils/UrlUtils.jsx';
@@ -68,7 +69,7 @@ export default class BlockComponent extends BaseComponent {
     }
 
     goToPage(url) {
-        browserHistory.push(url);
+        PageUtils.ChangePage(url);
         
         this.props.UpdatePage(url);
     }

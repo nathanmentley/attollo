@@ -1,10 +1,9 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
 import { Table, DropdownButton, MenuItem, Glyphicon } from 'react-bootstrap';
 
-import SiteService from '../../../Services/SiteService.jsx';
-
 import BaseComponent from '../../BaseComponent.jsx';
+
+import PageUtils from '../../../../../Common/jsx/Utils/PageUtils.jsx';
 
 export default class SiteList extends BaseComponent {
     constructor(props) {
@@ -15,7 +14,7 @@ export default class SiteList extends BaseComponent {
     }
 
     goToSiteVersionBin(siteId) {
-        browserHistory.push("/Sites/" + siteId);
+        PageUtils.ChangePage("/Sites/" + siteId);
     }
 
     setEditingSite(site) {

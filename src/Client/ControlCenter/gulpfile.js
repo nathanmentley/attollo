@@ -81,6 +81,16 @@
         }
     );
 
+    gulp.task('ControlCenter:electron', ['ControlCenter:jsx', 'ControlCenter:less'], function() {
+        return gulp.src([
+            '../dist/Client/ControlCenter/app.js',
+            '../dist/Client/ControlCenter/app.css',
+            './Client/ControlCenter/Electron/index.html',
+            './Client/ControlCenter/Electron/main.js',
+            './Client/ControlCenter/Electron/package.json'
+        ]).pipe(gulp.dest('../dist/Client/ControlCenterElectron/'));
+    });
+
     gulp.task('ControlCenter:html', ['ControlCenter:clean'], function () {
         return gulp.src('./Client/ControlCenter/assets/index.html', { base: 'src' })
             .pipe(rename('index.html'))
@@ -101,7 +111,13 @@
                 .pipe(rename('glyphicons-halflings-regular.woff2'))
                 .pipe(gulp.dest('../dist/Client/ControlCenter/fonts/'));
     });
- 
+
+    gulp.task('ControlCenter:watch:electron', function () {
+        return watch(['./Client/ControlCenter/jsx/**/*.jsx', './Client/ControlCenter/Config/**/*.json'], function () {
+            return gulp.run(['ControlCenter:electron']);
+        });
+    });
+
     gulp.task('ControlCenter:watch:jsx', function () {
         return watch(['./Client/ControlCenter/jsx/**/*.jsx', './Client/ControlCenter/Config/**/*.json'], function () {
             return gulp.run(['ControlCenter:jsx']);
@@ -122,11 +138,11 @@
  
     // Watch
     gulp.task('ControlCenter:watch',
-        ['ControlCenter:watch:jsx', 'ControlCenter:watch:html', 'ControlCenter:watch:less']
+        ['ControlCenter:watch:electron', 'ControlCenter:watch:jsx', 'ControlCenter:watch:html', 'ControlCenter:watch:less']
     );
 
     // Build
     gulp.task('ControlCenter:build',
-        ['ControlCenter:jsx', 'ControlCenter:less', 'ControlCenter:html']
+        ['ControlCenter:electron', 'ControlCenter:jsx', 'ControlCenter:less', 'ControlCenter:html']
     );
 })();

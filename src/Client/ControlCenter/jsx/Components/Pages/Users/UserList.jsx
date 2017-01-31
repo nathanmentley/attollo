@@ -1,5 +1,4 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
 import { Table, DropdownButton, MenuItem, Glyphicon } from 'react-bootstrap';
 
 import BaseComponent from '../../BaseComponent.jsx';

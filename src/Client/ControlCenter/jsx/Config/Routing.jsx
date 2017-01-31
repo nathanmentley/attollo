@@ -1,7 +1,9 @@
 import React from 'react';
-import { browserHistory, Router, Route, IndexRoute } from 'react-router';
+import { Router, Route, IndexRoute } from 'react-router';
 
 import Auth from './Auth.jsx';
+
+import PageUtils from '../../../Common/jsx/Utils/PageUtils.jsx';
 
 import Login from '../Components/Pages/Login/Page.jsx';
 
@@ -30,7 +32,7 @@ import Error404 from '../Components/Pages/Error404/Page.jsx';
 export default class Routing extends React.Component {
     render() {
         return (
-            <Router history={browserHistory}>
+            <Router history={PageUtils.GetHistory()}>
                 <Route path="/Login" component={Login} />
 
                 <Route path="/Plugins" component={Plugins} onEnter={Auth.AuthRequired} />

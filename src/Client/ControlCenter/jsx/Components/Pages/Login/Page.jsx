@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
-import { browserHistory } from 'react-router';
+
+import PageUtils from '../../../../../Common/jsx/Utils/PageUtils.jsx';
 
 import BasePage from '../BasePage.jsx';
 import AjaxService from '../../../Services/AjaxService.jsx';
@@ -67,9 +68,9 @@ export default class AboutPage extends BasePage {
                 AjaxService.SetAuth(resp.data.data.token, resp.data.data.permissions);
 
                 if (self.props.location && self.props.location.state && self.props.location.state.nextPathname) {
-                    browserHistory.push(self.props.location.state.nextPathname);
+                    PageUtils.ChangePage(self.props.location.state.nextPathname);
                 } else {
-                    browserHistory.push('/Dashboard');
+                    PageUtils.ChangePage('/Dashboard');
                 }
             }
         }).catch((err) => {

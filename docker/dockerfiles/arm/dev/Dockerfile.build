@@ -2,7 +2,7 @@
 FROM armv7/armhf-ubuntu:xenial
 
 RUN apt-get update
-RUN apt-get install -y curl sudo unzip zip
+RUN apt-get install -y curl sudo unzip zip python
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN apt-get install -y nodejs build-essential
 

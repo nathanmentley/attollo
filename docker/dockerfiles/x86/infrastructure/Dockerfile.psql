@@ -1,0 +1,19 @@
+# base ubuntu 16.04
+FROM ioft/i386-ubuntu:xenial
+
+RUN apt-get update
+RUN apt-get -y install postgresql postgresql-contrib sudo
+
+COPY ./docker /home/web/docker
+
+COPY ./docker/config/infrastructure/psql/pg_hba.conf /etc/postgresql/9.5/main/pg_hba.conf
+COPY ./docker/config/infrastructure/psql/postgresql.conf /etc/postgresql/9.5/main/postgresql.conf
+
+ARG attolloenv=local
+ENV attolloenv ${attolloenv}
+
+VOLUME /var/lib/postgresql/data
+
+EXPOSE 5432
+
+CMD sh /home/web/docker/scripts/infrastructure/psql.sh

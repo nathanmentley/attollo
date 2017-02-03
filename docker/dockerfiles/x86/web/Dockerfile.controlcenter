@@ -1,0 +1,17 @@
+# base ubuntu 16.04
+FROM ioft/i386-ubuntu:xenial
+
+RUN apt-get update
+RUN apt-get install -y curl sudo
+RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+RUN apt-get install -y nodejs build-essential
+
+COPY ./docker /home/web/docker
+
+ARG attolloenv=local
+ENV attolloenv ${attolloenv}
+
+EXPOSE 80
+EXPOSE 443
+
+CMD sh /home/web/docker/scripts/web/controlcenter.sh

@@ -16,6 +16,7 @@
     var gwebpack = require('gulp-webpack');
     var webpack = require('webpack');
     var merge = require('gulp-merge-json');
+    var electron = require('gulp-electron');
 
     var util = require('gulp-util');
     var Attollo = {
@@ -81,14 +82,51 @@
         }
     );
 
-    gulp.task('ControlCenter:electron', ['ControlCenter:jsx', 'ControlCenter:less'], function() {
+    gulp.task('ControlCenter:electron-bundle', ['ControlCenter:jsx', 'ControlCenter:less'], function() {
         return gulp.src([
             '../dist/Client/ControlCenter/app.js',
             '../dist/Client/ControlCenter/app.css',
             './Client/ControlCenter/Electron/index.html',
             './Client/ControlCenter/Electron/main.js',
             './Client/ControlCenter/Electron/package.json'
-        ]).pipe(gulp.dest('../dist/Client/ControlCenterElectron/'));
+        ]).pipe(gulp.dest('../dist/Client/ControlCenterElectron/src/'));
+    });
+
+    gulp.task('ControlCenter:electron', ['ControlCenter:electron-bundle'], function() {
+        var packageJson = require('../../../dist/Client/ControlCenterElectron/src/package.json');
+
+        gulp.src("")
+            .pipe(electron({
+                src: '../dist/Client/ControlCenterElectron/src',
+                packageJson: packageJson,
+                release: '../dist/Client/ControlCenterElectron/release',
+                cache: '../dist/Client/ControlCenterElectron/cache',
+                version: 'v1.4.15',
+                packaging: true,
+                platforms: ['darwin-x64', 'linux-x64', 'win32-x64'],
+                platformResources: {
+                    darwin: {
+                        CFBundleDisplayName: packageJson.name,
+                        CFBundleIdentifier: packageJson.name,
+                        CFBundleName: packageJson.name,
+                        CFBundleVersion: packageJson.version,
+                        icon: './Client/ControlCenter/assets/icons/attollo.icns'
+                    },
+                    win: {
+                        "version-string": packageJson.version,
+                        "file-version": packageJson.version,
+                        "product-version": packageJson.version,
+                        "icon": './Client/ControlCenter/assets/icons/attollo.ico'
+                    },
+                    linux: {
+                        "version-string": packageJson.version,
+                        "file-version": packageJson.version,
+                        "product-version": packageJson.version,
+                        "icon": './Client/ControlCenter/assets/icons/attollo.ico'
+                    }
+                }
+            }))
+            .pipe(gulp.dest(""));
     });
 
     gulp.task('ControlCenter:html', ['ControlCenter:clean'], function () {

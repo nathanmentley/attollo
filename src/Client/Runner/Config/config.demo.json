@@ -1,5 +1,5 @@
 {
     "Environment": "Demo",
     
-    "BaseAPIURL": "http://ec2-52-42-34-166.us-west-2.compute.amazonaws.com:7000"
+    "BaseAPIURL": "http://raspberrypi.local.skacahtoa.com:8081"
 }

@@ -1,0 +1,13 @@
+# base ubuntu 16.04
+FROM armv7/armhf-ubuntu:xenial
+
+RUN apt-get update
+RUN apt-get install -y rabbitmq-server
+RUN echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config
+
+COPY ./docker /home/web/docker
+
+ARG attolloenv=local
+ENV attolloenv ${attolloenv}
+
+CMD sh /home/web/docker/scripts/infrastructure/rabbitmq.sh

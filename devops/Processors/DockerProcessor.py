@@ -26,7 +26,7 @@ class DockerProcessor:
             self.dockerfiles.append(self.getDevDockerDef());
 
     def getRedisDockerDef(self):
-        dockerFile = self.path + '/docker/dockerfiles/infrastructure/Dockerfile.redis';
+        dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/infrastructure/Dockerfile.redis';
         imageName = 'attollo/redis';
         containerName = 'attollo-redis';
         ports = [PortMapDef(6379, 6379)];
@@ -41,7 +41,7 @@ class DockerProcessor:
         return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
 
     def getPsqlDockerDef(self):
-        dockerFile = self.path + '/docker/dockerfiles/infrastructure/Dockerfile.psql';
+        dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/infrastructure/Dockerfile.psql';
         imageName = 'attollo/psql';
         containerName = 'attollo-psql';
         ports = [PortMapDef(5432, 5432)];
@@ -57,7 +57,7 @@ class DockerProcessor:
         return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
 
     def getRabbitMQDockerDef(self):
-        dockerFile = self.path + '/docker/dockerfiles/infrastructure/Dockerfile.rabbitmq';
+        dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/infrastructure/Dockerfile.rabbitmq';
         imageName = 'attollo/rabbitmq';
         containerName = 'attollo-rabbitmq';
         ports = [PortMapDef(5672, 5672)];
@@ -72,7 +72,7 @@ class DockerProcessor:
         return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
 
     def getBuildDockerDef(self):
-        dockerFile = self.path + '/docker/dockerfiles/dev/Dockerfile.build';
+        dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/dev/Dockerfile.build';
         imageName = 'attollo/build';
         containerName = 'attollo-build';
         ports = [];
@@ -91,7 +91,7 @@ class DockerProcessor:
         return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
         
     def getDevDockerDef(self):
-        dockerFile = self.path + '/docker/dockerfiles/dev/Dockerfile.dev';
+        dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/dev/Dockerfile.dev';
         imageName = 'attollo/dev';
         containerName = 'attollo-dev';
         ports = [];
@@ -110,7 +110,7 @@ class DockerProcessor:
         return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
         
     def getRunnerDockerDef(self):
-        dockerFile = self.path + '/docker/dockerfiles/web/Dockerfile.runner';
+        dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/web/Dockerfile.runner';
         imageName = 'attollo/runner';
         containerName = 'attollo-runner';
         ports = [PortMapDef(80, 8080)];
@@ -129,7 +129,7 @@ class DockerProcessor:
         return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
 
     def getRunnerApiDockerDef(self):
-        dockerFile = self.path + '/docker/dockerfiles/web/Dockerfile.runnerapi';
+        dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/web/Dockerfile.runnerapi';
         imageName = 'attollo/runnerapi';
         containerName = 'attollo-runnerapi';
         ports = [PortMapDef(80, 8081)];
@@ -148,7 +148,7 @@ class DockerProcessor:
         return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
 
     def getControlCenterDockerDef(self):
-        dockerFile = self.path + '/docker/dockerfiles/web/Dockerfile.controlcenter';
+        dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/web/Dockerfile.controlcenter';
         imageName = 'attollo/controlcenter';
         containerName = 'attollo-controlcenter';
         ports = [PortMapDef(80, 8082)];
@@ -167,7 +167,7 @@ class DockerProcessor:
         return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
 
     def getControlCenterApiDockerDef(self):
-        dockerFile = self.path + '/docker/dockerfiles/web/Dockerfile.controlcenterapi';
+        dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/web/Dockerfile.controlcenterapi';
         imageName = 'attollo/controlcenterapi';
         containerName = 'attollo-controlcenterapi';
         ports = [PortMapDef(80, 8083)];

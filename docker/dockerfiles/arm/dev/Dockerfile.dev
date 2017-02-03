@@ -1,0 +1,14 @@
+# base ubuntu 16.04
+FROM armv7/armhf-ubuntu:xenial
+
+RUN apt-get update
+RUN apt-get install -y curl sudo unzip zip
+RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+RUN apt-get install -y nodejs build-essential
+
+COPY ./docker /home/web/docker
+
+ARG attolloenv=local
+ENV attolloenv ${attolloenv}
+
+CMD sh /home/web/docker/scripts/dev/dev.sh

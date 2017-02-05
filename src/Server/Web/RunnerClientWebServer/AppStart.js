@@ -45,7 +45,7 @@ export default class AppStart {
 
     Start() {
         var self = this;
-        ConfigUtils.Config.
+
         this._attollo.Start('RunnerClientWebServer')
             .then(() => {
                 var webroot = process.argv[2];
@@ -153,7 +153,7 @@ export default class AppStart {
                     filestream.pipe(res);
                 });
 
-                app.get('*', self._authConfig.BuildContext(), (req, res) => {
+                app.get('/page', self._authConfig.BuildContext(), (req, res) => {
                     try {
                         self._attollo.Services.Page.GetPages(req.AuthContext, req.AuthContext.SiteVersionID)
                             .then((pages) => {

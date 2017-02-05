@@ -22,8 +22,8 @@ class DockerProcessor:
             self.getControlCenterDockerDef(),
             self.getControlCenterApiDockerDef()
         ]
-        if options.env == 'local':
-            self.dockerfiles.append(self.getDevDockerDef());
+        #if options.env == 'local':
+        #    self.dockerfiles.append(self.getDevDockerDef());
 
     def getRedisDockerDef(self):
         dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/infrastructure/Dockerfile.redis';
@@ -194,6 +194,23 @@ class DockerProcessor:
         self.stop()
         for dockerfile in self.dockerfiles:
             subprocess.call('docker build -f ' + dockerfile.dockerfile + ' --build-arg attolloenv=' + self.options.env + ' -t ' + dockerfile.imagename + ' ' + self.path, shell=True)
+
+        for dockerfile in self.dockerfiles:
+            ports = ''
+            for portmap in dockerfile.ports:
+                ports += ' -p ' + str(portmap.host) + ':' + str(portmap.guest) + ' '
+            links = ''
+            for linkmap in dockerfile.links:
+                links += ' --link ' + str(linkmap.name) + ':' + str(linkmap.alias) + ' '
+            volumns = ''
+            for volumnmap in dockerfile.volumns:
+                volumns += ' -v "' + str(volumnmap.host) + '":"' + str(volumnmap.guest) + '" '
+
+            if dockerfile.foreground:
+                dockerSocket = ' ';
+                if self.options.env == 'local':
+                    dockerSocket = ' -v /var/run/docker.sock:/var/run/docker.sock ';
+                subprocess.call('docker run -it ' + ports + links + volumns + dockerSocket + ' --name ' + dockerfile.instancename + ' ' + dockerfile.imagename, shell=True)
         return
 
     def run(self):
@@ -207,13 +224,9 @@ class DockerProcessor:
             volumns = ''
             for volumnmap in dockerfile.volumns:
                 volumns += ' -v "' + str(volumnmap.host) + '":"' + str(volumnmap.guest) + '" '
-            
+
             if dockerfile.foreground:
-                dockerSocket = ' ';
-                if self.options.env == 'local': 
-                    dockerSocket = ' -v /var/run/docker.sock:/var/run/docker.sock ';
-                subprocess.call('docker run -it ' + ports + links + volumns + dockerSocket + ' --name ' + dockerfile.instancename + ' ' + dockerfile.imagename, shell=True)
+                continue
             else:
-                #
-                subprocess.call('docker run -d ' + ports + links + volumns + ' --name ' + dockerfile.instancename + ' ' + dockerfile.imagename, shell=True)
+                subprocess.call('docker run -d --restart=always ' + ports + links + volumns + ' --name ' + dockerfile.instancename + ' ' + dockerfile.imagename, shell=True)
         return

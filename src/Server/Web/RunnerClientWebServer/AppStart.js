@@ -74,15 +74,6 @@ export default class AppStart {
                         }
                     }
                 );
-
-                // handles acme-challenge and redirects to https
-                require('http').createServer(lex.middleware(require('redirect-https')())).listen(80, function () {
-                    console.log("Listening for ACME http-01 challenges on", this.address());
-                });
-                // handles your app
-                require('https').createServer(lex.httpsOptions, lex.middleware(app)).listen(443, function () {
-                    console.log("Listening for ACME tls-sni-01 challenges and serve app on", this.address());
-                });
                 /*
                 app.set('port', port || ConfigUtils.Config.PortNumber);
                 //Force HTTPS on non local
@@ -236,6 +227,16 @@ export default class AppStart {
                     } catch (err) {
                         LogUtils.Info(JSON.stringify(err));
                     }
+                });
+
+                // handles acme-challenge and redirects to https
+                require('http').createServer(lex.middleware(require('redirect-https')())).listen(80, function () {
+                    LogUtils.Info("Listening for ACME http-01 challenges.")
+                    console.log("Listening for ACME http-01 challenges on", this.address());
+                });
+                // handles your app
+                require('https').createServer(lex.httpsOptions, lex.middleware(app)).listen(443, function () {
+                    LogUtils.Info("Listening for ACME tls-sni-01 challenges and serve app.")
                 });
 
                 //do something when app is closing

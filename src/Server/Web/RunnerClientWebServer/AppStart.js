@@ -52,29 +52,31 @@ export default class AppStart {
                 var app = express();
 
                 function approveDomains(opts, certs, cb) {
-                    // This is where you check your database and associated
-                    // email addresses with domains and agreements and such
+                    try {
+                        // This is where you check your database and associated
+                        // email addresses with domains and agreements and such
 
 
-                    // The domains being approved for the first time are listed in opts.domains
-                    // Certs being renewed are listed in certs.altnames
-                    if (certs) {
-                        LogUtils.Info("cert found");
-                        opts.domains = certs.altnames;
+                        // The domains being approved for the first time are listed in opts.domains
+                        // Certs being renewed are listed in certs.altnames
+                        if (certs) {
+                            LogUtils.Info("cert found");
+                            opts.domains = certs.altnames;
+                        }
+                        else {
+                            opts.email = 'nathanmentley@gmail.com';
+                            opts.agreeTos = true;
+                            LogUtils.Info("cert not");
+                        }
+
+                        // NOTE: you can also change other options such as `challengeType` and `challenge`
+                        // opts.challengeType = 'http-01';
+                        // opts.challenge = require('le-challenge-fs').create({});
+
+                        cb(null, {options: opts, certs: certs});
+                    } catch(e) {
+                        LogUtils.Error(JSON.stringify(e));
                     }
-                    else {
-                        LogUtils.Info("cert not");
-                        var originDomain = req.get('host').replace("https://", "");
-                        opts.email = 'nathanmentley@gmail.com';
-                        opts.agreeTos = true;
-                        opts.domains = [];
-                    }
-
-                    // NOTE: you can also change other options such as `challengeType` and `challenge`
-                    // opts.challengeType = 'http-01';
-                    // opts.challenge = require('le-challenge-fs').create({});
-
-                    cb(null, { options: opts, certs: certs });
                 }
 
                 var lex = greenlockExpress.create(

@@ -45,7 +45,7 @@ export default class AppStart {
 
     Start() {
         var self = this;
-
+        ConfigUtils.Config.
         this._attollo.Start('RunnerClientWebServer')
             .then(() => {
                 var webroot = process.argv[2];
@@ -60,13 +60,11 @@ export default class AppStart {
                         // The domains being approved for the first time are listed in opts.domains
                         // Certs being renewed are listed in certs.altnames
                         if (certs) {
-                            LogUtils.Info("cert found");
                             opts.domains = certs.altnames;
                         }
                         else {
                             opts.email = 'nathanmentley@gmail.com';
                             opts.agreeTos = true;
-                            LogUtils.Info("cert not");
                         }
 
                         // NOTE: you can also change other options such as `challengeType` and `challenge`
@@ -81,7 +79,7 @@ export default class AppStart {
 
                 var lex = greenlockExpress.create(
                     {
-                        server: 'staging',
+                        server: ConfigUtils.Config.LetsEncryptServer,
                         challenges: {
                             'http-01': leChallengeFs.create({
                                 webrootPath: '~/letsencrypt/srv/www/:hostname/.well-known/acme-challenge'
@@ -155,7 +153,7 @@ export default class AppStart {
                     filestream.pipe(res);
                 });
 
-                app.get('/page', self._authConfig.BuildContext(), (req, res) => {
+                app.get('*', self._authConfig.BuildContext(), (req, res) => {
                     try {
                         self._attollo.Services.Page.GetPages(req.AuthContext, req.AuthContext.SiteVersionID)
                             .then((pages) => {

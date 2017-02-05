@@ -7,6 +7,8 @@ import fs from 'fs';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import greenlockExpress from 'greenlock-express';
+import leChallengeFs from 'le-challenge-fs';
+import leStoreCertbot from 'le-store-certbot';
 
 import LogUtils from '../../Common/Utils/LogUtils';
 import ConfigUtils from '../../Common/Utils/ConfigUtils';
@@ -62,8 +64,10 @@ export default class AppStart {
                     }
                     else {
                         LogUtils.Info("cert not");
-                        opts.email = 'john.doe@example.com';
+                        var originDomain = req.get('host').replace("https://", "");
+                        opts.email = 'nathanmentley@gmail.com';
                         opts.agreeTos = true;
+                        opts.domains = [];
                     }
 
                     // NOTE: you can also change other options such as `challengeType` and `challenge`
@@ -76,24 +80,28 @@ export default class AppStart {
                 var lex = greenlockExpress.create(
                     {
                         server: 'staging',
-                        challenges: {'http-01': require('le-challenge-fs').create({webrootPath: '/tmp/acme-challenges'})},
-                        store: require('le-store-certbot').create({webrootPath: '/tmp/acme-challenges'}),
+                        challenges: {
+                            'http-01': leChallengeFs.create({
+                                webrootPath: '~/letsencrypt/srv/www/:hostname/.well-known/acme-challenge'
+                            })
+                        },
+                        store: leStoreCertbot.create({
+                            configDir: '~/letsencrypt/etc',          // or /etc/letsencrypt or wherever
+                            privkeyPath: ':configDir/live/:hostname/privkey.pem',          //
+                            fullchainPath: ':configDir/live/:hostname/fullchain.pem',      // Note: both that :configDir and :hostname
+                            certPath: ':configDir/live/:hostname/cert.pem',                //       will be templated as expected by
+                            chainPath: ':configDir/live/:hostname/chain.pem',              //       node-letsencrypt
+
+                            workDir: '~/letsencrypt/var/lib',
+                            logsDir: '~/letsencrypt/var/log',
+
+                            webrootPath: '~/letsencrypt/srv/www/:hostname/.well-known/acme-challenge',
+
+                            debug: false
+                        }),
                         approveDomains: approveDomains
                     }
                 );
-                /*
-                app.set('port', port || ConfigUtils.Config.PortNumber);
-                //Force HTTPS on non local
-                if (ConfigUtils.Config.Environment != "Local") {
-                    app.use(function (request, response, next) {
-                        if (request.headers['x-forwarded-proto'] != 'https') {
-                            response.redirect('https://' + request.headers.host + request.path);
-                        } else {
-                            return next();
-                        }
-                    });
-                }
-                */
 
                 app.use(express.static(webroot));
 

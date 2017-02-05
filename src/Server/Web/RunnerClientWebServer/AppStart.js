@@ -6,6 +6,7 @@ import CleanCSS from 'clean-css';
 import fs from 'fs';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
+import greenlockExpress from 'greenlock-express';
 
 import LogUtils from '../../Common/Utils/LogUtils';
 import ConfigUtils from '../../Common/Utils/ConfigUtils';
@@ -46,15 +47,46 @@ export default class AppStart {
         this._attollo.Start('RunnerClientWebServer')
             .then(() => {
                 var webroot = process.argv[2];
-                var port = process.argv[3];
                 var app = express();
+                var lex = greenlockExpress.create(
+                    {
+                        server: 'staging',
+                        approveDomains: (opts, certs, cb) => {
+                            // This is where you check your database and associated
+                            // email addresses with domains and agreements and such
 
+
+                            // The domains being approved for the first time are listed in opts.domains
+                            // Certs being renewed are listed in certs.altnames
+                            if (certs) {
+                                opts.domains = certs.altnames;
+                            }
+                            else {
+                                opts.email = 'john.doe@example.com';
+                                opts.agreeTos = true;
+                            }
+
+                            // NOTE: you can also change other options such as `challengeType` and `challenge`
+                            // opts.challengeType = 'http-01';
+                            // opts.challenge = require('le-challenge-fs').create({});
+
+                            cb(null, { options: opts, certs: certs });
+                        }
+                    }
+                );
+
+                // handles acme-challenge and redirects to https
+                require('http').createServer(lex.middleware(require('redirect-https')())).listen(80, function () {
+                    console.log("Listening for ACME http-01 challenges on", this.address());
+                });
+                // handles your app
+                require('https').createServer(lex.httpsOptions, lex.middleware(app)).listen(443, function () {
+                    console.log("Listening for ACME tls-sni-01 challenges and serve app on", this.address());
+                });
+                /*
                 app.set('port', port || ConfigUtils.Config.PortNumber);
                 //Force HTTPS on non local
-                if (ConfigUtils.Config.Environment != "Local" &&
-                    ConfigUtils.Config.Environment != "NativeLocal" &&
-                    ConfigUtils.Config.Environment != "Demo"
-                ) {
+                if (ConfigUtils.Config.Environment != "Local") {
                     app.use(function (request, response, next) {
                         if (request.headers['x-forwarded-proto'] != 'https') {
                             response.redirect('https://' + request.headers.host + request.path);
@@ -63,11 +95,15 @@ export default class AppStart {
                         }
                     });
                 }
+                */
+
                 app.use(express.static(webroot));
 
+                /*
                 // Listen for requests
                 var server = app.listen(app.get('port'), function () {
                 });
+                */
 
                 //Render Dynamic Css
                 app.get("/app.css", self._authConfig.BuildContext(), function (req, res) {

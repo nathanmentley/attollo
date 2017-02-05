@@ -113,7 +113,7 @@ class DockerProcessor:
         dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/web/Dockerfile.runner';
         imageName = 'attollo/runner';
         containerName = 'attollo-runner';
-        ports = [PortMapDef(80, 8080)];
+        ports = [PortMapDef(80, 8080), PortMapDef(443, 8443)];
         links = [
             LinkDef('attollo-psql', 'database'),
             LinkDef('attollo-redis', 'redis'),

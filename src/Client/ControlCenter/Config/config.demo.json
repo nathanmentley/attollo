@@ -1,5 +1,5 @@
 {
     "Environment": "Demo",
     
-    "BaseAPIURL": "http://raspberrypi.local.skacahtoa.com:8083"
+    "BaseAPIURL": "http://skacahtoa.ddns.net:8081"
 }

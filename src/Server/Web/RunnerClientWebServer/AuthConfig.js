@@ -14,7 +14,7 @@ export default class AuthConfig {
         var self = this;
 
         return function (req, res, next) {
-            var originDomain = req.get('host').replace("http://", "");
+            var originDomain = req.get('host').replace("https://", "");
 
             self._attollo.Services.Site.GetSite({}, originDomain)
                 .then(function (sites) {

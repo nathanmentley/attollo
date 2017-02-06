@@ -48,7 +48,7 @@ export default class AppStart {
             .then(() => {
                 var webroot = process.argv[2];
                 var app = express();
-                
+
                 app.use(express.static(webroot));
 
                 //Render Dynamic Css

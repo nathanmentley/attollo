@@ -137,15 +137,8 @@ export default class AppStart {
     Start() {
         this._attollo.Start('ControlCenterAPI')
             .then(() => {
-                //load deps
-
                 //enabled cors
-                this._controllerContext.App.all('*', (req, res, next) => {
-                    res.header('Access-Control-Allow-Origin', '*');
-                    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-                    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-                    next();
-                });
+                WebUtils.EnableCors(this._controllerContext.App);
 
                 //Setup Json Body Parser
                 this._controllerContext.App.use(require('body-parser').json({limit: '50mb'}));

@@ -9,6 +9,15 @@ import ConfigUtils from './ConfigUtils';
 import LogUtils from './LogUtils';
 
 export default class WebUtils {
+    static EnableCors(app) {
+        app.all('*', (req, res, next) => {
+            res.header('Access-Control-Allow-Origin', '*');
+            res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+            res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+            next();
+        });
+    }
+
     static StartWebApp(app, httpPort, httpsPort) {
         var lex = greenlockExpress.create(
             {

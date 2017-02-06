@@ -132,7 +132,7 @@ class DockerProcessor:
         dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/web/Dockerfile.runnerapi';
         imageName = 'attollo/runnerapi';
         containerName = 'attollo-runnerapi';
-        ports = [PortMapDef(80, 8081)];
+        ports = [PortMapDef(80, 8081), PortMapDef(443, 8444)];
         links = [
             LinkDef('attollo-psql', 'database'),
             LinkDef('attollo-redis', 'redis'),
@@ -151,7 +151,7 @@ class DockerProcessor:
         dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/web/Dockerfile.controlcenter';
         imageName = 'attollo/controlcenter';
         containerName = 'attollo-controlcenter';
-        ports = [PortMapDef(80, 8082)];
+        ports = [PortMapDef(80, 8082), PortMapDef(443, 8445)];
         links = [
             LinkDef('attollo-psql', 'database'),
             LinkDef('attollo-redis', 'redis'),
@@ -170,7 +170,7 @@ class DockerProcessor:
         dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/web/Dockerfile.controlcenterapi';
         imageName = 'attollo/controlcenterapi';
         containerName = 'attollo-controlcenterapi';
-        ports = [PortMapDef(80, 8083)];
+        ports = [PortMapDef(80, 8083), PortMapDef(443, 8446)];
         links = [
             LinkDef('attollo-psql', 'database'),
             LinkDef('attollo-redis', 'redis'),

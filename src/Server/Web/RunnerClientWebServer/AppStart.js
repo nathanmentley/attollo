@@ -6,12 +6,10 @@ import CleanCSS from 'clean-css';
 import fs from 'fs';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import greenlockExpress from 'greenlock-express';
-import leChallengeFs from 'le-challenge-fs';
-import leStoreCertbot from 'le-store-certbot';
 
 import LogUtils from '../../Common/Utils/LogUtils';
 import ConfigUtils from '../../Common/Utils/ConfigUtils';
+import WebUtils from '../../Common/Utils/WebUtils';
 
 import Template from "./Template.js";
 import TemplateProcessor from "./TemplateProcessor.js";
@@ -77,39 +75,7 @@ export default class AppStart {
                     }
                 }
 
-                var lex = greenlockExpress.create(
-                    {
-                        server: ConfigUtils.Config.LetsEncryptServer,
-                        challenges: {
-                            'http-01': leChallengeFs.create({
-                                webrootPath: '~/letsencrypt/srv/www/:hostname/.well-known/acme-challenge'
-                            })
-                        },
-                        store: leStoreCertbot.create({
-                            configDir: '~/letsencrypt/etc',          // or /etc/letsencrypt or wherever
-                            privkeyPath: ':configDir/live/:hostname/privkey.pem',          //
-                            fullchainPath: ':configDir/live/:hostname/fullchain.pem',      // Note: both that :configDir and :hostname
-                            certPath: ':configDir/live/:hostname/cert.pem',                //       will be templated as expected by
-                            chainPath: ':configDir/live/:hostname/chain.pem',              //       node-letsencrypt
-
-                            workDir: '~/letsencrypt/var/lib',
-                            logsDir: '~/letsencrypt/var/log',
-
-                            webrootPath: '~/letsencrypt/srv/www/:hostname/.well-known/acme-challenge',
-
-                            debug: false
-                        }),
-                        approveDomains: approveDomains
-                    }
-                );
-
                 app.use(express.static(webroot));
-
-                /*
-                // Listen for requests
-                var server = app.listen(app.get('port'), function () {
-                });
-                */
 
                 //Render Dynamic Css
                 app.get("/app.css", self._authConfig.BuildContext(), function (req, res) {
@@ -244,14 +210,7 @@ export default class AppStart {
                     }
                 });
 
-                // handles acme-challenge and redirects to https
-                require('http').createServer(lex.middleware(require('redirect-https')())).listen(80, function () {
-                    LogUtils.Info("Listening for ACME http-01 challenges.");
-                });
-                // handles your app
-                var server = require('https').createServer(lex.httpsOptions, lex.middleware(app)).listen(443, function () {
-                    LogUtils.Info("Listening for ACME tls-sni-01 challenges and serve app.");
-                });
+                var server = WebUtils.StartWebApp(app, ConfigUtils.Config.PortNumber, ConfigUtils.Config.SecurePortNumber);
 
                 //do something when app is closing
                 process.on('exit', function (options, err) {

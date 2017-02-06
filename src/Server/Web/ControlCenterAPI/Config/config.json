@@ -1,4 +1,5 @@
 {
+	"LogDir": "/../../../../logs/",
 	"PortNumber": 80,
-	"LogDir": "/../../../../logs/"
+	"SecurePortNumber": 443
 }

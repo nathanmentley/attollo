@@ -4,6 +4,7 @@ import express from 'express';
 
 import Attollo from "../../Common/Attollo";
 import ConfigUtils from '../../Common/Utils/ConfigUtils';
+import WebUtils from '../../Common/Utils/WebUtils';
 
 @Dependencies(
     Attollo
@@ -17,33 +18,15 @@ export default class AppStart {
         this._attollo.Start('StaticWebServer')
             .then(() => {
                 var webroot = process.argv[2];
-                var port = process.argv[3];
                 var app = express();
 
-                app.set('port', port || ConfigUtils.Config.PortNumber);
-
-                //Force HTTPS on non local
-                if (ConfigUtils.Config.Environment != "Local" &&
-                    ConfigUtils.Config.Environment != "NativeLocal" &&
-                    ConfigUtils.Config.Environment != "Demo"
-                ) {
-                    app.use((request, response, next) => {
-                        if (request.headers['x-forwarded-proto'] != 'https') {
-                            response.redirect('https://' + request.headers.host + request.path);
-                        } else {
-                            return next();
-                        }
-                    });
-                }
                 app.use(express.static(webroot));
-
-                // Listen for requests
-                var server = app.listen(app.get('port'), () => {
-                });
 
                 app.get('*', (req, res) => {
                     res.sendFile(webroot + '/index.html');
                 });
+
+                var server = WebUtils.StartWebApp(app, ConfigUtils.Config.PortNumber, ConfigUtils.Config.SecurePortNumber);
 
                 //do something when app is closing
                 process.on('exit', (options, err) => {

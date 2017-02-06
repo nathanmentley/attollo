@@ -4,5 +4,7 @@
     "RedisHost": "redis",
     "RedisPort": 6379,
     
-    "RabbitMQUrl": "amqp://guest:guest@rabbitmq"
+    "RabbitMQUrl": "amqp://guest:guest@rabbitmq",
+
+  "LetsEncryptServer": "staging"
 }

@@ -2,6 +2,7 @@ import { Dependencies } from 'constitute';
 
 import ConfigUtils from '../../Common/Utils/ConfigUtils';
 import LogUtils from '../../Common/Utils/LogUtils';
+import WebUtils from '../../Common/Utils/WebUtils';
 
 import Attollo from "../../Common/Attollo";
 
@@ -146,34 +147,15 @@ export default class AppStart {
                     next();
                 });
 
-                this._controllerContext.App.set('port', ConfigUtils.Config.PortNumber);
-
                 //Setup Json Body Parser
                 this._controllerContext.App.use(require('body-parser').json({limit: '50mb'}));
-
-                //Force HTTPS on non local
-                if (ConfigUtils.Config.Environment != "Local" &&
-                    ConfigUtils.Config.Environment != "NativeLocal" &&
-                    ConfigUtils.Config.Environment != "Demo"
-                ) {
-                    this._controllerContext.App.use((request, response, next) => {
-                        if (request.headers['x-forwarded-proto'] != 'https') {
-                            response.redirect('https://' + request.headers.host + request.path);
-                        } else {
-                            return next();
-                        }
-                    });
-                }
 
                 //Setup each controller.
                 this._controllers.forEach((controller) => {
                     controller.Setup(this._controllerContext);
                 });
-                
-                //begin server
-                var server = this._controllerContext.App.listen(this._controllerContext.App.get('port'), () => {
-                    LogUtils.Info('Node app is running on port ' + this._controllerContext.App.get('port'));
-                });
+
+                var server = WebUtils.StartWebApp(this._controllerContext.App, ConfigUtils.Config.PortNumber, ConfigUtils.Config.SecurePortNumber);
 
                 //do something when app is closing
                 process.on('exit', (options, err) => { this._attollo.Stop(); LogUtils.Info("exit: " + JSON.stringify(err)); server.close(); });

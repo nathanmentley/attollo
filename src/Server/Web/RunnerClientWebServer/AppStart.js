@@ -153,7 +153,7 @@ export default class AppStart {
                     filestream.pipe(res);
                 });
 
-                app.get('/page', self._authConfig.BuildContext(), (req, res) => {
+                app.get('*', self._authConfig.BuildContext(), (req, res) => {
                     try {
                         self._attollo.Services.Page.GetPages(req.AuthContext, req.AuthContext.SiteVersionID)
                             .then((pages) => {
@@ -249,7 +249,7 @@ export default class AppStart {
                     LogUtils.Info("Listening for ACME http-01 challenges.");
                 });
                 // handles your app
-                require('https').createServer(lex.httpsOptions, lex.middleware(app)).listen(443, function () {
+                var server = require('https').createServer(lex.httpsOptions, lex.middleware(app)).listen(443, function () {
                     LogUtils.Info("Listening for ACME tls-sni-01 challenges and serve app.");
                 });
 

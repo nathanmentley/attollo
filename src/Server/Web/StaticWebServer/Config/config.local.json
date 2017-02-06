@@ -6,5 +6,6 @@
     
     "RabbitMQUrl": "amqp://guest:guest@rabbitmq",
 
-  "LetsEncryptServer": "staging"
+  "LetsEncryptServer": "staging",
+  "ExternalSecurePortNumber": 8445
 }

@@ -69,9 +69,10 @@ export default class WebUtils {
         );
 
         // handles acme-challenge and redirects to https
-        http.createServer(lex.middleware(redirectHttps())).listen(httpPort, () => {
+        http.createServer(lex.middleware(redirectHttps({ port: ConfigUtils.Config.ExternalSecurePortNumber }))).listen(httpPort, () => {
             LogUtils.Info("Listening for ACME http-01 challenges.");
         });
+
         // handles your app
         return https.createServer(lex.httpsOptions, lex.middleware(app)).listen(httpsPort, () => {
             LogUtils.Info("Listening for ACME tls-sni-01 challenges and serve app.");

@@ -1,5 +1,5 @@
 {
     "Environment": "Local",
     
-    "BaseAPIURL": "http://localhost:8083"
+    "BaseAPIURL": "https://localhost:8446"
 }

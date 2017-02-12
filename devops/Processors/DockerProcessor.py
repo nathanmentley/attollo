@@ -85,7 +85,8 @@ class DockerProcessor:
             VolumnDef('/keys', '/home/web/keys'),
             VolumnDef('/dist', '/home/web/dist'),
             VolumnDef('/logs', '/home/web/logs'),
-            VolumnDef('/src', '/home/web/src')
+            VolumnDef('/src', '/home/web/src'),
+            VolumnDef('/', '/home/web/git')
         ];
         foreground = True;
         return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
@@ -104,7 +105,8 @@ class DockerProcessor:
             VolumnDef('/keys', '/home/web/keys'),
             VolumnDef('/dist', '/home/web/dist'),
             VolumnDef('/logs', '/home/web/logs'),
-            VolumnDef('/src', '/home/web/src')
+            VolumnDef('/src', '/home/web/src'),
+            VolumnDef('/', '/home/web/git')
         ];
         foreground = True;
         return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);

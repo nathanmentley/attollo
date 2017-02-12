@@ -1,8 +1,4 @@
 (function() {
-    //load package.json
-    var fs = require('fs');
-    var json = JSON.parse(fs.readFileSync('./package.json'));
-
     // Load plugins
     var gulp = require('gulp');
     var watch = require('gulp-watch');
@@ -19,22 +15,19 @@
     var electron = require('gulp-electron');
 
     var util = require('gulp-util');
+
+    var attollobuild = require('../../gulp-build-globals.js');
+
     var Attollo = {
         Env: util.env.Env ? util.env.Env : 'local'
     };
 
     gulp.task('ControlCenter:config', function() {
-        var date = new Date();
-        var year = date.getFullYear();
-        var month = date.getMonth();
-        var day = date.getDate();
-        var version = json.version + '.' + year + '.' + month + '.' + day;
-
         gulp.src([
                 './Client/ControlCenter/Config/config.json',
                 './Client/ControlCenter/Config/config.' + Attollo.Env + '.json'
         ]).pipe(merge('config.json'))
-            .pipe(replace('{current-version}', version))
+            .pipe(replace('{current-version}', attollobuild.version))
             .pipe(gulp.dest('./Client/ControlCenter/jsx/'));
     });
  

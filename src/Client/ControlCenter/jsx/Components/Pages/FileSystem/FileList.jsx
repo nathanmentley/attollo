@@ -3,6 +3,8 @@ import { Table, DropdownButton, MenuItem, Glyphicon } from 'react-bootstrap';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
+import RightClickMenu from '../../Shared/RightClickMenu.jsx';
+
 export default class FileList extends BaseComponent {
     constructor(props) {
         super(props);
@@ -35,7 +37,20 @@ export default class FileList extends BaseComponent {
                         this.props.Files.map((x) => {
                             return (
                                 <tr key={x}>
-                                    <td>{x}</td>
+                                    <td>
+                                        <RightClickMenu Items={[
+                                            {
+                                                content: <span><Glyphicon glyph="pencil" /> Download</span>,
+                                                logic: () => { self.downloadFile(x); }
+                                            },
+                                            {
+                                                content: <span><Glyphicon glyph="pencil" /> Delete</span>,
+                                                logic: () => { self.deleteFile(x); }
+                                            }
+                                        ]}>
+                                            {x}
+                                        </RightClickMenu>
+                                    </td>
                                     <td>
                                         <DropdownButton title={<Glyphicon glyph="cog" />} id={x + '-action-button'}>
                                             <MenuItem eventKey="2" onClick={() => { self.downloadFile(x); }}>

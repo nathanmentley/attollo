@@ -9,3 +9,4 @@ src/Client/ControlCenter/jsx/config.json
 
 .DS_Store
 .idea/
+.vscode/

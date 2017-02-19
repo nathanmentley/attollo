@@ -1,6 +1,8 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 
+import AppWrapper from './Layout/AppWrapper.jsx';
+
 import Routing from '../Config/Routing.jsx';
 
 export default class App extends React.Component {
@@ -9,6 +11,10 @@ export default class App extends React.Component {
     }
 
     render() {
-        return <Routing />;
+        return (
+            <AppWrapper>
+                <Routing />
+            </AppWrapper>
+        );
     }
 }

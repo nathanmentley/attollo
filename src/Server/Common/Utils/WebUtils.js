@@ -4,7 +4,6 @@ import redirectHttps from 'redirect-https';
 import greenlockExpress from 'greenlock-express';
 import leChallengeFs from 'le-challenge-fs';
 import leStoreCertbot from 'le-store-certbot';
-import pem from 'pem';
 
 import ConfigUtils from './ConfigUtils';
 import LogUtils from './LogUtils';
@@ -23,14 +22,7 @@ export default class WebUtils {
         if(ConfigUtils.Config.Environment == "Local") {
             var server = app;
 
-            // handles acme-challenge and redirects to https
-            http.createServer(redirectHttps({port: ConfigUtils.Config.ExternalSecurePortNumber})).listen(httpPort, () => {
-                LogUtils.Info("redirecting traffic to https");
-            });
-
-            pem.createCertificate({days:1, selfSigned:true}, (err, keys) => {
-                server = https.createServer({key: keys.serviceKey, cert: keys.certificate}, app).listen(httpsPort);
-            });
+            app.listen(httpPort);
 
             return server;
         } else {

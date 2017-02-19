@@ -1,11 +1,17 @@
 .attollo-right-click-menu-wrapper {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5000;
 
   .attollo-right-click-menu {
     background-color: white;
     border: 1px solid black;
     min-width: 150px;
-    z-index: 1000;
+    z-index: 5001;
+    position: absolute;
 
     p {
       margin: 0;

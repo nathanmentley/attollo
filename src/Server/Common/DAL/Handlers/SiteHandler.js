@@ -22,7 +22,7 @@ export default class BlockHandler extends BaseHandler {
 					domain: domain
 				}
 			}).fetch();
-	};
+	}
 
 	GetSiteById(authContext, siteId){
 		return this.Context.DatabaseContext.Site(authContext)
@@ -31,12 +31,12 @@ export default class BlockHandler extends BaseHandler {
 					id: siteId
 				}
 			}).fetch();
-	};
+	}
 
 	GetSites(authContext){
 		return this.Context.DatabaseContext.Sites(authContext)
 				.fetch();
-	};
+	}
 	
 	AddSite(authContext, transaction){
 		var Site = this.Context.DatabaseContext.Site(authContext);
@@ -47,21 +47,21 @@ export default class BlockHandler extends BaseHandler {
 		});
 
 		return site.save(null, { transacting: transaction });
-	};
+	}
 	
 	UpdateSite(authContext, transaction, model){
 		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site(model);
 
 		return site.save(null, { transacting: transaction });
-	};
+	}
 	
 	DeleteSite(authContext, transaction, model){
 		var Site = this.Context.DatabaseContext.Site(authContext);
 		var site = new Site(model);
 
 		return site.destroy({ transacting: transaction });
-	};
+	}
 
 	//Get SiteVersion
 
@@ -79,7 +79,7 @@ export default class BlockHandler extends BaseHandler {
                     'Theme.ThemeCssRules.CssRule.CssRuleDef'
                 ]
             });
-    };
+    }
 
     GetCurrentSiteVersion(authContext, site){
         return this.Context.DatabaseContext.SiteVersions(authContext, true)
@@ -89,7 +89,7 @@ export default class BlockHandler extends BaseHandler {
                     current: true
                 }
             }).fetch();
-    };
+    }
 
     GetSiteVersion(authContext, siteVersionId){
         return this.Context.DatabaseContext.SiteVersion(authContext)
@@ -99,10 +99,11 @@ export default class BlockHandler extends BaseHandler {
                 }
             }).fetch({
                 withRelated: [
-                    'SiteVersionStatus'
+                    'SiteVersionStatus',
+	                'Theme'
                 ]
             });
-    };
+    }
 
 
     GetSiteVersions(authContext, siteId){
@@ -113,10 +114,25 @@ export default class BlockHandler extends BaseHandler {
                 }
             }).fetch({
                 withRelated: [
-                    'SiteVersionStatus'
+                    'SiteVersionStatus',
+	                'Theme'
                 ]
             });
-    };
+    }
+
+	UpdateSiteVersion(authContext, transaction, model){
+		var SiteVersion = this.Context.DatabaseContext.SiteVersion(authContext);
+		var siteVersion = new SiteVersion(model);
+
+		return siteVersion.save(null, { transacting: transaction });
+	}
+
+	DeleteSiteVersion(authContext, transaction, model){
+		var SiteVersion = this.Context.DatabaseContext.SiteVersion(authContext);
+		var siteVersion = new SiteVersion(model);
+
+		return siteVersion.destroy({ transacting: transaction });
+	}
 
     GetSiteVersionsByStatusId(authContext, siteId, statusId){
         return this.Context.DatabaseContext.SiteVersions(authContext)
@@ -130,7 +146,7 @@ export default class BlockHandler extends BaseHandler {
                     'SiteVersionStatus'
                 ]
             });
-    };
+    }
 
 	AddSiteVersion(authContext, transaction, siteId, siteVersionStatusId, themeId){
 		var SiteVersion = this.Context.DatabaseContext.SiteVersion(authContext);
@@ -142,14 +158,14 @@ export default class BlockHandler extends BaseHandler {
 		});
 
 		return siteVersion.save(null, { transacting: transaction });
-	};
+	}
 
     UpdateSiteVersion(authContext, transaction, model){
         var SiteVersion = this.Context.DatabaseContext.SiteVersion(authContext);
         var siteVersion = new SiteVersion(model);
 
         return siteVersion.save(null, { transacting: transaction });
-    };
+    }
 
     ExportSiteVersion(authContext, siteVersionId) {
         return this.ExportModel(SiteVersionType)(authContext, siteVersionId);

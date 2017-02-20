@@ -26,15 +26,37 @@ export default class SiteService extends BaseService {
 
 	GetCurrentSiteVersion(authContext, site){
 		return this.Context.Handlers.Site.GetCurrentSiteVersion(authContext, site);
-	};
+	}
 
     GetSiteVersions(authContext, siteId){
         return this.Context.Handlers.Site.GetSiteVersions(authContext, siteId);
-    };
+    }
 
     GetSiteVersion(authContext, siteVersionId){
         return this.Context.Handlers.Site.GetSiteVersion(authContext, siteVersionId);
-    };
+    }
+
+    UpdateSiteVersion(authContext, model) {
+	    return this.Context.DBTransaction((transaction) => {
+		    this.Context.Handlers.Site.UpdateSiteVersion(authContext, transaction, model)
+			    .then((result) => {
+				    transaction.commit(result);
+			    }).catch((err) => {
+			    transaction.rollback(err);
+		    });
+	    });
+    }
+
+    DeleteSiteVersion(authContext, model) {
+	    return this.Context.DBTransaction((transaction) => {
+		    this.Context.Handlers.Site.DeleteSiteVersion(authContext, transaction, model)
+			    .then((result) => {
+				    transaction.commit(result);
+			    }).catch((err) => {
+			    transaction.rollback(err);
+		    });
+	    });
+    }
 	
 	//Site
 

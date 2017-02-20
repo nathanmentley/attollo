@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, DropdownButton, MenuItem, Glyphicon } from 'react-bootstrap';
+import { Glyphicon, Row, Col } from 'react-bootstrap';
 
 import BaseComponent from '../../BaseComponent.jsx';
 
@@ -25,48 +25,28 @@ export default class FileList extends BaseComponent {
         var self = this;
 
         return (
-            <Table striped bordered condensed hover>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th className="action-col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        this.props.Files.map((x) => {
-                            return (
-                                <tr key={x}>
-                                    <td>
-                                        <RightClickMenu Items={[
-                                            {
-                                                content: <span><Glyphicon glyph="pencil" /> Download</span>,
-                                                logic: () => { self.downloadFile(x); }
-                                            },
-                                            {
-                                                content: <span><Glyphicon glyph="pencil" /> Delete</span>,
-                                                logic: () => { self.deleteFile(x); }
-                                            }
-                                        ]}>
-                                            {x}
-                                        </RightClickMenu>
-                                    </td>
-                                    <td>
-                                        <DropdownButton title={<Glyphicon glyph="cog" />} id={x + '-action-button'}>
-                                            <MenuItem eventKey="2" onClick={() => { self.downloadFile(x); }}>
-                                                <Glyphicon glyph="pencil" /> Download
-                                            </MenuItem>
-                                            <MenuItem eventKey="1" onClick={() => { self.deleteFile(x); }}>
-                                                <Glyphicon glyph="pencil" /> Delete
-                                            </MenuItem>
-                                        </DropdownButton>
-                                    </td>
-                                </tr>
-                            );
-                        })
-                    }
-                </tbody>
-            </Table>
+            <Row>
+                {
+                    this.props.Files.map((x) => {
+                        return (
+                            <Col key={x} xs={12} sm={6} md={3}>
+                                <RightClickMenu Items={[
+                                    {
+                                        content: <span><Glyphicon glyph="pencil" /> Download</span>,
+                                        logic: () => { self.downloadFile(x); }
+                                    },
+                                    {
+                                        content: <span><Glyphicon glyph="pencil" /> Delete</span>,
+                                        logic: () => { self.deleteFile(x); }
+                                    }
+                                ]}>
+                                    {x}
+                                </RightClickMenu>
+                            </Col>
+                        );
+                    })
+                }
+            </Row>
         );
     }
 }

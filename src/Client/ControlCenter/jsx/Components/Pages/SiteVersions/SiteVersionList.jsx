@@ -10,7 +10,8 @@ export default class SiteVersionList extends BaseComponent {
         super(props);
 
         this.publish = this.publish.bind(this);
-        this.goToPageBin = this.goToPageBin.bind(this);
+	    this.goToPageBin = this.goToPageBin.bind(this);
+	    this.setEditingSiteVersion = this.setEditingSiteVersion.bind(this);
         this.export = this.export.bind(this);
         this.clone = this.clone.bind(this);
     }
@@ -24,6 +25,10 @@ export default class SiteVersionList extends BaseComponent {
     goToPageBin(siteVersionId) {
         PageUtils.ChangePage("/Sites/" + this.props.SiteID + "/" + siteVersionId);
     }
+
+	setEditingSiteVersion(siteVersion) {
+		this.props.SetEditingSiteVersion(siteVersion);
+	}
 
     export(siteVersionId) {
         if(this.props.Export) {
@@ -46,6 +51,7 @@ export default class SiteVersionList extends BaseComponent {
                     <tr>
                         <th>Version</th>
                         <th>Status</th>
+                        <th>Theme</th>
                         <th className="action-col">Action</th>
                     </tr>
                 </thead>
@@ -56,13 +62,17 @@ export default class SiteVersionList extends BaseComponent {
                                 <tr key={x.id}>
                                     <td>{x.id}</td>
                                     <td>{x.SiteVersionStatus.name}</td>
+                                    <td>{x.Theme.name}</td>
                                     <td >
                                         <DropdownButton title={<Glyphicon glyph="cog" />} id={x.id + '-action-button'}>
                                             <MenuItem eventKey="1" onClick={() => { self.publish(x.id); }}>
                                                 <Glyphicon glyph="ok" /> Publish
                                             </MenuItem>
-                                            <MenuItem eventKey="1" onClick={() => { self.goToPageBin(x.id); }}>
+                                            <MenuItem eventKey="1" onClick={() => { self.setEditingSiteVersion(x); }}>
                                                 <Glyphicon glyph="pencil" /> Edit
+                                            </MenuItem>
+                                            <MenuItem eventKey="1" onClick={() => { self.goToPageBin(x.id); }}>
+                                                <Glyphicon glyph="pencil" /> Edit Pages
                                             </MenuItem>
                                             <MenuItem eventKey="1" onClick={() => { self.export(x.id); }}>
                                                 <Glyphicon glyph="cloud-download" /> Export

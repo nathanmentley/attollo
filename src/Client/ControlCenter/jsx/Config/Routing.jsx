@@ -7,9 +7,12 @@ import PageUtils from '../../../Common/jsx/Utils/PageUtils.jsx';
 
 import Login from '../Components/Pages/Login/Page.jsx';
 
-import Plugins from '../Components/Pages/Plugins/Page.jsx';
+import PluginDefs from '../Components/Pages/PluginDefs/Page.jsx';
+import PluginDefLogics from '../Components/Pages/PluginDefLogics/Page.jsx';
 import DataTypeDefs from '../Components/Pages/DataTypeDefs/Page.jsx';
 import DataTypeDefBuilder from '../Components/Pages/DataTypeDefBuilder/Page.jsx';
+import Themes from '../Components/Pages/Themes/Page.jsx';
+import WidgetDefs from '../Components/Pages/WidgetDefs/Page.jsx';
 
 import FileSystem from '../Components/Pages/FileSystem/Page.jsx';
 
@@ -35,9 +38,12 @@ export default class Routing extends React.Component {
             <Router history={PageUtils.GetHistory()}>
                 <Route path="/Login" component={Login} />
 
-                <Route path="/Plugins" component={Plugins} onEnter={Auth.AuthRequired} />
+                <Route path="/PluginDefs" component={PluginDefs} onEnter={Auth.AuthRequired} />
                 <Route path="/DataTypeDefs/:PluginDefID" component={DataTypeDefs} onEnter={Auth.AuthRequired} />
                 <Route path="/DataTypeDefs/:PluginDefID/:DataTypeDefID" component={DataTypeDefBuilder} onEnter={Auth.AuthRequired} />
+                <Route path="/PluginDefLogics/:PluginDefID" component={PluginDefLogics} onEnter={Auth.AuthRequired} />
+                <Route path="/Themes/:PluginDefID" component={Themes} onEnter={Auth.AuthRequired} />
+                <Route path="/WidgetDefs/:PluginDefID" component={WidgetDefs} onEnter={Auth.AuthRequired} />
 
                 <Route path="/FileSystem" component={FileSystem} onEnter={Auth.AuthRequired} />
 

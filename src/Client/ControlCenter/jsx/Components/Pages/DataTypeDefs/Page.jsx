@@ -47,7 +47,11 @@ export default class DataTypeDefsPage extends BasePage {
                         {
                             title: "Dashboard",
                             url: "/"
-                        }
+                        },
+	                    {
+		                    title: "Plugins",
+		                    url: "/PluginDefs"
+	                    }
                     ]);
                 });
             });

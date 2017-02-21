@@ -82,7 +82,7 @@ export default class Header extends BaseComponent {
                                 })}
                                 
                             </NavDropdown>
-                            <NavItem eventKey={3} onClick={() => { self.changePage('/Plugins')} }>
+                            <NavItem eventKey={3} onClick={() => { self.changePage('/PluginDefs')} }>
                                 <Glyphicon glyph="link" /> Plugins
                             </NavItem>
                             <NavDropdown eventKey={4} title={<span><Glyphicon glyph="briefcase" /> Data Types</span>} id="basic-nav-dropdown">

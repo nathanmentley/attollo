@@ -1,0 +1,8 @@
+{
+    "name": "StaticWebServer",
+    "scripts": {},
+    "env": {},
+    "formation": {},
+    "addons": [],
+    "buildpacks": []
+}

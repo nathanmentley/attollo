@@ -29,6 +29,17 @@ export default class BlockHandler extends BaseHandler {
 		return pluginDefLogicTarget.save(null, { transacting: transaction });
 	};
 
+	//GetPluginDefLogics
+
+	GetPluginDefLogics(authContext, pluginDefId) {
+		return this.Context.DatabaseContext.PluginDefLogics(authContext)
+			.query({
+				where: {
+					plugindefid: pluginDefId
+				}
+			}).fetch();
+	}
+
 	//PluginDef
 
 	GetPluginDefs(authContext){

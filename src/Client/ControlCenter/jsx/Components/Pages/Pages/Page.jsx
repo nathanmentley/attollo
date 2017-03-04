@@ -41,9 +41,7 @@ export default class PagesPage extends BasePage {
     }
     
     componentDidMount() {
-        var self = this;
-
-        self.setPageTitle("Pages", () => {
+        this.setPageTitle("Pages", () => {
             PageService.GetPages(this.props.params.SiteVersionID).then((res) => {
                 self.setState({ Pages: res.data.data }, () => {
                     self.setBreadCrumbs([
@@ -65,7 +63,7 @@ export default class PagesPage extends BasePage {
         });
 
         PageDefService.GetPageDefs().then((res) => {
-            self.setState({ PageDefs: res.data.data });
+            this.setState({ PageDefs: res.data.data });
         });
     }
 
@@ -90,11 +88,9 @@ export default class PagesPage extends BasePage {
     }
 
     savePage() {
-        var self = this;
-
         PageService.SavePage(this.state.EditingPage).then((saveResult) => {
             PageService.GetPages(this.props.params.SiteVersionID).then((getResult) => {
-                self.setState({ Pages: getResult.data.data, EditingPage: null }, () => {
+                this.setState({ Pages: getResult.data.data, EditingPage: null }, () => {
                     //self.setEditingPage(*somehow get update page*);
                 }); 
             });
@@ -102,11 +98,9 @@ export default class PagesPage extends BasePage {
     }
 
     deletePage() {
-        var self = this;
-
         PageService.DeletePage(this.state.EditingPage.id).then((saveResult) => {
             PageService.GetPages(this.props.params.SiteVersionID).then((getResult) => {
-                self.setState({ Pages: getResult.data.data, EditingPage: null }); 
+                this.setState({ Pages: getResult.data.data, EditingPage: null });
             });
         });
     }

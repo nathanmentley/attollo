@@ -26,6 +26,7 @@ import PageController from "./Controllers/PageController";
 import PageDefController from "./Controllers/PageDefController";
 import PluginController from "./Controllers/PluginController";
 import PluginDefController from "./Controllers/PluginDefController";
+import PluginDefLogicController from "./Controllers/PluginDefLogicController";
 import RoleController from "./Controllers/RoleController";
 import SiteController from "./Controllers/SiteController";
 import SiteVersionController from "./Controllers/SiteVersionController";
@@ -58,6 +59,7 @@ import UserController from "./Controllers/UserController";
     PageDefController,
     PluginController,
     PluginDefController,
+	PluginDefLogicController,
     RoleController,
     SiteController,
     SiteVersionController,
@@ -91,6 +93,7 @@ export default class AppStart {
         pageDefController,
         pluginController,
         pluginDefController,
+        pluginDefLogicController,
         roleController,
         siteController,
         siteVersionController,
@@ -123,6 +126,7 @@ export default class AppStart {
             pageDefController,
             pluginController,
             pluginDefController,
+	        pluginDefLogicController,
             roleController,
             siteController,
             siteVersionController,

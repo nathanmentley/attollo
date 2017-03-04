@@ -16,11 +16,17 @@ class DockerProcessor:
             self.getRabbitMQDockerDef(),
 
             self.getBuildDockerDef(),
+            self.getSwiftBuildDockerDef(),
             
             self.getRunnerDockerDef(),
             self.getRunnerApiDockerDef(),
             self.getControlCenterDockerDef(),
-            self.getControlCenterApiDockerDef()
+            self.getControlCenterApiDockerDef(),
+
+            self.getSwiftRunnerDockerDef(),
+            self.getSwiftRunnerApiDockerDef(),
+            self.getSwiftControlCenterDockerDef(),
+            self.getSwiftControlCenterApiDockerDef()
         ]
         if options.env == 'local':
             self.dockerfiles.append(self.getDevDockerDef());
@@ -75,6 +81,26 @@ class DockerProcessor:
         dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/dev/Dockerfile.build';
         imageName = 'attollo/build';
         containerName = 'attollo-build';
+        ports = [];
+        links = [
+            LinkDef('attollo-psql', 'database'),
+            LinkDef('attollo-redis', 'redis'),
+            LinkDef('attollo-rabbitmq', 'rabbitmq')
+        ];
+        volumes = [
+            VolumnDef('/keys', '/home/web/keys'),
+            VolumnDef('/dist', '/home/web/dist'),
+            VolumnDef('/logs', '/home/web/logs'),
+            VolumnDef('/src', '/home/web/src'),
+            VolumnDef('/', '/home/web/git')
+        ];
+        foreground = True;
+        return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
+
+    def getSwiftBuildDockerDef(self):
+        dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/dev/Dockerfile.swiftbuild';
+        imageName = 'attollo/swiftbuild';
+        containerName = 'attollo-swiftbuild';
         ports = [];
         links = [
             LinkDef('attollo-psql', 'database'),
@@ -173,6 +199,82 @@ class DockerProcessor:
         imageName = 'attollo/controlcenterapi';
         containerName = 'attollo-controlcenterapi';
         ports = [PortMapDef(80, 8083), PortMapDef(443, 8446)];
+        links = [
+            LinkDef('attollo-psql', 'database'),
+            LinkDef('attollo-redis', 'redis'),
+            LinkDef('attollo-rabbitmq', 'rabbitmq')
+        ];
+        volumes = [
+            VolumnDef('/keys', '/home/web/keys'),
+            VolumnDef('/dist', '/home/web/dist'),
+            VolumnDef('/logs', '/home/web/logs'),
+            VolumnDef('/src', '/home/web/src')
+        ];
+        foreground = False;
+        return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
+
+    def getSwiftRunnerDockerDef(self):
+        dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/web/Dockerfile.swiftrunner';
+        imageName = 'attollo/swiftrunner';
+        containerName = 'attollo-swiftrunner';
+        ports = [PortMapDef(80, 8090), PortMapDef(443, 8453)];
+        links = [
+            LinkDef('attollo-psql', 'database'),
+            LinkDef('attollo-redis', 'redis'),
+            LinkDef('attollo-rabbitmq', 'rabbitmq')
+        ];
+        volumes = [
+            VolumnDef('/keys', '/home/web/keys'),
+            VolumnDef('/dist', '/home/web/dist'),
+            VolumnDef('/logs', '/home/web/logs'),
+            VolumnDef('/src', '/home/web/src')
+        ];
+        foreground = False;
+        return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
+
+    def getSwiftRunnerApiDockerDef(self):
+        dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/web/Dockerfile.swiftrunnerapi';
+        imageName = 'attollo/swiftrunnerapi';
+        containerName = 'attollo-swiftrunnerapi';
+        ports = [PortMapDef(80, 8091), PortMapDef(443, 8454)];
+        links = [
+            LinkDef('attollo-psql', 'database'),
+            LinkDef('attollo-redis', 'redis'),
+            LinkDef('attollo-rabbitmq', 'rabbitmq')
+        ];
+        volumes = [
+            VolumnDef('/keys', '/home/web/keys'),
+            VolumnDef('/dist', '/home/web/dist'),
+            VolumnDef('/logs', '/home/web/logs'),
+            VolumnDef('/src', '/home/web/src')
+        ];
+        foreground = False;
+        return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
+
+    def getSwiftControlCenterDockerDef(self):
+        dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/web/Dockerfile.swiftcontrolcenter';
+        imageName = 'attollo/swiftcontrolcenter';
+        containerName = 'attollo-swiftcontrolcenter';
+        ports = [PortMapDef(80, 8092), PortMapDef(443, 8455)];
+        links = [
+            LinkDef('attollo-psql', 'database'),
+            LinkDef('attollo-redis', 'redis'),
+            LinkDef('attollo-rabbitmq', 'rabbitmq')
+        ];
+        volumes = [
+            VolumnDef('/keys', '/home/web/keys'),
+            VolumnDef('/dist', '/home/web/dist'),
+            VolumnDef('/logs', '/home/web/logs'),
+            VolumnDef('/src', '/home/web/src')
+        ];
+        foreground = False;
+        return DockerDef(dockerFile, imageName, containerName, ports, links, volumes, foreground);
+
+    def getSwiftControlCenterApiDockerDef(self):
+        dockerFile = self.path + '/docker/dockerfiles/' + self.options.arch + '/web/Dockerfile.swiftcontrolcenterapi';
+        imageName = 'attollo/swiftcontrolcenterapi';
+        containerName = 'attollo-swiftcontrolcenterapi';
+        ports = [PortMapDef(80, 8093), PortMapDef(443, 8456)];
         links = [
             LinkDef('attollo-psql', 'database'),
             LinkDef('attollo-redis', 'redis'),

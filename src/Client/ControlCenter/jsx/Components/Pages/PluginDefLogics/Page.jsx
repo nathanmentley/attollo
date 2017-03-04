@@ -3,23 +3,26 @@ import { Row, Col, Glyphicon } from 'react-bootstrap';
 
 import BasePage from '../BasePage.jsx';
 
+import PluginDefLogicService from '../../../Services/PluginDefLogicService.jsx';
+
 import PluginDefLogicList from './PluginDefLogicList.jsx';
+import PluginDefLogicEditor from './PluginDefLogicEditor.jsx';
 
 export default class PluginDefLogicsPage extends BasePage {
     constructor(props) {
         super(props);
 
         this.state = {
-            PluginDefLogics: []
+            PluginDefLogics: [],
+	        EditingPluginDefLogic: null
         };
 
         this.addNewPluginDefLogic = this.addNewPluginDefLogic.bind(this);
     }
 
     componentDidMount() {
-        var self = this;    
-        self.setPageTitle("Plugins", () => {
-            self.setBreadCrumbs([
+        this.setPageTitle("Plugins", () => {
+            this.setBreadCrumbs([
 	            {
 		            title: "Dashboard",
 		            url: "/"
@@ -30,12 +33,25 @@ export default class PluginDefLogicsPage extends BasePage {
 	            }
             ]);
         });
+
+	    PluginDefLogicService.GetPluginDefLogics(this.props.params.PluginDefID)
+		    .then((res) => {
+			    this.setState({ PluginDefLogics: res.data.data });
+		    });
     }
 
 	addNewPluginDefLogic() {
     }
 
     _render() {
+    	var editor = <div/>;
+
+	    if(this.state.EditingPluginDefLogic != null) {
+		    editor = <PluginDefLogicEditor
+
+		    />;
+	    }
+
         return (
             <div>
                 <Row>
@@ -53,6 +69,8 @@ export default class PluginDefLogicsPage extends BasePage {
                         </div>
                     </Col>
                 </Row>
+
+	            {editor}
             </div>
         );
     }

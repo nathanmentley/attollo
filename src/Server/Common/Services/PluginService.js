@@ -126,6 +126,10 @@ export default class PluginService extends BaseService {
 
 	//PluginDefLogic
 
+	GetPluginDefLogics(authContext, pluginDefId) {
+		return this.Context.Handlers.Plugin.GetPluginDefLogics(authContext, pluginDefId);
+	}
+
 	GetPluginDefPreLogics(authContext, pluginDefLogicDefCode) {
 		if(authContext){
 			var vm = new VM({

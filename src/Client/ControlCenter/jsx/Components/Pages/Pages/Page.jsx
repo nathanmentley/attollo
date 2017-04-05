@@ -43,8 +43,8 @@ export default class PagesPage extends BasePage {
     componentDidMount() {
         this.setPageTitle("Pages", () => {
             PageService.GetPages(this.props.params.SiteVersionID).then((res) => {
-                self.setState({ Pages: res.data.data }, () => {
-                    self.setBreadCrumbs([
+                this.setState({ Pages: res.data.data }, () => {
+                    this.setBreadCrumbs([
                         {
                             title: "Dashboard",
                             url: "/"

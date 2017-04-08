@@ -6,6 +6,12 @@ import BaseComponent from '../../BaseComponent.jsx';
 export default class PluginDefLogicList extends BaseComponent {
     constructor(props) {
         super(props);
+
+        this.setEditingPluginDefLogic = this.setEditingPluginDefLogic.bind(this);
+    }
+
+	setEditingPluginDefLogic(logic) {
+        this.props.SetEditingPluginDefLogic(logic);
     }
 
     render() {
@@ -13,7 +19,8 @@ export default class PluginDefLogicList extends BaseComponent {
             <Table striped bordered condensed hover>
                 <thead>
                     <tr>
-                        <th>Code</th>
+                        <th>Name</th>
+                        <th className="action-col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,7 +28,14 @@ export default class PluginDefLogicList extends BaseComponent {
                         this.props.PluginDefLogics.map((x) => {
                             return (
                                 <tr key={x.id}>
-                                    <td>{x.id}</td>
+                                    <td>{x.title}</td>
+                                    <td>
+                                        <DropdownButton title={<Glyphicon glyph="cog" />} id={x.id + '-action-button'}>
+                                            <MenuItem eventKey="1" onClick={() => { this.setEditingPluginDefLogic(x); }}>
+                                                <Glyphicon glyph="pencil" /> Edit
+                                            </MenuItem>
+                                        </DropdownButton>
+                                    </td>
                                 </tr>
                             );
                         })

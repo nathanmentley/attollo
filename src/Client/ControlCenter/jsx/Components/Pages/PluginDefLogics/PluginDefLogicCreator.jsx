@@ -11,6 +11,7 @@ export default class PluginDefLogicCreator extends BaseComponent {
 
 		this.updatePluginDefLogicDef = this.updatePluginDefLogicDef.bind(this);
 		this.updatePluginDefLogicTarget = this.updatePluginDefLogicTarget.bind(this);
+		this.updateTitle = this.updateTitle.bind(this);
 
 		this.savePluginDefLogic = this.savePluginDefLogic.bind(this);
 	}
@@ -25,6 +26,10 @@ export default class PluginDefLogicCreator extends BaseComponent {
 
 	updatePluginDefLogicTarget(event) {
 		this.props.UpdatePluginDefLogicTarget(event.target.value);
+	}
+
+	updateTitle(event) {
+		this.props.UpdateTitle(event.target.value);
 	}
 
 	savePluginDefLogic() {
@@ -42,6 +47,21 @@ export default class PluginDefLogicCreator extends BaseComponent {
 						controlId="pluginDefLogicDef"
 					>
 						<ControlLabel>Plugin Def Logic Def</ControlLabel>
+
+
+						<FormGroup
+							controlId="name"
+						>
+							<ControlLabel>Name</ControlLabel>
+							<FormControl
+								type="text"
+								value={this.props.PluginDefLogic.title}
+								placeholder="Enter Name"
+								onChange={this.updateTitle}
+							/>
+							<FormControl.Feedback />
+							<HelpBlock />
+						</FormGroup>
 
 						<FormControl
 							componentClass="select"

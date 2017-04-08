@@ -49,7 +49,7 @@ export default class PluginDefLogicEditor extends BaseComponent {
 
                         <AceEditor
                             mode="javascript"
-                            theme="monokai"
+                            theme="github"
                             editorProps={{$blockScrolling: true}}
                             width="100%"
                             enableBasicAutocompletion={true}

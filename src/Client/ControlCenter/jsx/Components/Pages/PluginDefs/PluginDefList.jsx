@@ -49,18 +49,36 @@ export default class PluginDefList extends BaseComponent {
                                     <td>{x.description}</td>
                                     <td>
                                         <DropdownButton title={<Glyphicon glyph="cog"/>} id={x.id + '-action-button'}>
+	                                        {
+		                                        x.clientid != null ?
+			                                        <MenuItem eventKey="1" onClick={() => {
+				                                        this.goToThemes(x);
+			                                        }}>
+				                                        <Glyphicon glyph="pencil"/> Edit Plugin details
+			                                        </MenuItem> :
+			                                        ""
+	                                        }
+	                                        {
+		                                        x.clientid != null ?
+			                                        <MenuItem eventKey="2" onClick={() => {
+				                                        this.goToThemes(x);
+			                                        }}>
+				                                        <Glyphicon glyph="blackboard"/> Edit Themes
+			                                        </MenuItem> :
+			                                        ""
+	                                        }
+	                                        {
+		                                        x.clientid != null ?
+			                                        <MenuItem eventKey="3" onClick={() => {
+				                                        this.goToThemes(x);
+			                                        }}>
+				                                        <Glyphicon glyph="cloud"/> Edit Plugin Media
+			                                        </MenuItem> :
+			                                        ""
+	                                        }
                                             {
                                                 x.clientid != null ?
-                                                    <MenuItem eventKey="1" onClick={() => {
-	                                                    this.goToThemes(x);
-                                                    }}>
-                                                        <Glyphicon glyph="blackboard"/> Edit Themes
-                                                    </MenuItem> :
-                                                    ""
-                                            }
-                                            {
-                                                x.clientid != null ?
-                                                    <MenuItem eventKey="2" onClick={() => {
+                                                    <MenuItem eventKey="4" onClick={() => {
 	                                                    this.goToWidgetTypes(x);
                                                     }}>
                                                         <Glyphicon glyph="scale"/> Edit Widget Types
@@ -69,7 +87,7 @@ export default class PluginDefList extends BaseComponent {
                                             }
                                             {
                                                 x.clientid != null ?
-                                                    <MenuItem eventKey="3" onClick={() => {
+                                                    <MenuItem eventKey="5" onClick={() => {
                                                         this.goToDataTypeDefs(x);
                                                     }}>
                                                         <Glyphicon glyph="briefcase"/> Edit Data Types
@@ -78,7 +96,7 @@ export default class PluginDefList extends BaseComponent {
                                             }
                                             {
                                                 x.clientid != null ?
-                                                    <MenuItem eventKey="4" onClick={() => {
+                                                    <MenuItem eventKey="6" onClick={() => {
 	                                                    this.goToPluginDefLogics(x);
                                                     }}>
                                                         <Glyphicon glyph="tasks"/> Edit Logic Overrides

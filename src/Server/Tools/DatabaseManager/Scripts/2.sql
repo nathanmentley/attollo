@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS PluginDefLogicTarget (
 
 CREATE TABLE IF NOT EXISTS PluginDefLogic (
     ID SERIAL PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
     PluginDefLogicDefID integer REFERENCES PluginDefLogicDef NOT NULL,
     PluginDefLogicTargetID integer REFERENCES PluginDefLogicTarget NOT NULL,
     PluginDefID integer REFERENCES PluginDef NOT NULL,

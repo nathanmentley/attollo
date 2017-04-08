@@ -16,30 +16,32 @@ export default class Header extends BaseComponent {
         super(props);
 
         this.state = {
-            Sites: [],
-            DataTypeDefs: []
+            Sites: null,
+            DataTypeDefs: null
         };
 
         this.changePage = this.changePage.bind(this);
     }
-    
-    componentWillReceiveProps(nextProps) {
-        var self = this;
 
-        if(nextProps.IsAuthenticated) {
-            SiteService.GetSites().then((res) => {
-                self.setState({ Sites: res.data.data });
-            });
-            DataTypeDefService.GetDataTypeDefs().then((res) => {
-                self.setState({ DataTypeDefs: res.data.data });
-            });
-        }else{
-            self.setState({ Sites: [], DataTypeDefs: [] });
+    componentWillReceiveProps(nextProps) {
+        if(this.state.Sites == null || this.state.DataTypeDefs == null) {
+	        if (nextProps.IsAuthenticated) {
+		        SiteService.GetSites().then((res) => {
+			        this.setState({Sites: res.data.data});
+		        });
+		        DataTypeDefService.GetDataTypeDefs().then((res) => {
+			        this.setState({DataTypeDefs: res.data.data});
+		        });
+	        } else {
+		        this.setState({Sites: [], DataTypeDefs: []});
+	        }
         }
     }
 
     changePage(url) {
-        PageUtils.ChangePage(url);
+	    this.setState({Sites: null, DataTypeDefs: null}, () => {
+		    PageUtils.ChangePage(url);
+        });
     }
 
     render() {
@@ -66,7 +68,7 @@ export default class Header extends BaseComponent {
                                 
                                 <MenuItem divider />
                                 
-                                {self.state.Sites.map((site) => {
+                                {(self.state.Sites != null) ? self.state.Sites.map((site) => {
                                     var eventKey = 2;
                                     eventKey += (0.1 * (2 + self.state.Sites.indexOf(site)));
 
@@ -79,7 +81,7 @@ export default class Header extends BaseComponent {
                                             {site.name}
                                         </MenuItem>
                                     );
-                                })}
+                                }) : ""}
                                 
                             </NavDropdown>
                             <NavItem eventKey={3} onClick={() => { self.changePage('/PluginDefs')} }>
@@ -90,7 +92,7 @@ export default class Header extends BaseComponent {
                                 
                                 <MenuItem divider />
                                 
-                                {self.state.DataTypeDefs.map((dataTypeDef) => {
+                                {(self.state.DataTypeDefs != null) ? self.state.DataTypeDefs.map((dataTypeDef) => {
                                     var eventKey = 4;
                                     eventKey += (0.1 * (2 + self.state.DataTypeDefs.indexOf(dataTypeDef)));
 
@@ -103,7 +105,7 @@ export default class Header extends BaseComponent {
                                             {dataTypeDef.name}
                                         </MenuItem>
                                     );
-                                })}
+                                }) : ""}
                                 
                             </NavDropdown>
                             <NavItem eventKey={5} onClick={() => { self.changePage('/FileSystem')} }>

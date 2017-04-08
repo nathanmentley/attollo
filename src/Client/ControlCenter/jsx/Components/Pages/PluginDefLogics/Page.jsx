@@ -18,23 +18,26 @@ export default class PluginDefLogicsPage extends BasePage {
         super(props);
 
         this.state = {
+	        PluginDefLogics: [],
         	CreatingPluginDefLogic: null,
-            PluginDefLogics: [],
 	        EditingPluginDefLogic: null,
 	        PluginDefLogicDefs: [],
 	        PluginDefLogicTargets: []
         };
 
-        this.addNewPluginDefLogic = this.addNewPluginDefLogic.bind(this);
         this.showPluginCreator = this.showPluginCreator.bind(this);
+	    this.setEditingPluginDefLogic = this.setEditingPluginDefLogic.bind(this);
 
 	    this.updatePluginDefLogicDef = this.updatePluginDefLogicDef.bind(this);
 	    this.updatePluginDefLogicTarget = this.updatePluginDefLogicTarget.bind(this);
+	    this.updateTitle = this.updateTitle.bind(this);
 	    this.savePluginDefLogic = this.savePluginDefLogic.bind(this);
+
+	    this.updateContent = this.updateContent.bind(this);
     }
 
     componentDidMount() {
-        this.setPageTitle("Plugins", () => {
+        this.setPageTitle("Plugin Logic", () => {
             this.setBreadCrumbs([
 	            {
 		            title: "Dashboard",
@@ -61,24 +64,9 @@ export default class PluginDefLogicsPage extends BasePage {
 		    });
     }
 
-	addNewPluginDefLogic() {
-		PluginDefLogicService.AddPluginDefLogic({
-			PluginDefLogicDefID: '',
-			PluginDefLogicTargetID: '',
-			PluginDefID: '',
-			Content: '',
-			CompiledContent: ''
-		})
-			.then(() => {
-				PluginDefLogicService.GetPluginDefLogics(this.props.params.PluginDefID)
-					.then((res) => {
-						this.setState({ PluginDefLogics: res.data.data });
-					});
-			});
-    }
-
     showPluginCreator() {
     	this.setState({CreatingPluginDefLogic: {
+    		title: 'new logic',
 		    plugindefid: this.props.params.PluginDefID,
 		    plugindeflogicdefid: this.state.PluginDefLogicDefs[0].id,
 		    plugindeflogictargetid: this.state.PluginDefLogicTargets[0].id
@@ -97,6 +85,12 @@ export default class PluginDefLogicsPage extends BasePage {
 		this.setState({ CreatingPluginDefLogic: newdef });
 	}
 
+	updateTitle(value) {
+		var newdef = ObjectUtils.Clone(this.state.CreatingPluginDefLogic);
+		newdef.title = value;
+		this.setState({ CreatingPluginDefLogic: newdef });
+	}
+
 	savePluginDefLogic() {
 		PluginDefLogicService.AddPluginDefLogic(this.state.CreatingPluginDefLogic)
 			.then(() => {
@@ -111,21 +105,40 @@ export default class PluginDefLogicsPage extends BasePage {
 
 	}
 
+	setEditingPluginDefLogic(pluginLogicDef) {
+		var def = ObjectUtils.Clone(pluginLogicDef);
+    	this.setState({ EditingPluginDefLogic: def })
+	}
+
+	updateContent(value) {
+		var newdef = ObjectUtils.Clone(this.state.EditingPluginDefLogic);
+		newdef.content = value;
+		this.setState({ EditingPluginDefLogic: newdef });
+	}
+
     _render() {
     	var editor = <div/>;
 
-    	if(this.state.CreatingPluginDefLogic) {
+    	if(this.state.CreatingPluginDefLogic != null) {
 		    editor = <PluginDefLogicCreator
 			    Close={() => { this.setState({CreatingPluginDefLogic: null}); }}
 		        PluginDefLogic={this.state.CreatingPluginDefLogic}
 			    PluginDefLogicDefs={this.state.PluginDefLogicDefs}
 			    PluginDefLogicTargets={this.state.PluginDefLogicTargets}
+			    UpdateTitle={this.updateTitle}
 			    UpdatePluginDefLogicDef={this.updatePluginDefLogicDef}
 			    UpdatePluginDefLogicTarget={this.updatePluginDefLogicTarget}
 			    SavePluginDefLogic={this.savePluginDefLogic}
 		    />;
 	    } else if(this.state.EditingPluginDefLogic != null) {
-		    editor = <PluginDefLogicEditor />;
+		    editor = <PluginDefLogicEditor
+			    Close={() => { this.setState({EditingPluginDefLogic: null}); }}
+			    PluginDefLogic={this.state.EditingPluginDefLogic}
+			    PluginDefLogicDefs={this.state.PluginDefLogicDefs}
+			    PluginDefLogicTargets={this.state.PluginDefLogicTargets}
+			    UpdateContent={this.updateContent}
+			    //SavePluginDefLogic={this.savePluginDefLogic}
+		    />;
 	    }
 
         return (
@@ -134,6 +147,7 @@ export default class PluginDefLogicsPage extends BasePage {
                     <Col xs={12} md={12}>
                         <PluginDefLogicList
                             PluginDefLogics={this.state.PluginDefLogics}
+                            SetEditingPluginDefLogic={this.setEditingPluginDefLogic}
                         />
                     </Col>
                 </Row>

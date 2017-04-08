@@ -21,7 +21,7 @@ export default class PluginDefLogicList extends BaseComponent {
                         this.props.PluginDefLogics.map((x) => {
                             return (
                                 <tr key={x.id}>
-                                    <td>{x.name}</td>
+                                    <td>{x.id}</td>
                                 </tr>
                             );
                         })

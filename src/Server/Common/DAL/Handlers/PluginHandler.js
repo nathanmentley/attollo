@@ -18,7 +18,11 @@ export default class BlockHandler extends BaseHandler {
 		var pluginDefLogicDef = new PluginDefLogicDef(model);
 
 		return pluginDefLogicDef.save(null, { transacting: transaction });
-	};
+	}
+
+	GetPluginDefLogicDefs(authContext) {
+		return this.Context.DatabaseContext.PluginDefLogicDefs(authContext).fetch();
+	}
 
 	//PluginDefLogicTarget
 	
@@ -27,9 +31,20 @@ export default class BlockHandler extends BaseHandler {
 		var pluginDefLogicTarget = new PluginDefLogicTarget(model);
 
 		return pluginDefLogicTarget.save(null, { transacting: transaction });
-	};
+	}
+
+	GetPluginDefLogicTargets(authContext) {
+		return this.Context.DatabaseContext.PluginDefLogicTargets(authContext).fetch();
+	}
 
 	//GetPluginDefLogics
+
+	AddPluginDefLogic(authContext, transaction, model) {
+		var PluginDefLogic = this.Context.DatabaseContext.PluginDefLogic(authContext);
+		var pluginDefLogic = new PluginDefLogic(model);
+
+		return pluginDefLogic.save(null, { transacting: transaction });
+	}
 
 	GetPluginDefLogics(authContext, pluginDefId) {
 		return this.Context.DatabaseContext.PluginDefLogics(authContext)

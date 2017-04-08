@@ -22,17 +22,21 @@ export default class PluginService extends BaseService {
     }
 
     //PluginDefLogicDef
-	
+
 	AddPluginDefLogicDef(authContext, model){
 		return this.Context.DBTransaction((transaction) => {
 			this.Context.Handlers.Plugin.AddPluginDefLogicDef(authContext, transaction, model)
-			.then((result) => {
-				transaction.commit(result);
-			}).catch((err) => {
-				transaction.rollback(err);
-			});
+				.then((result) => {
+					transaction.commit(result);
+				}).catch((err) => {
+					transaction.rollback(err);
+				});
 		});
-	};
+	}
+
+	GetPluginDefLogicDefs(authContext){
+		return this.Context.Handlers.Plugin.GetPluginDefLogicDefs(authContext);
+	}
 
 	//PluginDefLogicTarget
 	
@@ -45,6 +49,10 @@ export default class PluginService extends BaseService {
 				transaction.rollback(err);
 			});
 		});
+	}
+
+	GetPluginDefLogicTargets(authContext){
+		return this.Context.Handlers.Plugin.GetPluginDefLogicTargets(authContext);
 	};
 
 	//PluginDef
@@ -125,6 +133,20 @@ export default class PluginService extends BaseService {
 	};
 
 	//PluginDefLogic
+
+	AddPluginDefLogic(authContext, model) {
+		model.content = '';
+		model.compiledcontent = '';
+
+		return this.Context.DBTransaction((transaction) => {
+			this.Context.Handlers.Plugin.AddPluginDefLogic(authContext, transaction, model)
+				.then((result) => {
+					transaction.commit(result);
+				}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
+	}
 
 	GetPluginDefLogics(authContext, pluginDefId) {
 		return this.Context.Handlers.Plugin.GetPluginDefLogics(authContext, pluginDefId);

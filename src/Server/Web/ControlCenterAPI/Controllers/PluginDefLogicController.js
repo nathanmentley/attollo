@@ -21,5 +21,9 @@ export default class PluginDefLogicController extends BaseController {
     }
 
 	PostLogic(request, response) {
+		return this._attollo.Services.Plugin.AddPluginDefLogic(
+			request.AuthContext,
+			request.body.logic
+		);
 	}
 };

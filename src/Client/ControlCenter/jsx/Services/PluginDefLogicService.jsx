@@ -8,10 +8,10 @@ export default class PluginDefLogicsService {
     }
 
 	static AddPluginDefLogic(model) {
-		return AjaxService.Post(endpoint, model, {});
+		return AjaxService.Post(endpoint, { logic: model }, {});
 	}
 
 	static UpdatePluginDefLogic(model) {
-		return AjaxService.Put(endpoint, model, {});
+		return AjaxService.Put(endpoint, { logic: model }, {});
 	}
 }

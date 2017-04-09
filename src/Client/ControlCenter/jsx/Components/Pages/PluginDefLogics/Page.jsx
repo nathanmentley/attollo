@@ -34,7 +34,7 @@ export default class PluginDefLogicsPage extends BasePage {
 	    this.savePluginDefLogic = this.savePluginDefLogic.bind(this);
 
 	    this.updateContent = this.updateContent.bind(this);
-	    this.savePluginDefLogic = this.savePluginDefLogic.bind(this);
+	    this.updatePluginDefLogic = this.updatePluginDefLogic.bind(this);
 	    this.deletePluginDefLogic = this.deletePluginDefLogic.bind(this);
     }
 
@@ -118,7 +118,7 @@ export default class PluginDefLogicsPage extends BasePage {
 		this.setState({ EditingPluginDefLogic: newdef });
 	}
 
-	savePluginDefLogic() {
+	updatePluginDefLogic() {
 		PluginDefLogicService.UpdatePluginDefLogic(this.state.EditingPluginDefLogic)
 			.then(() => {
 				PluginDefLogicService.GetPluginDefLogics(this.props.params.PluginDefID)
@@ -165,7 +165,7 @@ export default class PluginDefLogicsPage extends BasePage {
 			    PluginDefLogicDefs={this.state.PluginDefLogicDefs}
 			    PluginDefLogicTargets={this.state.PluginDefLogicTargets}
 			    UpdateContent={this.updateContent}
-			    SavePluginDefLogic={this.savePluginDefLogic}
+			    SavePluginDefLogic={this.updatePluginDefLogic}
 			    DeletePluginDefLogic={this.deletePluginDefLogic}
 		    />;
 	    }

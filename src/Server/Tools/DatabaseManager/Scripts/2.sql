@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS PluginDefLogic (
     PluginDefLogicDefID integer REFERENCES PluginDefLogicDef NOT NULL,
     PluginDefLogicTargetID integer REFERENCES PluginDefLogicTarget NOT NULL,
     PluginDefID integer REFERENCES PluginDef NOT NULL,
-    Content VARCHAR(255) NOT NULL,
-    CompiledContent VARCHAR(255) NOT NULL
+    Content TEXT NOT NULL,
+    CompiledContent TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS PluginSettingDef (

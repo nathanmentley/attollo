@@ -92,26 +92,18 @@ export default class DataTypeService extends BaseService {
 		return this.Context.Handlers.DataType.GetDataTypeFieldDefs(authContext, dataTypeDefId);
 	};
 
-	AddDataTypeFieldDef(authContext, dataTypeFieldTypeCode, model){
+	AddDataTypeFieldDef(authContext, model){
 		return new Promise((resolve, reject) => {
-			this.Context.Handlers.DataType.GetDataTypeFieldType(authContext, dataTypeFieldTypeCode)
-				.then((dataTypeFieldTypeCode) => {
-					this.Context.DBTransaction((transaction) => {
-						model.datatypefieldtypeid = dataTypeFieldTypeCode.get('id');
-
-						this.Context.Handlers.DataType.AddDataTypeFieldDef(authContext, transaction, model)
-							.then((result) => {
-								transaction.commit(result);
-							}).catch((err) => {
-							transaction.rollback(err);
-						});
-					})
-						.then((result) => {
-							resolve(result);
-						})
-						.catch((err) => {
-							reject(err);
-						});
+			this.Context.DBTransaction((transaction) => {
+				this.Context.Handlers.DataType.AddDataTypeFieldDef(authContext, transaction, model)
+					.then((result) => {
+						transaction.commit(result);
+					}).catch((err) => {
+						transaction.rollback(err);
+					});
+			})
+				.then((result) => {
+					resolve(result);
 				})
 				.catch((err) => {
 					reject(err);

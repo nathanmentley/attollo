@@ -20,7 +20,7 @@ export default class PluginDefLogicEditor extends BaseComponent {
     }
 
     close() {
-        this.props.SetEditingPluginDefLogic();
+        this.props.Close();
     }
 
     updateContent(value) {
@@ -39,7 +39,7 @@ export default class PluginDefLogicEditor extends BaseComponent {
         return (
             <Modal show={true} onHide={this.close}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Plugin Def Logic</Modal.Title>
+                    <Modal.Title>Editing {this.props.PluginDefLogic.title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <FormGroup

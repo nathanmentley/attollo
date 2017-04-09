@@ -55,11 +55,25 @@ export default class BlockHandler extends BaseHandler {
 			}).fetch();
 	}
 
+	UpdatePluginDefLogic(authContext, transaction, model){
+		var PluginDefLogic = this.Context.DatabaseContext.PluginDefLogic(authContext);
+		var pluginDefLogic = new PluginDefLogic(model);
+
+		return pluginDefLogic.save(null, { transacting: transaction });
+	};
+
+	DeletePluginDefLogic(authContext, transaction, model) {
+		var PluginDefLogic = this.Context.DatabaseContext.PluginDefLogic(authContext);
+		var pluginDefLogic = new PluginDefLogic(model);
+
+		return pluginDefLogic.destroy({ transacting: transaction });
+	}
+
 	//PluginDef
 
 	GetPluginDefs(authContext){
 		return this.Context.DatabaseContext.PluginDefs(authContext).fetch();
-	};
+	}
 
 	GetPluginDef(authContext, code){
 		return this.Context.DatabaseContext.PluginDefs(authContext)
@@ -68,14 +82,14 @@ export default class BlockHandler extends BaseHandler {
 					code: code
 				}
 			}).fetch();
-	};
+	}
 	
 	AddPluginDef(authContext, transaction, model){
 		var PluginDef = this.Context.DatabaseContext.PluginDef(authContext);
 		var pluginDef = new PluginDef(model);
 
 		return pluginDef.save(null, { transacting: transaction });
-	};
+	}
 	
 	//Plugin
 
@@ -84,26 +98,26 @@ export default class BlockHandler extends BaseHandler {
 		.fetch({
 			withRelated: ['PluginDef']
 		});
-	};
+	}
 	
 	AddPlugin(authContext, transaction, model){
 		var Plugin = this.Context.DatabaseContext.Plugin(authContext);
 		var plugin = new Plugin(model);
 
 		return plugin.save(null, { transacting: transaction });
-	};
+	}
 	
 	UpdatePlugin(authContext, transaction, model){
 		var Plugin = this.Context.DatabaseContext.Plugin(authContext);
 		var plugin = new Plugin(model);
 
 		return plugin.save(null, { transacting: transaction });
-	};
+	}
 	
 	DeletePlugin(authContext, transaction, model){
 		var Plugin = this.Context.DatabaseContext.Plugin(authContext);
 		var plugin = new Plugin(model);
 
 		return plugin.destroy({ transacting: transaction });
-	};
+	}
 }

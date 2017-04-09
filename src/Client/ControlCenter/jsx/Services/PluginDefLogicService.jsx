@@ -14,4 +14,8 @@ export default class PluginDefLogicsService {
 	static UpdatePluginDefLogic(model) {
 		return AjaxService.Put(endpoint, { logic: model }, {});
 	}
+
+	static DeletePluginDefLogic(model) {
+		return AjaxService.Delete(endpoint + "?pluginDefLogicId=" + model.id, {}, {});
+	}
 }

@@ -26,4 +26,18 @@ export default class PluginDefLogicController extends BaseController {
 			request.body.logic
 		);
 	}
+
+	PutLogic(request, response) {
+		return this._attollo.Services.Plugin.UpdatePluginDefLogic(
+			request.AuthContext,
+			request.body.logic
+		);
+	}
+
+	DeleteLogic(request, response) {
+		return this._attollo.Services.Plugin.DeletePluginDefLogic(
+			request.AuthContext,
+			{ id: request.query.pluginDefLogicId }
+		);
+	}
 };

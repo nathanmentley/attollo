@@ -152,6 +152,28 @@ export default class PluginService extends BaseService {
 		return this.Context.Handlers.Plugin.GetPluginDefLogics(authContext, pluginDefId);
 	}
 
+	UpdatePluginDefLogic(authContext, model) {
+		return this.Context.DBTransaction((transaction) => {
+			this.Context.Handlers.Plugin.UpdatePluginDefLogic(authContext, transaction, model)
+				.then((result) => {
+					transaction.commit(result);
+				}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
+	}
+
+	DeletePluginDefLogic(authContext, model) {
+		return this.Context.DBTransaction((transaction) => {
+			this.Context.Handlers.Plugin.DeletePluginDefLogic(authContext, transaction, model)
+				.then((result) => {
+					transaction.commit(result);
+				}).catch((err) => {
+				transaction.rollback(err);
+			});
+		});
+	}
+
 	GetPluginDefPreLogics(authContext, pluginDefLogicDefCode) {
 		if(authContext){
 			var vm = new VM({

@@ -34,17 +34,17 @@ var attollo = constitute(Attollo);
                     new Promise((resolve, reject) => {
                         attollo.Services.DataType.AddDataTypeDef(dbContext, PluginDefCodes.Blog, { name: 'Blog Posts' })
                         .then((result) => {
-                            Promise.all([
-                                attollo.Services.DataType.AddDataTypeFieldDef(dbContext, DataTypeFieldTypeCodes.Text, { name: 'Title', datatypedefid: result.get('id') }),
-                                attollo.Services.DataType.AddDataTypeFieldDef(dbContext, DataTypeFieldTypeCodes.Text, { name: 'Summary', datatypedefid: result.get('id') }),
-                                attollo.Services.DataType.AddDataTypeFieldDef(dbContext, DataTypeFieldTypeCodes.HTML, { name: 'Content', datatypedefid: result.get('id') })
-                            ])
-                            .then(() => {
+                            //Promise.all([
+                            //    attollo.Services.DataType.AddDataTypeFieldDef(dbContext, DataTypeFieldTypeCodes.Text, { name: 'Title', datatypedefid: result.get('id') }),
+                            //    attollo.Services.DataType.AddDataTypeFieldDef(dbContext, DataTypeFieldTypeCodes.Text, { name: 'Summary', datatypedefid: result.get('id') }),
+                            //    attollo.Services.DataType.AddDataTypeFieldDef(dbContext, DataTypeFieldTypeCodes.HTML, { name: 'Content', datatypedefid: result.get('id') })
+                            //])
+                            //.then(() => {
                             resolve();
-                            })
-                            .catch((err) => {
-                                reject(err);
-                            })
+                            //})
+                            //.catch((err) => {
+                            //    reject(err);
+                            //})
                         })
                         .catch((err) => {
                             reject(err);

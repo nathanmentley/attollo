@@ -32,14 +32,10 @@ export default class ThemeService extends BaseService {
 		return this.Context.Handlers.Theme.GetTheme(authContext, code);
 	};
 	
-	AddTheme(authContext, pluginDefCode, code, name){
-		var self = this;
-
+	AddTheme(authContext, pluginDefId, code, name){
 		return new Promise((resolve, reject) => {
-			this._PluginService.GetPluginDef(authContext, pluginDefCode)
-			.then((pluginDef) => {
-				self.Context.DBTransaction((transaction) => {
-					this.Context.Handlers.Theme.AddTheme(authContext, transaction, pluginDef.first().get('id'), code, name)
+			this.Context.DBTransaction((transaction) => {
+				this.Context.Handlers.Theme.AddTheme(authContext, transaction, pluginDefId, code, name)
 					.then((result) => {
 						transaction.commit(result);
 					}).catch((err) => {
@@ -52,10 +48,6 @@ export default class ThemeService extends BaseService {
 				.catch((err) => {
 					reject(err);
 				});
-			})
-			.catch((err) => {
-				reject(err);
-			});
 		});
 	};
 

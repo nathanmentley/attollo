@@ -13,7 +13,16 @@ export default class ThemeController extends BaseController {
 
     get UrlEndpoint() { return '/Themes'; }
 
-    GetLogic(request, response) {
-        return this._attollo.Services.Theme.GetThemes(request.AuthContext);
-    }
+	GetLogic(request, response) {
+		return this._attollo.Services.Theme.GetThemes(request.AuthContext);
+	}
+
+	PostLogic(request, response) {
+		return this._attollo.Services.Theme.AddTheme(
+		    request.AuthContext,
+			request.body.theme.plugindefid,
+			request.body.theme.code,
+			request.body.theme.name
+        );
+	}
 };

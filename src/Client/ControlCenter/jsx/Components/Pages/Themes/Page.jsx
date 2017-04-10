@@ -3,6 +3,10 @@ import { Row, Col, Glyphicon } from 'react-bootstrap';
 
 import BasePage from '../BasePage.jsx';
 
+import ObjectUtils from '../../../Utils/ObjectUtils.jsx';
+
+import ThemeService from '../../../Services/ThemeService.jsx';
+
 import ThemeList from './ThemeList.jsx';
 
 export default class ThemesPage extends BasePage {
@@ -10,16 +14,15 @@ export default class ThemesPage extends BasePage {
         super(props);
 
         this.state = {
-            PluginDefLogics: []
+            Themes: []
         };
 
-        this.addNewPluginDefLogic = this.addNewPluginDefLogic.bind(this);
+        this.addNewTheme = this.addNewTheme.bind(this);
     }
 
     componentDidMount() {
-        var self = this;    
-        self.setPageTitle("Plugins", () => {
-            self.setBreadCrumbs([
+        this.setPageTitle("Themes", () => {
+            this.setBreadCrumbs([
 	            {
 		            title: "Dashboard",
 		            url: "/"
@@ -30,9 +33,33 @@ export default class ThemesPage extends BasePage {
 	            }
             ]);
         });
+
+	    ThemeService.GetThemes()
+		    .then((res) => {
+			    this.setState({
+				    Themes: res.data.data.filter((x) => {
+					    return x.plugindefid == this.props.params.PluginDefID;
+				    })
+			    });
+		    });
     }
 
-	addNewPluginDefLogic() {
+	addNewTheme() {
+    	ThemeService.AddTheme({
+    		plugindefid: this.props.params.PluginDefID,
+		    code: 'code',
+			name: 'name'
+	    })
+		    .then(() => {
+			    ThemeService.GetThemes()
+				    .then((res) => {
+					    this.setState({
+						    Themes: res.data.data.filter((x) => {
+							    return x.plugindefid == this.props.params.PluginDefID;
+						    })
+					    });
+				    });
+		    });
     }
 
     _render() {
@@ -41,15 +68,15 @@ export default class ThemesPage extends BasePage {
                 <Row>
                     <Col xs={12} md={12}>
                         <ThemeList
-                            PluginDefLogics={this.state.PluginDefLogics}
+                            Themes={this.state.Themes}
                         />
                     </Col>
                 </Row>
 
                 <Row>
                     <Col xs={12} md={12} className="page-action-bar">
-                        <div className="btn btn-primary pull-right" onClick={this.addNewPluginDefLogic}>
-                            <Glyphicon glyph="plus" /> Add New Plugin Logic
+                        <div className="btn btn-primary pull-right" onClick={this.addNewTheme}>
+                            <Glyphicon glyph="plus" /> Add New Theme
                         </div>
                     </Col>
                 </Row>

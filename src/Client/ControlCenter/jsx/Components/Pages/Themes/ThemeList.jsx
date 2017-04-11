@@ -14,6 +14,10 @@ export default class ThemeList extends BaseComponent {
         this.props.SetEditingTheme(theme);
     }
 
+	openCssEditor(theme) {
+		this.props.OpenCssEditor(theme);
+    }
+
     render() {
         return (
             <Table striped bordered condensed hover>
@@ -35,6 +39,9 @@ export default class ThemeList extends BaseComponent {
                                         <DropdownButton title={<Glyphicon glyph="cog" />} id={x.id + '-action-button'}>
                                             <MenuItem eventKey="1" onClick={() => { this.setEditingTheme(x); }}>
                                                 <Glyphicon glyph="pencil" /> Edit
+                                            </MenuItem>
+                                            <MenuItem eventKey="1" onClick={() => { this.openCssEditor(x); }}>
+                                                <Glyphicon glyph="pencil" /> Update Css Rules
                                             </MenuItem>
                                         </DropdownButton>
                                     </td>

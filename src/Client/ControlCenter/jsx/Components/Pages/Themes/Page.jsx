@@ -5,10 +5,12 @@ import BasePage from '../BasePage.jsx';
 
 import ObjectUtils from '../../../Utils/ObjectUtils.jsx';
 
+import CssRuleDefService from '../../../Services/CssRuleDefService.jsx';
 import ThemeService from '../../../Services/ThemeService.jsx';
 
 import ThemeCreator from './ThemeCreator.jsx';
 import ThemeEditor from './ThemeEditor.jsx';
+import ThemeStyleEditor from './ThemeStyleEditor.jsx';
 import ThemeList from './ThemeList.jsx';
 
 export default class ThemesPage extends BasePage {
@@ -16,10 +18,17 @@ export default class ThemesPage extends BasePage {
         super(props);
 
         this.state = {
+	        CssRuleDefs: [],
+
+        	CssEditingTheme: null,
 	        CreatingTheme: null,
 	        EditingTheme: null,
+	        EditingThemeStyles: [],
+
             Themes: []
         };
+
+        this.openCssEditor = this.openCssEditor.bind(this);
 
         this.addNewTheme = this.addNewTheme.bind(this);
 
@@ -31,6 +40,9 @@ export default class ThemesPage extends BasePage {
 
 	    this.updateName = this.updateName.bind(this);
 	    this.updateCode = this.updateCode.bind(this);
+
+	    this.saveThemeStyle = this.saveThemeStyle.bind(this);
+	    this.updateThemeStyle = this.updateThemeStyle.bind(this);
     }
 
     componentDidMount() {
@@ -55,7 +67,17 @@ export default class ThemesPage extends BasePage {
 				    })
 			    });
 		    });
+
+
+	    CssRuleDefService.GetCssRuleDefs()
+		    .then((res) => {
+		        self.setState({ CssRuleDefs: res.data.data });
+	        });
     }
+
+	openCssEditor(theme) {
+    	this.setState({CssEditingTheme: theme});
+	}
 
 	setCreatingTheme() {
 		this.setState({CreatingTheme: {}});
@@ -138,6 +160,44 @@ export default class ThemesPage extends BasePage {
 		}
 	}
 
+	saveThemeStyle() {
+    	/*
+		BlockCssRuleService.UpdateBlockCssRules(this.state.EditingStyleBlockStyles)
+			.then(() => {
+				this.setState({ EditingStyleBlock: null,  EditingStyleBlockStyles: null });
+			});
+		*/
+	}
+
+	updateThemeStyle() {
+    	/*
+		var newBlockStyles = ObjectUtils.Clone(this.state.EditingStyleBlockStyles);
+
+		if (newBlockStyles.some((x) => { return x.CssRule.CssRuleDef.code == code; })) {
+			for(var i = 0; i < newBlockStyles.length; i++) {
+				var newBlockStyle = newBlockStyles[i];
+
+				if(newBlockStyle.CssRule.CssRuleDef.code == code) {
+					newBlockStyle.CssRule.value = value;
+				}
+			}
+		} else {
+			newBlockStyles.push({
+				CssRule: {
+					CssRuleDef: {
+						code: code
+					},
+					value: value,
+					selector: '#' + this.state.EditingStyleBlock.id
+				},
+				blockid: this.state.EditingStyleBlock.id
+			});
+		}
+
+		this.setState({ EditingStyleBlockStyles: newBlockStyles });
+		*/
+	}
+
     _render() {
 	    var editor = <div/>;
 
@@ -158,6 +218,15 @@ export default class ThemesPage extends BasePage {
 			    UpdateName={this.updateName}
 			    UpdateCode={this.updateCode}
 		    />;
+	    } else if(this.state.CssEditingTheme != null) {
+		    editor = <ThemeStyleEditor
+			    Close={() => { this.setState({CssEditingTheme: null}); }}
+			    CssRuleDefs={this.state.CssRuleDefs}
+			    Theme={this.state.CssEditingTheme}
+			    ThemeStyles={this.state.EditingThemeStyles}
+			    SaveThemeStyle={this.saveThemeStyle}
+			    UpdateThemeStyle={this.updateThemeStyle}
+		    />;
 	    }
 
         return (
@@ -167,6 +236,7 @@ export default class ThemesPage extends BasePage {
                         <ThemeList
                             Themes={this.state.Themes}
                             SetEditingTheme={this.setEditingTheme}
+                            OpenCssEditor={this.openCssEditor}
                         />
                     </Col>
                 </Row>

@@ -26,12 +26,12 @@ export default class ThemeService extends BaseService {
 
     GetThemes(authContext){
 		return this.Context.Handlers.Theme.GetThemes(authContext);
-	};
+	}
 	
 	GetTheme(authContext, code){
 		return this.Context.Handlers.Theme.GetTheme(authContext, code);
-	};
-	
+	}
+
 	AddTheme(authContext, pluginDefId, code, name){
 		return new Promise((resolve, reject) => {
 			this.Context.DBTransaction((transaction) => {
@@ -41,7 +41,7 @@ export default class ThemeService extends BaseService {
 					}).catch((err) => {
 						transaction.rollback(err);
 					});
-				})
+			})
 				.then((result) => {
 					resolve(result);
 				})
@@ -49,13 +49,49 @@ export default class ThemeService extends BaseService {
 					reject(err);
 				});
 		});
-	};
+	}
+
+	UpdateTheme(authContext, model){
+		return new Promise((resolve, reject) => {
+			this.Context.DBTransaction((transaction) => {
+				this.Context.Handlers.Theme.UpdateTheme(authContext, transaction, model)
+					.then((result) => {
+						transaction.commit(result);
+					}).catch((err) => {
+						transaction.rollback(err);
+					});
+			})
+				.then((result) => {
+					resolve(result);
+				})
+				.catch((err) => {
+					reject(err);
+				});
+		});
+	}
+
+	DeleteTheme(authContext, themeId){
+		return new Promise((resolve, reject) => {
+			this.Context.DBTransaction((transaction) => {
+				this.Context.Handlers.Theme.DeleteTheme(authContext, transaction, themeId)
+					.then((result) => {
+						transaction.commit(result);
+					}).catch((err) => {
+						transaction.rollback(err);
+					});
+			})
+				.then((result) => {
+					resolve(result);
+				})
+				.catch((err) => {
+					reject(err);
+				});
+		});
+	}
 
 	AddThemeCssRule(authContext, themeCode, cssRuleDefCode, selector, value){
         var self = this;
 
-		//cssRuleDefCode
-		//this._CssService.
 		return new Promise((resolve, reject) => {
             self.GetTheme(authContext, themeCode)
             .then((theme) => {
@@ -90,5 +126,5 @@ export default class ThemeService extends BaseService {
                 reject(err);
             });
         });
-	};
+	}
 }

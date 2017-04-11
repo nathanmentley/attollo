@@ -13,7 +13,7 @@ export default class BlockHandler extends BaseHandler {
 
     GetThemes(authContext){
 		return this.Context.DatabaseContext.Themes(authContext).fetch();
-	};
+	}
 	
 	GetTheme(authContext, code){
 		return this.Context.DatabaseContext.Theme(authContext)
@@ -23,7 +23,7 @@ export default class BlockHandler extends BaseHandler {
 					}
 				})
 				.fetch();
-	};
+	}
 	
 	AddTheme(authContext, transaction, pluginDefId, code, name){
 		var Theme = this.Context.DatabaseContext.Theme(authContext);
@@ -34,8 +34,24 @@ export default class BlockHandler extends BaseHandler {
 		});
 
 		return theme.save(null, { transacting: transaction });
+	}
+
+	UpdateTheme(authContext, transaction, model) {
+		var Theme = this.Context.DatabaseContext.Theme(authContext);
+		var theme = new Theme(model);
+
+		return theme.save(null, { transacting: transaction });
+	}
+
+
+	DeleteTheme(authContext, transaction, themeId){
+		var Theme = this.Context.DatabaseContext.Theme(authContext);
+		var theme = new Theme({ id: themeId });
+
+		return theme.destroy({ transacting: transaction });
 	};
-	
+
+
 	AddThemeCssRule(authContext, transaction, themeId, cssRuleId){
 		var ThemeCssRule = this.Context.DatabaseContext.ThemeCssRule(authContext);
 		var themeCssRule = new ThemeCssRule({
@@ -44,5 +60,5 @@ export default class BlockHandler extends BaseHandler {
 		});
 
 		return themeCssRule.save(null, { transacting: transaction });
-	};
+	}
 }

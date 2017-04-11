@@ -10,4 +10,12 @@ export default class ThemeService {
 	static AddTheme(model) {
 		return AjaxService.Post(endpoint, { theme: model }, {});
 	}
+
+	static UpdateTheme(model) {
+		return AjaxService.Put(endpoint, { theme: model }, {});
+	}
+
+	static DeleteTheme(model) {
+		return AjaxService.Delete(endpoint + "?themeId=" + model.id, {}, {});
+	}
 }

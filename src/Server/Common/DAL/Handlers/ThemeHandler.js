@@ -49,8 +49,19 @@ export default class BlockHandler extends BaseHandler {
 		var theme = new Theme({ id: themeId });
 
 		return theme.destroy({ transacting: transaction });
-	};
+	}
 
+    GetThemeCssRules(authContext, themeId) {
+        return this.Context.DatabaseContext.ThemeCssRules(authContext)
+			.query((qb) => {
+                qb.where('themeid', '=', themeId);
+			}).fetch({
+            	withRelated: [
+                	"CssRule",
+                	"CssRule.CssRuleDef"
+            	]
+        	});
+    }
 
 	AddThemeCssRule(authContext, transaction, themeId, cssRuleId){
 		var ThemeCssRule = this.Context.DatabaseContext.ThemeCssRule(authContext);

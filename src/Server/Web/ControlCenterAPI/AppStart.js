@@ -36,6 +36,7 @@ import SiteVersionProvisionController from "./Controllers/SiteVersionProvisionCo
 import SiteVersionPublishController from "./Controllers/SiteVersionPublishController";
 import SiteVersionStatusController from "./Controllers/SiteVersionStatusController";
 import ThemeController from "./Controllers/ThemeController";
+import ThemeCssRuleController from "./Controllers/ThemeCssRuleController";
 import UserController from "./Controllers/UserController";
 
 @Dependencies(
@@ -71,6 +72,7 @@ import UserController from "./Controllers/UserController";
     SiteVersionPublishController,
     SiteVersionStatusController,
     ThemeController,
+    ThemeCssRuleController,
     UserController
 )
 export default class AppStart {
@@ -107,6 +109,7 @@ export default class AppStart {
         siteVersionPublishController,
         siteVersionStatusController,
         themeController,
+        themeCssRuleController,
         userController
     )
     {
@@ -142,6 +145,7 @@ export default class AppStart {
             siteVersionPublishController,
             siteVersionStatusController,
             themeController,
+            themeCssRuleController,
             userController
         ];
     }

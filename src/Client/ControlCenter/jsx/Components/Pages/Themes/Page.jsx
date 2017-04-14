@@ -7,6 +7,7 @@ import ObjectUtils from '../../../Utils/ObjectUtils.jsx';
 
 import CssRuleDefService from '../../../Services/CssRuleDefService.jsx';
 import ThemeService from '../../../Services/ThemeService.jsx';
+import ThemeCssRuleService from '../../../Services/ThemeCssRuleService.jsx';
 
 import ThemeCreator from './ThemeCreator.jsx';
 import ThemeEditor from './ThemeEditor.jsx';
@@ -71,12 +72,15 @@ export default class ThemesPage extends BasePage {
 
 	    CssRuleDefService.GetCssRuleDefs()
 		    .then((res) => {
-		        self.setState({ CssRuleDefs: res.data.data });
+		        this.setState({ CssRuleDefs: res.data.data });
 	        });
     }
 
 	openCssEditor(theme) {
-    	this.setState({CssEditingTheme: theme});
+        ThemeCssRuleService.GetThemeCssRules(theme.id)
+			.then((res) => {
+                this.setState({CssEditingTheme: theme, EditingThemeStyles: res.data.data});
+			});
 	}
 
 	setCreatingTheme() {

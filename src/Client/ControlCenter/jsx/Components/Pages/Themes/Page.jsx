@@ -180,12 +180,15 @@ export default class ThemesPage extends BasePage {
 	}
 
 	saveThemeStyle() {
-    	/*
-		BlockCssRuleService.UpdateBlockCssRules(this.state.EditingStyleBlockStyles)
+		ThemeCssRuleService.UpdateThemeCssRules(this.state.EditingThemeStyles)
 			.then(() => {
-				this.setState({ EditingStyleBlock: null,  EditingStyleBlockStyles: null });
+				this.setState({
+					CssEditingTheme: null,
+					EditingThemeStyles: [],
+					EditingThemeSelectors: [],
+					EditingThemeSelector: ""
+				});
 			});
-		*/
 	}
 
 	updateThemeStyle(code, value) {

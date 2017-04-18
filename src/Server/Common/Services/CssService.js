@@ -87,8 +87,74 @@ export default class CssService extends BaseService {
 	GetCssRuleDefs(authContext){
 		return this.Context.Handlers.Css.GetCssRuleDefs(authContext);
 	};
-	
-    //BlockCssRules
+
+	//ThemeCssRules
+
+	GetThemeCssRules(authContext, themeId) {
+		return this.Context.Handlers.Theme.GetThemeCssRules(authContext, themeId);
+	}
+
+
+	UpdateThemeCssRules(authContext, rules) {
+		var self = this;
+
+		return new Promise((resolve, reject) => {
+			self.Context.DBTransaction((transaction) => {
+				var promises = [];
+
+				rules.forEach((rule) => {
+					if(rule.id) {
+						promises.push(
+							this.Context.Handlers.Css.UpdateCssRule(authContext, transaction, rule.CssRule)
+						);
+					} else {
+						promises.push(
+							new Promise((subResolve, subReject) => {
+								self.GetCssRuleDef(authContext, rule.CssRule.CssRuleDef.code)
+									.then((cssRuleDef) => {
+										this.Context.Handlers.Css.AddCssRule(authContext, transaction, rule.selector, rule.CssRule.value, cssRuleDef.get('id'))
+											.then((cssRule) => {
+												this.Context.Handlers.Css.AddThemeCssRule(authContext, transaction, rule.themeid, cssRule.get('id'))
+													.then((result) => {
+														subResolve(result);
+													}).catch((err) => {
+													subReject(err);
+												});
+											}).catch((err) => {
+											subReject(err);
+										});
+									})
+									.catch((err) => {
+										subReject(err);
+									});
+
+							})
+						);
+					}
+				});
+
+				if (promises.length) {
+					Promise.all(promises)
+						.then((res) => {
+							transaction.commit(res);
+						})
+						.catch((err) => {
+							transaction.rollback(err);
+						});
+				} else {
+					transaction.commit([]);
+				}
+			})
+				.then((result) => {
+					resolve(result);
+				})
+				.catch((err) => {
+					reject(err);
+				});
+		});
+	}
+
+	//BlockCssRules
     GetBlockCssRules(authContext, blockId) {
         return this.Context.Handlers.Block.GetBlockCssRulesForBlock(authContext, blockId);
     };

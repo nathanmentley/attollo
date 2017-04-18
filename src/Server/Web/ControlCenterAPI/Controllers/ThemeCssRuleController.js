@@ -14,9 +14,9 @@ export default class ThemeCssRuleController extends BaseController {
     get UrlEndpoint() { return '/ThemeCssRules'; }
 
     GetLogic(request, response) {
-        return this._attollo.Services.Theme.GetThemeCssRules(request.AuthContext, request.query.themeId);
+        return this._attollo.Services.Css.GetThemeCssRules(request.AuthContext, request.query.themeId);
     }
     PutLogic(request, response) {
-        return this._attollo.Services.Theme.UpdateThemeCssRules(request.AuthContext, request.body.rules);
+        return this._attollo.Services.Css.UpdateThemeCssRules(request.AuthContext, request.body.rules);
     }
 };

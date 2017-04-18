@@ -104,11 +104,21 @@ export default class BlockHandler extends BaseHandler {
 	AddBlockCssRule(authContext, transaction, blockId, cssRuleId){
 		var BlockCssRule = this.Context.DatabaseContext.BlockCssRule(authContext);
 		var blockCssRule = new BlockCssRule({
-            blockid: blockId,
-            cssruleid: cssRuleId
-        });
+			blockid: blockId,
+			cssruleid: cssRuleId
+		});
 
 		return blockCssRule.save(null, { transacting: transaction });
+	};
+
+	AddThemeCssRule(authContext, transaction, themeId, cssRuleId){
+		var ThemeCssRule = this.Context.DatabaseContext.ThemeCssRule(authContext);
+		var themeCssRule = new ThemeCssRule({
+			themeid: themeId,
+			cssruleid: cssRuleId
+		});
+
+		return themeCssRule.save(null, { transacting: transaction });
 	};
 
 	UpdateCssRule(authContext, transaction, model) {

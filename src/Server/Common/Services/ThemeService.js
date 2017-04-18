@@ -89,10 +89,6 @@ export default class ThemeService extends BaseService {
 		});
 	}
 
-    GetThemeCssRules(authContext, themeId) {
-        return this.Context.Handlers.Theme.GetThemeCssRules(authContext, themeId);
-    }
-
 	AddThemeCssRule(authContext, themeCode, cssRuleDefCode, selector, value){
         var self = this;
 

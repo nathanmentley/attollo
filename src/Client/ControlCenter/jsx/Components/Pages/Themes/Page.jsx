@@ -21,10 +21,14 @@ export default class ThemesPage extends BasePage {
         this.state = {
 	        CssRuleDefs: [],
 
-        	CssEditingTheme: null,
-	        CreatingTheme: null,
 	        EditingTheme: null,
+
+	        CreatingTheme: null,
+
+	        CssEditingTheme: null,
 	        EditingThemeStyles: [],
+	        EditingThemeSelectors: [],
+	        EditingThemeSelector: "",
 
             Themes: []
         };
@@ -44,6 +48,8 @@ export default class ThemesPage extends BasePage {
 
 	    this.saveThemeStyle = this.saveThemeStyle.bind(this);
 	    this.updateThemeStyle = this.updateThemeStyle.bind(this);
+	    this.addSelectorToEditingTheme = this.addSelectorToEditingTheme.bind(this);
+	    this.setSelectorForEditingTheme = this.setSelectorForEditingTheme.bind(this);
     }
 
     componentDidMount() {
@@ -79,7 +85,16 @@ export default class ThemesPage extends BasePage {
 	openCssEditor(theme) {
         ThemeCssRuleService.GetThemeCssRules(theme.id)
 			.then((res) => {
-                this.setState({CssEditingTheme: theme, EditingThemeStyles: res.data.data});
+				var selectors = res.data.data.map((x) => { return x.CssRule.selector});
+				selectors = selectors.filter((v,i) => { return selectors.indexOf(v) == i; });
+				var selector = selectors.length > 0 ? selectors[0] : "";
+
+                this.setState({
+                	CssEditingTheme: theme,
+	                EditingThemeStyles: res.data.data,
+	                EditingThemeSelectors: selectors,
+	                EditingThemeSelector: selector
+                });
 			});
 	}
 
@@ -202,6 +217,18 @@ export default class ThemesPage extends BasePage {
 		*/
 	}
 
+	addSelectorToEditingTheme(selector) {
+    	var selectors = ObjectUtils.Clone(this.state.EditingThemeSelectors);
+    	selectors.push(selector);
+    	this.setState({ EditingThemeSelectors: selectors }, () => {
+    		this.setSelectorForEditingTheme(selector);
+	    });
+	}
+
+	setSelectorForEditingTheme(selector) {
+		this.setState({ EditingThemeSelector: selector });
+	}
+
     _render() {
 	    var editor = <div/>;
 
@@ -225,11 +252,18 @@ export default class ThemesPage extends BasePage {
 	    } else if(this.state.CssEditingTheme != null) {
 		    editor = <ThemeStyleEditor
 			    Close={() => { this.setState({CssEditingTheme: null}); }}
+
 			    CssRuleDefs={this.state.CssRuleDefs}
 			    Theme={this.state.CssEditingTheme}
-			    ThemeStyles={this.state.EditingThemeStyles}
+			    ThemeStyles={this.state.EditingThemeStyles.filter((x) => { return x.CssRule.selector == this.state.EditingThemeSelector; })}
+
 			    SaveThemeStyle={this.saveThemeStyle}
 			    UpdateThemeStyle={this.updateThemeStyle}
+
+			    Selectors={this.state.EditingThemeSelectors}
+		        Selector={this.state.EditingThemeSelector}
+			    AddSelector={this.addSelectorToEditingTheme}
+			    ChangeSelector={this.setSelectorForEditingTheme}
 		    />;
 	    }
 

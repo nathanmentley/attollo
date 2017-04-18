@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col, Modal, Button, PanelGroup, Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Grid, Row, Col, Modal, Button, PanelGroup, Panel, ListGroup, ListGroupItem, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
 
 import CssRuleEditor from '../../Shared/CssRuleEditor.jsx';
 
@@ -13,7 +13,8 @@ export default class ThemeStyleEditor extends BaseComponent {
 
 		this.state = {
 			currentDefCode: null,
-			activePanelKey: null
+			activePanelKey: null,
+			newSelector: null
 		};
 
 		this.setCurrentDefCode = this.setCurrentDefCode.bind(this);
@@ -25,6 +26,9 @@ export default class ThemeStyleEditor extends BaseComponent {
 		this.setValueForCode = this.setValueForCode.bind(this);
 
 		this.saveThemeStyle = this.saveThemeStyle.bind(this);
+
+		this.addSelector = this.addSelector.bind(this);
+		this.changeSelector = this.changeSelector.bind(this);
 	}
 
 	setCurrentDefCode(code) {
@@ -67,6 +71,16 @@ export default class ThemeStyleEditor extends BaseComponent {
 		}
 	}
 
+	addSelector() {
+		this.props.AddSelector(this.state.newSelector);
+
+		this.setState({ newSelector: null });
+	}
+
+	changeSelector(event) {
+		this.props.ChangeSelector(event.target.value);
+	}
+
 	render() {
 		var self = this;
 		var cssRuleGroups = ArrayUtils.GetUnique(this.props.CssRuleDefs, (x) => x.CssRuleDefGroup.code);
@@ -90,6 +104,60 @@ export default class ThemeStyleEditor extends BaseComponent {
 				</Modal.Header>
 				<Modal.Body>
 					<div>
+						<Row>
+							<Col md={9}>
+								{
+									(this.state.newSelector != null) ?
+										<FormGroup controlId="selector" >
+											<ControlLabel>Selector</ControlLabel>
+											<FormControl
+												type="text"
+												value={this.state.newSelector}
+												placeholder="Selector"
+												onChange={(event) => { this.setState({ newSelector: event.target.value }); }}
+											/>
+											<FormControl.Feedback />
+											<HelpBlock />
+										</FormGroup>
+										:
+										<FormGroup controlId="selector" >
+											<ControlLabel>Selector</ControlLabel>
+											<FormControl
+												componentClass="select"
+												value={this.props.Selector}
+												placeholder="Selector"
+												onChange={this.changeSelector}
+											>
+												{
+													this.props.Selectors.map((x) => {
+														return (
+															<option
+																key={x}
+																value={x}
+															>
+																{x}
+															</option>
+														);
+													})
+												}
+											</FormControl>
+											<FormControl.Feedback />
+											<HelpBlock />
+											</FormGroup>
+								}
+							</Col>
+							<Col md={3}>
+								{
+									(this.state.newSelector != null) ?
+										<div>
+											<Button bsStyle="primary" onClick={this.addSelector}>Save</Button>
+											<Button bsStyle="danger" onClick={() => { this.setState({ newSelector: null }); }}>cancel</Button>
+										</div>
+										:
+										<Button bsStyle="info" onClick={() => { this.setState({ newSelector: "" }); }}>New Selector</Button>
+								}
+							</Col>
+						</Row>
 						<Row>
 							<Col md={6}>
 								<PanelGroup activeKey={this.state.activePanelKey} onSelect={this.updateCurrentPanel} accordion>

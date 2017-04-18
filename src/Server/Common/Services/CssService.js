@@ -112,7 +112,7 @@ export default class CssService extends BaseService {
 							new Promise((subResolve, subReject) => {
 								self.GetCssRuleDef(authContext, rule.CssRule.CssRuleDef.code)
 									.then((cssRuleDef) => {
-										this.Context.Handlers.Css.AddCssRule(authContext, transaction, rule.selector, rule.CssRule.value, cssRuleDef.get('id'))
+										this.Context.Handlers.Css.AddCssRule(authContext, transaction, rule.CssRule.selector, rule.CssRule.value, cssRuleDef.get('id'))
 											.then((cssRule) => {
 												this.Context.Handlers.Css.AddThemeCssRule(authContext, transaction, rule.themeid, cssRule.get('id'))
 													.then((result) => {

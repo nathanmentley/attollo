@@ -50,7 +50,7 @@ export default class ThemeStyleEditor extends BaseComponent {
 			for(var i = 0; i < this.props.ThemeStyles.length; i++) {
 				var themeStyle = this.props.ThemeStyles[i];
 
-				if(themeStyle.CssRule.CssRuleDef.code == code) {
+				if(themeStyle.CssRule.CssRuleDef.code == code && themeStyle.CssRule.selector == this.props.Selector) {
 					return themeStyle.CssRule.value;
 				}
 			}
